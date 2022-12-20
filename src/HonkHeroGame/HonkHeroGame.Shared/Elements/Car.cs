@@ -4,7 +4,7 @@
     {
         public Car()
         {
-            Tag = ElementType.CAR;  
+            Tag = ElementType.VEHICLE;  
         }
     }
 }

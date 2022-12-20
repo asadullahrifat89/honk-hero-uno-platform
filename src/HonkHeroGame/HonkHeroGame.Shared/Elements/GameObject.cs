@@ -10,9 +10,30 @@ namespace HonkHeroGame
     {
         #region Fields
 
-        private Image _content = new() { Stretch = Stretch.Uniform, Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
+        private readonly Image _content = new() { Stretch = Stretch.Uniform, Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
+
+        private readonly CompositeTransform _compositeTransform = new()
+        {
+            CenterX = 0.5,
+            CenterY = 0.5,
+            Rotation = 0,
+            ScaleX = 1,
+            ScaleY = 1,
+        };
+
+        #endregion
+
+        #region HitBox Debug
 
         //private Border _hitBoxborder;
+
+        #endregion
+
+        #region Properties
+
+        public double Speed { get; set; } = 0;
+
+        public bool IsCollidable { get; set; } = false;
 
         #endregion
 
@@ -20,8 +41,13 @@ namespace HonkHeroGame
 
         public GameObject()
         {
-            Child = _content;
+
             RenderTransformOrigin = new Point(0.5, 0.5);
+
+            RenderTransform = _compositeTransform;
+            CanDrag = false;
+
+            Child = _content;
 
             #region HitBox Debug
 
@@ -34,31 +60,21 @@ namespace HonkHeroGame
             //    BorderBrush = new SolidColorBrush(Colors.Black)
             //};
 
-
             //var grid = new Grid()
             //{
             //    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center,
             //    VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
             //};
 
-            //grid.Children.Add(_hitBoxborder);
             //grid.Children.Add(_content);
+            //grid.Children.Add(_hitBoxborder);
+
             //Child = grid;
 
             #endregion
-
-
         }
 
-        #endregion
-
-        #region Properties
-
-        public double Speed { get; set; } = 0;
-
-        public bool IsCollidable { get; set; } = false;
-
-        #endregion
+        #endregion        
 
         #region Methods
 
@@ -106,6 +122,17 @@ namespace HonkHeroGame
             //_hitBoxborder.Width = rect.Width;
         }
 
+        public void SetScaleTransform(double scaleTransform)
+        {
+            _compositeTransform.ScaleX = scaleTransform;
+            _compositeTransform.ScaleY = scaleTransform;
+        }
+
+        public void SetScaleX(double scaleX)
+        {
+            _compositeTransform.ScaleX = scaleX;
+        }
+
         #endregion
     }
 
@@ -113,13 +140,12 @@ namespace HonkHeroGame
     {
         NONE,
         PLAYER,
-        PLAYER_POWER_MODE,
-        CAR,
-        POWERUP,
-        HEALTH,        
+        PLAYER_FLY,
+        VEHICLE,
+        HEALTH,
         CLOUD,
-        ISLAND,
         COLLECTIBLE,
+        POWERUP,
     }
 }
 
