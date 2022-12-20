@@ -20,27 +20,12 @@
                 BorderBrush="DarkGoldenrod"
                 BorderThickness="2" />
             <GameObject
-                x:Name="RoadMarkLeft1"
+                x:Name="RoadMarkLeft"
                 Background="#f2f1f3"
                 BorderBrush="DarkGoldenrod"
                 BorderThickness="2" />
             <GameObject
-                x:Name="RoadMarkLeft2"
-                Background="#f2f1f3"
-                BorderBrush="DarkGoldenrod"
-                BorderThickness="2" />
-            <GameObject
-                x:Name="RoadMarkLeft3"
-                Background="#f2f1f3"
-                BorderBrush="DarkGoldenrod"
-                BorderThickness="2" />
-            <GameObject
-                x:Name="RoadMarkLeft4"
-                Background="#f2f1f3"
-                BorderBrush="DarkGoldenrod"
-                BorderThickness="2" />
-            <GameObject
-                x:Name="RoadMarkLeft5"
+                x:Name="RoadMarkRight"
                 Background="#f2f1f3"
                 BorderBrush="DarkGoldenrod"
                 BorderThickness="2" />
