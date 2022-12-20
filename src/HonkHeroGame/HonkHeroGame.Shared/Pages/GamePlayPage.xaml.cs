@@ -23,12 +23,15 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 4;
-        private readonly double _gameSpeedDefault = 4;
+        private double _gameSpeed = 3;
+        private readonly double _gameSpeedDefault = 3;
+
+        private double _honkSpeed = 2;
 
         private int _markNum;
 
         private Uri[] _vehicles;
+        private Uri[] _honks;
 
         private readonly IBackendService _backendService;
 
@@ -39,8 +42,8 @@ namespace HonkHeroGame
 
         private readonly double _playerPositionGrace = 7;
 
-        private double _playerSpeed = 50;
-        private readonly double _playerSpeedDefault = 50;
+        private double _playerSpeed = 70;
+        private readonly double _playerSpeedDefault = 70;
 
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
@@ -177,6 +180,7 @@ namespace HonkHeroGame
         private void LoadGameElements()
         {
             _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
+            _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
         }
 
         private void PopulateGameViews()
@@ -327,6 +331,9 @@ namespace HonkHeroGame
                     case ElementType.PLAYER:
                         UpdatePlayer();
                         break;
+                    case ElementType.HONK:
+                        UpdateHonk(x);
+                        break;
                     default:
                         break;
                 }
@@ -471,12 +478,38 @@ namespace HonkHeroGame
 
         #endregion
 
+        #region Honk
+
+        private void SpawnHonk(Vehicle vehicle)
+        {
+            Honk honk = new(_scale);
+
+            _markNum = _random.Next(0, _honks.Length);
+            honk.SetContent(_honks[_markNum]);
+
+            honk.SetLeft(vehicle.GetLeft());
+            honk.SetTop(vehicle.GetTop());
+            honk.SetRotation(_random.Next(-30, 45));
+            GameView.Children.Add(honk);
+        }
+
+        private void UpdateHonk(GameObject honk)
+        {
+            honk.SetTop(honk.GetTop() - _honkSpeed);
+            honk.Fade();
+
+            if (honk.HasFaded)
+                GameView.AddDestroyableGameObject(honk);
+        }
+
+        #endregion
+
         #region Sticker
 
         private Sticker SpawnSticker(Vehicle vehicle)
         {
             Sticker collectible = new(_scale);
-            collectible.SetLeft(vehicle.GetLeft());
+            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
             collectible.SetTop(vehicle.GetTop());
             collectible.SetRotation(_random.Next(-30, 45));
             GameView.Children.Add(collectible);
@@ -487,7 +520,7 @@ namespace HonkHeroGame
         {
             var collectible = vehicle.AttachedCollectible;
 
-            collectible.SetLeft(vehicle.GetLeft());
+            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
             collectible.SetTop(vehicle.GetTop());
 
             if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
@@ -532,8 +565,11 @@ namespace HonkHeroGame
                 }
             }
 
-            if (vehicle.Honked())
+            if (vehicle.CanHonk())
+            {
                 SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
+                SpawnHonk(vehicle);
+            }
 
             //TODO: this is expensive
             // if vechicle will collide with another vehicle

@@ -52,7 +52,7 @@ namespace HonkHeroGame
 
         #region Methods
 
-        public bool Honked()
+        public bool CanHonk()
         {
             if (!IsBusted && WillHonk)
             {
@@ -97,7 +97,7 @@ namespace HonkHeroGame
 
         private int SetHonkCounter()
         {
-            return _random.Next(300, _honkCounterDefault);
+            return _random.Next(200, _honkCounterDefault);
         }
 
         private void SetHonkIndex()

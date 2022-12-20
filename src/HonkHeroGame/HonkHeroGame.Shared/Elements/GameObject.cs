@@ -33,7 +33,7 @@ namespace HonkHeroGame
 
         public double Speed { get; set; } = 0;
 
-        public bool IsCollidable { get; set; } = false;
+        public bool HasFaded => Opacity <= 0;
 
         #endregion
 
@@ -150,6 +150,11 @@ namespace HonkHeroGame
         public void SetSkewY(double skewY)
         {
             _compositeTransform.SkewY = skewY;
+        }
+
+        public void Fade()
+        {
+            Opacity -= 0.01;
         }
 
         #endregion
