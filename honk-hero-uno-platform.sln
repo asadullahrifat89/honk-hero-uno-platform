@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HonkHeroGame.Shared", "HonkHeroGame\HonkHeroGame.Shared\HonkHeroGame.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{85223D36-88B9-479B-966F-B0F4DCDDE6AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HonkHeroGame.Wasm", "HonkHeroGame\HonkHeroGame.Wasm\HonkHeroGame.Wasm.csproj", "{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE} = {85223D36-88B9-479B-966F-B0F4DCDDE6AD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D73DCB9-1328-4309-9BA0-9FBC93D2A918}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		HonkHeroGame\HonkHeroGame.Shared\HonkHeroGame.Shared.projitems*{13b5adcc-03ae-40b4-8614-7ba8654c8cde}*SharedItemsImports = 5
+		HonkHeroGame\HonkHeroGame.Shared\HonkHeroGame.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal
