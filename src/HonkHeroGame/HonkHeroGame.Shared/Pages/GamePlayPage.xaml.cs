@@ -23,8 +23,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 2;
-        private readonly double _gameSpeedDefault = 2;
+        private double _gameSpeed = 4;
+        private readonly double _gameSpeedDefault = 4;
 
         private int _markNum;
 
@@ -322,7 +322,7 @@ namespace HonkHeroGame
                 switch ((ElementType)x.Tag)
                 {
                     case ElementType.VEHICLE:
-                        UpdateVehicle(x);
+                        UpdateVehicle(x as Vehicle);
                         break;
                     case ElementType.PLAYER:
                         UpdatePlayer();
@@ -466,6 +466,7 @@ namespace HonkHeroGame
         private double GetFlightSpeed(double distance)
         {
             return distance / _playerSpeed;
+            //return distance > 50 ? distance / _playerSpeed : (distance / _playerSpeed) * 2;
         }
 
         #endregion
@@ -478,10 +479,13 @@ namespace HonkHeroGame
             GameView.Children.Add(Vehicle);
         }
 
-        private void UpdateVehicle(GameObject vehicle)
+        private void UpdateVehicle(Vehicle vehicle)
         {
             vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.5);
             vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
+
+            if (vehicle.ShouldHonk())
+                SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
                 RecyleVehicle(vehicle);
@@ -593,35 +597,35 @@ namespace HonkHeroGame
 #endif
 
             RoadMarkLeft1.Width = 15 * _scale;
-            RoadMarkLeft1.Height = 30 * _scale;            
+            RoadMarkLeft1.Height = 30 * _scale;
             RoadMarkLeft1.SetTop(_lanes[0].End);
             RoadMarkLeft1.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft1.SetSkewY(43);
             RoadMarkLeft1.SetRotation(-63.5);
 
             RoadMarkLeft2.Width = 15 * _scale;
-            RoadMarkLeft2.Height = 30 * _scale;            
+            RoadMarkLeft2.Height = 30 * _scale;
             RoadMarkLeft2.SetTop(_lanes[1].End);
             RoadMarkLeft2.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft2.SetSkewY(43);
             RoadMarkLeft2.SetRotation(-63.5);
 
             RoadMarkLeft3.Width = 15 * _scale;
-            RoadMarkLeft3.Height = 30 * _scale;            
+            RoadMarkLeft3.Height = 30 * _scale;
             RoadMarkLeft3.SetTop(_lanes[2].Start);
             RoadMarkLeft3.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft3.SetSkewY(43);
             RoadMarkLeft3.SetRotation(-63.5);
 
             RoadMarkLeft4.Width = 15 * _scale;
-            RoadMarkLeft4.Height = 30 * _scale;            
+            RoadMarkLeft4.Height = 30 * _scale;
             RoadMarkLeft4.SetTop(_lanes[3].End);
             RoadMarkLeft4.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft4.SetSkewY(43);
             RoadMarkLeft4.SetRotation(-63.5);
 
             RoadMarkLeft5.Width = 15 * _scale;
-            RoadMarkLeft5.Height = 30 * _scale;            
+            RoadMarkLeft5.Height = 30 * _scale;
             RoadMarkLeft5.SetTop(_lanes[4].End);
             RoadMarkLeft5.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft5.SetSkewY(43);

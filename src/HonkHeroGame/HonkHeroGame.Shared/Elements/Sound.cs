@@ -62,9 +62,8 @@
     {
         MENU_SELECT,
         INTRO,
-        BACKGROUND,
-        CAR_START,
-        CAR_ENGINE,
+        BACKGROUND,        
+        HONK,
         GAME_OVER,
         POWER_UP,
         POWER_DOWN,

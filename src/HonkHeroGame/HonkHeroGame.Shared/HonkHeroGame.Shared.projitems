@@ -131,6 +131,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\game-over.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\health-gain.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\health-loss.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
