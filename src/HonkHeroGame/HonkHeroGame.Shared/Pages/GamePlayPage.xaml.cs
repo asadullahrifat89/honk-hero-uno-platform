@@ -471,13 +471,26 @@ namespace HonkHeroGame
 
         #endregion
 
-        #region Collectible
+        #region Sticker
 
-        private void UpdateCollectible(Collectible collectible)
+        private Sticker SpawnSticker(Vehicle vehicle)
         {
-            collectible.SetTop(collectible.GetTop() + _gameSpeed);
+            Sticker collectible = new(_scale);
+            collectible.SetLeft(vehicle.GetLeft());
+            collectible.SetTop(vehicle.GetTop());
+            collectible.SetRotation(_random.Next(-30, 45));
+            GameView.Children.Add(collectible);
+            return collectible;
+        }
 
-            if (collectible.GetTop() + collectible.Height < GameView.Height || collectible.GetLeft() + collectible.Width < GameView.Width)
+        private void UpdateSticker(Vehicle vehicle)
+        {
+            var collectible = vehicle.AttachedCollectible;
+
+            collectible.SetLeft(vehicle.GetLeft());
+            collectible.SetTop(vehicle.GetTop());
+
+            if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
                 GameView.AddDestroyableGameObject(collectible);
         }
 
@@ -487,24 +500,18 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle Vehicle = new(_scale);
-            GameView.Children.Add(Vehicle);
+            Vehicle vehicle = new(_scale, _gameSpeed + _random.Next(0, 2));
+            GameView.Children.Add(vehicle);
         }
 
         private void UpdateVehicle(Vehicle vehicle)
         {
-            vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.5);
-            vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
+            vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5);
+            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
             if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
             {
-                var attachedCollectible = vehicle.AttachedCollectible;
-
-                attachedCollectible.SetLeft(vehicle.GetLeft());
-                attachedCollectible.SetTop(vehicle.GetTop());
-
-                if (attachedCollectible.GetTop() + attachedCollectible.Height < 0 || attachedCollectible.GetLeft() + attachedCollectible.Width < 0)
-                    GameView.AddDestroyableGameObject(attachedCollectible);
+                UpdateSticker(vehicle);
             }
 
             // if player hits the vehicle, bust honking and attach sticker
@@ -518,15 +525,8 @@ namespace HonkHeroGame
                     AddScore(5);
 
                     vehicle.BustHonking();
-
-                    Collectible collectible = new(_scale);
-                    collectible.SetLeft(vehicle.GetLeft());
-                    collectible.SetTop(vehicle.GetTop());
-                    collectible.SetRotation(_random.Next(-30, 45));
-
+                    Sticker collectible = SpawnSticker(vehicle);
                     vehicle.AttachCollectible(collectible);
-
-                    GameView.Children.Add(collectible);
 
                     //TODO: make player angry and change asset to honk busting
                 }
@@ -552,13 +552,13 @@ namespace HonkHeroGame
         {
             var lane = _lanes[_random.Next(0, _lanes.Count)];
 
-#if DEBUG
-            Console.WriteLine("LANE: " + lane);
-#endif
-
             vehicle.SetPosition(
                 left: _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2),
                 top: /*_random.Next(minValue: (int)GameView.Height / 2, maxValue: (int)(GameView.Height * 2))*/(int)(lane.End));
+
+#if DEBUG
+            Console.WriteLine("LANE: " + lane);
+#endif
         }
 
         #endregion

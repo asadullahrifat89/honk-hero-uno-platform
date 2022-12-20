@@ -17,7 +17,7 @@ namespace HonkHeroGame
         public const double PLAYER_WIDTH = 80;
         public const double PLAYER_HEIGHT = 80;
 
-        public const double COLLECTIBLE_SIZE = 70;
+        public const double STICKER_SIZE = 70;
 
         public const double POWERUP_SIZE = 70;
 
@@ -53,7 +53,7 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_FLY, new Uri("ms-appx:///Assets/Images/player_fly.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.HEALTH, new Uri("ms-appx:///Assets/Images/health.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.STICKER, new Uri("ms-appx:///Assets/Images/sticker.png")),
         };
 
         #endregion

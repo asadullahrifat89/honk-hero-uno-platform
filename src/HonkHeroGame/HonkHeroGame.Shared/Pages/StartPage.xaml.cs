@@ -418,14 +418,14 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle Vehicle = new(_scale);
+            Vehicle Vehicle = new(_scale, _gameSpeed);
             UnderView.Children.Add(Vehicle);
         }
 
         private void UpdateVehicle(GameObject vehicle)
         {
-            vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.50);
-            vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
+            vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.50);
+            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
                 RecyleVehicle(vehicle);

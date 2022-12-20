@@ -16,7 +16,7 @@ namespace HonkHeroGame
 
         #region Ctor
 
-        public Vehicle(double scale)
+        public Vehicle(double scale, double speed)
         {
             Tag = ElementType.VEHICLE;
 
@@ -30,6 +30,8 @@ namespace HonkHeroGame
                 SetHonkIndex();
                 _honkCounter = SetHonkCounter();
             }
+
+            Speed = speed;
         }
 
         #endregion
@@ -44,7 +46,7 @@ namespace HonkHeroGame
 
         public bool WillHonk { get; set; }
 
-        public Collectible AttachedCollectible { get; set; }
+        public Sticker AttachedCollectible { get; set; }
 
         #endregion
 
@@ -88,7 +90,7 @@ namespace HonkHeroGame
             }
         }
 
-        public void AttachCollectible(Collectible collectible)
+        public void AttachCollectible(Sticker collectible)
         {
             AttachedCollectible = collectible;
         }

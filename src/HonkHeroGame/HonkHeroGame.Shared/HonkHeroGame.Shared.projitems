@@ -22,7 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\GameContentDialog.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Vehicle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Cloud.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Elements\Collectible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Sticker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Health.cs" />
@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />

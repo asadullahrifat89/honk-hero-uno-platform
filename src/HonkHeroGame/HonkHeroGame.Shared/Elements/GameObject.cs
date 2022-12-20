@@ -163,7 +163,7 @@ namespace HonkHeroGame
         VEHICLE,
         HEALTH,
         CLOUD,
-        COLLECTIBLE,
+        STICKER,
         POWERUP,
     }
 }
