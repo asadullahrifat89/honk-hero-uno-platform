@@ -19,6 +19,31 @@
                 Background="#d9a93a"
                 BorderBrush="DarkGoldenrod"
                 BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkLeft1"
+                Background="#f2f1f3"
+                BorderBrush="DarkGoldenrod"
+                BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkLeft2"
+                Background="#f2f1f3"
+                BorderBrush="DarkGoldenrod"
+                BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkLeft3"
+                Background="#f2f1f3"
+                BorderBrush="DarkGoldenrod"
+                BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkLeft4"
+                Background="#f2f1f3"
+                BorderBrush="DarkGoldenrod"
+                BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkLeft5"
+                Background="#f2f1f3"
+                BorderBrush="DarkGoldenrod"
+                BorderThickness="2" />
         </GameEnvironment>
 
         <!--  This hosts the player and game elements  -->
