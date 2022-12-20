@@ -2,21 +2,21 @@
 {
     public class PowerUp : GameObject
     {
-        public PowerUpType PowerUpType { get; set; }
-
-        public PowerUp()
+        public PowerUp(double scale)
         {
-            Tag = ElementType.POWERUP;           
+            Tag = ElementType.POWERUP;
+
+            Width = Constants.POWERUP_SIZE * scale;
+            Height = Constants.POWERUP_SIZE * scale;
         }
+
+        public PowerUpType PowerUpType { get; set; }
     }
 
     public enum PowerUpType
     {
-        NONE,
-        FORCE_SHIELD,
-        SLOW_DOWN_TIME,
-        DOUBLE_SCORE,
-        QUAD_SCORE,
+        MagnetPull,
+        CloudRide,
     }
 }
 

@@ -76,7 +76,7 @@
 
             <!--#region Game UI Container Style-->
             <Style x:Key="GameUIContainer" TargetType="Border">
-                <Setter Property="Background" Value="White" />
+                <Setter Property="Background" Value="#ffffff" />
                 <Setter Property="BorderBrush" Value="#85878a" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BorderThickness" Value="0,3,0,3" />
@@ -99,12 +99,14 @@
             <SolidColorBrush x:Key="SystemAccentColorLight2" Color="#206fa3" />
             <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#206fa3" />
 
-            <SolidColorBrush x:Key="GameBackgroundColor" Color="LightSkyBlue" />
-
             <SolidColorBrush x:Key="FrameBackgroundColor" Color="#206fa3" />
             <SolidColorBrush x:Key="ProgressBarErrorColor" Color="#9d2235" />
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#206fa3" />
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="#206fa3" />
+
+            <SolidColorBrush x:Key="GameBackgroundColor" Color="#b9e1ff" />
+            <SolidColorBrush x:Key="SpotBackgroundColor1" Color="#80c8ff" />
+            <SolidColorBrush x:Key="SpotBackgroundColor2" Color="#a6d9ff" />
             <!--#endregion-->
 
         </ResourceDictionary>
