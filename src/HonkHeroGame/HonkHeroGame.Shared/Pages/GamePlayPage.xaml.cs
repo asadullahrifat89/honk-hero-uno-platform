@@ -593,39 +593,39 @@ namespace HonkHeroGame
 #endif
 
             RoadMarkLeft1.Width = 15 * _scale;
-            RoadMarkLeft1.Height = 30 * _scale;
-            RoadMarkLeft1.SetRotation(-63.5);
+            RoadMarkLeft1.Height = 30 * _scale;            
             RoadMarkLeft1.SetTop(_lanes[0].End);
             RoadMarkLeft1.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft1.SetSkewY(43);
+            RoadMarkLeft1.SetRotation(-63.5);
 
             RoadMarkLeft2.Width = 15 * _scale;
-            RoadMarkLeft2.Height = 30 * _scale;
-            RoadMarkLeft2.SetRotation(-63.5);
+            RoadMarkLeft2.Height = 30 * _scale;            
             RoadMarkLeft2.SetTop(_lanes[1].End);
             RoadMarkLeft2.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft2.SetSkewY(43);
+            RoadMarkLeft2.SetRotation(-63.5);
 
             RoadMarkLeft3.Width = 15 * _scale;
-            RoadMarkLeft3.Height = 30 * _scale;
-            RoadMarkLeft3.SetRotation(-63.5);
+            RoadMarkLeft3.Height = 30 * _scale;            
             RoadMarkLeft3.SetTop(_lanes[2].Start);
             RoadMarkLeft3.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft3.SetSkewY(43);
+            RoadMarkLeft3.SetRotation(-63.5);
 
             RoadMarkLeft4.Width = 15 * _scale;
-            RoadMarkLeft4.Height = 30 * _scale;
-            RoadMarkLeft4.SetRotation(-63.5);
+            RoadMarkLeft4.Height = 30 * _scale;            
             RoadMarkLeft4.SetTop(_lanes[3].End);
             RoadMarkLeft4.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft4.SetSkewY(43);
+            RoadMarkLeft4.SetRotation(-63.5);
 
             RoadMarkLeft5.Width = 15 * _scale;
-            RoadMarkLeft5.Height = 30 * _scale;
-            RoadMarkLeft5.SetRotation(-63.5);
+            RoadMarkLeft5.Height = 30 * _scale;            
             RoadMarkLeft5.SetTop(_lanes[4].End);
             RoadMarkLeft5.SetLeft(_windowWidth / 4 - (30 * _scale / 2));
             RoadMarkLeft5.SetSkewY(43);
+            RoadMarkLeft5.SetRotation(-63.5);
         }
 
         private void NavigateToPage(Type pageType)
