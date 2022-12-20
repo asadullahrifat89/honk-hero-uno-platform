@@ -25,7 +25,6 @@ namespace HonkHeroGame
 
         private double _gameSpeed = 2;
         private readonly double _gameSpeedDefault = 2;
-        private readonly double _gameSpeedfactor = 0.05;
 
         private int _markNum;
 
@@ -37,7 +36,6 @@ namespace HonkHeroGame
         private Rect _playerHitBox;
 
         private double _playerHealth;
-        private int _playerHealthLossPoints;
 
         private readonly double _playerPositionGrace = 7;
 
@@ -56,7 +54,7 @@ namespace HonkHeroGame
         private bool _isPointerActivated;
         private Point _pointerPosition;
 
-        private List<(double Start, double End)> _lanes = new List<(double Start, double End)>();
+        private readonly List<(double Start, double End)> _lanes = new();
 
         #endregion
 
@@ -224,7 +222,6 @@ namespace HonkHeroGame
             ScoreText.Text = "0";
 
             _playerHealth = 100;
-            _playerHealthLossPoints = 20;
 
             PlayerHealthBarPanel.Visibility = Visibility.Visible;
 
@@ -568,12 +565,9 @@ namespace HonkHeroGame
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
 
-            if (_player is not null)
-            {
-                _player.SetSize(
+            _player?.SetSize(
                     width: Constants.PLAYER_WIDTH * _scale,
                     height: Constants.PLAYER_HEIGHT * _scale);
-            }
 
             var laneHeight = _windowHeight / 4;
             _lanes.Clear();
@@ -585,10 +579,8 @@ namespace HonkHeroGame
 
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
-
-
             var lanesDetails = string.Join(",", _lanes.Select(x => $"{x.Start}-{x.End}").ToArray());
-            Console.WriteLine($"LANES: {lanesDetails}");
+            Console.WriteLine($"AVAILABLE LANES: {lanesDetails}");
 #endif
         }
 
