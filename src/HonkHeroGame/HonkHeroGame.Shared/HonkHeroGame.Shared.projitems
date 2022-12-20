@@ -35,7 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GamePlayPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GamePlayPage.xaml.cs">
       <DependentUpon>GamePlayPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppSettingsHelper.cs" />
@@ -84,7 +84,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)GamePlayPage.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Pages\GamePlayPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,8 +128,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background3.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\car-engine.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\car-start.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\coin-pickup.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\game-over.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\health-gain.mp3" />
@@ -139,6 +137,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
   <Import Project="HonkHeroGame.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
