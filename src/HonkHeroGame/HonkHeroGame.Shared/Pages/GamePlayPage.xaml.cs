@@ -419,52 +419,61 @@ namespace HonkHeroGame
             double playerMiddleX = left + _player.Width / 2;
             double playerMiddleY = top + _player.Height / 2;
 
+            double timeToTake = 50;
+
             if (_isPointerActivated)
             {
                 // move up
                 if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
                 {
-                    var distance = ((_pointerPosition.Y - _playerHitBox.Bottom) / _playerSpeed) * _gameSpeedfactor;
-                    double speed = AdjustSpeed(distance);
+                    var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
+                    var speed = distance / timeToTake;
+                    //speed = AdjustSpeed(speed);
 
                     _player.SetTop(top - speed);
+                    //_player.SetTop(top - _playerSpeed);
                 }
 
                 // move left
                 if (_pointerPosition.X < playerMiddleX - _playerSpeed)
                 {
-                    var distance = ((_pointerPosition.X - _playerHitBox.Right) / _playerSpeed) * _gameSpeedfactor;
-                    double speed = AdjustSpeed(distance);
+                    var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
+                    var speed = distance / timeToTake;
+                    //speed = AdjustSpeed(speed);
 
                     _player.SetLeft(left - speed);
+                    //_player.SetLeft(left - _playerSpeed);
                     _player.SetFacingDirectionX(MovementDirectionX.Left);
                 }
 
                 // move down
                 if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
                 {
-                    var distance = ((_playerHitBox.Top - _pointerPosition.Y) / _playerSpeed) * _gameSpeedfactor;
-                    double speed = AdjustSpeed(distance);
+                    var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
+                    var speed = distance / timeToTake;
+                    //speed = AdjustSpeed(speed);
 
                     _player.SetTop(top + speed);
+                    //_player.SetTop(top + _playerSpeed);
                 }
 
                 // move right
                 if (_pointerPosition.X > playerMiddleX + _playerSpeed)
                 {
-                    var distance = ((_playerHitBox.Left - _pointerPosition.X) / _playerSpeed) * _gameSpeedfactor;
-                    double speed = AdjustSpeed(distance);
+                    var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
+                    var speed = distance / timeToTake;
+                    //speed = AdjustSpeed(speed);
 
                     _player.SetLeft(left + speed);
+                    //_player.SetLeft(left + _playerSpeed);
                     _player.SetFacingDirectionX(MovementDirectionX.Right);
                 }
             }
         }
 
-        private double AdjustSpeed(double distance)
+        private double AdjustSpeed(double calculatedSpeed)
         {
-            var speed = _playerSpeedDefault * distance;
-            speed = speed < _playerSpeedDefault ? _playerSpeedDefault : speed;
+            var speed = calculatedSpeed < _playerSpeedDefault ? _playerSpeedDefault : calculatedSpeed;
             return speed;
         }
 
