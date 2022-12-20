@@ -24,6 +24,7 @@ namespace HonkHeroGame
 
         private double _gameSpeed = 2;
         private readonly double _gameSpeedDefault = 2;
+        private readonly double _gameSpeedfactor = 0.05;
 
         private int _markNum;
 
@@ -36,6 +37,9 @@ namespace HonkHeroGame
 
         private double _playerHealth;
         private int _playerHealthLossPoints;
+
+        private double _playerSpeed = 7;
+        private readonly double _playerSpeedDefault = 7;
 
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
@@ -197,6 +201,7 @@ namespace HonkHeroGame
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
 
             _gameSpeed = _gameSpeedDefault * _scale;
+            _playerSpeed = _playerSpeedDefault;
 
             ResetControls();
 
@@ -357,7 +362,7 @@ namespace HonkHeroGame
 
             _player.SetPosition(
                 left: GameView.Width / 2 - _player.Width / 2,
-                top: GameView.Height - _player.Height - (50 * _scale));
+                top: GameView.Height / 2 - _player.Height - (50 * _scale));
 
             _player.SetZ(1);
 
@@ -417,27 +422,50 @@ namespace HonkHeroGame
             if (_isPointerActivated)
             {
                 // move up
-                if (_pointerPosition.Y < playerMiddleY - _gameSpeed)
-                    _player.SetTop(top - _gameSpeed);
+                if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
+                {
+                    var distance = ((_pointerPosition.Y - _playerHitBox.Bottom) / _playerSpeed) * _gameSpeedfactor;
+                    double speed = AdjustSpeed(distance);
+
+                    _player.SetTop(top - speed);
+                }
 
                 // move left
-                if (_pointerPosition.X < playerMiddleX - _gameSpeed)
+                if (_pointerPosition.X < playerMiddleX - _playerSpeed)
                 {
-                    _player.SetLeft(left - _gameSpeed);
+                    var distance = ((_pointerPosition.X - _playerHitBox.Right) / _playerSpeed) * _gameSpeedfactor;
+                    double speed = AdjustSpeed(distance);
+
+                    _player.SetLeft(left - speed);
                     _player.SetFacingDirectionX(MovementDirectionX.Left);
                 }
 
                 // move down
-                if (_pointerPosition.Y > playerMiddleY + _gameSpeed)
-                    _player.SetTop(top + _gameSpeed * 2);
+                if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
+                {
+                    var distance = ((_playerHitBox.Top - _pointerPosition.Y) / _playerSpeed) * _gameSpeedfactor;
+                    double speed = AdjustSpeed(distance);
+
+                    _player.SetTop(top + speed);
+                }
 
                 // move right
-                if (_pointerPosition.X > playerMiddleX + _gameSpeed)
+                if (_pointerPosition.X > playerMiddleX + _playerSpeed)
                 {
-                    _player.SetLeft(left + _gameSpeed);
+                    var distance = ((_playerHitBox.Left - _pointerPosition.X) / _playerSpeed) * _gameSpeedfactor;
+                    double speed = AdjustSpeed(distance);
+
+                    _player.SetLeft(left + speed);
                     _player.SetFacingDirectionX(MovementDirectionX.Right);
                 }
             }
+        }
+
+        private double AdjustSpeed(double distance)
+        {
+            var speed = _playerSpeedDefault * distance;
+            speed = speed < _playerSpeedDefault ? _playerSpeedDefault : speed;
+            return speed;
         }
 
         #endregion
@@ -474,6 +502,31 @@ namespace HonkHeroGame
         }
 
         #endregion
+
+        #endregion
+
+        #region Score
+
+        private void AddScore(double score)
+        {
+            _score += score;
+            ScaleDifficulty();
+        }
+
+        #endregion
+
+        #region Difficulty
+
+        private void ScaleDifficulty()
+        {
+            if (_score > _scoreCap)
+            {
+                _gameSpeed = (_gameSpeedDefault * _scale) + 0.2 * _difficultyMultiplier;
+                _playerSpeed = _playerSpeedDefault + (_difficultyMultiplier / 2);
+                _scoreCap += 50;
+                _difficultyMultiplier++;
+            }
+        }
 
         #endregion
 
