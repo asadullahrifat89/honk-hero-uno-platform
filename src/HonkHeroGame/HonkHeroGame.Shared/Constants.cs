@@ -12,8 +12,7 @@ namespace HonkHeroGame
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double CAR_WIDTH = 50 * 1.5;
-        public const double CAR_HEIGHT = 110 * 1.5;
+        public const double VEHICLE_SIZE = 256;
 
         public const double PLAYER_WIDTH = 80;
         public const double PLAYER_HEIGHT = 80;
@@ -55,12 +54,7 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.CLOUD, new Uri("ms-appx:///Assets/Images/cloud3.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player_idle.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_FLY, new Uri("ms-appx:///Assets/Images/player_fly.png")),
-
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup4.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_FLY, new Uri("ms-appx:///Assets/Images/player_fly.png")),            
 
             new KeyValuePair<ElementType, Uri>(ElementType.HEALTH, new Uri("ms-appx:///Assets/Images/health.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
@@ -90,9 +84,6 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE_COLLECTED, "Assets/Sounds/coin-pickup.mp3"),
-
-            new KeyValuePair<SoundType, string>(SoundType.CAR_START, "Assets/Sounds/car-start.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.CAR_ENGINE, "Assets/Sounds/car-engine.mp3"),
         };
 
         #endregion

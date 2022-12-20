@@ -69,6 +69,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\QueryRecordResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\QueryRecordsResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\ServiceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\AudioPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\LocalizationKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IBackendService.cs" />
@@ -84,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\GamePlayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

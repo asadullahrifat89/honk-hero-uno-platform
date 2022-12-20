@@ -108,9 +108,7 @@ namespace HonkHeroGame
 #endif
             {
                 if (rootFrame.Content == null)
-                    rootFrame.Navigate(typeof(GamePlayPage), args.Arguments);
-                //TODO: uncomment this 
-                //rootFrame.Navigate(typeof(StartPage), args.Arguments);
+                    rootFrame.Navigate(typeof(StartPage), args.Arguments);
 
                 _window.Activate();
             }
