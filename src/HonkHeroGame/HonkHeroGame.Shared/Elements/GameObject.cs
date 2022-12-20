@@ -165,6 +165,7 @@ namespace HonkHeroGame
         CLOUD,
         STICKER,
         POWERUP,
+        HONK,
     }
 }
 
