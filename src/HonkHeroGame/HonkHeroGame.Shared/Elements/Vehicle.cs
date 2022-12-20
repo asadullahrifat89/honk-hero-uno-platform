@@ -8,7 +8,7 @@ namespace HonkHeroGame
         #region Fields
 
         private int _honkCounter;
-        private readonly int _honkCounterDefault = 300;
+        private readonly int _honkCounterDefault = 350;
         private readonly Random _random = new Random();
 
 
@@ -22,10 +22,9 @@ namespace HonkHeroGame
 
             Height = Constants.VEHICLE_SIZE * scale;
             Width = Constants.VEHICLE_SIZE * scale;
+            SetHonkIndex();
 
-            HonkIndex = _random.Next(0, 3);
-
-            _honkCounter = _random.Next(200, _honkCounterDefault);
+            _honkCounter = SetHonkCounter();
         }
 
         #endregion
@@ -50,7 +49,7 @@ namespace HonkHeroGame
 
                 if (_honkCounter < 0)
                 {
-                    _honkCounter = _random.Next(200, _honkCounterDefault);
+                    _honkCounter = SetHonkCounter();
                     IsHonking = true;
 
                     return true;
@@ -58,6 +57,32 @@ namespace HonkHeroGame
             }
 
             return false;
+        }
+
+        public void BustHonking()
+        {
+            IsHonking = false;
+            IsBusted = true;
+        }
+
+        public void ResetHonking()
+        {
+            IsHonking = false;
+            IsBusted = false;
+            HonkIndex = _random.Next(0, 3);
+
+            _honkCounter = SetHonkCounter();
+            SetHonkIndex();
+        }
+
+        private int SetHonkCounter()
+        {
+            return _random.Next(300, _honkCounterDefault);
+        }
+
+        private void SetHonkIndex()
+        {
+            HonkIndex = _random.Next(0, 3);
         }
 
         #endregion

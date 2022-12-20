@@ -484,6 +484,19 @@ namespace HonkHeroGame
             vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.5);
             vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
 
+            if (vehicle.IsHonking)
+            {
+                var vehicleHitbox = vehicle.GetHitBox();
+
+                if (_playerHitBox.IntersectsWith(vehicleHitbox))
+                {
+                    SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
+                    AddScore(5);
+
+                    vehicle.BustHonking();
+                }
+            }
+
             if (vehicle.ShouldHonk())
                 SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
 
@@ -495,6 +508,7 @@ namespace HonkHeroGame
         {
             _markNum = _random.Next(0, _vehicles.Length);
             vehicle.SetContent(_vehicles[_markNum]);
+            (vehicle as Vehicle).ResetHonking();
             RandomizeVehiclePosition(vehicle);
         }
 

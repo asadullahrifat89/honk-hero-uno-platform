@@ -64,6 +64,7 @@
         INTRO,
         BACKGROUND,        
         HONK,
+        HONK_BUST,
         GAME_OVER,
         POWER_UP,
         POWER_DOWN,

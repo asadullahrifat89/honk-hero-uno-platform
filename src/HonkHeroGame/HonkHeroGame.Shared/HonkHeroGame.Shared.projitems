@@ -101,9 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cloud1.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cloud2.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cloud3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
@@ -134,6 +131,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk_bust1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk_bust2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />

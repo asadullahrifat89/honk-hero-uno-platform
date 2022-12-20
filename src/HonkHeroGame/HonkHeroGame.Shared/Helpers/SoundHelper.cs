@@ -101,6 +101,22 @@ namespace HonkHeroGame
                 playingSound.Play();
         }
 
+        public static void PlayRandomSound(SoundType soundType)
+        {
+            var sounds = _playingSounds.Where(x => x.SoundType == soundType).ToArray();
+
+            if (sounds.Length > 1)
+            {
+                var sound = sounds[new Random().Next(0, sounds.Length)];
+                sound.Play();
+            }
+            else
+            {
+                if (sounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                    playingSound.Play();
+            }
+        }
+
         public static void StopSound(SoundType soundType)
         {
             if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
