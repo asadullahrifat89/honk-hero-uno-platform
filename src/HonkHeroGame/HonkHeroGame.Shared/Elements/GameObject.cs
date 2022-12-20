@@ -104,6 +104,11 @@ namespace HonkHeroGame
             Canvas.SetLeft(this, left);
         }
 
+        public void SetZ(int z)
+        {
+            Canvas.SetZIndex(this, z);
+        }
+
         public void SetPosition(double left, double top)
         {
             Canvas.SetTop(this, top);

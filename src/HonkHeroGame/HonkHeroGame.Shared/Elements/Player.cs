@@ -18,6 +18,8 @@ namespace HonkHeroGame
 
         public PlayerState PlayerState { get; set; } = PlayerState.Idle;
 
+        public IdlingDirectionY IdlingDirectionY { get; set; } = IdlingDirectionY.Down;
+
         #endregion
 
         #region Methods     
@@ -63,6 +65,12 @@ namespace HonkHeroGame
         Jumping,
         Falling,
         Flying
+    }
+
+    public enum IdlingDirectionY
+    {
+        Up,
+        Down,
     }
 
     public enum MovementDirectionY
