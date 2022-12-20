@@ -22,7 +22,7 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private readonly int _gameSpeed = 5;
+        private readonly int _gameSpeed = 2;
 
         private int _markNum;
 
@@ -424,9 +424,10 @@ namespace HonkHeroGame
 
         private void UpdateVehicle(GameObject vehicle)
         {
-            vehicle.SetTop(vehicle.GetTop() - _gameSpeed);
+            vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.50);
+            vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
 
-            if (vehicle.GetTop() + vehicle.Height < 0)
+            if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
                 RecyleVehicle(vehicle);
         }
 
@@ -440,8 +441,8 @@ namespace HonkHeroGame
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
             vehicle.SetPosition(
-                left: _random.Next(0, (int)UnderView.Width) - (100 * _scale),
-                top: _random.Next((int)UnderView.Height, (int)(UnderView.Height * 2)));
+                left: _random.Next(minValue: (int)UnderView.Width, maxValue: (int)UnderView.Width * 2),
+                top: _random.Next(minValue: (int)UnderView.Height / 2, maxValue: (int)(UnderView.Height * 2)));
         }
 
         #endregion
