@@ -345,7 +345,7 @@ namespace HonkHeroGame
                 switch ((ElementType)x.Tag)
                 {
                     case ElementType.VEHICLE:
-                        RecyleVehicle(x);
+                        RecyleVehicle(x as Vehicle);
                         break;
                     default:
                         break;
@@ -471,6 +471,18 @@ namespace HonkHeroGame
 
         #endregion
 
+        #region Collectible
+
+        private void UpdateCollectible(Collectible collectible)
+        {
+            collectible.SetTop(collectible.GetTop() + _gameSpeed);
+
+            if (collectible.GetTop() + collectible.Height < GameView.Height || collectible.GetLeft() + collectible.Width < GameView.Width)
+                GameView.AddDestroyableGameObject(collectible);
+        }
+
+        #endregion
+
         #region Vehicle
 
         private void SpawnVehicle()
@@ -484,6 +496,18 @@ namespace HonkHeroGame
             vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.5);
             vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
 
+            if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
+            {
+                var attachedCollectible = vehicle.AttachedCollectible;
+
+                attachedCollectible.SetLeft(vehicle.GetLeft());
+                attachedCollectible.SetTop(vehicle.GetTop());
+
+                if (attachedCollectible.GetTop() + attachedCollectible.Height < 0 || attachedCollectible.GetLeft() + attachedCollectible.Width < 0)
+                    GameView.AddDestroyableGameObject(attachedCollectible);
+            }
+
+            // if player hits the vehicle, bust honking and attach sticker
             if (vehicle.IsHonking)
             {
                 var vehicleHitbox = vehicle.GetHitBox();
@@ -494,21 +518,33 @@ namespace HonkHeroGame
                     AddScore(5);
 
                     vehicle.BustHonking();
+
+                    Collectible collectible = new(_scale);
+                    collectible.SetLeft(vehicle.GetLeft());
+                    collectible.SetTop(vehicle.GetTop());
+                    collectible.SetRotation(_random.Next(-30, 45));
+
+                    vehicle.AttachCollectible(collectible);
+
+                    GameView.Children.Add(collectible);
+
+                    //TODO: make player angry and change asset to honk busting
                 }
             }
 
-            if (vehicle.ShouldHonk())
+            if (vehicle.Honked())
                 SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
                 RecyleVehicle(vehicle);
         }
 
-        private void RecyleVehicle(GameObject vehicle)
+        private void RecyleVehicle(Vehicle vehicle)
         {
             _markNum = _random.Next(0, _vehicles.Length);
             vehicle.SetContent(_vehicles[_markNum]);
-            (vehicle as Vehicle).ResetHonking();
+
+            vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
         }
 
