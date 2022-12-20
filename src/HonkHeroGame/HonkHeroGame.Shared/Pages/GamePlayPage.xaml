@@ -11,6 +11,10 @@
     <Grid x:Name="RootGrid">
 
         <!--#region Animation-->
+
+        <!--  This hosts the road  -->
+        <GameEnvironment x:Name="UnderView" Background="Transparent" />
+
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
         <!--#endregion-->

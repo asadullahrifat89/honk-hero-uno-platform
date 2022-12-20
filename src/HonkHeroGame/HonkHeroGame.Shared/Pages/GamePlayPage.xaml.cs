@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Windows.Foundation;
@@ -54,6 +55,8 @@ namespace HonkHeroGame
 
         private bool _isPointerActivated;
         private Point _pointerPosition;
+
+        private List<(double Start, double End)> _lanes = new List<(double Start, double End)>();
 
         #endregion
 
@@ -566,8 +569,20 @@ namespace HonkHeroGame
                     height: Constants.PLAYER_HEIGHT * _scale);
             }
 
+            var laneWidth = _windowWidth / 4;
+            _lanes.Clear();
+
+            for (int i = 0; i < 4; i++)
+            {
+                _lanes.Add((laneWidth * i, laneWidth * (i + 1)));
+            }
+
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
+
+
+            var lanesDetails = string.Join(",", _lanes.Select(x => $"{x.Start}-{x.End}").ToArray());
+            Console.WriteLine($"LANES: {lanesDetails}");
 #endif
         }
 
