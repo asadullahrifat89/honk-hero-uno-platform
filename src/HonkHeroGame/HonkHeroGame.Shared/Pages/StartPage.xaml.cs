@@ -26,7 +26,7 @@ namespace HonkHeroGame
 
         private int _markNum;
 
-        private Uri[] _vehicles;        
+        private Uri[] _vehicles;
 
         private readonly IBackendService _backendService;
 
@@ -352,7 +352,7 @@ namespace HonkHeroGame
         {
             // add some vehicles
             for (int i = 0; i < 15; i++)
-                SpawnVehicle();            
+                SpawnVehicle();
         }
 
         private void StartAnimation()
@@ -400,7 +400,7 @@ namespace HonkHeroGame
                 {
                     case ElementType.VEHICLE:
                         UpdateVehicle(x);
-                        break;                    
+                        break;
                     default:
                         break;
                 }
@@ -422,26 +422,26 @@ namespace HonkHeroGame
             UnderView.Children.Add(Vehicle);
         }
 
-        private void UpdateVehicle(GameObject Vehicle)
+        private void UpdateVehicle(GameObject vehicle)
         {
-            Vehicle.SetTop(Vehicle.GetTop() + _gameSpeed);
+            vehicle.SetTop(vehicle.GetTop() - _gameSpeed);
 
-            if (Vehicle.GetTop() > UnderView.Height)
-                RecyleVehicle(Vehicle);
+            if (vehicle.GetTop() + vehicle.Height < 0)
+                RecyleVehicle(vehicle);
         }
 
-        private void RecyleVehicle(GameObject Vehicle)
+        private void RecyleVehicle(GameObject vehicle)
         {
             _markNum = _random.Next(0, _vehicles.Length);
-            Vehicle.SetContent(_vehicles[_markNum]);
-            RandomizeVehiclePosition(Vehicle);
+            vehicle.SetContent(_vehicles[_markNum]);
+            RandomizeVehiclePosition(vehicle);
         }
 
-        private void RandomizeVehiclePosition(GameObject Vehicle)
+        private void RandomizeVehiclePosition(GameObject vehicle)
         {
-            Vehicle.SetPosition(
+            vehicle.SetPosition(
                 left: _random.Next(0, (int)UnderView.Width) - (100 * _scale),
-                top: _random.Next(100 * (int)_scale, (int)UnderView.Height) * -1);
+                top: _random.Next((int)UnderView.Height, (int)(UnderView.Height * 2)));
         }
 
         #endregion
