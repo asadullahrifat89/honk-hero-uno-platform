@@ -480,7 +480,7 @@ namespace HonkHeroGame
 
         private void UpdateVehicle(GameObject vehicle)
         {
-            vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.50);
+            vehicle.SetTop(vehicle.GetTop() - _gameSpeed * 0.5);
             vehicle.SetLeft(vehicle.GetLeft() - _gameSpeed);
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
@@ -564,6 +564,15 @@ namespace HonkHeroGame
 
             GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
+
+            UnderView.Width = _windowWidth;
+            UnderView.Height = _windowHeight;
+
+            HighWayDivider.Width = 20 * _scale;
+            HighWayDivider.Height = _windowHeight;
+            HighWayDivider.SetRotation(-63.5);
+            HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
+            HighWayDivider.SetSkewY(43);
 
             _player?.SetSize(
                     width: Constants.PLAYER_WIDTH * _scale,

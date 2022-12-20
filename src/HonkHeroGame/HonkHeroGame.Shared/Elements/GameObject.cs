@@ -18,7 +18,7 @@ namespace HonkHeroGame
             CenterY = 0.5,
             Rotation = 0,
             ScaleX = 1,
-            ScaleY = 1,
+            ScaleY = 1,            
         };
 
         #endregion
@@ -41,7 +41,6 @@ namespace HonkHeroGame
 
         public GameObject()
         {
-
             RenderTransformOrigin = new Point(0.5, 0.5);
 
             RenderTransform = _compositeTransform;
@@ -141,6 +140,16 @@ namespace HonkHeroGame
         public void SetScaleY(double scaleY)
         {
             _compositeTransform.ScaleY = scaleY;
+        }
+
+        public void SetRotation(double rotation)
+        {
+            _compositeTransform.Rotation = rotation;
+        }
+
+        public void SetSkewY(double skewY)
+        {
+            _compositeTransform.SkewY = skewY;
         }
 
         #endregion

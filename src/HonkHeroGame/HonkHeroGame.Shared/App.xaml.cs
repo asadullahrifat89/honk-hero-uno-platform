@@ -165,6 +165,10 @@ namespace HonkHeroGame
 
         public static void EnterFullScreen(bool value)
         {
+#if DEBUG
+            return;
+#endif
+
             var view = ApplicationView.GetForCurrentView();
 
             if (view is not null)
