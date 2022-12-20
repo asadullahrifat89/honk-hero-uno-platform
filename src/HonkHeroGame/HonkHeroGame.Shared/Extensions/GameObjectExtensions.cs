@@ -47,6 +47,15 @@ namespace HonkHeroGame
             return rect;
         }
 
+        public static Rect GetDistantHitBox(this GameObject gameObject, double scale)
+        {
+            return new Rect(
+                x: gameObject.GetLeft() - 10 * scale,
+                y: gameObject.GetTop() * scale,
+                width: gameObject.Width + 10 * scale,
+                height: gameObject.Height * scale);
+        }
+
         #endregion
     }
 }

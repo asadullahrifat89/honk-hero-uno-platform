@@ -535,6 +535,24 @@ namespace HonkHeroGame
             if (vehicle.Honked())
                 SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
 
+            //TODO: this is expensive
+            // if vechicle will collide with another vehicle
+            if (GameView.Children.OfType<GameObject>()
+                .Where(x => (ElementType)x.Tag == ElementType.VEHICLE)
+                .LastOrDefault(v => v.GetDistantHitBox(_scale)
+                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is GameObject collidingVehicle)
+            {
+                // slower vehicles will slow down faster vehicles
+                if (collidingVehicle.Speed > vehicle.Speed)
+                {
+                    vehicle.Speed = collidingVehicle.Speed;
+                }
+                else
+                {
+                    collidingVehicle.Speed = vehicle.Speed;
+                }
+            }
+
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
                 RecyleVehicle(vehicle);
         }
@@ -543,6 +561,7 @@ namespace HonkHeroGame
         {
             _markNum = _random.Next(0, _vehicles.Length);
             vehicle.SetContent(_vehicles[_markNum]);
+            vehicle.Speed = _gameSpeed + _random.Next(0, 2);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
