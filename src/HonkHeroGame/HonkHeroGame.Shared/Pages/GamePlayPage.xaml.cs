@@ -38,8 +38,10 @@ namespace HonkHeroGame
         private double _playerHealth;
         private int _playerHealthLossPoints;
 
-        private double _playerSpeed = 7;
-        private readonly double _playerSpeedDefault = 7;
+        private readonly double _playerPositionGrace = 7;
+
+        private double _playerSpeed = 50;
+        private readonly double _playerSpeedDefault = 50;
 
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
@@ -419,62 +421,51 @@ namespace HonkHeroGame
             double playerMiddleX = left + _player.Width / 2;
             double playerMiddleY = top + _player.Height / 2;
 
-            double timeToTake = 50;
-
             if (_isPointerActivated)
             {
                 // move up
-                if (_pointerPosition.Y < playerMiddleY - _playerSpeed)
+                if (_pointerPosition.Y < playerMiddleY - _playerPositionGrace)
                 {
                     var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
-                    var speed = distance / timeToTake;
-                    //speed = AdjustSpeed(speed);
+                    double speed = GetFlightSpeed(distance);
 
                     _player.SetTop(top - speed);
-                    //_player.SetTop(top - _playerSpeed);
                 }
 
                 // move left
-                if (_pointerPosition.X < playerMiddleX - _playerSpeed)
+                if (_pointerPosition.X < playerMiddleX - _playerPositionGrace)
                 {
                     var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
-                    var speed = distance / timeToTake;
-                    //speed = AdjustSpeed(speed);
+                    double speed = GetFlightSpeed(distance);
 
                     _player.SetLeft(left - speed);
-                    //_player.SetLeft(left - _playerSpeed);
                     _player.SetFacingDirectionX(MovementDirectionX.Left);
                 }
 
                 // move down
-                if (_pointerPosition.Y > playerMiddleY + _playerSpeed)
+                if (_pointerPosition.Y > playerMiddleY + _playerPositionGrace)
                 {
                     var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
-                    var speed = distance / timeToTake;
-                    //speed = AdjustSpeed(speed);
+                    double speed = GetFlightSpeed(distance);
 
                     _player.SetTop(top + speed);
-                    //_player.SetTop(top + _playerSpeed);
                 }
 
                 // move right
-                if (_pointerPosition.X > playerMiddleX + _playerSpeed)
+                if (_pointerPosition.X > playerMiddleX + _playerPositionGrace)
                 {
                     var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
-                    var speed = distance / timeToTake;
-                    //speed = AdjustSpeed(speed);
+                    double speed = GetFlightSpeed(distance);
 
                     _player.SetLeft(left + speed);
-                    //_player.SetLeft(left + _playerSpeed);
                     _player.SetFacingDirectionX(MovementDirectionX.Right);
                 }
             }
         }
 
-        private double AdjustSpeed(double calculatedSpeed)
+        private double GetFlightSpeed(double distance)
         {
-            var speed = calculatedSpeed < _playerSpeedDefault ? _playerSpeedDefault : calculatedSpeed;
-            return speed;
+            return distance / _playerSpeed;
         }
 
         #endregion
@@ -565,7 +556,7 @@ namespace HonkHeroGame
         {
             _scale = ScalingHelper.GetGameObjectScale(_windowWidth);
 
-            GameView.Width = _windowWidth > 1000 ? 1000 : _windowWidth;
+            GameView.Width = _windowWidth;
             GameView.Height = _windowHeight;
 
             if (_player is not null)

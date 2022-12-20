@@ -138,6 +138,11 @@ namespace HonkHeroGame
             _compositeTransform.ScaleX = scaleX;
         }
 
+        public void SetScaleY(double scaleY)
+        {
+            _compositeTransform.ScaleY = scaleY;
+        }
+
         #endregion
     }
 

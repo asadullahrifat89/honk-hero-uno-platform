@@ -31,10 +31,16 @@ namespace HonkHeroGame
             switch (PlayerState)
             {
                 case PlayerState.Idle:
-                    SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
+                    {
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
+                        SetScaleX(1);
+                        SetScaleY(1);
+                    }
                     break;
                 case PlayerState.Flying:
-                    SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLY).Value);
+                    {
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLY).Value);
+                    }
                     break;
                 default:
                     break;
@@ -47,9 +53,11 @@ namespace HonkHeroGame
             {
                 case MovementDirectionX.Left:
                     SetScaleX(scaleX * -1);
+                    SetScaleY(scaleX);
                     break;
                 case MovementDirectionX.Right:
                     SetScaleX(scaleX);
+                    SetScaleY(scaleX);
                     break;
                 default:
                     break;
