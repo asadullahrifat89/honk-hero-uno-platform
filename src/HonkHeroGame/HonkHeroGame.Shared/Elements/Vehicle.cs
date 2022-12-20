@@ -1,8 +1,8 @@
 ﻿namespace HonkHeroGame
 {
-    public class Car : GameObject
+    public class Vehicle : GameObject
     {
-        public Car()
+        public Vehicle()
         {
             Tag = ElementType.VEHICLE;  
         }

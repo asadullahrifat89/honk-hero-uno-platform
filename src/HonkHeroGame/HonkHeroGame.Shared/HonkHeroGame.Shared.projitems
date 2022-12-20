@@ -20,7 +20,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\GameContentDialog.xaml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Elements\Car.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Elements\Vehicle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Cloud.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Collectible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
@@ -98,6 +98,7 @@
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cloud1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cloud2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\cloud3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
