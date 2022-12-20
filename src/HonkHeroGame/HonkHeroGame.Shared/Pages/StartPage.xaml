@@ -39,14 +39,14 @@
                 Style="{StaticResource DefaultButton}"
                 Tag="en" />
 
-            <!--  French  -->
+            <!--  Bangla  -->
             <Button
-                x:Name="FrenchButton"
+                x:Name="BanglaButton"
                 Margin="2"
                 Click="LanguageButton_Click"
-                Content="French"
+                Content="Bangla"
                 Style="{StaticResource DefaultButton}"
-                Tag="fr" />
+                Tag="bn" />
 
             <!--  German  -->
             <Button
@@ -83,7 +83,7 @@
                     Margin="0,0,0,15"
                     FontSize="30"
                     FontWeight="Bold"
-                    Text="Candy Craze"
+                    Text="Honk Hero"
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />
 
@@ -94,7 +94,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="18"
-                    Text="Beat the high score and win great prizes!"
+                    Text="Let's stop honkers who honk for no reason"
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />
 

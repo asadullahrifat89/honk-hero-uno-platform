@@ -703,7 +703,7 @@ namespace HonkHeroGame
             var laneHeight = _windowHeight / 4;
             _lanes.Clear();
 
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i <= 5; i++)
             {
                 _lanes.Add((laneHeight * i, laneHeight * (i + 1)));
             }

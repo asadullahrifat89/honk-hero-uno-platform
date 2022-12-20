@@ -11,8 +11,8 @@
         "Value": "Honk Hero"
       },
       {
-        "Culture": "fr",
-        "Value": "Honk Hero"
+        "Culture": "bn",
+        "Value": "হংক হিরো"
       }
     ]
   },
@@ -28,25 +28,25 @@
         "Value": "Englisch"
       },
       {
-        "Culture": "fr",
-        "Value": "Anglais"
+        "Culture": "bn",
+        "Value": "ইংরেজি"
       }
     ]
   },
   {
-    "Key": "FrenchButton",
+    "Key": "BanglaButton",
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "French"
+        "Value": "Bengali"
       },
       {
         "Culture": "de",
-        "Value": "Französisch"
+        "Value": "Bengali"
       },
       {
-        "Culture": "fr",
-        "Value": "Français"
+        "Culture": "bn",
+        "Value": "Bangla"
       }
     ]
   },
@@ -62,8 +62,8 @@
         "Value": "Deutsch"
       },
       {
-        "Culture": "fr",
-        "Value": "Allemand"
+        "Culture": "bn",
+        "Value": "জার্মান"
       }
     ]
   },
@@ -72,15 +72,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Beat the high score and win the prize of the week! 🎁"
+        "Value": "Let's stop honkers who honk for no reason"
       },
       {
         "Culture": "de",
-        "Value": "Schlagt den High Score und gewinnt den Wochenpreis! 🎁"
+        "Value": "Stoppen wir Hupen, die ohne Grund hupen"
       },
       {
-        "Culture": "fr",
-        "Value": "Battre le meilleure score et gagner le prix de la semaine! 🎁"
+        "Culture": "bn",
+        "Value": "যারা অকারণে হর্ন বাজায় তাদের বন্ধ করা যাক"
       }
     ]
   },
@@ -96,8 +96,8 @@
         "Value": "So gehts!"
       },
       {
-        "Culture": "fr",
-        "Value": "Comment jouer"
+        "Culture": "bn",
+        "Value": "কিভাবে খেলতে হবে"
       }
     ]
   },
@@ -113,8 +113,8 @@
         "Value": "Spiel starten"
       },
       {
-        "Culture": "fr",
-        "Value": "Commencer le jeu"
+        "Culture": "bn",
+        "Value": "খেলা শুরু করা যাক"
       }
     ]
   },
@@ -130,8 +130,8 @@
         "Value": "Bestenliste"
       },
       {
-        "Culture": "fr",
-        "Value": "Classement"
+        "Culture": "bn",
+        "Value": "লিডারবোর্ড"
       }
     ]
   },
@@ -147,8 +147,8 @@
         "Value": "Login"
       },
       {
-        "Culture": "fr",
-        "Value": "Login"
+        "Culture": "bn",
+        "Value": "লগইন"
       }
     ]
   },
@@ -164,8 +164,8 @@
         "Value": "Ausloggen"
       },
       {
-        "Culture": "fr",
-        "Value": "Se déconnecter"
+        "Culture": "bn",
+        "Value": "প্রস্থান"
       }
     ]
   },
@@ -181,8 +181,8 @@
         "Value": "Sie haben noch keinen Account?"
       },
       {
-        "Culture": "fr",
-        "Value": "Pas encore de compte?"
+        "Culture": "bn",
+        "Value": "এখনও অ্যাকাউন্ট নেই?"
       }
     ]
   },
@@ -191,15 +191,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Brought to you with ❤️ by"
+        "Value": "Made with ❤️ by"
       },
       {
         "Culture": "de",
         "Value": "Kreiert mit viel ❤️ von"
       },
       {
-        "Culture": "fr",
-        "Value": "Créé avec ❤️ par"
+        "Culture": "bn",
+        "Value": "❤️ দিয়ে তৈরি"
       }
     ]
   },
@@ -215,8 +215,8 @@
         "Value": "👋 Willkommen zurück!"
       },
       {
-        "Culture": "fr",
-        "Value": "👋 Bienvenue à nouveau!"
+        "Culture": "bn",
+        "Value": "👋 স্বাগতম!"
       }
     ]
   },
@@ -232,8 +232,8 @@
         "Value": "Wir verwenden Cookies, um Ihnen das beste Spielerlebnis zu bieten!"
       },
       {
-        "Culture": "fr",
-        "Value": "Nous utilisons des cookies pour vous offrir la meilleure expérience de jeu possible !"
+        "Culture": "bn",
+        "Value": "সেরা গেমিং অভিজ্ঞতা প্রদান করতে আমরা কুকিজ ব্যবহার করি!"
       }
     ]
   },
@@ -249,7 +249,7 @@
         "Value": "👎"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "👎"
       }
     ]
@@ -266,7 +266,7 @@
         "Value": "👍"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "👍"
       }
     ]
@@ -283,8 +283,8 @@
         "Value": "So gehts"
       },
       {
-        "Culture": "fr",
-        "Value": "Comment Jouer"
+        "Culture": "bn",
+        "Value": "কিভাবে খেলতে হবে"
       }
     ]
   },
@@ -300,8 +300,8 @@
         "Value": "Spieler"
       },
       {
-        "Culture": "fr",
-        "Value": "Joueur"
+        "Culture": "bn",
+        "Value": "প্লেয়ার"
       }
     ]
   },
@@ -317,7 +317,7 @@
         "Value": "Bewegen Sie Ihr Auto mit der Maus, der Tastatur oder dem Touchscreen über den Bildschirm."
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Déplacez votre voiture sur l'écran avec votre souris, votre clavier ou votre écran tactile."
       }
     ]
@@ -334,7 +334,7 @@
         "Value": "Autos"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Voitures"
       }
     ]
@@ -351,7 +351,7 @@
         "Value": "Vermeiden Sie Kollisionen mit anderen Autos und den Verlust von Leben."
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Éviter les collisions avec d'autres voitures et les pertes de vie."
       }
     ]
@@ -368,7 +368,7 @@
         "Value": "Sammelobjekte"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Objets de collection"
       }
     ]
@@ -385,7 +385,7 @@
         "Value": "So oft wie möglich einsammeln, um den Punktestand zu erhöhen."
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Collectez-en le plus possible pour augmenter votre score."
       }
     ]
@@ -402,7 +402,7 @@
         "Value": "Power-ups"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Powerups"
       }
     ]
@@ -419,7 +419,7 @@
         "Value": "Einsammeln um Kraftschild, Zeitraffer, 2x- und 4x-Punktemultiplikator zu aktivieren."
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Récolte-les pour augmenter le bouclier de force, le time lapse, le multiplicateur de score 2x et 4x."
       }
     ]
@@ -436,7 +436,7 @@
         "Value": "Leben"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Vies"
       }
     ]
@@ -453,7 +453,7 @@
         "Value": "Einsammeln, um das Auto zu reparieren."
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Collecter pour réparer la voiture."
       }
     ]
@@ -470,7 +470,7 @@
         "Value": "Weiter"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Suivant"
       }
     ]
@@ -480,15 +480,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Log in to take part in the draw."
+        "Value": "Log in to win stickers."
       },
       {
         "Culture": "de",
-        "Value": "Loggen Sie sich ein, um an der Verlosung teilzunehmen."
+        "Value": "Melden Sie sich an, um Sticker zu gewinnen."
       },
       {
-        "Culture": "fr",
-        "Value": "Connectez-vous pour participer au tirage au sort."
+        "Culture": "bn",
+        "Value": "স্টিকার জিততে লগ ইন করুন"
       }
     ]
   },
@@ -504,8 +504,8 @@
         "Value": "Das Spiel ist vorbei"
       },
       {
-        "Culture": "fr",
-        "Value": "Jeu Terminé"
+        "Culture": "bn",
+        "Value": "খেলা শেষ"
       }
     ]
   },
@@ -521,8 +521,8 @@
         "Value": "Ihr Spielstand"
       },
       {
-        "Culture": "fr",
-        "Value": "Votre score"
+        "Culture": "bn",
+        "Value": "ফলাফল"
       }
     ]
   },
@@ -538,7 +538,7 @@
         "Value": "Sammelobjekte"
       },
       {
-        "Culture": "fr",
+        "Culture": "bn",
         "Value": "Objets collectés"
       }
     ]
@@ -555,8 +555,8 @@
         "Value": "Erneut spielen"
       },
       {
-        "Culture": "fr",
-        "Value": "Rejouer"
+        "Culture": "bn",
+        "Value": "আবার খেলব"
       }
     ]
   },
@@ -572,8 +572,8 @@
         "Value": "Willkommen bei"
       },
       {
-        "Culture": "fr",
-        "Value": "Bienvenue à"
+        "Culture": "bn",
+        "Value": "স্বাগতম"
       }
     ]
   },
@@ -589,8 +589,8 @@
         "Value": "Vollständiger Name"
       },
       {
-        "Culture": "fr",
-        "Value": "Nom complet"
+        "Culture": "bn",
+        "Value": "পুরো নাম"
       }
     ]
   },
@@ -606,8 +606,8 @@
         "Value": "Stadt"
       },
       {
-        "Culture": "fr",
-        "Value": "Ville"
+        "Culture": "bn",
+        "Value": "শহর"
       }
     ]
   },
@@ -623,8 +623,8 @@
         "Value": "Email-Adresse"
       },
       {
-        "Culture": "fr",
-        "Value": "Adresse mail"
+        "Culture": "bn",
+        "Value": "ইমেইল ঠিকানা"
       }
     ]
   },
@@ -640,8 +640,8 @@
         "Value": "Benutzername"
       },
       {
-        "Culture": "fr",
-        "Value": "Nom d'utilisateur"
+        "Culture": "bn",
+        "Value": "ব্যবহারকারীর নাম"
       }
     ]
   },
@@ -657,8 +657,8 @@
         "Value": "Benutzername oder E-Mail-Adresse"
       },
       {
-        "Culture": "fr",
-        "Value": "Nom d'utilisateur ou e-mail"
+        "Culture": "bn",
+        "Value": "ব্যবহারকারী নাম বা ইমেল"
       }
     ]
   },
@@ -674,8 +674,8 @@
         "Value": "Passwort"
       },
       {
-        "Culture": "fr",
-        "Value": "Mot de passe"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড"
       }
     ]
   },
@@ -691,8 +691,8 @@
         "Value": "Passwort bestätigen"
       },
       {
-        "Culture": "fr",
-        "Value": "Confirmez le mot de passe"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড নিশ্চিত করুন"
       }
     ]
   },
@@ -708,8 +708,8 @@
         "Value": "Ja, ich stimme den Teilnahmebedingungen zu."
       },
       {
-        "Culture": "fr",
-        "Value": "Oui, j'accepte les conditions de participation."
+        "Culture": "bn",
+        "Value": "হ্যাঁ, আমি অংশগ্রহণের শর্তে সম্মত।"
       }
     ]
   },
@@ -725,8 +725,8 @@
         "Value": "Ja, ich möchte den Newsletter abonnieren und von Aktionen profitieren."
       },
       {
-        "Culture": "fr",
-        "Value": "Oui, je souhaite m'abonner à la newsletter et profiter des promotions."
+        "Culture": "bn",
+        "Value": "হ্যাঁ, আমি নিউজলেটার পেতে চাই এবং প্রচার থেকে উপকৃত হতে চাই।"
       }
     ]
   },
@@ -742,8 +742,8 @@
         "Value": "Anmelden"
       },
       {
-        "Culture": "fr",
-        "Value": "Inscription"
+        "Culture": "bn",
+        "Value": "নিবন্ধন করুন"
       }
     ]
   },
@@ -759,8 +759,8 @@
         "Value": "Sie haben bereits einen Account?"
       },
       {
-        "Culture": "fr",
-        "Value": "Vous avez déjà un compte?"
+        "Culture": "bn",
+        "Value": "আপনার ইতিমধ্যেই একটি অ্যাকাউন্ট আছে?"
       }
     ]
   },
@@ -776,8 +776,8 @@
         "Value": "🏆 Bestenliste"
       },
       {
-        "Culture": "fr",
-        "Value": "🏆 Tableau des leaders"
+        "Culture": "bn",
+        "Value": "🏆 লিডারবোর্ড"
       }
     ]
   },
@@ -793,8 +793,8 @@
         "Value": "🕹️ Letzter Spielstand"
       },
       {
-        "Culture": "fr",
-        "Value": "🕹️ Score du dernier match"
+        "Culture": "bn",
+        "Value": "🕹️ শেষ গেমের স্কোর"
       }
     ]
   },
@@ -810,8 +810,8 @@
         "Value": "📅 Täglich"
       },
       {
-        "Culture": "fr",
-        "Value": "📅 Quotidiennement"
+        "Culture": "bn",
+        "Value": "📅 দৈনিক"
       }
     ]
   },
@@ -827,8 +827,8 @@
         "Value": "👑 Allzeit"
       },
       {
-        "Culture": "fr",
-        "Value": "👑 Tout le temps"
+        "Culture": "bn",
+        "Value": "👑 সব সময়"
       }
     ]
   },
@@ -844,8 +844,8 @@
         "Value": "Persönliche Bestpunktzahl"
       },
       {
-        "Culture": "fr",
-        "Value": "Meilleur Score Personnel"
+        "Culture": "bn",
+        "Value": "ব্যক্তিগত সেরা স্কোর"
       }
     ]
   },
@@ -861,8 +861,8 @@
         "Value": "Jetzt spielen"
       },
       {
-        "Culture": "fr",
-        "Value": "Jouer maintenant"
+        "Culture": "bn",
+        "Value": "এখন খেলা যাক"
       }
     ]
   },
@@ -878,8 +878,8 @@
         "Value": "Spiel verlassen?"
       },
       {
-        "Culture": "fr",
-        "Value": "Quitter le jeu?"
+        "Culture": "bn",
+        "Value": "খেলা ছেড়ে দিচ্ছেন?"
       }
     ]
   },
@@ -896,8 +896,8 @@
         "Value": "Laden..."
       },
       {
-        "Culture": "fr",
-        "Value": "Chargement des données..."
+        "Culture": "bn",
+        "Value": "তথ্য প্রস্তুত হচ্ছে..."
       }
     ]
   },
@@ -913,8 +913,8 @@
         "Value": "Keine Daten verfügbar."
       },
       {
-        "Culture": "fr",
-        "Value": "Pas de données disponibles."
+        "Culture": "bn",
+        "Value": "কোন তথ্য উপলব্ধ নেই"
       }
     ]
   },
@@ -930,8 +930,8 @@
         "Value": "Laden von Spiel-Assets..."
       },
       {
-        "Culture": "fr",
-        "Value": "Chargement des actifs de jeu..."
+        "Culture": "bn",
+        "Value": "গেমের সম্পদ লোড হচ্ছে..."
       }
     ]
   },
@@ -947,8 +947,8 @@
         "Value": "Passwörter stimmen nicht überein"
       },
       {
-        "Culture": "fr",
-        "Value": "Les mots de passe ne correspondent pas"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড মেলেনি"
       }
     ]
   },
@@ -964,8 +964,8 @@
         "Value": "Passwörter stimmen überein"
       },
       {
-        "Culture": "fr",
-        "Value": "Mots de passe correspondants"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড মিলেছে"
       }
     ]
   },
@@ -981,8 +981,8 @@
         "Value": "Das Passwort muss mindestens acht Zeichen enthalten"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe doit comporter au moins huit caractères"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড কমপক্ষে আট অক্ষরের হতে হবে"
       }
     ]
   },
@@ -998,8 +998,8 @@
         "Value": "Das Passwort muss weniger als vierzehn Zeichen enthalten"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe doit être inférieur à quatorze caractères"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড চৌদ্দ অক্ষরের কম হতে হবে"
       }
     ]
   },
@@ -1015,8 +1015,8 @@
         "Value": "Passwort muss einen Grossbuchstaben enthalten"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe doit contenir un caractère majuscule"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ডে একটি বড় হাতের অক্ষর থাকতে হবে"
       }
     ]
   },
@@ -1032,8 +1032,8 @@
         "Value": "Das Passwort muss einen Kleinbuchstaben enthalten"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe doit contenir un caractère minuscule"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ডে একটি ছোট হাতের অক্ষর থাকতে হবে"
       }
     ]
   },
@@ -1049,8 +1049,8 @@
         "Value": "Das Passwort darf keine Leerzeichen enthalten"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe ne peut pas contenir d'espaces"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড স্পেস থাকতে পারবে না"
       }
     ]
   },
@@ -1066,8 +1066,8 @@
         "Value": "Das Passwort muss ein Sonderzeichen enthalten"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe doit contenir un caractère spécial"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ডে একটি বিশেষ অক্ষর থাকতে হবে"
       }
     ]
   },
@@ -1083,8 +1083,8 @@
         "Value": "Das Passwort ist sicher"
       },
       {
-        "Culture": "fr",
-        "Value": "Le mot de passe est fort"
+        "Culture": "bn",
+        "Value": "পাসওয়ার্ড শক্তিশালী"
       }
     ]
   },
@@ -1100,8 +1100,8 @@
         "Value": "Ungültige Zeichen im vollständigen Namen"
       },
       {
-        "Culture": "fr",
-        "Value": "Caractères non valides dans le nom complet"
+        "Culture": "bn",
+        "Value": "সম্পূর্ণ নামে অবৈধ অক্ষর"
       }
     ]
   },
@@ -1117,8 +1117,8 @@
         "Value": "TIPPEN SIE AUF DEN BILDSCHIRM, UM ZU BEGINNEN"
       },
       {
-        "Culture": "fr",
-        "Value": "APPUYEZ SUR L'ÉCRAN POUR COMMENCER"
+        "Culture": "bn",
+        "Value": "শুরু করতে স্ক্রিনে ট্যাপ করুন"
       }
     ]
   },
@@ -1134,8 +1134,8 @@
         "Value": "SPIEL PAUSIERT"
       },
       {
-        "Culture": "fr",
-        "Value": "JEU PAUSÉ"
+        "Culture": "bn",
+        "Value": "খেলা থামানো হয়েছে"
       }
     ]
   },
@@ -1151,8 +1151,8 @@
         "Value": "💫 Saison"
       },
       {
-        "Culture": "fr",
-        "Value": "💫 Saison"
+        "Culture": "bn",
+        "Value": "💫 মৌসম"
       }
     ]
   },
@@ -1168,8 +1168,8 @@
         "Value": "🎁 Wöchentlicher Preis 🎁"
       },
       {
-        "Culture": "fr",
-        "Value": "🎁 Prix de la semaine 🎁"
+        "Culture": "bn",
+        "Value": "🎁 সাপ্তাহিক পুরস্কার 🎁"
       }
     ]
   },
@@ -1185,8 +1185,8 @@
         "Value": "🎁 Preis ansehen 🎁"
       },
       {
-        "Culture": "fr",
-        "Value": "🎁 Voir le prix 🎁"
+        "Culture": "bn",
+        "Value": "🎁 পুরস্কার দেখুন 🎁"
       }
     ]
   },
@@ -1202,8 +1202,8 @@
         "Value": "Teilnahmebedingungen"
       },
       {
-        "Culture": "fr",
-        "Value": "Conditions de participation"
+        "Culture": "bn",
+        "Value": "অংশগ্রহণের শর্তাবলী"
       }
     ]
   },
@@ -1219,8 +1219,8 @@
         "Value": "Melde dich an, um eine Chance auf den Gewinn zu haben."
       },
       {
-        "Culture": "fr",
-        "Value": "Inscris-toi pour avoir une chance de gagner."
+        "Culture": "bn",
+        "Value": "জয়ের সুযোগের জন্য সাইন আপ করুন।"
       }
     ]
   }
