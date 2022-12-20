@@ -16,8 +16,6 @@
         <GameEnvironment x:Name="UnderView" Background="#403c39">
             <GameObject
                 x:Name="HighWayDivider"
-                Width="20"
-                HorizontalAlignment="Center"
                 Background="#d9a93a"
                 BorderBrush="DarkGoldenrod"
                 BorderThickness="2" />
