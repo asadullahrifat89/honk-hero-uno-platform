@@ -9,7 +9,8 @@ namespace HonkHeroGame
         #region Fields
 
         private int _honkCounter;
-        private readonly int _honkCounterDefault = 350;
+        private readonly int _honkCounterMin = 150;
+        private readonly int _honkCounterMax = 250;
         private readonly Random _random = new Random();
 
         #endregion
@@ -97,7 +98,7 @@ namespace HonkHeroGame
 
         private int SetHonkCounter()
         {
-            return _random.Next(200, _honkCounterDefault);
+            return _random.Next(_honkCounterMin, _honkCounterMax);
         }
 
         private void SetHonkIndex()
