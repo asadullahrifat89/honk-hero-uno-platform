@@ -499,9 +499,15 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
+            var lane = _lanes[_random.Next(0, _lanes.Count)];
+
+#if DEBUG
+            Console.WriteLine("LANE: " + lane);
+#endif
+
             vehicle.SetPosition(
                 left: _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2),
-                top: _random.Next(minValue: (int)GameView.Height / 2, maxValue: (int)(GameView.Height * 2)));
+                top: /*_random.Next(minValue: (int)GameView.Height / 2, maxValue: (int)(GameView.Height * 2))*/(int)(lane.End));
         }
 
         #endregion
@@ -569,12 +575,12 @@ namespace HonkHeroGame
                     height: Constants.PLAYER_HEIGHT * _scale);
             }
 
-            var laneWidth = _windowWidth / 4;
+            var laneHeight = _windowHeight / 4;
             _lanes.Clear();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i <= 4; i++)
             {
-                _lanes.Add((laneWidth * i, laneWidth * (i + 1)));
+                _lanes.Add((laneHeight * i, laneHeight * (i + 1)));
             }
 
 #if DEBUG
