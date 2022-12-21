@@ -62,6 +62,7 @@ namespace HonkHeroGame
 
         private int _collectibleCollected;
 
+        private readonly int _numberOfLanes = 4;
         private readonly List<(double Start, double End)> _lanes = new();
 
         #endregion
@@ -93,6 +94,8 @@ namespace HonkHeroGame
 
         private void GamePlayPage_Loaded(object sender, RoutedEventArgs e)
         {
+            this.SetLocalization();
+
             SizeChanged += GamePlayPage_SizeChanged;
         }
 
@@ -138,8 +141,11 @@ namespace HonkHeroGame
             PointerPoint point = e.GetCurrentPoint(GameView);
             _pointerPosition = point.Position;
 
-            if (_player.PlayerState == PlayerState.Idle)
-                _player.SetState(PlayerState.Flying);
+            if (!_isGameOver)
+            {
+                if (_player.PlayerState == PlayerState.Idle)
+                    _player.SetState(PlayerState.Flying);
+            }
         }
 
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -208,13 +214,13 @@ namespace HonkHeroGame
 #if DEBUG
             Console.WriteLine("GAME STARTED");
 #endif
-            HideInGameTextMessage();
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
+
+            HideInGameTextMessage();
+            ResetControls();
 
             _gameSpeed = _gameSpeedDefault * _scale;
             _playerLag = _playerLagDefault;
-
-            ResetControls();
 
             _isGameOver = false;
             //_isPowerMode = false;
@@ -232,6 +238,7 @@ namespace HonkHeroGame
             _playerHealth = 100;
 
             PlayerHealthBarPanel.Visibility = Visibility.Visible;
+            QuitGamePanel.Visibility = Visibility.Visible;
 
             RecycleGameObjects();
             RemoveGameObjects();
@@ -375,7 +382,7 @@ namespace HonkHeroGame
                 left: GameView.Width / 2 - _player.Width / 2,
                 top: GameView.Height / 2 - _player.Height - (50 * _scale));
 
-            _player.SetZ(_lanes.Count() + 1);
+            _player.SetZ(_lanes.Count + 1);
 
             GameView.Children.Add(_player);
         }
@@ -655,17 +662,17 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
-            var laneNumber = _random.Next(0, _lanes.Count);
-            var lane = _lanes[laneNumber];
+            var laneNumber = _random.Next(1, _lanes.Count);
+            var (Start, End) = _lanes[laneNumber];
 
             vehicle.SetPosition(
                 left: _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2),
-                top: /*_random.Next(minValue: (int)GameView.Height / 2, maxValue: (int)(GameView.Height * 2))*/(int)(lane.End));
+                top: (int)End/*_random.Next(minValue: (int)GameView.Height / 2, maxValue: (int)(GameView.Height * 2))*/);
 
             vehicle.SetZ(laneNumber + 1);
 
 #if DEBUG
-            Console.WriteLine("LANE: " + lane);
+            Console.WriteLine("LANE: " + laneNumber);
 #endif
         }
 
@@ -846,10 +853,10 @@ namespace HonkHeroGame
                     width: Constants.PLAYER_WIDTH * _scale,
                     height: Constants.PLAYER_HEIGHT * _scale);
 
-            var laneHeight = _windowHeight / 4;
+            var laneHeight = _windowHeight / _numberOfLanes;
             _lanes.Clear();
 
-            for (int i = 0; i <= 5; i++)
+            for (int i = 0; i <= _numberOfLanes + 1; i++)
             {
                 _lanes.Add((laneHeight * i, laneHeight * (i + 1)));
             }

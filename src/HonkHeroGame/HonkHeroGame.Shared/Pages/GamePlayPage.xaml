@@ -162,9 +162,11 @@
 
         <!--#region Pause & quit game-->
         <StackPanel
+            x:Name="QuitGamePanel"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            Visibility="Collapsed">
 
             <!--  Quit game  -->
             <ToggleButton
