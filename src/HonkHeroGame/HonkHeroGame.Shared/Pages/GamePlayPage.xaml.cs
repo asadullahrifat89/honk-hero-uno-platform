@@ -245,11 +245,7 @@ namespace HonkHeroGame
             StartGameSounds();
 
             SpawnPlayer();
-
             RunGame();
-#if DEBUG
-            Console.WriteLine($"GAME SPEED: {_gameSpeed}");
-#endif
         }
 
         private async void RunGame()
@@ -705,7 +701,7 @@ namespace HonkHeroGame
         private void UpdateCollectible(GameObject collectible)
         {
             collectible.SetTop(collectible.GetTop() + _gameSpeed);
-            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.75);
+            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
 
             // only consider player intersection after appearing in viewport
             if (collectible.GetTop() + collectible.Height > 10)
@@ -796,11 +792,16 @@ namespace HonkHeroGame
             {
                 _gameSpeed = (_gameSpeedDefault * _scale) + 0.2 * _difficultyMultiplier;
 
-                if (_playerLag > 19)
+                if (_playerLag > 15)
                     _playerLag = _playerLagDefault - (_difficultyMultiplier / 2);
 
                 _scoreCap += 50;
                 _difficultyMultiplier++;
+
+#if DEBUG
+                Console.WriteLine("PLAYER LAG: " + _playerLag);
+                Console.WriteLine("GAME SPEED: " + _gameSpeed);
+#endif
             }
         }
 
