@@ -641,11 +641,9 @@ namespace HonkHeroGame
 
         private void BustHonk(Vehicle vehicle)
         {
-            _targetVehicle = vehicle;
-
-            _targetVehicle.BustHonking();
-            Sticker collectible = SpawnSticker(_targetVehicle);
-            _targetVehicle.AttachCollectible(collectible);
+            vehicle.BustHonking();
+            Sticker collectible = SpawnSticker(vehicle);
+            vehicle.AttachCollectible(collectible);
 
             //_player.SetState(PlayerState.Pointing);
             //_pointingDurationCounter = _pointingDurationCounterDefault;
