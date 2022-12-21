@@ -18,8 +18,10 @@ namespace HonkHeroGame
             CenterY = 0.5,
             Rotation = 0,
             ScaleX = 1,
-            ScaleY = 1,            
+            ScaleY = 1,
         };
+
+        private bool _popPlusCompleted;
 
         #endregion
 
@@ -34,6 +36,10 @@ namespace HonkHeroGame
         public double Speed { get; set; } = 0;
 
         public bool HasFaded => Opacity <= 0;
+
+        public bool IsMarkedForPopping { get; set; }
+
+        public bool HasPopped { get; set; }
 
         #endregion
 
@@ -150,6 +156,33 @@ namespace HonkHeroGame
         public void SetSkewY(double skewY)
         {
             _compositeTransform.SkewY = skewY;
+        }
+
+        public void Pop()
+        {
+            if (!HasPopped)
+            {
+                if (!_popPlusCompleted && _compositeTransform.ScaleX < 1.5)
+                {
+                    _compositeTransform.ScaleX += 0.1;
+                    _compositeTransform.ScaleY += 0.1;
+                }
+
+                if (_compositeTransform.ScaleX >= 1.5)
+                    _popPlusCompleted = true;
+
+                if (_popPlusCompleted)
+                {
+                    _compositeTransform.ScaleX -= 0.1;
+                    _compositeTransform.ScaleY -= 0.1;
+
+                    if (_compositeTransform.ScaleX <= 1)
+                    {
+                        HasPopped = true;
+                        _popPlusCompleted = false;
+                    }
+                }
+            }
         }
 
         public void Fade()

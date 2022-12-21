@@ -73,14 +73,17 @@ namespace HonkHeroGame
         {
             IsHonking = false;
             IsBusted = true;
+            IsMarkedForPopping = true;
+            HasPopped = false;
         }
 
         public void ResetHonking()
         {
             IsHonking = false;
             IsBusted = false;
+            IsMarkedForPopping = false;            
 
-            WillHonk = Convert.ToBoolean(_random.Next(0, 2));
+            WillHonk = Convert.ToBoolean(_random.Next(0, 2));            
 
             if (WillHonk)
             {
