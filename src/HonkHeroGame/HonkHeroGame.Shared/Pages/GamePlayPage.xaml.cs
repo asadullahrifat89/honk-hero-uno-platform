@@ -42,8 +42,8 @@ namespace HonkHeroGame
 
         private readonly double _playerPositionGrace = 7;
 
-        private double _playerLag = 30;
-        private readonly double _playerLagDefault = 30;
+        private double _playerLag = 40;
+        private readonly double _playerLagDefault = 40;
 
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
@@ -788,7 +788,10 @@ namespace HonkHeroGame
             if (_score > _scoreCap)
             {
                 _gameSpeed = (_gameSpeedDefault * _scale) + 0.2 * _difficultyMultiplier;
-                _playerLag = _playerLagDefault - (_difficultyMultiplier / 2);
+
+                if (_playerLag > 19)
+                    _playerLag = _playerLagDefault - (_difficultyMultiplier / 2);
+
                 _scoreCap += 50;
                 _difficultyMultiplier++;
             }

@@ -154,7 +154,7 @@ namespace HonkHeroGame
 
         public void Fade()
         {
-            Opacity -= 0.01;
+            Opacity -= 0.005;
         }
 
         #endregion
