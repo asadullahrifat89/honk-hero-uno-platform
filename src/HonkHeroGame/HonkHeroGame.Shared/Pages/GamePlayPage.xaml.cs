@@ -39,7 +39,7 @@ namespace HonkHeroGame
 
         private int _playerHealth;
         private readonly int _playerHitPoints = 2;
-        private readonly int _playerHealPoints = 3;
+        private readonly int _playerHealPoints = 2;
 
         private readonly double _playerPositionGrace = 7;
 
@@ -705,6 +705,7 @@ namespace HonkHeroGame
         private void UpdateCollectible(GameObject collectible)
         {
             collectible.SetTop(collectible.GetTop() + _gameSpeed);
+            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.75);
 
             // only consider player intersection after appearing in viewport
             if (collectible.GetTop() + collectible.Height > 10)
@@ -731,7 +732,7 @@ namespace HonkHeroGame
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next(0, (int)GameView.Width) - (100 * _scale),
+                left: _random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)/*_random.Next(0, (int)GameView.Width) - (100 * _scale)*/,
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
