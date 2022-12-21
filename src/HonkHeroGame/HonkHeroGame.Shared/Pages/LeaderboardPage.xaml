@@ -306,7 +306,7 @@
                     <!--  Play now button  -->
                     <Button
                         x:Name="PlayNowButton"
-                        Width="180"
+                        Width="200"
                         Height="45"
                         Margin="30,10,30,15"
                         HorizontalAlignment="Center"
