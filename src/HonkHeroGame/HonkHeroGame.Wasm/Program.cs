@@ -1,7 +1,4 @@
-﻿using Microsoft.UI.Xaml;
-using System;
-
-namespace HonkHeroGame.Wasm
+﻿namespace HonkHeroGame.Wasm
 {
     public class Program
     {

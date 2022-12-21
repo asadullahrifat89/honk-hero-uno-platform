@@ -1,6 +1,4 @@
-﻿using Microsoft.UI;
-using Microsoft.UI.Xaml.Media;
-using System;
+﻿using System;
 
 namespace HonkHeroGame
 {
@@ -9,8 +7,8 @@ namespace HonkHeroGame
         #region Fields
 
         private int _honkCounter;
-        private readonly int _honkCounterMin = 100;
-        private readonly int _honkCounterMax = 200;
+        private readonly int _honkCounterMin = 50;
+        private readonly int _honkCounterMax = 150;
         private readonly Random _random = new();
 
         #endregion

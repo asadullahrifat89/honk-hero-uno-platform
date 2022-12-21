@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace HonkHeroGame
+﻿namespace HonkHeroGame
 {
     public static class SessionHelper
     {

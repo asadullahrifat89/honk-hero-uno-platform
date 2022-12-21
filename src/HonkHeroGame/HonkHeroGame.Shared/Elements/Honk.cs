@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace HonkHeroGame
+﻿namespace HonkHeroGame
 {
     public class Honk : GameObject
     {

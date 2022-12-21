@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Windows.Foundation;
-using Windows.System;
 
 namespace HonkHeroGame
 {
@@ -26,7 +25,7 @@ namespace HonkHeroGame
         private double _gameSpeed = 1.5;
         private readonly double _gameSpeedDefault = 1.5;
 
-        private double _honkSpeed = 2;
+        private readonly double _honkSpeed = 2;
 
         private int _markNum;
 
@@ -43,8 +42,8 @@ namespace HonkHeroGame
 
         private readonly double _playerPositionGrace = 7;
 
-        private double _playerLag = 40;
-        private readonly double _playerLagDefault = 40;
+        private double _playerLag;
+        private readonly double _playerLagDefault = 35;
 
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
@@ -58,8 +57,10 @@ namespace HonkHeroGame
 
         private bool _isGameOver;
 
-        private bool _isPointerActivated;
+        //private bool _isPointerActivated;
         private Point _pointerPosition;
+        private Point _attackPosition;
+        private Vehicle _targetVehicle;
 
         private int _collectibleCollected;
 
@@ -128,30 +129,44 @@ namespace HonkHeroGame
             }
             else
             {
-                _isPointerActivated = true;
+                //_isPointerActivated = true;
 
                 PointerPoint point = e.GetCurrentPoint(GameView);
-                _pointerPosition = point.Position;
+                //_pointerPosition = point.Position;
+                _attackPosition = point.Position;
 
-                _player.SetState(PlayerState.Flying);
+                //_player.SetState(PlayerState.Flying);
+
+                // if player hits the vehicle, bust honking and attach sticker
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.IsHonking && x.GetHitBox().IntersectsWith(_playerHitBox)) is Vehicle vehicle)
+                {
+                    //var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
+
+                    //if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
+                    BustHonk(vehicle);
+                }
             }
         }
 
         private void InputView_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isPointerActivated)
-            {
-                PointerPoint point = e.GetCurrentPoint(GameView);
-                _pointerPosition = point.Position;
-            }
+            //if (_isPointerActivated)
+            //{
+            PointerPoint point = e.GetCurrentPoint(GameView);
+            _pointerPosition = point.Position;
+
+            if (_player.PlayerState == PlayerState.Idle)
+                _player.SetState(PlayerState.Flying);
+
+            //}
         }
 
         private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            _isPointerActivated = false;
+            //_isPointerActivated = false;
 
-            _idleDurationCounter = _idleDurationCounterDefault;
-            _player.SetState(PlayerState.Idle);
+            //_idleDurationCounter = _idleDurationCounterDefault;
+            //_player.SetState(PlayerState.Idle);
         }
 
         #endregion
@@ -273,7 +288,7 @@ namespace HonkHeroGame
 
         private void ResetControls()
         {
-            _isPointerActivated = false;
+            //_isPointerActivated = false;
             _pointerPosition = null;
         }
 
@@ -444,45 +459,61 @@ namespace HonkHeroGame
             double playerMiddleX = left + _player.Width / 2;
             double playerMiddleY = top + _player.Height / 2;
 
-            if (_isPointerActivated)
+            bool hasMoved = false;
+
+            //if (_isPointerActivated)
+            //{
+            // move up
+            if (_pointerPosition.Y < playerMiddleY - _playerPositionGrace)
             {
-                // move up
-                if (_pointerPosition.Y < playerMiddleY - _playerPositionGrace)
-                {
-                    var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
-                    double speed = GetFlightSpeed(distance);
+                var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
+                double speed = GetFlightSpeed(distance);
 
-                    _player.SetTop(top - speed);
-                }
+                _player.SetTop(top - speed);
 
-                // move left
-                if (_pointerPosition.X < playerMiddleX - _playerPositionGrace)
-                {
-                    var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
-                    double speed = GetFlightSpeed(distance);
+                hasMoved = true;
+            }
 
-                    _player.SetLeft(left - speed);
-                    _player.SetFacingDirectionX(MovementDirectionX.Left);
-                }
+            // move left
+            if (_pointerPosition.X < playerMiddleX - _playerPositionGrace)
+            {
+                var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
+                double speed = GetFlightSpeed(distance);
 
-                // move down
-                if (_pointerPosition.Y > playerMiddleY + _playerPositionGrace)
-                {
-                    var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
-                    double speed = GetFlightSpeed(distance);
+                _player.SetLeft(left - speed);
+                _player.SetFacingDirectionX(MovementDirectionX.Left);
 
-                    _player.SetTop(top + speed);
-                }
+                hasMoved = true;
+            }
 
-                // move right
-                if (_pointerPosition.X > playerMiddleX + _playerPositionGrace)
-                {
-                    var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
-                    double speed = GetFlightSpeed(distance);
+            // move down
+            if (_pointerPosition.Y > playerMiddleY + _playerPositionGrace)
+            {
+                var distance = Math.Abs(_pointerPosition.Y - playerMiddleY);
+                double speed = GetFlightSpeed(distance);
 
-                    _player.SetLeft(left + speed);
-                    _player.SetFacingDirectionX(MovementDirectionX.Right);
-                }
+                _player.SetTop(top + speed);
+
+                hasMoved = true;
+            }
+
+            // move right
+            if (_pointerPosition.X > playerMiddleX + _playerPositionGrace)
+            {
+                var distance = Math.Abs(_pointerPosition.X - playerMiddleX);
+                double speed = GetFlightSpeed(distance);
+
+                _player.SetLeft(left + speed);
+                _player.SetFacingDirectionX(MovementDirectionX.Right);
+
+                hasMoved = true;
+            }
+            //}
+
+            if (!hasMoved)
+            {
+                _idleDurationCounter = _idleDurationCounterDefault;
+                _player.SetState(PlayerState.Idle);
             }
         }
 
@@ -490,37 +521,67 @@ namespace HonkHeroGame
         {
             _pointingDurationCounter--;
 
-            switch (_player.FacingDirectionX)
+            double left = _player.GetLeft();
+            double top = _player.GetTop();
+
+            double playerMiddleX = left + _player.Width / 2;
+            double playerMiddleY = top + _player.Height / 2;
+
+            // move up
+            if (_attackPosition.Y < playerMiddleY - _playerPositionGrace)
             {
-                case MovementDirectionX.None:
-                    break;
-                case MovementDirectionX.Left:
-                    {
-                        if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
-                        {
-                            _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
-                        }
-                        else
-                        {
-                            _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
-                        }
-                    }
-                    break;
-                case MovementDirectionX.Right:
-                    {
-                        if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
-                        {
-                            _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
-                        }
-                        else
-                        {
-                            _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                _player.SetTop(top - _gameSpeed * 4);
             }
+
+            // move left
+            if (_attackPosition.X < playerMiddleX - _playerPositionGrace)
+            {
+                _player.SetLeft(left - _gameSpeed * 4);
+            }
+
+            // move down
+            if (_attackPosition.Y > playerMiddleY + _playerPositionGrace)
+            {
+                _player.SetTop(top + _gameSpeed * 4);
+            }
+
+            // move right
+            if (_attackPosition.X > playerMiddleX + _playerPositionGrace)
+            {
+                _player.SetLeft(left + _gameSpeed * 4);
+            }
+
+            //switch (_player.FacingDirectionX)
+            //{
+            //    case MovementDirectionX.None:
+            //        break;
+            //    case MovementDirectionX.Left:
+            //        {
+            //            if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+            //            {
+            //                _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
+            //            }
+            //            else
+            //            {
+            //                _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
+            //            }
+            //        }
+            //        break;
+            //    case MovementDirectionX.Right:
+            //        {
+            //            if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+            //            {
+            //                _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
+            //            }
+            //            else
+            //            {
+            //                _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
+            //            }
+            //        }
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             if (_pointingDurationCounter <= 0)
                 _player.SetState(PlayerState.Flying);
@@ -574,9 +635,11 @@ namespace HonkHeroGame
 
         private void BustHonk(Vehicle vehicle)
         {
-            vehicle.BustHonking();
-            Sticker collectible = SpawnSticker(vehicle);
-            vehicle.AttachCollectible(collectible);
+            _targetVehicle = vehicle;
+
+            _targetVehicle.BustHonking();
+            Sticker collectible = SpawnSticker(_targetVehicle);
+            _targetVehicle.AttachCollectible(collectible);
 
             _player.SetState(PlayerState.Pointing);
             _pointingDurationCounter = _pointingDurationCounterDefault;
@@ -593,12 +656,13 @@ namespace HonkHeroGame
 
         private Sticker SpawnSticker(Vehicle vehicle)
         {
-            Sticker collectible = new(_scale);
-            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            collectible.SetTop(vehicle.GetTop());
-            collectible.SetRotation(_random.Next(-30, 45));
-            GameView.Children.Add(collectible);
-            return collectible;
+            Sticker sticker = new(_scale);
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
+            sticker.SetTop(vehicle.GetTop());
+            sticker.SetZ(_lanes.Count + 2);
+            sticker.SetRotation(_random.Next(-30, 45));
+            GameView.Children.Add(sticker);
+            return sticker;
         }
 
         private void UpdateSticker(Vehicle vehicle)
@@ -630,14 +694,14 @@ namespace HonkHeroGame
             if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
                 UpdateSticker(vehicle);
 
-            // if player hits the vehicle, bust honking and attach sticker
-            if (vehicle.IsHonking)
-            {
-                var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
+            //// if player hits the vehicle, bust honking and attach sticker
+            //if (vehicle.IsHonking)
+            //{
+            //    var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
 
-                if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
-                    BustHonk(vehicle);
-            }
+            //    if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
+            //        BustHonk(vehicle);
+            //}
 
             if (WaitForHonk(vehicle))
                 SpawnHonk(vehicle);
@@ -692,6 +756,7 @@ namespace HonkHeroGame
         {
             Collectible collectible = new(_scale);
             collectible.SetRotation(_random.Next(-30, 45));
+            collectible.SetZ(_lanes.Count + 1);
 
             RandomizeCollectiblePosition(collectible);
 
@@ -701,7 +766,7 @@ namespace HonkHeroGame
         private void UpdateCollectible(GameObject collectible)
         {
             collectible.SetTop(collectible.GetTop() + _gameSpeed);
-            collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 1.5);
+            //collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 0.5);
 
             // only consider player intersection after appearing in viewport
             if (collectible.GetTop() + collectible.Height > 10)
@@ -728,7 +793,7 @@ namespace HonkHeroGame
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)/*_random.Next(0, (int)GameView.Width) - (100 * _scale)*/,
+                left: _random.Next(0, (int)GameView.Width) - (100 * _scale)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
@@ -793,7 +858,7 @@ namespace HonkHeroGame
                 _gameSpeed = (_gameSpeedDefault * _scale) + 0.2 * _difficultyMultiplier;
 
                 if (_playerLag > 15)
-                    _playerLag = _playerLagDefault - (_difficultyMultiplier / 2);
+                    _playerLag = _playerLagDefault - (_difficultyMultiplier * 1.5);
 
                 _scoreCap += 50;
                 _difficultyMultiplier++;

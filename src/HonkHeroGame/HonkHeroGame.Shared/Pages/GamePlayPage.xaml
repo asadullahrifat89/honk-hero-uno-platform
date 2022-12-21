@@ -63,7 +63,7 @@
                         Height="25"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Source="ms-appx:///Assets/Images/player_idle.png" />
+                        Source="ms-appx:///Assets/Images/ear.png" />
 
                     <!--  Health bar  -->
                     <ProgressBar
