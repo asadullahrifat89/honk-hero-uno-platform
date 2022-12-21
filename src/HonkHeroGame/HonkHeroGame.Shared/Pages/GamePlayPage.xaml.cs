@@ -37,8 +37,9 @@ namespace HonkHeroGame
         private Player _player;
         private Rect _playerHitBox;
 
-        private double _playerHealth;
+        private int _playerHealth;
         private readonly int _playerHitPoints = 2;
+        private readonly int _playerHealPoints = 3;
 
         private readonly double _playerPositionGrace = 7;
 
@@ -387,7 +388,7 @@ namespace HonkHeroGame
                 left: GameView.Width / 2 - _player.Width / 2,
                 top: GameView.Height / 2 - _player.Height - (50 * _scale));
 
-            _player.SetZ(1);
+            _player.SetZ(_lanes.Count() + 1);
 
             GameView.Children.Add(_player);
         }
@@ -673,11 +674,14 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
-            var lane = _lanes[_random.Next(0, _lanes.Count)];
+            var laneNumber = _random.Next(0, _lanes.Count);
+            var lane = _lanes[laneNumber];
 
             vehicle.SetPosition(
                 left: _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2),
                 top: /*_random.Next(minValue: (int)GameView.Height / 2, maxValue: (int)(GameView.Height * 2))*/(int)(lane.End));
+
+            vehicle.SetZ(laneNumber + 1);
 
 #if DEBUG
             Console.WriteLine("LANE: " + lane);
@@ -746,12 +750,14 @@ namespace HonkHeroGame
 
         #region Health
 
-        private void AddHealth(double health = 2)
+        private void AddHealth()
         {
             if (_playerHealth < 100)
             {
-                if (_playerHealth + health > 100)
-                    health = _playerHealth + health - 100;
+                var health = _playerHealPoints;
+
+                if (_playerHealth + _playerHealPoints > 100)
+                    health = _playerHealth + _playerHealPoints - 100;
 
                 _playerHealth += health;
             }
