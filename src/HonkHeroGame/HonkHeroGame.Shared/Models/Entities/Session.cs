@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HonkHeroGame
+﻿namespace HonkHeroGame
 {
     public class Session : EntityBase
     {

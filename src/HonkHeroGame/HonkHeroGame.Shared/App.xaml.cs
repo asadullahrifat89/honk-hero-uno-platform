@@ -8,10 +8,10 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Microsoft.UI.Xaml.Media;
-using Windows.UI.ViewManagement;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Extensions.Hosting;
 using Uno.Extensions.Hosting;
+using Windows.UI.ViewManagement;
 #if DEBUG
 using Microsoft.Extensions.Logging;
 #endif
