@@ -49,7 +49,7 @@ namespace HonkHeroGame
         private readonly int _idleDurationCounterDefault = 20;
 
         private int _pointingDurationCounter;
-        private readonly int _pointingDurationCounterDefault = 20;
+        private readonly int _pointingDurationCounterDefault = 25;
 
         private double _score;
         private double _scoreCap;
@@ -482,8 +482,10 @@ namespace HonkHeroGame
         {
             _pointingDurationCounter--;
 
-            // move the player down a bit
-            _player.SetTop(_player.GetTop() + _gameSpeed * 4);
+            if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+                _player.SetTop(_player.GetTop() - _gameSpeed * 4);
+            else
+                _player.SetTop(_player.GetTop() + _gameSpeed * 4);
 
             if (_pointingDurationCounter <= 0)
                 _player.SetState(PlayerState.Flying);
