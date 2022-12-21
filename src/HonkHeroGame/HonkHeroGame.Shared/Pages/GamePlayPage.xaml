@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:HonkHeroGame"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource GameBackgroundColor}"
+    Background="{ThemeResource RoadBackgroundColor}"
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
@@ -13,7 +13,7 @@
         <!--#region Animation-->
 
         <!--  This hosts the road  -->
-        <GameEnvironment x:Name="UnderView" Background="#403c39">
+        <GameEnvironment x:Name="UnderView" Background="Transparent">
             <GameObject
                 x:Name="RoadMarkLeft2"
                 Background="#f2f1f3"
@@ -43,6 +43,21 @@
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
+
+        <!--  Gradient  -->
+        <Border
+            x:Name="GradientBorder"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Visibility="{x:Bind Path=PlayerHealthBarPanel.Visibility, Mode=OneWay}">
+            <Border.Background>
+                <LinearGradientBrush Opacity="0.15" StartPoint="1,0.5" EndPoint="0,0.5">
+                    <GradientStop Offset="0.00" Color="SkyBlue" />
+                    <GradientStop Offset="1.00" Color="Transparent" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <!--#endregion-->
         <!--#endregion-->
 
         <!--#region Player health, game Score-->

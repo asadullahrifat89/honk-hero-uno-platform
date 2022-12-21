@@ -586,7 +586,7 @@ namespace HonkHeroGame
             Sticker sticker = new(_scale);
 
             sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            sticker.SetTop(vehicle.GetTop());
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2);
             sticker.SetZ(_lanes.Count + 2);
             sticker.SetRotation(_random.Next(-30, 45));
 
@@ -600,7 +600,7 @@ namespace HonkHeroGame
             var collectible = vehicle.AttachedCollectible;
 
             collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            collectible.SetTop(vehicle.GetTop());
+            collectible.SetTop(vehicle.GetTop() + vehicle.Height / 2);
 
             if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
                 GameView.AddDestroyableGameObject(collectible);
@@ -721,7 +721,7 @@ namespace HonkHeroGame
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next(0, (int)GameView.Width) - (100 * _scale)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
+                left: _random.Next(50, (int)GameView.Width - 50)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
