@@ -111,6 +111,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_fly.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_thumbsup.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_pointing.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle11.png" />

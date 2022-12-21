@@ -48,6 +48,9 @@ namespace HonkHeroGame
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
 
+        private int _pointingDurationCounter;
+        private readonly int _pointingDurationCounterDefault = 20;
+
         private double _score;
         private double _scoreCap;
         private double _difficultyMultiplier;
@@ -126,6 +129,8 @@ namespace HonkHeroGame
 
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
+
+                _player.SetState(PlayerState.Flying);
             }
         }
 
@@ -135,8 +140,6 @@ namespace HonkHeroGame
             {
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _pointerPosition = point.Position;
-
-                _player.SetState(PlayerState.Flying);
             }
         }
 
@@ -392,6 +395,11 @@ namespace HonkHeroGame
                         PlayerFlying();
                     }
                     break;
+                case PlayerState.Pointing:
+                    {
+                        PlayerPointing();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -470,6 +478,14 @@ namespace HonkHeroGame
             }
         }
 
+        private void PlayerPointing()
+        {
+            _pointingDurationCounter--;
+
+            if (_pointingDurationCounter <= 0)
+                _player.SetState(PlayerState.Flying);
+        }
+
         private double GetFlightSpeed(double distance)
         {
             return distance / _playerSpeed;
@@ -544,9 +560,7 @@ namespace HonkHeroGame
             vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
             if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
-            {
                 UpdateSticker(vehicle);
-            }
 
             // if player hits the vehicle, bust honking and attach sticker
             if (vehicle.IsHonking)
@@ -556,38 +570,39 @@ namespace HonkHeroGame
                 if (_playerHitBox.IntersectsWith(vehicleHitbox))
                 {
                     SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
-                    AddScore(5);
 
                     vehicle.BustHonking();
                     Sticker collectible = SpawnSticker(vehicle);
                     vehicle.AttachCollectible(collectible);
 
+                    _player.SetState(PlayerState.Pointing);
+                    _pointingDurationCounter = _pointingDurationCounterDefault;
+                    AddScore(5);
+
                     //TODO: make player angry and change asset to honk busting
                 }
             }
 
-            if (vehicle.GetLeft() > 0 && vehicle.GetTop() > 0 && vehicle.CanHonk())
+            if (vehicle.GetLeft() > 0
+                && vehicle.GetLeft() < _windowWidth
+                && vehicle.GetTop() > 0
+                && vehicle.GetTop() < _windowHeight
+                && vehicle.CanHonk())
             {
                 SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
                 SpawnHonk(vehicle);
             }
 
-            //TODO: this is expensive
             // if vechicle will collide with another vehicle
-            if (GameView.Children.OfType<GameObject>()
-                .Where(x => (ElementType)x.Tag == ElementType.VEHICLE)
+            if (GameView.Children.OfType<Vehicle>()
                 .LastOrDefault(v => v.GetDistantHitBox(_scale)
-                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is GameObject collidingVehicle)
+                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle)
             {
                 // slower vehicles will slow down faster vehicles
                 if (collidingVehicle.Speed > vehicle.Speed)
-                {
                     vehicle.Speed = collidingVehicle.Speed;
-                }
                 else
-                {
                     collidingVehicle.Speed = vehicle.Speed;
-                }
             }
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
