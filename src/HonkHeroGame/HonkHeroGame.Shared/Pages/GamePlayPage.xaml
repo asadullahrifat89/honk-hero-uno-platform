@@ -15,19 +15,29 @@
         <!--  This hosts the road  -->
         <GameEnvironment x:Name="UnderView" Background="#403c39">
             <GameObject
+                x:Name="RoadMarkLeft2"
+                Background="#f2f1f3"
+                BorderBrush="Gray"
+                BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkLeft"
+                Background="#f2f1f3"
+                BorderBrush="Gray"
+                BorderThickness="2" />
+            <GameObject
                 x:Name="HighWayDivider"
                 Background="#d9a93a"
                 BorderBrush="DarkGoldenrod"
                 BorderThickness="2" />
             <GameObject
-                x:Name="RoadMarkLeft"
-                Background="#f2f1f3"
-                BorderBrush="DarkGoldenrod"
-                BorderThickness="2" />
-            <GameObject
                 x:Name="RoadMarkRight"
                 Background="#f2f1f3"
-                BorderBrush="DarkGoldenrod"
+                BorderBrush="Gray"
+                BorderThickness="2" />
+            <GameObject
+                x:Name="RoadMarkRight2"
+                Background="#f2f1f3"
+                BorderBrush="Gray"
                 BorderThickness="2" />
         </GameEnvironment>
 
