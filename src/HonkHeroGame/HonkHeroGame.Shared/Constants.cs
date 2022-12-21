@@ -100,7 +100,7 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_GAIN, "Assets/Sounds/health-gain.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE_COLLECTED, "Assets/Sounds/collectible_collected.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible_collected.mp3"),
         };
 
         #endregion

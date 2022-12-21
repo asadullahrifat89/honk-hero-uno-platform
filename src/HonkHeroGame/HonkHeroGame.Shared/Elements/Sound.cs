@@ -70,6 +70,6 @@
         POWER_DOWN,
         HEALTH_GAIN,
         HEALTH_LOSS,
-        COLLECTIBLE_COLLECTED,
+        COLLECTIBLE,
     }
 }

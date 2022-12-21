@@ -32,6 +32,7 @@ namespace HonkHeroGame
 
         private Uri[] _vehicles;
         private Uri[] _honks;
+        private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
 
@@ -59,6 +60,8 @@ namespace HonkHeroGame
 
         private bool _isPointerActivated;
         private Point _pointerPosition;
+
+        private int _collectibleCollected;
 
         private readonly List<(double Start, double End)> _lanes = new();
 
@@ -184,6 +187,7 @@ namespace HonkHeroGame
         {
             _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
+            _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
         private void PopulateGameViews()
@@ -200,6 +204,10 @@ namespace HonkHeroGame
             // add some vehicles
             for (int i = 0; i < 15; i++)
                 SpawnVehicle();
+
+            // add some collectibles
+            for (int i = 0; i < 10; i++)
+                SpawnCollectible();
         }
 
         private void StartGame()
@@ -225,7 +233,7 @@ namespace HonkHeroGame
             _scoreCap = 50;
             _difficultyMultiplier = 1;
 
-            //_collectibleCollected = 0;
+            _collectibleCollected = 0;
             ScoreText.Text = "0";
 
             _playerHealth = 100;
@@ -308,14 +316,12 @@ namespace HonkHeroGame
             PlayerScoreHelper.PlayerScore = new HonkHeroGameScore()
             {
                 Score = Math.Ceiling(_score),
-                //CollectiblesCollected = _collectibleCollected
+                CollectiblesCollected = _collectibleCollected
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
 
-            //TODO: take to game over page
-            //NavigateToPage(typeof(GameOverPage));
-            NavigateToPage(typeof(StartPage));
+            NavigateToPage(typeof(GameOverPage));
         }
 
         #endregion
@@ -337,6 +343,9 @@ namespace HonkHeroGame
                     case ElementType.HONK:
                         UpdateHonk(x);
                         break;
+                    case ElementType.COLLECTIBLE:
+                        UpdateCollectible(x);
+                        break;
                     default:
                         break;
                 }
@@ -356,6 +365,9 @@ namespace HonkHeroGame
                 {
                     case ElementType.VEHICLE:
                         RecyleVehicle(x as Vehicle);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        RecyleCollectible(x);
                         break;
                     default:
                         break;
@@ -668,6 +680,62 @@ namespace HonkHeroGame
 #if DEBUG
             Console.WriteLine("LANE: " + lane);
 #endif
+        }
+
+        #endregion
+
+        #region Collectible
+
+        private void SpawnCollectible()
+        {
+            Collectible collectible = new(_scale);
+            RandomizeCollectiblePosition(collectible);
+
+            GameView.Children.Add(collectible);
+        }
+
+        private void UpdateCollectible(GameObject collectible)
+        {
+            collectible.SetTop(collectible.GetTop() + _gameSpeed);
+
+            // only consider player intersection after appearing in viewport
+            if (collectible.GetTop() + collectible.Height > 10)
+            {
+                if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                    Collectible(collectible);
+
+                //// if magnet power up received then pull collectibles to player
+                //if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
+                //    MagnetPull(collectible);
+            }
+
+            if (collectible.GetTop() > GameView.Height)
+                RecyleCollectible(collectible);
+        }
+
+        private void RecyleCollectible(GameObject collectible)
+        {
+            _markNum = _random.Next(0, _collectibles.Length);
+            collectible.SetContent(_collectibles[_markNum]);
+            RandomizeCollectiblePosition(collectible);
+        }
+
+        private void RandomizeCollectiblePosition(GameObject collectible)
+        {
+            collectible.SetPosition(
+                left: _random.Next(0, (int)GameView.Width) - (100 * _scale),
+                top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
+        }
+
+        private void Collectible(GameObject collectible)
+        {
+            SoundHelper.PlaySound(SoundType.COLLECTIBLE);
+
+            AddScore(1);
+            RecyleCollectible(collectible);
+            //AddHealth(2);
+
+            _collectibleCollected++;
         }
 
         #endregion

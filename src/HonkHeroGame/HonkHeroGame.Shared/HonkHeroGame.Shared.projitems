@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\GameOverPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\GamePlayPage.xaml.cs">
       <DependentUpon>GamePlayPage.xaml</DependentUpon>
     </Compile>
@@ -71,6 +72,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\QueryRecordResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\QueryRecordsResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Responses\ServiceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\HowToPlayPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\LeaderboardPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SignUpPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\AudioPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\LocalizationKey.cs" />
@@ -86,7 +91,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\GameOverPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Pages\GamePlayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\HowToPlayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\LeaderboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SignUpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

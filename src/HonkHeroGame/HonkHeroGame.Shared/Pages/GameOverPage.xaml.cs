@@ -1,16 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using Uno.Extensions;
+using System.Threading;
 
 namespace HonkHeroGame
 {
-    public sealed partial class StartPage : Page
+    public sealed partial class GameOverPage : Page
     {
         #region Fields
 
@@ -22,11 +21,11 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private readonly int _gameSpeed = 2;
+        private readonly int _gameSpeed = 5;
 
         private int _markNum;
 
-        private Uri[] _vehicles;
+        private Uri[] _clouds;
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
@@ -35,9 +34,9 @@ namespace HonkHeroGame
 
         #region Ctor
 
-        public StartPage()
+        public GameOverPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             _backendService = (Application.Current as App).Host.Services.GetRequiredService<IBackendService>();
 
             _windowHeight = Window.Current.Bounds.Height;
@@ -46,8 +45,8 @@ namespace HonkHeroGame
             LoadGameElements();
             PopulateGameViews();
 
-            Loaded += GamePlayPage_Loaded;
-            Unloaded += GamePlayPage_Unloaded;
+            this.Loaded += GameOverPage_Loaded;
+            this.Unloaded += GameOverPage_Unloaded;
         }
 
         #endregion
@@ -56,33 +55,42 @@ namespace HonkHeroGame
 
         #region Page
 
-        private async void GamePlayPage_Loaded(object sender, RoutedEventArgs e)
+        private async void GameOverPage_Loaded(object sender, RoutedEventArgs e)
         {
             SizeChanged += GamePlayPage_SizeChanged;
             StartAnimation();
 
-            await AppSettingsHelper.LoadAppSettings();
+            this.SetLocalization();
 
-            LocalizationHelper.CheckLocalizationCache();
-            await LocalizationHelper.LoadLocalizationKeys(() =>
+            SetGameResults();
+            ShowUserName();
+
+            // if user has not logged in
+            if (!GameProfileHelper.HasUserLoggedIn())
             {
-                this.SetLocalization();
+                SetLoginContext();
+                await ShowGamePrize();
+            }
+            else
+            {
+                this.RunProgressBar();
 
-                SoundHelper.LoadGameSounds(() =>
+                if (await SubmitScore())
                 {
-                    StartGameSounds();
-                    AssetHelper.PreloadAssets(progressBar: ProgressBar, messageBlock: ProgressBarMessageBlock, completed: () =>
-                    {
-                        PlayButton.IsEnabled = true;
-                    });
-                });
-            });
+                    SetLeaderboardContext(); // if score submission was successful make leaderboard button visible
+                }
+                else
+                {
+                    SetLoginContext();
+                }
 
-            if (await GetCompanyBrand())
-                await CheckUserSession();
+                this.StopProgressBar();
+            }
+
+            await GetCompanyBrand();
         }
 
-        private void GamePlayPage_Unloaded(object sender, RoutedEventArgs e)
+        private void GameOverPage_Unloaded(object sender, RoutedEventArgs e)
         {
             SizeChanged -= GamePlayPage_SizeChanged;
             StopAnimation();
@@ -104,27 +112,12 @@ namespace HonkHeroGame
 
         #region Buttons
 
-        private void LanguageButton_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((sender as Button)?.Tag is string tag)
-            {
-                SoundHelper.PlaySound(SoundType.MENU_SELECT);
-
-                LocalizationHelper.CurrentCulture = tag;
-
-                if (CookieHelper.IsCookieAccepted())
-                    LocalizationHelper.SaveLocalizationCache(tag);
-
-                this.SetLocalization();
-            }
+            NavigateToPage(typeof(LoginPage));
         }
 
-        private void HowToPlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(HowToPlayPage));
-        }
-
-        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        private async void PlayAgainButton_Click(object sender, RoutedEventArgs e)
         {
             if (GameProfileHelper.HasUserLoggedIn() ? await GenerateSession() : true)
                 NavigateToPage(typeof(GamePlayPage));
@@ -132,35 +125,7 @@ namespace HonkHeroGame
 
         private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToPage(typeof(LeaderboardPage));
-        }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(LoginPage));
-        }
-
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            PerformLogout();
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToPage(typeof(SignUpPage));
-        }
-
-        private void CookieAcceptButton_Click(object sender, RoutedEventArgs e)
-        {
-            CookieHelper.SetCookieAccepted();
-            CookieToast.Visibility = Visibility.Collapsed;
-            LocalizationHelper.SaveLocalizationCache(LocalizationHelper.CurrentCulture);
-        }
-
-        private void CookieDeclineButton_Click(object sender, RoutedEventArgs e)
-        {
-            CookieHelper.SetCookieDeclined();
-            CookieToast.Visibility = Visibility.Collapsed;
+            App.NavigateToPage(typeof(LeaderboardPage));
         }
 
         #endregion
@@ -185,20 +150,43 @@ namespace HonkHeroGame
                     return false;
                 }
 
-                if (Company is not null)
+                if (Company is not null && !Company.WebSiteUrl.IsNullOrBlank())
+                {
                     CompanyHelper.Company = Company;
+                }
             }
 
             if (CompanyHelper.Company is not null)
-            {
-                if (!CompanyHelper.Company.WebSiteUrl.IsNullOrBlank())
-                    BrandButton.NavigateUri = new Uri(CompanyHelper.Company.WebSiteUrl);
+                BrandButton.NavigateUri = new Uri(CompanyHelper.Company.WebSiteUrl);
 
-                if (!CookieHelper.IsCookieAccepted() && !CompanyHelper.Company.DefaultLanguage.IsNullOrBlank())
+            return true;
+        }
+
+        private async Task<bool> ShowGamePrize()
+        {
+            (bool IsSuccess, string Message, GamePrizeOfTheDay GamePrize) = await _backendService.GetGameDailyPrize();
+
+            if (!IsSuccess)
+            {
+                var error = Message;
+                this.ShowError(error);
+                return false;
+            }
+
+            if (GamePrize is not null
+                && GamePrize.WinningCriteria is not null
+                && GamePrize.WinningCriteria.CriteriaDescriptions is not null
+                && GamePrize.PrizeDescriptions is not null
+                && GamePrize.WinningCriteria.CriteriaDescriptions.Length > 0
+                && GamePrize.PrizeDescriptions.Length > 0)
+            {
+                ShowGamePlayResult(new GamePlayResult()
                 {
-                    LocalizationHelper.CurrentCulture = CompanyHelper.Company.DefaultLanguage;
-                    this.SetLocalization();
-                }
+                    GameId = GamePrize.GameId,
+                    PrizeDescriptions = GamePrize.PrizeDescriptions,
+                    PrizeName = GamePrize.Name,
+                    WinningDescriptions = GamePrize.WinningCriteria.CriteriaDescriptions,
+                });
             }
 
             return true;
@@ -218,32 +206,9 @@ namespace HonkHeroGame
             return true;
         }
 
-        private async Task CheckUserSession()
+        private async Task<bool> SubmitScore()
         {
-            AuthTokenHelper.TryLoadRefreshToken();
-
-            if (GameProfileHelper.HasUserLoggedIn())
-            {
-                SetLogoutContext();
-            }
-            else
-            {
-                if (!AuthTokenHelper.RefreshToken.IsNullOrEmpty() && await GetGameProfile())
-                {
-                    SetLogoutContext();
-                    ShowWelcomeBackToast();
-                }
-                else
-                {
-                    SetLoginContext();
-                    ShowCookieToast();
-                }
-            }
-        }
-
-        private async Task<bool> GetGameProfile()
-        {
-            (bool IsSuccess, string Message, _) = await _backendService.GetUserGameProfile();
+            (bool IsSuccess, string Message, GamePlayResult GamePlayResult) = await _backendService.SubmitUserGameScore(PlayerScoreHelper.PlayerScore.Score);
 
             if (!IsSuccess)
             {
@@ -252,54 +217,50 @@ namespace HonkHeroGame
                 return false;
             }
 
+            ShowGamePlayResult(GamePlayResult);
+
             return true;
         }
 
-        private void PerformLogout()
+        private void ShowGamePlayResult(GamePlayResult GamePlayResult)
         {
-            SoundHelper.PlaySound(SoundType.MENU_SELECT);
-
-            AuthTokenHelper.RemoveCachedRefreshToken();
-
-            AuthTokenHelper.AuthToken = null;
-            AuthTokenHelper.RefreshToken = null;
-
-            GameProfileHelper.GameProfile = null;
-            PlayerScoreHelper.PlayerScore = null;
-
-            SetLoginContext();
+            if (GamePlayResult is not null && !GamePlayResult.PrizeName.IsNullOrBlank())
+                PopUpHelper.ShowGamePlayResultPopUp(GamePlayResult);
         }
 
-        private void ShowCookieToast()
+        private void SetGameResults()
         {
-            if (!CookieHelper.IsCookieAccepted())
-                CookieToast.Visibility = Visibility.Visible;
+            ScoreNumberText.Text = PlayerScoreHelper.PlayerScore.Score.ToString("#");
+            CollectiblesCollectedText.Text = $"{LocalizationHelper.GetLocalizedResource("CollectiblesCollectedText")} x " + PlayerScoreHelper.PlayerScore.CollectiblesCollected;
         }
 
-        private void SetLogoutContext()
+        private void SetLeaderboardContext()
         {
-            LogoutButton.Visibility = Visibility.Visible;
+            SignupPromptPanel.Visibility = Visibility.Collapsed;
             LeaderboardButton.Visibility = Visibility.Visible;
-            LoginButton.Visibility = Visibility.Collapsed;
-            RegisterButton.Visibility = Visibility.Collapsed;
         }
 
         private void SetLoginContext()
         {
-            LogoutButton.Visibility = Visibility.Collapsed;
+            // submit score on user login, or signup then login
+            PlayerScoreHelper.GameScoreSubmissionPending = true;
+
+            SignupPromptPanel.Visibility = Visibility.Visible;
             LeaderboardButton.Visibility = Visibility.Collapsed;
-            LoginButton.Visibility = Visibility.Visible;
-            RegisterButton.Visibility = Visibility.Visible;
         }
 
-        private async void ShowWelcomeBackToast()
+        private void ShowUserName()
         {
-            SoundHelper.PlaySound(SoundType.POWER_UP);
-            UserName.Text = GameProfileHelper.GameProfile.User.UserName;
-
-            WelcomeBackToast.Opacity = 1;
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            WelcomeBackToast.Opacity = 0;
+            if (GameProfileHelper.HasUserLoggedIn())
+            {
+                UserName.Text = GameProfileHelper.GameProfile.User.UserName;
+                UserPicture.Initials = GameProfileHelper.GameProfile.Initials;
+                PlayerNameHolder.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PlayerNameHolder.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion
@@ -321,8 +282,6 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
-
-            App.EnterFullScreen(true);
         }
 
         #endregion
@@ -342,7 +301,7 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
+            _clouds = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.CLOUD).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
@@ -351,10 +310,6 @@ namespace HonkHeroGame
             // add some collectibles
             for (int i = 0; i < 10; i++)
                 SpawnCollectible();
-
-            // add some vehicles
-            for (int i = 0; i < 15; i++)
-                SpawnVehicle();
         }
 
         private void StartAnimation()
@@ -372,8 +327,8 @@ namespace HonkHeroGame
             {
                 switch ((ElementType)x.Tag)
                 {
-                    case ElementType.VEHICLE:
-                        RecyleVehicle(x);
+                    case ElementType.COLLECTIBLE:
+                        RecyleCollectible(x);
                         break;
                     default:
                         break;
@@ -400,9 +355,6 @@ namespace HonkHeroGame
             {
                 switch ((ElementType)x.Tag)
                 {
-                    case ElementType.VEHICLE:
-                        UpdateVehicle(x);
-                        break;
                     case ElementType.COLLECTIBLE:
                         UpdateCollectible(x);
                         break;
@@ -415,39 +367,6 @@ namespace HonkHeroGame
         private void StopAnimation()
         {
             _gameViewTimer?.Dispose();
-        }
-
-        #endregion
-
-        #region Vehicle
-
-        private void SpawnVehicle()
-        {
-            Vehicle Vehicle = new(_scale, _gameSpeed);
-            UnderView.Children.Add(Vehicle);
-        }
-
-        private void UpdateVehicle(GameObject vehicle)
-        {
-            vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.50);
-            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
-
-            if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
-                RecyleVehicle(vehicle);
-        }
-
-        private void RecyleVehicle(GameObject vehicle)
-        {
-            _markNum = _random.Next(0, _vehicles.Length);
-            vehicle.SetContent(_vehicles[_markNum]);
-            RandomizeVehiclePosition(vehicle);
-        }
-
-        private void RandomizeVehiclePosition(GameObject vehicle)
-        {
-            vehicle.SetPosition(
-                left: _random.Next(minValue: (int)UnderView.Width, maxValue: (int)UnderView.Width * 2),
-                top: _random.Next(minValue: (int)UnderView.Height / 2, maxValue: (int)(UnderView.Height * 2)));
         }
 
         #endregion
@@ -486,8 +405,6 @@ namespace HonkHeroGame
 
         #endregion
 
-        #endregion
-
         #region Sound
 
         private void StartGameSounds()
@@ -495,6 +412,8 @@ namespace HonkHeroGame
             SoundHelper.RandomizeSound(SoundType.INTRO);
             SoundHelper.PlaySound(SoundType.INTRO);
         }
+
+        #endregion        
 
         #endregion
 
