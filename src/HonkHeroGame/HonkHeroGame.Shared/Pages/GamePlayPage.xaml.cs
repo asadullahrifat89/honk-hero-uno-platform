@@ -23,8 +23,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 2;
-        private readonly double _gameSpeedDefault = 2;
+        private double _gameSpeed = 1.5;
+        private readonly double _gameSpeedDefault = 1.5;
 
         private double _honkSpeed = 2;
 
@@ -482,10 +482,37 @@ namespace HonkHeroGame
         {
             _pointingDurationCounter--;
 
-            if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
-                _player.SetTop(_player.GetTop() - _gameSpeed * 4);
-            else
-                _player.SetTop(_player.GetTop() + _gameSpeed * 4);
+            switch (_player.FacingDirectionX)
+            {
+                case MovementDirectionX.None:
+                    break;
+                case MovementDirectionX.Left:
+                    {
+                        if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+                        {
+                            _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
+                        }
+                        else
+                        {
+                            _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
+                        }
+                    }
+                    break;
+                case MovementDirectionX.Right:
+                    {
+                        if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+                        {
+                            _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
+                        }
+                        else
+                        {
+                            _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             if (_pointingDurationCounter <= 0)
                 _player.SetState(PlayerState.Flying);

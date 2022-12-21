@@ -20,6 +20,8 @@ namespace HonkHeroGame
 
         public IdlingDirectionY IdlingDirectionY { get; set; } = IdlingDirectionY.Down;
 
+        public MovementDirectionX FacingDirectionX { get; set; } = MovementDirectionX.None;
+
         #endregion
 
         #region Methods     
@@ -52,6 +54,8 @@ namespace HonkHeroGame
 
         public void SetFacingDirectionX(MovementDirectionX movementDirectionX, double scaleX = 1)
         {
+            FacingDirectionX = movementDirectionX;
+
             switch (movementDirectionX)
             {
                 case MovementDirectionX.Left:

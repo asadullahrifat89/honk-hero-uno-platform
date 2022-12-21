@@ -9,9 +9,9 @@ namespace HonkHeroGame
         #region Fields
 
         private int _honkCounter;
-        private readonly int _honkCounterMin = 150;
-        private readonly int _honkCounterMax = 250;
-        private readonly Random _random = new Random();
+        private readonly int _honkCounterMin = 100;
+        private readonly int _honkCounterMax = 200;
+        private readonly Random _random = new();
 
         #endregion
 
