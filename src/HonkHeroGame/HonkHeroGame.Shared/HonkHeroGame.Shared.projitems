@@ -128,10 +128,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk2.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />

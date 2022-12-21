@@ -34,17 +34,16 @@ namespace HonkHeroGame
         private Uri[] _honks;
         private Uri[] _collectibles;
 
-        private readonly IBackendService _backendService;
-
         private Player _player;
         private Rect _playerHitBox;
 
         private double _playerHealth;
+        private readonly int _playerHitPoints = 2;
 
         private readonly double _playerPositionGrace = 7;
 
-        private double _playerSpeed = 40;
-        private readonly double _playerSpeedDefault = 40;
+        private double _playerLag = 30;
+        private readonly double _playerLagDefault = 30;
 
         private int _idleDurationCounter;
         private readonly int _idleDurationCounterDefault = 20;
@@ -219,7 +218,7 @@ namespace HonkHeroGame
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
 
             _gameSpeed = _gameSpeedDefault * _scale;
-            _playerSpeed = _playerSpeedDefault;
+            _playerLag = _playerLagDefault;
 
             ResetControls();
 
@@ -532,7 +531,7 @@ namespace HonkHeroGame
 
         private double GetFlightSpeed(double distance)
         {
-            return distance / _playerSpeed;
+            return distance / _playerLag;
             //return distance > 50 ? distance / _playerSpeed : (distance / _playerSpeed) * 2;
         }
 
@@ -553,6 +552,8 @@ namespace HonkHeroGame
             GameView.Children.Add(honk);
 
             SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
+
+            LooseHealth();
         }
 
         private void UpdateHonk(GameObject honk)
@@ -584,6 +585,7 @@ namespace HonkHeroGame
             _pointingDurationCounter = _pointingDurationCounterDefault;
 
             AddScore(5);
+            AddHealth();
 
             SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
         }
@@ -742,6 +744,31 @@ namespace HonkHeroGame
 
         #endregion
 
+        #region Health
+
+        private void AddHealth(double health = 2)
+        {
+            if (_playerHealth < 100)
+            {
+                if (_playerHealth + health > 100)
+                    health = _playerHealth + health - 100;
+
+                _playerHealth += health;
+            }
+        }
+
+        private void LooseHealth()
+        {
+            //SoundHelper.PlaySound(SoundType.HEALTH_LOSS);
+
+            _playerHealth -= _playerHitPoints;
+
+            if (_playerHealth <= 0)
+                GameOver();
+        }
+
+        #endregion
+
         #endregion
 
         #region Score
@@ -761,7 +788,7 @@ namespace HonkHeroGame
             if (_score > _scoreCap)
             {
                 _gameSpeed = (_gameSpeedDefault * _scale) + 0.2 * _difficultyMultiplier;
-                _playerSpeed = _playerSpeedDefault + (_difficultyMultiplier / 2);
+                _playerLag = _playerLagDefault - (_difficultyMultiplier / 2);
                 _scoreCap += 50;
                 _difficultyMultiplier++;
             }

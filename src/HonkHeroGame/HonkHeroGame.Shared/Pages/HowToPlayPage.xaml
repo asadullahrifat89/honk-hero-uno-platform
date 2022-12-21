@@ -132,17 +132,17 @@
                     <StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image
-                                Width="50"
+                                Width="80"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/vehicle1.png" />
                             <Image
-                                Width="50"
+                                Width="80"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/vehicle2.png" />
                             <Image
-                                Width="50"
+                                Width="80"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/vehicle3.png" />
