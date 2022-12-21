@@ -59,6 +59,8 @@ namespace HonkHeroGame
 
         //private bool _isPointerActivated;
         private Point _pointerPosition;
+        private Point _attackPosition;
+        private Vehicle _targetVehicle;
 
         private int _collectibleCollected;
 
@@ -129,10 +131,20 @@ namespace HonkHeroGame
             {
                 //_isPointerActivated = true;
 
-                //PointerPoint point = e.GetCurrentPoint(GameView);
+                PointerPoint point = e.GetCurrentPoint(GameView);
                 //_pointerPosition = point.Position;
+                _attackPosition = point.Position;
 
                 //_player.SetState(PlayerState.Flying);
+
+                // if player hits the vehicle, bust honking and attach sticker
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.IsHonking && x.GetHitBox().IntersectsWith(_playerHitBox)) is Vehicle vehicle)
+                {
+                    //var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
+
+                    //if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
+                    BustHonk(vehicle);
+                }
             }
         }
 
@@ -509,37 +521,67 @@ namespace HonkHeroGame
         {
             _pointingDurationCounter--;
 
-            switch (_player.FacingDirectionX)
+            double left = _player.GetLeft();
+            double top = _player.GetTop();
+
+            double playerMiddleX = left + _player.Width / 2;
+            double playerMiddleY = top + _player.Height / 2;
+
+            // move up
+            if (_attackPosition.Y < playerMiddleY - _playerPositionGrace)
             {
-                case MovementDirectionX.None:
-                    break;
-                case MovementDirectionX.Left:
-                    {
-                        if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
-                        {
-                            _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
-                        }
-                        else
-                        {
-                            _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
-                        }
-                    }
-                    break;
-                case MovementDirectionX.Right:
-                    {
-                        if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
-                        {
-                            _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
-                        }
-                        else
-                        {
-                            _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                _player.SetTop(top - _gameSpeed * 4);
             }
+
+            // move left
+            if (_attackPosition.X < playerMiddleX - _playerPositionGrace)
+            {
+                _player.SetLeft(left - _gameSpeed * 4);
+            }
+
+            // move down
+            if (_attackPosition.Y > playerMiddleY + _playerPositionGrace)
+            {
+                _player.SetTop(top + _gameSpeed * 4);
+            }
+
+            // move right
+            if (_attackPosition.X > playerMiddleX + _playerPositionGrace)
+            {
+                _player.SetLeft(left + _gameSpeed * 4);
+            }
+
+            //switch (_player.FacingDirectionX)
+            //{
+            //    case MovementDirectionX.None:
+            //        break;
+            //    case MovementDirectionX.Left:
+            //        {
+            //            if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+            //            {
+            //                _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
+            //            }
+            //            else
+            //            {
+            //                _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
+            //            }
+            //        }
+            //        break;
+            //    case MovementDirectionX.Right:
+            //        {
+            //            if (_pointingDurationCounter > _pointingDurationCounterDefault / 2)
+            //            {
+            //                _player.SetLeft(_player.GetLeft() + _gameSpeed * 4);
+            //            }
+            //            else
+            //            {
+            //                _player.SetLeft(_player.GetLeft() - _gameSpeed * 4);
+            //            }
+            //        }
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             if (_pointingDurationCounter <= 0)
                 _player.SetState(PlayerState.Flying);
@@ -593,9 +635,11 @@ namespace HonkHeroGame
 
         private void BustHonk(Vehicle vehicle)
         {
-            vehicle.BustHonking();
-            Sticker collectible = SpawnSticker(vehicle);
-            vehicle.AttachCollectible(collectible);
+            _targetVehicle = vehicle;
+
+            _targetVehicle.BustHonking();
+            Sticker collectible = SpawnSticker(_targetVehicle);
+            _targetVehicle.AttachCollectible(collectible);
 
             _player.SetState(PlayerState.Pointing);
             _pointingDurationCounter = _pointingDurationCounterDefault;
@@ -650,14 +694,14 @@ namespace HonkHeroGame
             if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
                 UpdateSticker(vehicle);
 
-            // if player hits the vehicle, bust honking and attach sticker
-            if (vehicle.IsHonking)
-            {
-                var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
+            //// if player hits the vehicle, bust honking and attach sticker
+            //if (vehicle.IsHonking)
+            //{
+            //    var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
 
-                if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
-                    BustHonk(vehicle);
-            }
+            //    if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
+            //        BustHonk(vehicle);
+            //}
 
             if (WaitForHonk(vehicle))
                 SpawnHonk(vehicle);
