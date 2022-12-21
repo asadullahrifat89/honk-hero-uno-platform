@@ -482,6 +482,9 @@ namespace HonkHeroGame
         {
             _pointingDurationCounter--;
 
+            // move the player down a bit
+            _player.SetTop(_player.GetTop() + _gameSpeed * 4);
+
             if (_pointingDurationCounter <= 0)
                 _player.SetState(PlayerState.Flying);
         }
@@ -507,6 +510,8 @@ namespace HonkHeroGame
             honk.SetTop(vehicle.GetTop());
             honk.SetRotation(_random.Next(-30, 45));
             GameView.Children.Add(honk);
+
+            SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
         }
 
         private void UpdateHonk(GameObject honk)
@@ -517,6 +522,29 @@ namespace HonkHeroGame
 
             if (honk.HasFaded)
                 GameView.AddDestroyableGameObject(honk);
+        }
+
+        private bool WaitForHonk(Vehicle vehicle)
+        {
+            return vehicle.GetLeft() > 0
+                            && vehicle.GetLeft() < _windowWidth
+                            && vehicle.GetTop() > 0
+                            && vehicle.GetTop() < _windowHeight
+                            && vehicle.WaitForHonk();
+        }
+
+        private void BustHonk(Vehicle vehicle)
+        {
+            vehicle.BustHonking();
+            Sticker collectible = SpawnSticker(vehicle);
+            vehicle.AttachCollectible(collectible);
+
+            _player.SetState(PlayerState.Pointing);
+            _pointingDurationCounter = _pointingDurationCounterDefault;
+
+            AddScore(5);
+
+            SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
         }
 
         #endregion
@@ -565,33 +593,14 @@ namespace HonkHeroGame
             // if player hits the vehicle, bust honking and attach sticker
             if (vehicle.IsHonking)
             {
-                var vehicleHitbox = vehicle.GetHitBox();
+                var vehicleHitbox = vehicle.GetCloseHitBox(_scale);
 
                 if (_playerHitBox.IntersectsWith(vehicleHitbox))
-                {
-                    SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
-
-                    vehicle.BustHonking();
-                    Sticker collectible = SpawnSticker(vehicle);
-                    vehicle.AttachCollectible(collectible);
-
-                    _player.SetState(PlayerState.Pointing);
-                    _pointingDurationCounter = _pointingDurationCounterDefault;
-                    AddScore(5);
-
-                    //TODO: make player angry and change asset to honk busting
-                }
+                    BustHonk(vehicle);
             }
 
-            if (vehicle.GetLeft() > 0
-                && vehicle.GetLeft() < _windowWidth
-                && vehicle.GetTop() > 0
-                && vehicle.GetTop() < _windowHeight
-                && vehicle.CanHonk())
-            {
-                SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
+            if (WaitForHonk(vehicle))
                 SpawnHonk(vehicle);
-            }
 
             // if vechicle will collide with another vehicle
             if (GameView.Children.OfType<Vehicle>()

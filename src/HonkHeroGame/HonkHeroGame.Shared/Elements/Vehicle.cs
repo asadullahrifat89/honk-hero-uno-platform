@@ -53,7 +53,7 @@ namespace HonkHeroGame
 
         #region Methods
 
-        public bool CanHonk()
+        public bool WaitForHonk()
         {
             if (!IsBusted && WillHonk)
             {
