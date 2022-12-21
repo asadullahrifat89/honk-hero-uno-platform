@@ -586,7 +586,7 @@ namespace HonkHeroGame
             Sticker sticker = new(_scale);
 
             sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            sticker.SetTop(vehicle.GetTop());
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2);
             sticker.SetZ(_lanes.Count + 2);
             sticker.SetRotation(_random.Next(-30, 45));
 
@@ -600,7 +600,7 @@ namespace HonkHeroGame
             var collectible = vehicle.AttachedCollectible;
 
             collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            collectible.SetTop(vehicle.GetTop());
+            collectible.SetTop(vehicle.GetTop() + vehicle.Height / 2);
 
             if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
                 GameView.AddDestroyableGameObject(collectible);
@@ -721,7 +721,7 @@ namespace HonkHeroGame
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next(0, (int)GameView.Width) - (100 * _scale)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
+                left: _random.Next(50, (int)GameView.Width - 50)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
@@ -831,23 +831,35 @@ namespace HonkHeroGame
             UnderView.Width = _windowWidth;
             UnderView.Height = _windowHeight;
 
-            HighWayDivider.Width = 20 * _scale;
-            HighWayDivider.Height = _windowHeight;
-            HighWayDivider.SetRotation(-63.5);
-            HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
-            HighWayDivider.SetSkewY(43);
+            RoadMarkLeft2.Width = 15 * _scale;
+            RoadMarkLeft2.Height = _windowHeight;
+            RoadMarkLeft2.SetLeft(5);
+            RoadMarkLeft2.SetSkewY(43);
+            RoadMarkLeft2.SetRotation(-63.5);
 
             RoadMarkLeft.Width = 15 * _scale;
             RoadMarkLeft.Height = _windowHeight;
-            RoadMarkLeft.SetRotation(-63.5);
-            RoadMarkLeft.SetLeft(_windowWidth / 4 - (RoadMarkLeft.Width / 2));
+            RoadMarkLeft.SetLeft((_windowWidth / 4 - (RoadMarkLeft.Width / 2)));
             RoadMarkLeft.SetSkewY(43);
+            RoadMarkLeft.SetRotation(-63.5);
+
+            HighWayDivider.Width = 20 * _scale;
+            HighWayDivider.Height = _windowHeight;
+            HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
+            HighWayDivider.SetSkewY(43);
+            HighWayDivider.SetRotation(-63.5);
 
             RoadMarkRight.Width = 15 * _scale;
             RoadMarkRight.Height = _windowHeight;
-            RoadMarkRight.SetRotation(-63.5);
             RoadMarkRight.SetLeft((_windowWidth / 4 - (RoadMarkRight.Width / 2)) * 3);
             RoadMarkRight.SetSkewY(43);
+            RoadMarkRight.SetRotation(-63.5);
+
+            RoadMarkRight2.Width = 15 * _scale;
+            RoadMarkRight2.Height = _windowHeight;
+            RoadMarkRight2.SetLeft((_windowWidth / 4 - (RoadMarkRight2.Width / 2)) * 4);
+            RoadMarkRight2.SetSkewY(43);
+            RoadMarkRight2.SetRotation(-63.5);
 
             _player?.SetSize(
                     width: Constants.PLAYER_WIDTH * _scale,
