@@ -23,6 +23,8 @@ namespace HonkHeroGame
 
         public const double POWERUP_SIZE = 70;
 
+        public const double COLLECTIBLE_SIZE = 100;
+
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;
 
@@ -54,13 +56,16 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player_idle.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_FLYING, new Uri("ms-appx:///Assets/Images/player_fly.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_POINTING, new Uri("ms-appx:///Assets/Images/player_pointing.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_APPRECIATING, new Uri("ms-appx:///Assets/Images/player_appreciating.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.STICKER, new Uri("ms-appx:///Assets/Images/sticker.png")),
 
-            new KeyValuePair<ElementType, Uri>(ElementType.HEALTH, new Uri("ms-appx:///Assets/Images/health.png")),            
+            new KeyValuePair<ElementType, Uri>(ElementType.HEALTH, new Uri("ms-appx:///Assets/Images/health.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.HONK, new Uri("ms-appx:///Assets/Images/honk1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.HONK, new Uri("ms-appx:///Assets/Images/honk2.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
         };
 
         #endregion
@@ -71,8 +76,10 @@ namespace HonkHeroGame
         {
             new KeyValuePair<SoundType, string>(SoundType.MENU_SELECT, "Assets/Sounds/menu-select.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro1.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro2.mp3"),
+            //new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro1.mp3"),
+            //new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro2.mp3"),
+
+            new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro.mp3"),            
 
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
@@ -93,7 +100,7 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_GAIN, "Assets/Sounds/health-gain.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE_COLLECTED, "Assets/Sounds/coin-pickup.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE_COLLECTED, "Assets/Sounds/collectible_collected.mp3"),
         };
 
         #endregion

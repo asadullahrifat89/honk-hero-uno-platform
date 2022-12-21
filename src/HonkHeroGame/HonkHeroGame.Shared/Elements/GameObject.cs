@@ -166,12 +166,14 @@ namespace HonkHeroGame
         PLAYER,
         PLAYER_FLYING,
         PLAYER_POINTING,
+        PLAYER_APPRECIATING,
         VEHICLE,
         HEALTH,
         CLOUD,
         STICKER,
         POWERUP,
         HONK,
+        COLLECTIBLE,
     }
 }
 

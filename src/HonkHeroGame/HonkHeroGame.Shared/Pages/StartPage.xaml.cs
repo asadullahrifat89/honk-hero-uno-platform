@@ -27,6 +27,7 @@ namespace HonkHeroGame
         private int _markNum;
 
         private Uri[] _vehicles;
+        private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
 
@@ -346,10 +347,15 @@ namespace HonkHeroGame
         private void LoadGameElements()
         {
             _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
+            _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
         private void PopulateUnderView()
         {
+            // add some collectibles
+            for (int i = 0; i < 10; i++)
+                SpawnCollectible();
+
             // add some vehicles
             for (int i = 0; i < 15; i++)
                 SpawnVehicle();
@@ -401,6 +407,9 @@ namespace HonkHeroGame
                     case ElementType.VEHICLE:
                         UpdateVehicle(x);
                         break;
+                    case ElementType.COLLECTIBLE:
+                        UpdateCollectible(x);
+                        break;
                     default:
                         break;
                 }
@@ -443,6 +452,40 @@ namespace HonkHeroGame
             vehicle.SetPosition(
                 left: _random.Next(minValue: (int)UnderView.Width, maxValue: (int)UnderView.Width * 2),
                 top: _random.Next(minValue: (int)UnderView.Height / 2, maxValue: (int)(UnderView.Height * 2)));
+        }
+
+        #endregion
+
+        #region Collectible
+
+        private void SpawnCollectible()
+        {
+            Collectible collectible = new(_scale);
+            RandomizeCollectiblePosition(collectible);
+
+            UnderView.Children.Add(collectible);
+        }
+
+        private void UpdateCollectible(GameObject collectible)
+        {
+            collectible.SetTop(collectible.GetTop() + _gameSpeed);
+
+            if (collectible.GetTop() > UnderView.Height)
+                RecyleCollectible(collectible);
+        }
+
+        private void RecyleCollectible(GameObject collectible)
+        {
+            _markNum = _random.Next(0, _collectibles.Length);
+            collectible.SetContent(_collectibles[_markNum]);
+            RandomizeCollectiblePosition(collectible);
+        }
+
+        private void RandomizeCollectiblePosition(GameObject collectible)
+        {
+            collectible.SetPosition(
+                left: _random.Next(0, (int)UnderView.Width) - (100 * _scale),
+                top: _random.Next(100 * (int)_scale, (int)UnderView.Height) * -1);
         }
 
         #endregion

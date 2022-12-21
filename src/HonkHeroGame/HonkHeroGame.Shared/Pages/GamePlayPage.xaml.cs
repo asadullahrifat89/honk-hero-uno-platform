@@ -622,9 +622,9 @@ namespace HonkHeroGame
             // if player hits the vehicle, bust honking and attach sticker
             if (vehicle.IsHonking)
             {
-                var vehicleHitbox = vehicle.GetCloseHitBox(_scale);
+                var vehicleCloseHitbox = vehicle.GetCloseHitBox(_scale);
 
-                if (_playerHitBox.IntersectsWith(vehicleHitbox))
+                if (_playerHitBox.IntersectsWith(vehicleCloseHitbox))
                     BustHonk(vehicle);
             }
 

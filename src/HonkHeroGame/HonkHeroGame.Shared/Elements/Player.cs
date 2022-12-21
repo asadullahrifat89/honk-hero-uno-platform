@@ -79,6 +79,7 @@ namespace HonkHeroGame
         Falling,
         Flying,
         Pointing,
+        Appreciating,
     }
 
     public enum IdlingDirectionY

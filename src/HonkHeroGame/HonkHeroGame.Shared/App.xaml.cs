@@ -165,10 +165,7 @@ namespace HonkHeroGame
 
         public static void EnterFullScreen(bool value)
         {
-#if DEBUG
-            return;
-#endif
-
+#if !DEBUG
             var view = ApplicationView.GetForCurrentView();
 
             if (view is not null)
@@ -182,6 +179,7 @@ namespace HonkHeroGame
                     view.ExitFullScreenMode();
                 }
             }
+#endif
         }
 
         public static void NavigateToPage(Type pageType, object parameter = null)
