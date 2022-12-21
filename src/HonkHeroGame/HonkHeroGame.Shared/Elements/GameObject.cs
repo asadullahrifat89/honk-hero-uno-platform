@@ -165,7 +165,7 @@ namespace HonkHeroGame
         NONE,
         PLAYER,
         PLAYER_FLYING,
-        PLAYER_POINTING,
+        PLAYER_ATTACKING,
         PLAYER_APPRECIATING,
         VEHICLE,
         HEALTH,

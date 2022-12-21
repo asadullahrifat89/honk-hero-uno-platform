@@ -42,9 +42,9 @@ namespace HonkHeroGame
                         SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);
                     }
                     break;
-                case PlayerState.Pointing:
+                case PlayerState.Attacking:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_POINTING).Value);
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_ATTACKING).Value);
                     }
                     break;
                 default:
@@ -78,7 +78,7 @@ namespace HonkHeroGame
         Jumping,
         Falling,
         Flying,
-        Pointing,
+        Attacking,
         Appreciating,
     }
 
