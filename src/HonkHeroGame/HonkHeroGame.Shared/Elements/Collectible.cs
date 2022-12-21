@@ -14,6 +14,8 @@ namespace HonkHeroGame
             Width = Constants.COLLECTIBLE_SIZE * scale;
 
             SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.COLLECTIBLE).Value);
+
+            CornerRadius = new Microsoft.UI.Xaml.CornerRadius(50 * scale);
         }
 
         #endregion

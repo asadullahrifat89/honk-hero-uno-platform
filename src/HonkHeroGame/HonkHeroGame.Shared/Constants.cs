@@ -23,7 +23,7 @@ namespace HonkHeroGame
 
         public const double POWERUP_SIZE = 70;
 
-        public const double COLLECTIBLE_SIZE = 100;
+        public const double COLLECTIBLE_SIZE = 90;
 
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;

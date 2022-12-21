@@ -128,39 +128,39 @@
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>
 
-                    <!--  Enemies  -->
+                    <!--  Vehicles  -->
                     <StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image
                                 Width="50"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/enemy1.png" />
+                                Source="ms-appx:///Assets/Images/vehicle1.png" />
                             <Image
                                 Width="50"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/enemy2.png" />
+                                Source="ms-appx:///Assets/Images/vehicle2.png" />
                             <Image
                                 Width="50"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/enemy3.png" />
+                                Source="ms-appx:///Assets/Images/vehicle3.png" />
                         </StackPanel>
                         <TextBlock
-                            x:Name="EnemiesInstructionsHeader"
+                            x:Name="VehiclesInstructionsHeader"
                             Margin="5"
                             FontSize="20"
                             FontWeight="SemiBold"
-                            Text="Enemies"
+                            Text="Vehicles"
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
                         <TextBlock
-                            x:Name="EnemiesInstructionsDetail"
+                            x:Name="VehiclesInstructionsDetail"
                             Margin="5"
                             FontSize="16"
                             FontWeight="SemiBold"
-                            Text="Avoid jumping into enemies and loosing health."
+                            Text="Avoid colliding with other cars and loosing health."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>
@@ -172,17 +172,17 @@
                                 Width="50"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/collectible1.png" />
+                                Source="ms-appx:///Assets/Images/collectible.png" />
                             <Image
                                 Width="50"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/collectible2.png" />
+                                Source="ms-appx:///Assets/Images/collectible.png" />
                             <Image
                                 Width="50"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/collectible3.png" />
+                                Source="ms-appx:///Assets/Images/collectible.png" />
                         </StackPanel>
                         <TextBlock
                             x:Name="CollectiblesInstructionsHeader"
@@ -197,7 +197,7 @@
                             Margin="5"
                             FontSize="16"
                             FontWeight="SemiBold"
-                            Text="Collect these as much as you can to replenish health and earn points."
+                            Text="Collect these as much as you can to add to your score."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>

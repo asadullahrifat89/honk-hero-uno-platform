@@ -22,11 +22,10 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private readonly int _gameSpeed = 8;
+        private readonly int _gameSpeed = 2;
 
         private int _markNum;
 
-        private Uri[] _clouds;
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
@@ -296,7 +295,6 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _clouds = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.CLOUD).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 

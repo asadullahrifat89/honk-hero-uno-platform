@@ -206,7 +206,7 @@ namespace HonkHeroGame
                 SpawnVehicle();
 
             // add some collectibles
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
                 SpawnCollectible();
         }
 
@@ -689,6 +689,8 @@ namespace HonkHeroGame
         private void SpawnCollectible()
         {
             Collectible collectible = new(_scale);
+            collectible.SetRotation(_random.Next(-30, 45));
+
             RandomizeCollectiblePosition(collectible);
 
             GameView.Children.Add(collectible);

@@ -46,7 +46,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Bangla"
+        "Value": "বাংলা"
       }
     ]
   },
@@ -310,7 +310,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Move your car across the screen with your mouse, keyboard or touch screen."
+        "Value": "Move your player across the screen with your mouse or touch screen."
       },
       {
         "Culture": "de",
@@ -318,16 +318,16 @@
       },
       {
         "Culture": "bn",
-        "Value": "Déplacez votre voiture sur l'écran avec votre souris, votre clavier ou votre écran tactile."
+        "Value": "আপনার মাউস বা টাচ স্ক্রিন দিয়ে আপনার প্লেয়ারকে স্ক্রীন জুড়ে সরান।"
       }
     ]
   },
   {
-    "Key": "CarsInstructionsHeader",
+    "Key": "VehiclesInstructionsHeader",
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Cars"
+        "Value": "Vehicles"
       },
       {
         "Culture": "de",
@@ -335,24 +335,24 @@
       },
       {
         "Culture": "bn",
-        "Value": "Voitures"
+        "Value": "যানবাহন"
       }
     ]
   },
   {
-    "Key": "CarsInstructionsDetail",
+    "Key": "VehiclesInstructionsDetail",
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Avoid colliding with other cars and loss of lifes."
+        "Value": "Tag honking cars with stickers."
       },
       {
         "Culture": "de",
-        "Value": "Vermeiden Sie Kollisionen mit anderen Autos und den Verlust von Leben."
+        "Value": "Markieren Sie hupende Autos mit Aufklebern."
       },
       {
         "Culture": "bn",
-        "Value": "Éviter les collisions avec d'autres voitures et les pertes de vie."
+        "Value": "স্টিকার দিয়ে হর্নিং গাড়ি ট্যাগ করুন।"
       }
     ]
   },
@@ -361,7 +361,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collectibles"
+        "Value": "Stickers"
       },
       {
         "Culture": "de",
@@ -369,7 +369,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Objets de collection"
+        "Value": "স্টিকার"
       }
     ]
   },
@@ -386,7 +386,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Collectez-en le plus possible pour augmenter votre score."
+        "Value": "আপনার স্কোর বাড়াতে যতটা সম্ভব সংগ্রহ করুন।"
       }
     ]
   },
@@ -403,7 +403,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Powerups"
+        "Value": "শক্তি বৃদ্ধি"
       }
     ]
   },
@@ -412,7 +412,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect them to activate force shield, time lapse, 2x, and 4x score multiplier."
+        "Value": "Collect these to activate magnet pull, silence slam, and 2x score multiplier."
       },
       {
         "Culture": "de",
@@ -420,7 +420,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Récolte-les pour augmenter le bouclier de force, le time lapse, le multiplicateur de score 2x et 4x."
+        "Value": "ম্যাগনেট টান, সাইলেন্স স্ল্যাম এবং 2x স্কোর গুণক সক্রিয় করতে এইগুলি সংগ্রহ করুন।"
       }
     ]
   },
@@ -429,7 +429,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Lives"
+        "Value": "Health"
       },
       {
         "Culture": "de",
@@ -437,7 +437,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Vies"
+        "Value": "স্বাস্থ্য"
       }
     ]
   },
@@ -446,15 +446,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect them to repair your car."
+        "Value": "This is your health bar. You lose health when vehicles honk."
       },
       {
         "Culture": "de",
-        "Value": "Einsammeln, um das Auto zu reparieren."
+        "Value": "Dies ist Ihre Gesundheitsleiste. Sie verlieren Gesundheit, wenn Fahrzeuge hupen."
       },
       {
         "Culture": "bn",
-        "Value": "Collecter pour réparer la voiture."
+        "Value": "এটি আপনার স্বাস্থ্য বার। যানবাহন হর্ন বাজলে আপনি স্বাস্থ্য হারাবেন।"
       }
     ]
   },
@@ -471,7 +471,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Suivant"
+        "Value": "পরবর্তী"
       }
     ]
   },
@@ -531,7 +531,7 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collectibles"
+        "Value": "Stickers"
       },
       {
         "Culture": "de",
@@ -539,7 +539,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "Objets collectés"
+        "Value": "স্টিকার"
       }
     ]
   },

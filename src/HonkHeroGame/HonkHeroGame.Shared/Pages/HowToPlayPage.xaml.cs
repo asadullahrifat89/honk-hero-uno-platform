@@ -21,11 +21,10 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private readonly int _gameSpeed = 8;
+        private readonly int _gameSpeed = 3;
 
         private int _markNum;
 
-        private Uri[] _clouds;
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
@@ -170,14 +169,19 @@ namespace HonkHeroGame
             LocalizationHelper.SetLocalizedResource(PlayerInstructionsHeader);
             LocalizationHelper.SetLocalizedResource(PlayerInstructionsDetail);
 
+            LocalizationHelper.SetLocalizedResource(HealthsInstructionsHeader);
+            LocalizationHelper.SetLocalizedResource(HealthsInstructionsDetail);
+
+            LocalizationHelper.SetLocalizedResource(VehiclesInstructionsHeader);
+            LocalizationHelper.SetLocalizedResource(VehiclesInstructionsDetail);
+
             LocalizationHelper.SetLocalizedResource(CollectiblesInstructionsHeader);
             LocalizationHelper.SetLocalizedResource(CollectiblesInstructionsDetail);
 
             LocalizationHelper.SetLocalizedResource(PowerUpsInstructionsHeader);
             LocalizationHelper.SetLocalizedResource(PowerUpsInstructionsDetail);
 
-            LocalizationHelper.SetLocalizedResource(HealthsInstructionsHeader);
-            LocalizationHelper.SetLocalizedResource(HealthsInstructionsDetail);
+           
         }
 
         #endregion
@@ -197,7 +201,6 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _clouds = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.CLOUD).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
