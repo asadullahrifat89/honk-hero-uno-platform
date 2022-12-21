@@ -136,7 +136,7 @@
                                 Width="35"
                                 Height="35"
                                 Margin="4"
-                                Source="ms-appx:///Assets/Images/collectible3.png" />
+                                Source="ms-appx:///Assets/Images/collectible.png" />
                             <TextBlock
                                 x:Name="CollectiblesCollectedText"
                                 Margin="5"
