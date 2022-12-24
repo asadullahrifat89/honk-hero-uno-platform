@@ -36,9 +36,9 @@ namespace HonkHeroGame
         private Player _player;
         private Rect _playerHitBox;
 
-        private int _playerHealth;
-        private readonly int _playerHitPoints = 2;
-        private readonly int _playerHealPoints = 3;
+        private double _playerHealth;
+        private readonly double _playerHitPoints = 5;
+        private readonly double _playerHealPoints = 7;
 
         private readonly double _playerPositionGrace = 7;
 
