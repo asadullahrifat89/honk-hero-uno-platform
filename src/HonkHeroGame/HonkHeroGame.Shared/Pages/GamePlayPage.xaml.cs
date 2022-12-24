@@ -294,6 +294,7 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             SoundHelper.ResumeSound(SoundType.BACKGROUND);
+            SoundHelper.ResumeSound(SoundType.SONG);
 
             RunGame();
         }
