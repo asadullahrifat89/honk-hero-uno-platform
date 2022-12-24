@@ -570,11 +570,9 @@ namespace HonkHeroGame
 
         private void BustHonk(Vehicle vehicle)
         {
+            Sticker collectible = SpawnSticker(vehicle);
             vehicle.BustHonking();
-
-            //Sticker collectible = SpawnSticker(vehicle);
-
-            //vehicle.AttachCollectible(collectible);
+            vehicle.AttachCollectible(collectible);
 
             AddScore(5);
             AddHealth();
@@ -590,9 +588,10 @@ namespace HonkHeroGame
         {
             Sticker sticker = new(_scale);
 
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2);
-            sticker.SetZ(_lanes.Count + 2);
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+
+            sticker.SetZ(vehicle.GetZ() + 1);
             sticker.SetRotation(_random.Next(-30, 45));
 
             GameView.Children.Add(sticker);
@@ -604,8 +603,8 @@ namespace HonkHeroGame
         {
             var collectible = vehicle.AttachedCollectible;
 
-            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 2);
-            collectible.SetTop(vehicle.GetTop() + vehicle.Height / 2);
+            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            collectible.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
 
             if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
                 GameView.AddDestroyableGameObject(collectible);
@@ -617,7 +616,7 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle vehicle = new(_scale, _gameSpeed + _random.Next(0, 2));
+            Vehicle vehicle = new(_scale, _gameSpeed + _random.Next(-1, 2));
             GameView.Children.Add(vehicle);
         }
 

@@ -100,6 +100,11 @@ namespace HonkHeroGame
             return Canvas.GetLeft(this);
         }
 
+        public int GetZ()
+        {
+            return Canvas.GetZIndex(this);
+        }
+
         public void SetTop(double top)
         {
             Canvas.SetTop(this, top);

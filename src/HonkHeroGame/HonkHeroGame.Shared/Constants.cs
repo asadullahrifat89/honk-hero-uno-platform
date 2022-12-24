@@ -17,7 +17,7 @@ namespace HonkHeroGame
         public const double PLAYER_WIDTH = 90;
         public const double PLAYER_HEIGHT = 90;
 
-        public const double STICKER_SIZE = 60;
+        public const double STICKER_SIZE = 30;
 
         public const double HONK_SIZE = 100;
 
