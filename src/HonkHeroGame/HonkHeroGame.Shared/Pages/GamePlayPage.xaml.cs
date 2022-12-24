@@ -38,7 +38,7 @@ namespace HonkHeroGame
 
         private int _playerHealth;
         private readonly int _playerHitPoints = 2;
-        private readonly int _playerHealPoints = 4;
+        private readonly int _playerHealPoints = 3;
 
         private readonly double _playerPositionGrace = 7;
 
@@ -734,7 +734,7 @@ namespace HonkHeroGame
 
         private void Collectible(GameObject collectible)
         {
-            SoundHelper.PlaySound(SoundType.COLLECTIBLE);
+            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
 
             AddScore(1);
             RecyleCollectible(collectible);
