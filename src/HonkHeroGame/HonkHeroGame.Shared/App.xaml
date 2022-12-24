@@ -87,22 +87,22 @@
 
             <!--#region Leaderboard Style-->
             <Style x:Key="LeaderboardRecordContainer" TargetType="Border">
-                <Setter Property="Background" Value="#206fa3" />
-                <Setter Property="BorderBrush" Value="#ffffff" />
+                <Setter Property="Background" Value="#ffd401" />
+                <Setter Property="BorderBrush" Value="#f44157" />
                 <Setter Property="CornerRadius" Value="10" />
             </Style>
             <!--#endregion-->
 
             <!--#region Colors-->
-            <SolidColorBrush x:Key="LeaderboardRecordForegroundColor" Color="#ffffff" />
+            <SolidColorBrush x:Key="LeaderboardRecordForegroundColor" Color="#000000" />
 
-            <SolidColorBrush x:Key="SystemAccentColorLight2" Color="#206fa3" />
-            <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#206fa3" />
+            <SolidColorBrush x:Key="SystemAccentColorLight2" Color="#ffd401" />
+            <SolidColorBrush x:Key="SystemAccentColorDark1" Color="#ffd401" />
 
-            <SolidColorBrush x:Key="FrameBackgroundColor" Color="#206fa3" />
+            <SolidColorBrush x:Key="FrameBackgroundColor" Color="#ffd401" />
             <SolidColorBrush x:Key="ProgressBarErrorColor" Color="#f21930" />
             <SolidColorBrush x:Key="ProgressBarForegroundColor" Color="#1b633b" />
-            <SolidColorBrush x:Key="ProgressBarOkColor" Color="#206fa3" />
+            <SolidColorBrush x:Key="ProgressBarOkColor" Color="#ffd401" />
 
             <SolidColorBrush x:Key="GameBackgroundColor" Color="#ffd401" />
             <SolidColorBrush x:Key="RoadBackgroundColor" Color="#21395d" />

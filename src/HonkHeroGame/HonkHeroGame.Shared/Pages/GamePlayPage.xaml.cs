@@ -572,9 +572,9 @@ namespace HonkHeroGame
         {
             vehicle.BustHonking();
 
-            Sticker collectible = SpawnSticker(vehicle);
+            //Sticker collectible = SpawnSticker(vehicle);
 
-            vehicle.AttachCollectible(collectible);
+            //vehicle.AttachCollectible(collectible);
 
             AddScore(5);
             AddHealth();
