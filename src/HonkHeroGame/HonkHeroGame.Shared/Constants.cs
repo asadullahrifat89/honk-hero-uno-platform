@@ -17,13 +17,13 @@ namespace HonkHeroGame
         public const double PLAYER_WIDTH = 80;
         public const double PLAYER_HEIGHT = 80;
 
-        public const double STICKER_SIZE = 70;
+        public const double STICKER_SIZE = 60;
 
         public const double HONK_SIZE = 100;
 
         public const double POWERUP_SIZE = 70;
 
-        public const double COLLECTIBLE_SIZE = 80;
+        public const double COLLECTIBLE_SIZE = 70;
 
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;

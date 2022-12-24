@@ -62,7 +62,7 @@ namespace HonkHeroGame
 
         private int _collectibleCollected;
 
-        private readonly int _numberOfLanes = 4;
+        private readonly int _numberOfLanes = 5;
         private readonly List<(double Start, double End)> _lanes = new();
 
         #endregion
@@ -670,7 +670,7 @@ namespace HonkHeroGame
             var (Start, End) = _lanes[laneNumber];
 
             var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2);
-            var top = laneNumber == _lanes.Count - 1 ? Start : End;
+            var top = laneNumber + 1 == _lanes.Count ? Start : End;
 
             vehicle.SetPosition(
                 left: left,
