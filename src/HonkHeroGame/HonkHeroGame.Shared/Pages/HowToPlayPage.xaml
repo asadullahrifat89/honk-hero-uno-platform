@@ -94,7 +94,7 @@
                             <Image
                                 Width="25"
                                 Height="25"
-                                Source="ms-appx:///Assets/Images/player_idle.png" />
+                                Source="ms-appx:///Assets/Images/ear.png" />
 
                             <!--  Health bar  -->
                             <ProgressBar
@@ -203,7 +203,7 @@
                     </StackPanel>
 
                     <!--  PowerUps  -->
-                    <StackPanel Margin="10" VerticalAlignment="Center">
+                    <!--<StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image
                                 Width="50"
@@ -232,7 +232,7 @@
                             Text="Collect these to activate magnet pull or flying soccer."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
-                    </StackPanel>
+                    </StackPanel>-->
 
                 </FlipView>
 
