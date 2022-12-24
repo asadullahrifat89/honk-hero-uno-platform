@@ -27,14 +27,14 @@ namespace HonkHeroGame
 
                     switch (x.Key)
                     {
-                        case SoundType.BACKGROUND:
+                        case SoundType.AMBIENCE:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.8, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9, loop: true);
                             }
                             break;
                         case SoundType.SONG:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.8, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.7, loop: true);
                             }
                             break;
                         case SoundType.INTRO:
@@ -61,7 +61,7 @@ namespace HonkHeroGame
                 _playingSounds = new List<Sound>();
 
                 // add all sounds except background and intro as these will be randomized before playing
-                _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.BACKGROUND and not SoundType.INTRO and not SoundType.SONG));
+                _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.AMBIENCE and not SoundType.INTRO and not SoundType.SONG));
 
                 completed?.Invoke();
             }
