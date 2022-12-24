@@ -31,9 +31,9 @@
                 x:Key="GameButtonStyle"
                 BasedOn="{StaticResource DefaultButtonStyle}"
                 TargetType="Button">
-                <Setter Property="Background" Value="#1b633b" />
+                <Setter Property="Background" Value="#f44157" />
                 <Setter Property="Foreground" Value="#ffffff" />
-                <Setter Property="BorderBrush" Value="#ffffff" />
+                <Setter Property="BorderBrush" Value="#1b633b" />
                 <Setter Property="BorderThickness" Value="3" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="FontSize" Value="22" />
@@ -77,7 +77,7 @@
             <!--#region Game UI Container Style-->
             <Style x:Key="GameUIContainer" TargetType="Border">
                 <Setter Property="Background" Value="#ffffff" />
-                <Setter Property="BorderBrush" Value="#1b633b" />
+                <Setter Property="BorderBrush" Value="#f44157" />
                 <Setter Property="CornerRadius" Value="10" />
                 <Setter Property="BorderThickness" Value="0,3,0,3" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
