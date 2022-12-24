@@ -661,7 +661,7 @@ namespace HonkHeroGame
         {
             _markNum = _random.Next(0, _vehicles.Length);
             vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(0, 3);
+            vehicle.Speed = _gameSpeed + _random.Next(0, 2);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
@@ -858,11 +858,11 @@ namespace HonkHeroGame
             RoadMarkLeft.SetSkewY(43);
             RoadMarkLeft.SetRotation(-63.5);
 
-            HighWayDivider.Width = 15 * _scale;
-            HighWayDivider.Height = _windowHeight;
-            HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
-            HighWayDivider.SetSkewY(43);
-            HighWayDivider.SetRotation(-63.5);
+            //HighWayDivider.Width = 15 * _scale;
+            //HighWayDivider.Height = _windowHeight;
+            //HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
+            //HighWayDivider.SetSkewY(43);
+            //HighWayDivider.SetRotation(-63.5);
 
             RoadMarkRight.Width = 15 * _scale;
             RoadMarkRight.Height = _windowHeight;
@@ -879,8 +879,8 @@ namespace HonkHeroGame
             RoadSideLeftImage.Width = _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;
 
-            //RoadSideCenterImage.Width = _windowWidth;
-            //RoadSideCenterImage.Height = _windowHeight;
+            RoadSideCenterImage.Width = _windowWidth;
+            RoadSideCenterImage.Height = _windowHeight;
 
             RoadSideRightImage.Width = _windowWidth;
             RoadSideRightImage.Height = _windowHeight;
