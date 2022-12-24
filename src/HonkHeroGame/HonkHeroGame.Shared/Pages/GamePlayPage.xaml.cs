@@ -22,8 +22,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 1.0;
-        private readonly double _gameSpeedDefault = 1.0;
+        private double _gameSpeed = 1.5;
+        private readonly double _gameSpeedDefault = 1.5;
 
         private readonly double _honkSpeed = 2;
 
@@ -660,8 +660,9 @@ namespace HonkHeroGame
         private void RecyleVehicle(Vehicle vehicle)
         {
             _markNum = _random.Next(0, _vehicles.Length);
+
             vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(0, 2);
+            vehicle.Speed = _gameSpeed + _random.Next(0, 3);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
