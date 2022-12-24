@@ -45,7 +45,7 @@ namespace HonkHeroGame
                 progressBar.Maximum = Constants.ELEMENT_TEMPLATES.Length /*+ Constants.SOUND_TEMPLATES.Length*/;
 
                 messageBlock.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-                messageBlock.Foreground = App.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
+                messageBlock.Foreground = Microsoft.UI.Xaml.Application.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
                 messageBlock.Text = LocalizationHelper.GetLocalizedResource("LOADING_GAME_ASSETS");
 
                 foreach (var uri in Constants.ELEMENT_TEMPLATES.Select(x => x.Value).ToArray())

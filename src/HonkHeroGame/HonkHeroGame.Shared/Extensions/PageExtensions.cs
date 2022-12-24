@@ -40,7 +40,7 @@ namespace HonkHeroGame
 
             if (FindChild<TextBlock>(parent: page, childName: "ProgressBarMessageBlock") is TextBlock messageBlock)
             {
-                messageBlock.Foreground = App.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
+                messageBlock.Foreground = Application.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
                 messageBlock.Text = "👍 " + progressBarMessage;
                 messageBlock.Visibility = progressBarMessage.IsNullOrBlank() ? Visibility.Collapsed : Visibility.Visible;
             }
@@ -77,7 +77,7 @@ namespace HonkHeroGame
 
             if (FindChild<TextBlock>(parent: page, childName: "ProgressBarMessageBlock") is TextBlock messageBlock)
             {
-                messageBlock.Foreground = App.Current.Resources["ProgressBarErrorColor"] as SolidColorBrush;
+                messageBlock.Foreground = Application.Current.Resources["ProgressBarErrorColor"] as SolidColorBrush;
                 messageBlock.Text = "⚠️ " + progressBarMessage;
                 messageBlock.Visibility = progressBarMessage.IsNullOrBlank() ? Visibility.Collapsed : Visibility.Visible;
             }
@@ -95,7 +95,7 @@ namespace HonkHeroGame
         {
             if (FindChild<TextBlock>(parent: page, childName: "ProgressBarMessageBlock") is TextBlock messageBlock)
             {
-                messageBlock.Foreground = isError ? App.Current.Resources["ProgressBarErrorColor"] as SolidColorBrush : App.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
+                messageBlock.Foreground = isError ? Application.Current.Resources["ProgressBarErrorColor"] as SolidColorBrush : Application.Current.Resources["ProgressBarOkColor"] as SolidColorBrush;
                 messageBlock.Text = (isError ? "⚠️ " : "👍 ") + message;
                 messageBlock.Visibility = Visibility.Visible;
             }

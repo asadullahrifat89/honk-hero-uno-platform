@@ -373,7 +373,7 @@ namespace HonkHeroGame
                 switch ((ElementType)x.Tag)
                 {
                     case ElementType.VEHICLE:
-                        RecyleVehicle(x);
+                        RecyleVehicle(x as Vehicle);
                         break;
                     default:
                         break;
@@ -401,7 +401,7 @@ namespace HonkHeroGame
                 switch ((ElementType)x.Tag)
                 {
                     case ElementType.VEHICLE:
-                        UpdateVehicle(x);
+                        UpdateVehicle(x as Vehicle);
                         break;
                     case ElementType.COLLECTIBLE:
                         UpdateCollectible(x);
@@ -427,7 +427,7 @@ namespace HonkHeroGame
             UnderView.Children.Add(Vehicle);
         }
 
-        private void UpdateVehicle(GameObject vehicle)
+        private void UpdateVehicle(Vehicle vehicle)
         {
             vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.50);
             vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
@@ -436,7 +436,7 @@ namespace HonkHeroGame
                 RecyleVehicle(vehicle);
         }
 
-        private void RecyleVehicle(GameObject vehicle)
+        private void RecyleVehicle(Vehicle vehicle)
         {
             _markNum = _random.Next(0, _vehicles.Length);
             vehicle.SetContent(_vehicles[_markNum]);
