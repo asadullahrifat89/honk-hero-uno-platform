@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
@@ -10,7 +11,7 @@ namespace HonkHeroGame
     {
         #region Fields
 
-        private readonly Image _content = new() { Stretch = Stretch.Uniform, Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
+        private readonly Image _content = new() { Stretch = Stretch.Uniform, Visibility = Visibility.Collapsed };
 
         private readonly CompositeTransform _compositeTransform = new()
         {
@@ -52,7 +53,7 @@ namespace HonkHeroGame
             RenderTransform = _compositeTransform;
             CanDrag = false;
 
-            Child = _content;
+            SetChild(_content);
 
             #region HitBox Debug
 
@@ -79,7 +80,7 @@ namespace HonkHeroGame
             #endregion
         }
 
-        #endregion        
+        #endregion
 
         #region Methods
 
@@ -120,10 +121,15 @@ namespace HonkHeroGame
             Canvas.SetLeft(this, left);
         }
 
+        public void SetChild(UIElement uIElement)
+        {
+            Child = uIElement;
+        }
+
         public void SetContent(Uri uri)
         {
             _content.Source = new BitmapImage(uri);
-            _content.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            _content.Visibility = Visibility.Visible;
         }
 
         public void SetHitBoxBorder(Rect rect)
