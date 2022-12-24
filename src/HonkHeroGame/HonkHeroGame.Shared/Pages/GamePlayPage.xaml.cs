@@ -384,7 +384,7 @@ namespace HonkHeroGame
                 left: GameView.Width / 2 - _player.Width / 2,
                 top: GameView.Height / 2 - _player.Height - (50 * _scale));
 
-            _player.SetZ(_lanes.Count + 1);
+            _player.SetZ(_lanes.Count + 3);
 
             GameView.Children.Add(_player);
         }
@@ -623,7 +623,9 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5);
+            if (vehicle.GetLeft() < _windowWidth)
+                vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5);
+
             vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
             if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
@@ -664,17 +666,20 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
-            var laneNumber = _random.Next(2, _lanes.Count);
+            var laneNumber = _random.Next(0, _lanes.Count);
             var (Start, End) = _lanes[laneNumber];
 
+            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 3);
+            var top = laneNumber == _lanes.Count - 1 ? Start : End;
+
             vehicle.SetPosition(
-                left: _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2),
-                top: laneNumber == _lanes.Count - 1 ? Start : End);
+                left: left,
+                top: top);
 
             vehicle.SetZ(laneNumber + 1);
 
 #if DEBUG
-            Console.WriteLine("LANE: " + laneNumber);
+            Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
 #endif
         }
 
@@ -894,8 +899,11 @@ namespace HonkHeroGame
 
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
-            var lanesDetails = string.Join(",", _lanes.Select(x => $"{x.Start}-{x.End}").ToArray());
-            Console.WriteLine($"AVAILABLE LANES: {lanesDetails}");
+
+            Console.WriteLine($"TOTAL LANE COUNT: {_lanes.Count}");
+
+            var lanesDetails = string.Join(" | ", _lanes.Select(x => $"{x.Start} <-> {x.End}").ToArray());
+            Console.WriteLine($"TOTAL LANE POINTS: {lanesDetails}");
 #endif           
         }
 

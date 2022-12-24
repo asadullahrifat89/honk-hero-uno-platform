@@ -82,11 +82,11 @@ namespace HonkHeroGame
                 sound.Stop();
             }
 
-            var introSounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
-            var introSound = introSounds[_random.Next(0, introSounds.Length)];
+            var sounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
+            var soundTaken = sounds[_random.Next(0, sounds.Length)];
 
             _playingSounds.RemoveAll(x => x.SoundType == soundType);
-            _playingSounds.Add(introSound);
+            _playingSounds.Add(soundTaken);
         }
 
         public static bool IsSoundPlaying(SoundType soundType)
