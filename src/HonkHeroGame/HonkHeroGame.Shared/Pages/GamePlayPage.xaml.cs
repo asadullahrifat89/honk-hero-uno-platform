@@ -861,8 +861,11 @@ namespace HonkHeroGame
             RoadMarkRight2.SetSkewY(43);
             RoadMarkRight2.SetRotation(-63.5);
 
-            //RoadSideRightImage.Width = _windowWidth;
-            //RoadSideRightImage.Height = _windowHeight;
+            HighWayDivider2.Width = 20 * _scale;
+            HighWayDivider2.Height = _windowHeight;
+            HighWayDivider2.SetLeft((_windowWidth / 4 - (HighWayDivider2.Width / 2)) * 5);
+            HighWayDivider2.SetSkewY(43);
+            HighWayDivider2.SetRotation(-63.5);
 
             RoadSideLeftImage.Width = _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;

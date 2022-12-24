@@ -34,7 +34,7 @@ namespace HonkHeroGame
                             break;
                         case SoundType.INTRO:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, loop: true);
                             }
                             break;
                         case SoundType.COLLECTIBLE:

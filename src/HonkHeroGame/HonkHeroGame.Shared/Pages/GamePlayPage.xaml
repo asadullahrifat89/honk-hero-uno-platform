@@ -39,8 +39,13 @@
                 Background="#f2f1f3"
                 BorderBrush="Gray"
                 BorderThickness="2" />
+            <GameObject
+                x:Name="HighWayDivider2"
+                Background="#d9a93a"
+                BorderBrush="DarkGoldenrod"
+                BorderThickness="2" />
 
-        </GameEnvironment>       
+        </GameEnvironment>
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
