@@ -32,6 +32,11 @@ namespace HonkHeroGame
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.8, loop: true);
                             }
                             break;
+                        case SoundType.SONG:
+                            {
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.8, loop: true);
+                            }
+                            break;
                         case SoundType.INTRO:
                             {
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, loop: true);
@@ -56,7 +61,7 @@ namespace HonkHeroGame
                 _playingSounds = new List<Sound>();
 
                 // add all sounds except background and intro as these will be randomized before playing
-                _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.BACKGROUND and not SoundType.INTRO));
+                _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.BACKGROUND and not SoundType.INTRO and not SoundType.SONG));
 
                 completed?.Invoke();
             }

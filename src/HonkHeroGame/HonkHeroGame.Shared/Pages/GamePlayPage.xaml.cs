@@ -667,7 +667,7 @@ namespace HonkHeroGame
 
             vehicle.SetPosition(
                 left: _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2),
-                top: End);
+                top: laneNumber == _lanes.Count - 1 ? Start : End);
 
             vehicle.SetZ(laneNumber + 1);
 
@@ -805,16 +805,21 @@ namespace HonkHeroGame
         {
             SoundHelper.RandomizeSound(SoundType.BACKGROUND);
             SoundHelper.PlaySound(SoundType.BACKGROUND);
+
+            SoundHelper.RandomizeSound(SoundType.SONG);
+            SoundHelper.PlaySound(SoundType.SONG);
         }
 
         private void StopGameSounds()
         {
             SoundHelper.StopSound(SoundType.BACKGROUND);
+            SoundHelper.StopSound(SoundType.SONG);
         }
 
         private void PauseGameSounds()
         {
             SoundHelper.PauseSound(SoundType.BACKGROUND);
+            SoundHelper.PauseSound(SoundType.SONG);
         }
 
         #endregion

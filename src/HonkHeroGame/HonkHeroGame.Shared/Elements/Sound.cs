@@ -62,7 +62,8 @@
     {
         MENU_SELECT,
         INTRO,
-        BACKGROUND,        
+        BACKGROUND,
+        SONG,
         HONK,
         HONK_BUST,
         GAME_OVER,
