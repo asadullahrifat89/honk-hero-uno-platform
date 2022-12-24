@@ -25,8 +25,6 @@ namespace HonkHeroGame
         private double _gameSpeed = 1.5;
         private readonly double _gameSpeedDefault = 1.5;
 
-        private readonly double _honkSpeed = 2;
-
         private int _markNum;
 
         private Uri[] _vehicles;
@@ -534,7 +532,7 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(_scale);
+            Honk honk = new(_scale, vehicle.Speed / 2);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
@@ -542,6 +540,8 @@ namespace HonkHeroGame
             honk.SetLeft(vehicle.GetLeft());
             honk.SetTop(vehicle.GetTop());
             honk.SetRotation(_random.Next(-30, 45));
+            honk.SetZ(vehicle.GetZ() + 1);
+
             GameView.Children.Add(honk);
 
             SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
@@ -551,8 +551,8 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - _honkSpeed);
-            honk.SetTop(honk.GetTop() - _honkSpeed);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
+            honk.SetTop(honk.GetTop() - honk.Speed);
             honk.Fade();
 
             if (honk.HasFaded)
@@ -642,8 +642,8 @@ namespace HonkHeroGame
 
             // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
             if (GameView.Children.OfType<Vehicle>()
-                .LastOrDefault(v => v.GetHitBox()
-                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle)
+                .LastOrDefault(v => v.GetDistantHitBox(_scale)
+                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
             {
                 if (collidingVehicle.Speed > vehicle.Speed)
                     collidingVehicle.Speed = vehicle.Speed;
