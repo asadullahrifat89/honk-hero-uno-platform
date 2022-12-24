@@ -22,8 +22,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 1.0;
-        private readonly double _gameSpeedDefault = 1.0;
+        private double _gameSpeed = 1.5;
+        private readonly double _gameSpeedDefault = 1.5;
 
         private readonly double _honkSpeed = 2;
 
@@ -36,9 +36,9 @@ namespace HonkHeroGame
         private Player _player;
         private Rect _playerHitBox;
 
-        private int _playerHealth;
-        private readonly int _playerHitPoints = 2;
-        private readonly int _playerHealPoints = 3;
+        private double _playerHealth;
+        private readonly double _playerHitPoints = 5;
+        private readonly double _playerHealPoints = 7;
 
         private readonly double _playerPositionGrace = 7;
 
@@ -202,7 +202,7 @@ namespace HonkHeroGame
         private void PopulateGameView()
         {
             // add some vehicles
-            for (int i = 0; i < 15; i++)
+            for (double i = 0; i < 15 * _scale; i++)
                 SpawnVehicle();
 
             // add some collectibles
@@ -648,9 +648,9 @@ namespace HonkHeroGame
             {
                 // slower vehicles will slow down faster vehicles
                 if (collidingVehicle.Speed > vehicle.Speed)
-                    vehicle.Speed = collidingVehicle.Speed;
-                else
                     collidingVehicle.Speed = vehicle.Speed;
+                else
+                    vehicle.Speed = collidingVehicle.Speed;
             }
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
@@ -660,8 +660,9 @@ namespace HonkHeroGame
         private void RecyleVehicle(Vehicle vehicle)
         {
             _markNum = _random.Next(0, _vehicles.Length);
+
             vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(0, 2);
+            vehicle.Speed = _gameSpeed + _random.Next(0, 3);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
