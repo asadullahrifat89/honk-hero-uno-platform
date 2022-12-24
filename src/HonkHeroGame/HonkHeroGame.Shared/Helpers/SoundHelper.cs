@@ -44,7 +44,7 @@ namespace HonkHeroGame
                             break;
                         case SoundType.COLLECTIBLE:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.7);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0);
                             }
                             break;
                         default:
@@ -82,11 +82,11 @@ namespace HonkHeroGame
                 sound.Stop();
             }
 
-            var introSounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
-            var introSound = introSounds[_random.Next(0, introSounds.Length)];
+            var sounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
+            var soundTaken = sounds[_random.Next(0, sounds.Length)];
 
             _playingSounds.RemoveAll(x => x.SoundType == soundType);
-            _playingSounds.Add(introSound);
+            _playingSounds.Add(soundTaken);
         }
 
         public static bool IsSoundPlaying(SoundType soundType)
@@ -112,7 +112,7 @@ namespace HonkHeroGame
 
             if (sounds.Length > 1)
             {
-                var sound = sounds[new Random().Next(0, sounds.Length)];
+                var sound = sounds[_random.Next(0, sounds.Length)];
                 sound.Play();
             }
             else

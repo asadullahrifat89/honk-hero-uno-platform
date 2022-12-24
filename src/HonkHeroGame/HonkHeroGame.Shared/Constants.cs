@@ -17,13 +17,13 @@ namespace HonkHeroGame
         public const double PLAYER_WIDTH = 80;
         public const double PLAYER_HEIGHT = 80;
 
-        public const double STICKER_SIZE = 70;
+        public const double STICKER_SIZE = 60;
 
         public const double HONK_SIZE = 100;
 
         public const double POWERUP_SIZE = 70;
 
-        public const double COLLECTIBLE_SIZE = 80;
+        public const double COLLECTIBLE_SIZE = 70;
 
         public const double HEALTH_WIDTH = 80;
         public const double HEALTH_HEIGHT = 80;
@@ -80,6 +80,8 @@ namespace HonkHeroGame
 
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song3.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song4.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
@@ -100,7 +102,9 @@ namespace HonkHeroGame
             //new KeyValuePair<SoundType, string>(SoundType.HEALTH_GAIN, "Assets/Sounds/health-gain.mp3"),
             //new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible_collected.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected3.mp3"),
         };
 
         #endregion

@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-trees-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\tree.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
@@ -159,7 +160,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background3.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible_collected.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\game-over.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk2.mp3" />
@@ -168,6 +172,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk_bust2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song4.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
