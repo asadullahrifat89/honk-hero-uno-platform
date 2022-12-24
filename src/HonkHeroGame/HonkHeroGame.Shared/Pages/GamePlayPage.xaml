@@ -24,11 +24,11 @@
                 Background="#f2f1f3"
                 BorderBrush="Gray"
                 BorderThickness="2" />
-            <!--<GameObject
+            <GameObject
                 x:Name="HighWayDivider"
-                Background="#d9a93a"
-                BorderBrush="DarkGoldenrod"
-                BorderThickness="2" />-->
+                Background="#f2f1f3"
+                BorderBrush="Gray"
+                BorderThickness="2" />
             <GameObject
                 x:Name="RoadMarkRight"
                 Background="#f2f1f3"
@@ -39,12 +39,6 @@
                 Background="#f2f1f3"
                 BorderBrush="Gray"
                 BorderThickness="2" />
-            <!--<GameObject
-                x:Name="HighWayDivider2"
-                Background="#d9a93a"
-                BorderBrush="DarkGoldenrod"
-                BorderThickness="2" />-->
-
         </GameEnvironment>
 
         <Image
