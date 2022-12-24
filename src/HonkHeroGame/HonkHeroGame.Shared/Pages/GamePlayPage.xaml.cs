@@ -297,7 +297,7 @@ namespace HonkHeroGame
             HideInGameTextMessage();
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
-            SoundHelper.ResumeSound(SoundType.BACKGROUND);
+            SoundHelper.ResumeSound(SoundType.AMBIENCE);
             SoundHelper.ResumeSound(SoundType.SONG);
 
             RunGame();
@@ -640,17 +640,27 @@ namespace HonkHeroGame
             if (WaitForHonk(vehicle))
                 SpawnHonk(vehicle);
 
-            // if vechicle will collide with another vehicle
+            // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
             if (GameView.Children.OfType<Vehicle>()
-                .LastOrDefault(v => v.GetDistantHitBox(_scale)
+                .LastOrDefault(v => v.GetHitBox()
                 .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle)
             {
-                // slower vehicles will slow down faster vehicles
                 if (collidingVehicle.Speed > vehicle.Speed)
                     collidingVehicle.Speed = vehicle.Speed;
                 else
                     vehicle.Speed = collidingVehicle.Speed;
             }
+
+            //if (GameView.Children.OfType<Vehicle>()
+            //    .LastOrDefault(v => v.GetCloseHitBox(_scale)
+            //    .IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle closeVehicle)
+            //{                
+            //    if (closeVehicle.Speed > vehicle.Speed && closeVehicle.Speed > 0)
+            //        closeVehicle.Speed--;
+            //    else
+            //        if (closeVehicle.Speed < _gameSpeed * 2)
+            //        closeVehicle.Speed++;
+            //}
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
                 RecyleVehicle(vehicle);
@@ -813,8 +823,8 @@ namespace HonkHeroGame
 
         private void StartGameSounds()
         {
-            SoundHelper.RandomizeSound(SoundType.BACKGROUND);
-            SoundHelper.PlaySound(SoundType.BACKGROUND);
+            SoundHelper.RandomizeSound(SoundType.AMBIENCE);
+            SoundHelper.PlaySound(SoundType.AMBIENCE);
 
             SoundHelper.RandomizeSound(SoundType.SONG);
             SoundHelper.PlaySound(SoundType.SONG);
@@ -822,13 +832,13 @@ namespace HonkHeroGame
 
         private void StopGameSounds()
         {
-            SoundHelper.StopSound(SoundType.BACKGROUND);
+            SoundHelper.StopSound(SoundType.AMBIENCE);
             SoundHelper.StopSound(SoundType.SONG);
         }
 
         private void PauseGameSounds()
         {
-            SoundHelper.PauseSound(SoundType.BACKGROUND);
+            SoundHelper.PauseSound(SoundType.AMBIENCE);
             SoundHelper.PauseSound(SoundType.SONG);
         }
 

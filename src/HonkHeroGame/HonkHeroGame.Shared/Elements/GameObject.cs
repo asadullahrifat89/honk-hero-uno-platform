@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -57,12 +58,12 @@ namespace HonkHeroGame
 
             #region HitBox Debug
 
-            //BorderThickness = new Microsoft.UI.Xaml.Thickness(1);
+            //BorderThickness = new Thickness(1);
             //BorderBrush = new SolidColorBrush(Colors.Black);
 
             //_hitBoxborder = new Border()
             //{
-            //    BorderThickness = new Microsoft.UI.Xaml.Thickness(1),
+            //    BorderThickness = new Thickness(1),
             //    BorderBrush = new SolidColorBrush(Colors.Black)
             //};
 
@@ -75,7 +76,7 @@ namespace HonkHeroGame
             //grid.Children.Add(_content);
             //grid.Children.Add(_hitBoxborder);
 
-            //Child = grid;
+            //SetChild(grid);
 
             #endregion
         }
@@ -137,11 +138,11 @@ namespace HonkHeroGame
             _content.Visibility = Visibility.Visible;
         }
 
-        public void SetHitBoxBorder(Rect rect)
-        {
-            //_hitBoxborder.Height = rect.Height;
-            //_hitBoxborder.Width = rect.Width;
-        }
+        //public void SetHitBoxBorder(Rect rect)
+        //{
+        //    _hitBoxborder.Height = rect.Height;
+        //    _hitBoxborder.Width = rect.Width;
+        //}
 
         public void SetScaleTransform(double scaleTransform)
         {

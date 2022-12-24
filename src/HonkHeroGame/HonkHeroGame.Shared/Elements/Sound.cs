@@ -62,7 +62,7 @@
     {
         MENU_SELECT,
         INTRO,
-        BACKGROUND,
+        AMBIENCE,
         SONG,
         HONK,
         HONK_BUST,

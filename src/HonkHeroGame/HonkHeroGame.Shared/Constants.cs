@@ -77,14 +77,16 @@ namespace HonkHeroGame
 
             new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro.mp3"),
 
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song0.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song2.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song3.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song4.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song5.mp3"),
 
-            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background1.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background2.mp3"),
-            new KeyValuePair<SoundType, string>(SoundType.BACKGROUND, "Assets/Sounds/background3.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience3.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk2.mp3"),

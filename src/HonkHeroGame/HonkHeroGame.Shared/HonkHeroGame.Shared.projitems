@@ -158,9 +158,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background1.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background2.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\background3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song5.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song0.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected3.mp3" />

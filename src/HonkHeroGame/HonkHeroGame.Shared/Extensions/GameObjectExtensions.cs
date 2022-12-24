@@ -43,7 +43,7 @@ namespace HonkHeroGame
               width: gameObject.Width,
               height: gameObject.Height);
 
-            gameObject.SetHitBoxBorder(rect);
+            //gameObject.SetHitBoxBorder(rect);
             return rect;
         }
 
@@ -55,7 +55,7 @@ namespace HonkHeroGame
               width: gameObject.Width - 50 * scale,
               height: gameObject.Height - 50 * scale);
 
-            gameObject.SetHitBoxBorder(rect);
+            //gameObject.SetHitBoxBorder(rect);
             return rect;
         }
 
