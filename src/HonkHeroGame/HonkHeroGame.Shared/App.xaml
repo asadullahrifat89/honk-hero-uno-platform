@@ -31,9 +31,9 @@
                 x:Key="GameButtonStyle"
                 BasedOn="{StaticResource DefaultButtonStyle}"
                 TargetType="Button">
-                <Setter Property="Background" Value="#f44157" />
-                <Setter Property="Foreground" Value="#ffffff" />
-                <Setter Property="BorderBrush" Value="#1b633b" />
+                <Setter Property="Background" Value="#ffd401" />
+                <Setter Property="Foreground" Value="#000000" />
+                <Setter Property="BorderBrush" Value="#f44157" />
                 <Setter Property="BorderThickness" Value="3" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="FontSize" Value="22" />
