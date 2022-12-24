@@ -51,7 +51,7 @@
             x:Name="RoadSideRightImage"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Source="ms-appx:///Assets/Images/road-side-right-buildings.png" />
+            Source="ms-appx:///Assets/Images/road-side-buildings-right.png" />
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
@@ -199,8 +199,7 @@
             VerticalAlignment="Stretch"
             Background="Transparent"
             PointerMoved="InputView_PointerMoved"
-            PointerPressed="InputView_PointerPressed"
-            PointerReleased="InputView_PointerReleased" />
+            PointerPressed="InputView_PointerPressed" />
         <!--#endregion-->
 
         <!--#region Pause & quit game-->

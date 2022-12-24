@@ -669,7 +669,7 @@ namespace HonkHeroGame
             var laneNumber = _random.Next(0, _lanes.Count);
             var (Start, End) = _lanes[laneNumber];
 
-            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 3);
+            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2);
             var top = laneNumber == _lanes.Count - 1 ? Start : End;
 
             vehicle.SetPosition(
