@@ -132,6 +132,7 @@ namespace HonkHeroGame
             {
                 PointerPoint point = e.GetCurrentPoint(GameView);
                 _attackPosition = point.Position;
+                _pointerPosition = point.Position;
                 PlayerAttack();
             }
         }
@@ -875,6 +876,9 @@ namespace HonkHeroGame
 
             RoadSideLeftImage.Width = _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;
+
+            RoadSideRightImage.Width = _windowWidth;
+            RoadSideRightImage.Height = _windowHeight;
 
             _player?.SetSize(
                     width: Constants.PLAYER_WIDTH * _scale,

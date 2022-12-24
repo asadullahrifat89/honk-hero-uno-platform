@@ -82,7 +82,7 @@ namespace HonkHeroGame
                 {
                     _honkCounter = SetHonkCounter();
                     IsHonking = true;
-                    SetEmoji("😡");
+                    SetEmoji("📢");
 
                     return true;
                 }
@@ -97,7 +97,7 @@ namespace HonkHeroGame
             IsBusted = true;
             IsMarkedForPopping = true;
             HasPopped = false;
-            SetEmoji("🤐");
+            SetEmoji("🔇");
         }
 
         public void ResetHonking()
