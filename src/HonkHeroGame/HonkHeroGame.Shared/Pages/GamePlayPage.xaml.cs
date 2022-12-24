@@ -855,11 +855,11 @@ namespace HonkHeroGame
             RoadMarkLeft.SetSkewY(43);
             RoadMarkLeft.SetRotation(-63.5);
 
-            HighWayDivider.Width = 20 * _scale;
-            HighWayDivider.Height = _windowHeight;
-            HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
-            HighWayDivider.SetSkewY(43);
-            HighWayDivider.SetRotation(-63.5);
+            //HighWayDivider.Width = 20 * _scale;
+            //HighWayDivider.Height = _windowHeight;
+            //HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
+            //HighWayDivider.SetSkewY(43);
+            //HighWayDivider.SetRotation(-63.5);
 
             RoadMarkRight.Width = 15 * _scale;
             RoadMarkRight.Height = _windowHeight;
@@ -873,14 +873,17 @@ namespace HonkHeroGame
             RoadMarkRight2.SetSkewY(43);
             RoadMarkRight2.SetRotation(-63.5);
 
-            HighWayDivider2.Width = 20 * _scale;
-            HighWayDivider2.Height = _windowHeight;
-            HighWayDivider2.SetLeft((_windowWidth / 4 - (HighWayDivider2.Width / 2)) * 5);
-            HighWayDivider2.SetSkewY(43);
-            HighWayDivider2.SetRotation(-63.5);
+            //HighWayDivider2.Width = 20 * _scale;
+            //HighWayDivider2.Height = _windowHeight;
+            //HighWayDivider2.SetLeft((_windowWidth / 4 - (HighWayDivider2.Width / 2)) * 5);
+            //HighWayDivider2.SetSkewY(43);
+            //HighWayDivider2.SetRotation(-63.5);
 
             RoadSideLeftImage.Width = _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;
+
+            //RoadSideCenterImage.Width = _windowWidth;
+            //RoadSideCenterImage.Height = _windowHeight;
 
             RoadSideRightImage.Width = _windowWidth;
             RoadSideRightImage.Height = _windowHeight;

@@ -178,10 +178,8 @@ namespace HonkHeroGame
             LocalizationHelper.SetLocalizedResource(CollectiblesInstructionsHeader);
             LocalizationHelper.SetLocalizedResource(CollectiblesInstructionsDetail);
 
-            LocalizationHelper.SetLocalizedResource(PowerUpsInstructionsHeader);
-            LocalizationHelper.SetLocalizedResource(PowerUpsInstructionsDetail);
-
-           
+            //LocalizationHelper.SetLocalizedResource(PowerUpsInstructionsHeader);
+            //LocalizationHelper.SetLocalizedResource(PowerUpsInstructionsDetail);           
         }
 
         #endregion
