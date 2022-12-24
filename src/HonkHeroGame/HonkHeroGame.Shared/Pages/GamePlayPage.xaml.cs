@@ -648,9 +648,9 @@ namespace HonkHeroGame
             {
                 // slower vehicles will slow down faster vehicles
                 if (collidingVehicle.Speed > vehicle.Speed)
-                    vehicle.Speed = collidingVehicle.Speed;
-                else
                     collidingVehicle.Speed = vehicle.Speed;
+                else
+                    vehicle.Speed = collidingVehicle.Speed;
             }
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
