@@ -51,6 +51,12 @@
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
 
+        <Image
+            x:Name="RoadSideLeftImage"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Source="ms-appx:///Assets/Images/road-side-trees-left.png" />
+
         <!--  Gradient  -->
         <Border
             x:Name="GradientBorder"

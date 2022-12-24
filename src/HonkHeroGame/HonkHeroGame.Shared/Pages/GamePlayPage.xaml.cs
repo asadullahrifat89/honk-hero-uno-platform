@@ -864,6 +864,9 @@ namespace HonkHeroGame
             RoadSideRightImage.Width = _windowWidth;
             RoadSideRightImage.Height = _windowHeight;
 
+            RoadSideLeftImage.Width = _windowWidth;
+            RoadSideLeftImage.Height = _windowHeight;
+
             _player?.SetSize(
                     width: Constants.PLAYER_WIDTH * _scale,
                     height: Constants.PLAYER_HEIGHT * _scale);
