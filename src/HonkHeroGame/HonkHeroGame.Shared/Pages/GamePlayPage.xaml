@@ -40,13 +40,7 @@
                 BorderBrush="Gray"
                 BorderThickness="2" />
 
-        </GameEnvironment>
-
-        <Image
-            x:Name="RoadSideRightImage"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Source="ms-appx:///Assets/Images/road-side-trees-right.png" />
+        </GameEnvironment>       
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
