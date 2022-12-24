@@ -128,6 +128,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-trees-left.png" />
@@ -142,9 +144,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_fly.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_appreciating.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10.png" />

@@ -54,9 +54,8 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE, new Uri("ms-appx:///Assets/Images/vehicle12.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER, new Uri("ms-appx:///Assets/Images/player_idle.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_FLYING, new Uri("ms-appx:///Assets/Images/player_fly.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_FLYING, new Uri("ms-appx:///Assets/Images/player_flying.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_ATTACKING, new Uri("ms-appx:///Assets/Images/player_attacking.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.PLAYER_APPRECIATING, new Uri("ms-appx:///Assets/Images/player_appreciating.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.STICKER, new Uri("ms-appx:///Assets/Images/sticker.png")),
 
