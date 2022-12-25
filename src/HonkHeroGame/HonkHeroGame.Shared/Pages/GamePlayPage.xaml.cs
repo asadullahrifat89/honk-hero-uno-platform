@@ -50,7 +50,7 @@ namespace HonkHeroGame
         private readonly int _playerIdleDurationCounterDefault = 20;
 
         private int _playerAttackDurationCounter;
-        private readonly int _playerAttackDurationCounterDefault = 18;
+        private readonly int _playerAttackDurationCounterDefault = 15;
 
         private PowerUpType _powerUpType;
 
@@ -221,7 +221,7 @@ namespace HonkHeroGame
                 SpawnVehicle();
 
             // add some collectibles
-            for (int i = 0; i < 5; i++)
+            for (double i = 0; i < 7 * _scale; i++)
                 SpawnCollectible();
         }
 
@@ -721,32 +721,34 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            // slower vehicles will slow down faster vehicles
-            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetHitBox().IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-            {
-                if (collidingVehicle.Speed > vehicle.Speed)
-                {
-                    collidingVehicle.Speed = vehicle.Speed;
-                }
-            }
+            //// slower vehicles will slow down faster vehicles
+            //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetHitBox().IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
+            //{
+            //    if (collidingVehicle.Speed > vehicle.Speed)
+            //    {
+            //        collidingVehicle.Speed = vehicle.Speed;
+            //    }
+            //}
 
             if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed > x.Speed) is Vehicle slow)
             {
                 if (vehicle.GetLeft() < _windowWidth)
                     vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed / 2) * 0.5);
 
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+                //vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
-                //slow.SetLeft(slow.GetLeft() - vehicle.Speed);
+                if (slow.GetTop() < _lanes[_lanes.Count - 3].Start)
+                    slow.SetLeft(slow.GetLeft() - slow.Speed);
             }
             else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
                 if (vehicle.GetLeft() < _windowWidth)
                     vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed / 2) * 0.5);
 
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2.5);
+                //vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2.5);
 
-                fast.SetLeft(fast.GetLeft() + vehicle.Speed / 2.5);
+                if (fast.GetTop() < _lanes[_lanes.Count - 3].Start)
+                    fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
             }
             else
             {
@@ -770,7 +772,7 @@ namespace HonkHeroGame
                     BustHonk(vehicle);
 
                 if (WaitForHonk(vehicle))
-                    SpawnHonk(vehicle);               
+                    SpawnHonk(vehicle);
             }
         }
 
