@@ -737,7 +737,7 @@ namespace HonkHeroGame
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
-                fast.SetLeft(fast.GetLeft() - fast.Speed);
+                fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
             }
             else
             {
