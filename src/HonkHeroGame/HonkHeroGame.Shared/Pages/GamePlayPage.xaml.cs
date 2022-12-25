@@ -570,9 +570,9 @@ namespace HonkHeroGame
 
         private void BustHonk(Vehicle vehicle)
         {
-            Sticker collectible = SpawnSticker(vehicle);
+            Sticker sticker = SpawnSticker(vehicle);
             vehicle.BustHonking();
-            vehicle.AttachCollectible(collectible);
+            vehicle.AttachSticker(sticker);
 
             AddScore(5);
             AddHealth();
@@ -601,13 +601,13 @@ namespace HonkHeroGame
 
         private void UpdateSticker(Vehicle vehicle)
         {
-            var collectible = vehicle.AttachedCollectible;
+            var sticker = vehicle.AttachedSticker;
 
-            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
-            collectible.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
 
-            if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
-                GameView.AddDestroyableGameObject(collectible);
+            if (sticker.GetTop() + sticker.Height < 0 || sticker.GetLeft() + sticker.Width < 0)
+                GameView.AddDestroyableGameObject(sticker);
         }
 
         #endregion
@@ -630,40 +630,33 @@ namespace HonkHeroGame
 
             vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
-            if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
-                UpdateSticker(vehicle);
-
-            // if player hits the vehicle, bust honking and attach sticker
-            if (vehicle.IsHonking && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
-                BustHonk(vehicle);
-
-            if (WaitForHonk(vehicle))
-                SpawnHonk(vehicle);
-
-            // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
-            if (GameView.Children.OfType<Vehicle>()
-                .LastOrDefault(v => v.GetDistantHitBox(_scale)
-                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-            {
-                if (collidingVehicle.Speed > vehicle.Speed)
-                    collidingVehicle.Speed = vehicle.Speed;
-                else
-                    vehicle.Speed = collidingVehicle.Speed;
-            }
-
-            //if (GameView.Children.OfType<Vehicle>()
-            //    .LastOrDefault(v => v.GetCloseHitBox(_scale)
-            //    .IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle closeVehicle)
-            //{                
-            //    if (closeVehicle.Speed > vehicle.Speed && closeVehicle.Speed > 0)
-            //        closeVehicle.Speed--;
-            //    else
-            //        if (closeVehicle.Speed < _gameSpeed * 2)
-            //        closeVehicle.Speed++;
-            //}
-
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
+            {
                 RecyleVehicle(vehicle);
+            }
+            else
+            {
+                if (vehicle.IsBusted && vehicle.AttachedSticker is not null)
+                    UpdateSticker(vehicle);
+
+                // if player hits the vehicle, bust honking and attach sticker
+                if (vehicle.IsHonking && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
+                    BustHonk(vehicle);
+
+                if (WaitForHonk(vehicle))
+                    SpawnHonk(vehicle);
+
+                // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
+                if (GameView.Children.OfType<Vehicle>()
+                    .LastOrDefault(v => v.GetDistantHitBox(_scale)
+                    .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
+                {
+                    if (collidingVehicle.Speed > vehicle.Speed)
+                        collidingVehicle.Speed = vehicle.Speed;
+                    else
+                        vehicle.Speed = collidingVehicle.Speed;
+                }
+            }
         }
 
         private void RecyleVehicle(Vehicle vehicle)

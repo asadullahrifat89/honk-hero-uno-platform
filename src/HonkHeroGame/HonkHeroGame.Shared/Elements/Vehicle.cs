@@ -62,7 +62,7 @@ namespace HonkHeroGame
 
         public bool WillHonk { get; set; }
 
-        public Sticker AttachedCollectible { get; set; }
+        public Sticker AttachedSticker { get; set; }
 
         #endregion
 
@@ -118,9 +118,9 @@ namespace HonkHeroGame
             }
         }
 
-        public void AttachCollectible(Sticker collectible)
+        public void AttachSticker(Sticker collectible)
         {
-            AttachedCollectible = collectible;
+            AttachedSticker = collectible;
         }
 
         private int SetHonkCounter()
