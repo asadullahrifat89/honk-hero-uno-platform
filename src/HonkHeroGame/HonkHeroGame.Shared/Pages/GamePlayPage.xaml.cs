@@ -30,9 +30,11 @@ namespace HonkHeroGame
         private Uri[] _vehicles;
         private Uri[] _honks;
         private Uri[] _collectibles;
+        private Uri[] _powerUps;
 
         private Player _player;
         private Rect _playerHitBox;
+        private Rect _playerDistantHitBox;
 
         private double _playerHealth;
         private readonly double _playerHitPoints = 5;
@@ -49,11 +51,22 @@ namespace HonkHeroGame
         private int _playerAttackDurationCounter;
         private readonly int _playerAttackDurationCounterDefault = 14;
 
+        private PowerUpType _powerUpType;
+
+        private int _powerUpCount;
+        private readonly int _powerUpSpawnLimit = 1;
+
+        private int _powerUpSpawnCounter = 600;
+
+        private int _powerModeDurationCounter;
+        private readonly int _powerModeDuration = 1000;
+
         private double _score;
         private double _scoreCap;
         private double _difficultyMultiplier;
 
         private bool _isGameOver;
+        private bool _isPowerMode;
 
         private Point _pointerPosition;
         private Point _attackPosition;
@@ -128,10 +141,14 @@ namespace HonkHeroGame
             }
             else
             {
-                PointerPoint point = e.GetCurrentPoint(GameView);
-                _attackPosition = point.Position;
-                _pointerPosition = point.Position;
-                PlayerAttack();
+                if (QuitGameButton.IsChecked == false)
+                {
+                    PointerPoint point = e.GetCurrentPoint(GameView);
+                    _attackPosition = point.Position;
+                    _pointerPosition = point.Position;
+
+                    PlayerAttack();
+                }
             }
         }
 
@@ -140,16 +157,11 @@ namespace HonkHeroGame
             PointerPoint point = e.GetCurrentPoint(GameView);
             _pointerPosition = point.Position;
 
-            if (!_isGameOver)
+            if (!_isGameOver && QuitGameButton.IsChecked == false)
             {
                 if (_player.PlayerState == PlayerState.Idle)
                     _player.SetState(PlayerState.Flying);
             }
-        }
-
-        private void InputView_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-
         }
 
         #endregion
@@ -186,6 +198,7 @@ namespace HonkHeroGame
             _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
+            _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
         }
 
         private void PopulateGameViews()
@@ -219,10 +232,10 @@ namespace HonkHeroGame
             _playerLag = _playerLagDefault;
 
             _isGameOver = false;
-            //_isPowerMode = false;
+            _isPowerMode = false;
 
-            //_powerModeDurationCounter = _powerModeDuration;
-            //_powerUpCount = 0;
+            _powerModeDurationCounter = _powerModeDuration;
+            _powerUpCount = 0;
 
             _score = 0;
             _scoreCap = 50;
@@ -264,9 +277,18 @@ namespace HonkHeroGame
             PlayerHealthBar.Value = _playerHealth;
 
             _playerHitBox = _player.GetHitBox();
+            _playerDistantHitBox = _player.GetDistantHitBox();
 
+            SpawnGameObjects();
             UpdateGameObjects();
             RemoveGameObjects();
+
+            if (_isPowerMode)
+            {
+                PowerUpCoolDown();
+                if (_powerModeDurationCounter <= 0)
+                    PowerDown();
+            }
 
 #if DEBUG
             GameElementsCount.Text = GameView.Children.Count.ToString();
@@ -318,13 +340,26 @@ namespace HonkHeroGame
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
-
             NavigateToPage(typeof(GameOverPage));
         }
 
         #endregion
 
         #region GameObject
+
+        private void SpawnGameObjects()
+        {
+            if (_powerUpCount < _powerUpSpawnLimit)
+            {
+                _powerUpSpawnCounter--;
+
+                if (_powerUpSpawnCounter < 1)
+                {
+                    SpawnPowerUp();
+                    _powerUpSpawnCounter = _random.Next(600, 1000);
+                }
+            }
+        }
 
         private void UpdateGameObjects()
         {
@@ -343,6 +378,9 @@ namespace HonkHeroGame
                         break;
                     case ElementType.COLLECTIBLE:
                         UpdateCollectible(x);
+                        break;
+                    case ElementType.POWERUP:
+                        UpdatePowerUp(x);
                         break;
                     default:
                         break;
@@ -561,18 +599,18 @@ namespace HonkHeroGame
 
         private bool WaitForHonk(Vehicle vehicle)
         {
-            return vehicle.GetLeft() > 0
-                            && vehicle.GetLeft() < _windowWidth
-                            && vehicle.GetTop() > 0
-                            && vehicle.GetTop() < _windowHeight
-                            && vehicle.WaitForHonk();
+            if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width < _windowWidth
+                && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height < _windowHeight)
+                return vehicle.WaitForHonk();
+
+            return false;
         }
 
         private void BustHonk(Vehicle vehicle)
         {
-            Sticker collectible = SpawnSticker(vehicle);
+            Sticker sticker = SpawnSticker(vehicle);
             vehicle.BustHonking();
-            vehicle.AttachCollectible(collectible);
+            vehicle.AttachSticker(sticker);
 
             AddScore(5);
             AddHealth();
@@ -601,13 +639,13 @@ namespace HonkHeroGame
 
         private void UpdateSticker(Vehicle vehicle)
         {
-            var collectible = vehicle.AttachedCollectible;
+            var sticker = vehicle.AttachedSticker;
 
-            collectible.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
-            collectible.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
 
-            if (collectible.GetTop() + collectible.Height < 0 || collectible.GetLeft() + collectible.Width < 0)
-                GameView.AddDestroyableGameObject(collectible);
+            if (sticker.GetTop() + sticker.Height < 0 || sticker.GetLeft() + sticker.Width < 0)
+                GameView.AddDestroyableGameObject(sticker);
         }
 
         #endregion
@@ -630,40 +668,33 @@ namespace HonkHeroGame
 
             vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
-            if (vehicle.IsBusted && vehicle.AttachedCollectible is not null)
-                UpdateSticker(vehicle);
-
-            // if player hits the vehicle, bust honking and attach sticker
-            if (vehicle.IsHonking && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
-                BustHonk(vehicle);
-
-            if (WaitForHonk(vehicle))
-                SpawnHonk(vehicle);
-
-            // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
-            if (GameView.Children.OfType<Vehicle>()
-                .LastOrDefault(v => v.GetDistantHitBox(_scale)
-                .IntersectsWith(vehicle.GetDistantHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-            {
-                if (collidingVehicle.Speed > vehicle.Speed)
-                    collidingVehicle.Speed = vehicle.Speed;
-                else
-                    vehicle.Speed = collidingVehicle.Speed;
-            }
-
-            //if (GameView.Children.OfType<Vehicle>()
-            //    .LastOrDefault(v => v.GetCloseHitBox(_scale)
-            //    .IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle closeVehicle)
-            //{                
-            //    if (closeVehicle.Speed > vehicle.Speed && closeVehicle.Speed > 0)
-            //        closeVehicle.Speed--;
-            //    else
-            //        if (closeVehicle.Speed < _gameSpeed * 2)
-            //        closeVehicle.Speed++;
-            //}
-
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
+            {
                 RecyleVehicle(vehicle);
+            }
+            else
+            {
+                if (vehicle.IsBusted && vehicle.AttachedSticker is not null)
+                    UpdateSticker(vehicle);
+
+                // if player hits the vehicle, bust honking and attach sticker
+                if (vehicle.IsHonking && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
+                    BustHonk(vehicle);
+
+                if (WaitForHonk(vehicle))
+                    SpawnHonk(vehicle);
+
+                // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
+                if (GameView.Children.OfType<Vehicle>()
+                    .LastOrDefault(v => v.GetCollisionPreventionHitBox(_scale)
+                    .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
+                {
+                    if (collidingVehicle.Speed > vehicle.Speed)
+                        collidingVehicle.Speed = vehicle.Speed;
+                    else
+                        vehicle.Speed = collidingVehicle.Speed;
+                }
+            }
         }
 
         private void RecyleVehicle(Vehicle vehicle)
@@ -716,43 +747,59 @@ namespace HonkHeroGame
             collectible.SetTop(collectible.GetTop() + _gameSpeed);
             //collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 0.5);
 
-            // only consider player intersection after appearing in viewport
-            if (collectible.GetTop() + collectible.Height > 10)
-            {
-                if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
-                    Collectible(collectible);
-
-                //// if magnet power up received then pull collectibles to player
-                //if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
-                //    MagnetPull(collectible);
-            }
-
             if (collectible.GetTop() > GameView.Height)
+            {
                 RecyleCollectible(collectible);
+            }
+            else
+            {
+                // only consider player intersection after appearing in viewport
+                if (collectible.GetTop() + collectible.Height > 10)
+                {
+                    if (collectible.IsFlaggedForShrinking)
+                    {
+                        collectible.Shrink();
+
+                        if (collectible.HasShrinked)
+                            RecyleCollectible(collectible);
+                    }
+                    else
+                    {
+                        if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                        {
+                            collectible.IsFlaggedForShrinking = true;
+                            Collectible();
+                        }
+
+                        // if magnet power up received then pull collectibles to player
+                        if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
+                            MagnetPull(collectible);
+                    }
+
+                }
+            }
         }
 
         private void RecyleCollectible(GameObject collectible)
         {
-            _markNum = _random.Next(0, _collectibles.Length);
-            collectible.SetContent(_collectibles[_markNum]);
             RandomizeCollectiblePosition(collectible);
+            collectible.SetContent(_collectibles[0]);
+            collectible.SetScaleTransform(1);
+            collectible.IsFlaggedForShrinking = false;
         }
 
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next(50, (int)GameView.Width - 50)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
+                left: _random.Next(50, (int)GameView.Width - 50),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
-        private void Collectible(GameObject collectible)
+        private void Collectible()
         {
             SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
-
-            AddScore(1);
-            RecyleCollectible(collectible);
-
             _collectibleCollected++;
+            AddScore(1);
         }
 
         #endregion
@@ -782,6 +829,106 @@ namespace HonkHeroGame
 
             if (_playerHealth <= 0)
                 GameOver();
+        }
+
+        #endregion
+
+        #region PowerUp
+
+        private void SpawnPowerUp()
+        {
+            PowerUp powerUp = new(_scale);
+
+            var powerUpTypes = Enum.GetNames<PowerUpType>();
+            powerUp.PowerUpType = (PowerUpType)_random.Next(0, powerUpTypes.Length);
+
+            powerUp.SetContent(_powerUps[(int)powerUp.PowerUpType]);
+            powerUp.SetZ(_player.GetZ() + 1);
+
+            RandomizePowerUpPosition(powerUp);
+            GameView.Children.Add(powerUp);
+
+#if DEBUG
+            Console.WriteLine("POWER UP SPAWNED: " + powerUp.PowerUpType);
+#endif
+        }
+
+        private void RandomizePowerUpPosition(GameObject powerUp)
+        {
+            powerUp.SetPosition(
+                left: _random.Next(0, (int)GameView.Width) - (100 * _scale),
+                top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
+        }
+
+        private void UpdatePowerUp(GameObject powerUp)
+        {
+            powerUp.SetTop(powerUp.GetTop() + _gameSpeed);
+
+            if (_playerHitBox.IntersectsWith(powerUp.GetHitBox()))
+            {
+                GameView.AddDestroyableGameObject(powerUp);
+                PowerUp(powerUp as PowerUp);
+            }
+            else
+            {
+                if (powerUp.GetTop() > GameView.Height)
+                    GameView.AddDestroyableGameObject(powerUp);
+            }
+        }
+
+        private void PowerUp(PowerUp powerUp)
+        {
+            _isPowerMode = true;
+            _powerModeDurationCounter = _powerModeDuration;
+            _powerUpCount++;
+            _powerUpType = powerUp.PowerUpType;
+
+            powerUpText.Visibility = Visibility.Visible;
+            SoundHelper.PlaySound(SoundType.POWER_UP);
+        }
+
+        private void PowerUpCoolDown()
+        {
+            _powerModeDurationCounter -= 1;
+            double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDuration * 4;
+
+            powerUpText.Text = "";
+
+            for (int i = 0; i < remainingPow; i++)
+            {
+                powerUpText.Text += "⚡";
+            }
+        }
+
+        private void PowerDown()
+        {
+            _isPowerMode = false;
+            _powerUpCount--;
+
+            powerUpText.Visibility = Visibility.Collapsed;
+            SoundHelper.PlaySound(SoundType.POWER_DOWN);
+        }
+
+        private void MagnetPull(GameObject collectible)
+        {
+            var collectibleHitBoxDistant = collectible.GetDistantHitBox();
+
+            if (_playerDistantHitBox.IntersectsWith(collectibleHitBoxDistant))
+            {
+                var collectibleHitBox = collectible.GetHitBox();
+
+                if (_playerHitBox.Left < collectibleHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 3.5);
+
+                if (collectibleHitBox.Right < _playerHitBox.Left)
+                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 3.5);
+
+                if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 3.5);
+
+                if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 3.5);
+            }
         }
 
         #endregion
