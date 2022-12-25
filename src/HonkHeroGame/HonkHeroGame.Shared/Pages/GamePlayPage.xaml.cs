@@ -78,6 +78,8 @@ namespace HonkHeroGame
         private readonly int _numberOfLanes = 5;
         private readonly List<(double Start, double End)> _lanes = new();
 
+        private (int Lane, double Top) _lastVehicleSpawnPoint = (0, 0);
+
         #endregion
 
         #region Ctor
@@ -742,13 +744,14 @@ namespace HonkHeroGame
 
                 // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
                 if (GameView.Children.OfType<Vehicle>()
-                    .LastOrDefault(v => v.GetCollisionPreventionHitBox(_scale)
+                    .FirstOrDefault(v => v.GetCollisionPreventionHitBox(_scale)
                     .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
                 {
                     if (collidingVehicle.Speed > vehicle.Speed)
                         collidingVehicle.Speed = vehicle.Speed;
                     else
-                        vehicle.Speed = collidingVehicle.Speed;
+                        //vehicle.Speed = collidingVehicle.Speed;
+                        collidingVehicle.Speed = vehicle.Speed / 2;
                 }
             }
         }
@@ -776,7 +779,15 @@ namespace HonkHeroGame
                 left: left,
                 top: top);
 
-            vehicle.SetZ(laneNumber + 1);
+            if (_lastVehicleSpawnPoint.Lane > 0 || _lastVehicleSpawnPoint.Top > 0)
+            {
+                if (top > _lastVehicleSpawnPoint.Top)
+                    vehicle.SetZ(_lastVehicleSpawnPoint.Lane + 1);
+            }
+            else
+                vehicle.SetZ(laneNumber);
+
+            _lastVehicleSpawnPoint = (laneNumber, top);
 
 #if DEBUG
             Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
