@@ -575,8 +575,9 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicle.GetLeft());
-            honk.SetTop(vehicle.GetTop());
+            honk.SetLeft(vehicle.GetLeft() - 10 * _scale);
+            honk.SetTop(vehicle.GetTop() + vehicle.Height / 3);
+
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
 
@@ -589,7 +590,7 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 2.5);
             honk.SetTop(honk.GetTop() - honk.Speed);
             honk.Fade();
 
@@ -601,7 +602,9 @@ namespace HonkHeroGame
         {
             if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width < _windowWidth
                 && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height < _windowHeight)
+            {
                 return vehicle.WaitForHonk();
+            }                
 
             return false;
         }
