@@ -728,7 +728,7 @@ namespace HonkHeroGame
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
 
-                slow.SetTop(slow.GetTop() - (slow.Speed * 0.5));
+                slow.SetTop(slow.GetTop() - (slow.Speed * 0.5) / 2);
                 slow.SetLeft(slow.GetLeft() - slow.Speed / 2);
             }
             else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
