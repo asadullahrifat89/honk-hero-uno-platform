@@ -29,7 +29,15 @@ namespace HonkHeroGame
                     {
                         case SoundType.AMBIENCE:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, playback: () =>
+                                {
+                                    RandomizeSound(SoundType.AMBIENCE);
+                                    PlaySound(SoundType.AMBIENCE);
+
+#if DEBUG
+                                    Console.WriteLine("AUDIO PLAYBACK: " + SoundType.AMBIENCE);
+#endif
+                                });
                             }
                             break;
                         case SoundType.SONG:
@@ -40,7 +48,7 @@ namespace HonkHeroGame
                                     PlaySound(SoundType.SONG);
 
 #if DEBUG
-                                    Console.WriteLine("AUDIO PLAYBACK");
+                                    Console.WriteLine("AUDIO PLAYBACK: " + SoundType.SONG);
 #endif
                                 });
                             }
@@ -68,7 +76,7 @@ namespace HonkHeroGame
 
                 _playingSounds = new List<Sound>();
 
-                // add all sounds except background and intro as these will be randomized before playing
+                // add all sounds except randomizable sounds as these will be randomized before playing
                 _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.AMBIENCE and not SoundType.INTRO and not SoundType.SONG));
 
                 completed?.Invoke();
@@ -86,9 +94,7 @@ namespace HonkHeroGame
         public static void RandomizeSound(SoundType soundType)
         {
             foreach (var sound in _playingSounds.Where(x => x.SoundType == soundType))
-            {
                 sound.Stop();
-            }
 
             var sounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
             var soundIndex = _random.Next(0, sounds.Length);
