@@ -650,8 +650,8 @@ namespace HonkHeroGame
 
         private bool WaitForHonk(Vehicle vehicle)
         {
-            if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width / 2 < _windowWidth
-                && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height / 2 < _windowHeight)
+            if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width / 3 < _windowWidth
+                && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height / 3 < _windowHeight)
             {
                 return vehicle.WaitForHonk();
             }

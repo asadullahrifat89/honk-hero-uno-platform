@@ -207,10 +207,19 @@
         <!--#region Pause & quit game-->
         <StackPanel
             x:Name="QuitGamePanel"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Orientation="Horizontal"
             Visibility="Collapsed">
+
+            <!--  Confirm quit game  -->
+            <Button
+                x:Name="ConfirmQuitGameButton"
+                Height="45"
+                Margin="5"
+                Click="ConfirmQuitGameButton_Click"
+                Content="Quit Game?"
+                Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
 
             <!--  Quit game  -->
             <ToggleButton
@@ -223,15 +232,6 @@
                 Unchecked="QuitGameButton_Unchecked">
                 <SymbolIcon Symbol="Pause" />
             </ToggleButton>
-
-            <!--  Confirm quit game  -->
-            <Button
-                x:Name="ConfirmQuitGameButton"
-                Height="45"
-                Margin="5"
-                Click="ConfirmQuitGameButton_Click"
-                Content="Quit Game?"
-                Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
 
         </StackPanel>
         <!--#endregion-->
