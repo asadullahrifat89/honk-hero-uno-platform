@@ -721,24 +721,28 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            if (GameView.Children.OfType<Vehicle>().Any(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed > x.Speed) /*is Vehicle slow*/)
+            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed > x.Speed) is Vehicle slow)
             {
                 if (vehicle.GetLeft() < _windowWidth)
                     vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / 2);
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
+
+                //slow.SetLeft(slow.GetLeft() - slow.Speed);
             }
-            else if (GameView.Children.OfType<Vehicle>().Any(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) /*is Vehicle fast*/)
+            else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
                 if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) * 2);
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
 
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed * 2);
+                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+
+                fast.SetLeft(fast.GetLeft() - fast.Speed);
             }
             else
             {
                 if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5);
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
             }
