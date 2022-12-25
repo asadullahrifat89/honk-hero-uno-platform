@@ -716,33 +716,37 @@ namespace HonkHeroGame
             collectible.SetTop(collectible.GetTop() + _gameSpeed);
             //collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 0.5);
 
-            // only consider player intersection after appearing in viewport
-            if (collectible.GetTop() + collectible.Height > 10)
+            if (collectible.GetTop() > GameView.Height)
             {
-                if (collectible.IsFlaggedForShrinking)
+                RecyleCollectible(collectible);
+            }
+            else
+            {
+                // only consider player intersection after appearing in viewport
+                if (collectible.GetTop() + collectible.Height > 10)
                 {
-                    collectible.Shrink();
-
-                    if (collectible.HasShrinked)
-                        RecyleCollectible(collectible);
-                }
-                else
-                {
-                    if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                    if (collectible.IsFlaggedForShrinking)
                     {
-                        collectible.IsFlaggedForShrinking = true;
-                        Collectible();
+                        collectible.Shrink();
+
+                        if (collectible.HasShrinked)
+                            RecyleCollectible(collectible);
+                    }
+                    else
+                    {
+                        if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                        {
+                            collectible.IsFlaggedForShrinking = true;
+                            Collectible();
+                        }
+
+                        //// if magnet power up received then pull collectibles to player
+                        //if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
+                        //    MagnetPull(collectible);
                     }
 
-                    //// if magnet power up received then pull collectibles to player
-                    //if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
-                    //    MagnetPull(collectible);
                 }
-
             }
-
-            if (collectible.GetTop() > GameView.Height)
-                RecyleCollectible(collectible);
         }
 
         private void RecyleCollectible(GameObject collectible)
