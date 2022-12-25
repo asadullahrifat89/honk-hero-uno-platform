@@ -41,6 +41,10 @@ namespace HonkHeroGame
 
         public bool IsMarkedForPopping { get; set; }
 
+        public bool IsFlaggedForShrinking { get; set; }
+
+        public bool HasShrinked => _compositeTransform.ScaleX <= 0;
+
         public bool HasPopped { get; set; }
 
         #endregion
@@ -84,6 +88,12 @@ namespace HonkHeroGame
         #endregion
 
         #region Methods
+
+        //public void SetHitBoxBorder(Rect rect)
+        //{
+        //    _hitBoxborder.Height = rect.Height;
+        //    _hitBoxborder.Width = rect.Width;
+        //}
 
         public void SetSize(double width, double height)
         {
@@ -137,12 +147,6 @@ namespace HonkHeroGame
             _content.Source = new BitmapImage(uri);
             _content.Visibility = Visibility.Visible;
         }
-
-        //public void SetHitBoxBorder(Rect rect)
-        //{
-        //    _hitBoxborder.Height = rect.Height;
-        //    _hitBoxborder.Width = rect.Width;
-        //}
 
         public void SetScaleTransform(double scaleTransform)
         {
@@ -200,6 +204,12 @@ namespace HonkHeroGame
         public void Fade()
         {
             Opacity -= 0.005;
+        }
+
+        public void Shrink()
+        {
+            _compositeTransform.ScaleX -= 0.1;
+            _compositeTransform.ScaleY -= 0.1;
         }
 
         #endregion

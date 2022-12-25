@@ -719,12 +719,26 @@ namespace HonkHeroGame
             // only consider player intersection after appearing in viewport
             if (collectible.GetTop() + collectible.Height > 10)
             {
-                if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
-                    Collectible(collectible);
+                if (collectible.IsFlaggedForShrinking)
+                {
+                    collectible.Shrink();
 
-                //// if magnet power up received then pull collectibles to player
-                //if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
-                //    MagnetPull(collectible);
+                    if (collectible.HasShrinked)
+                        RecyleCollectible(collectible);
+                }
+                else
+                {
+                    if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
+                    {
+                        collectible.IsFlaggedForShrinking = true;
+                        Collectible();
+                    }
+
+                    //// if magnet power up received then pull collectibles to player
+                    //if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
+                    //    MagnetPull(collectible);
+                }
+
             }
 
             if (collectible.GetTop() > GameView.Height)
@@ -733,26 +747,24 @@ namespace HonkHeroGame
 
         private void RecyleCollectible(GameObject collectible)
         {
-            _markNum = _random.Next(0, _collectibles.Length);
-            collectible.SetContent(_collectibles[_markNum]);
             RandomizeCollectiblePosition(collectible);
+            collectible.SetContent(_collectibles[0]);
+            collectible.SetScaleTransform(1);
+            collectible.IsFlaggedForShrinking = false;
         }
 
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next(50, (int)GameView.Width - 50)/*_random.Next((int)GameView.Width / 2, (int)GameView.Width * 2)*/,
+                left: _random.Next(50, (int)GameView.Width - 50),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
-        private void Collectible(GameObject collectible)
+        private void Collectible()
         {
             SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
-
-            AddScore(1);
-            RecyleCollectible(collectible);
-
             _collectibleCollected++;
+            AddScore(1);
         }
 
         #endregion
