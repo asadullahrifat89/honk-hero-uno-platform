@@ -127,6 +127,28 @@
                     <!--  Score details panel  -->
                     <WrapPanel x:Name="ScoreDetailsStack" HorizontalAlignment="Center">
 
+                        <!--  Vehicles  -->
+                        <StackPanel
+                            Margin="2,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Image
+                                Width="35"
+                                Height="35"
+                                Margin="4"
+                                Source="ms-appx:///Assets/Images/vehicle8.png" />
+                            <TextBlock
+                                x:Name="VehiclesTaggedText"
+                                Margin="5"
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="Vehicles"
+                                TextAlignment="Center"
+                                TextWrapping="WrapWholeWords" />
+
+                        </StackPanel>
+
                         <!--  Collectibles  -->
                         <StackPanel
                             Margin="2,0"

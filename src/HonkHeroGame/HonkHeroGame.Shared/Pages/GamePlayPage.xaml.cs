@@ -73,6 +73,7 @@ namespace HonkHeroGame
         private Point _attackPosition;
 
         private int _collectibleCollected;
+        private int _vehiclesTagged;
 
         private readonly int _numberOfLanes = 5;
         private readonly List<(double Start, double End)> _lanes = new();
@@ -243,6 +244,8 @@ namespace HonkHeroGame
             _difficultyMultiplier = 1;
 
             _collectibleCollected = 0;
+            _vehiclesTagged = 0;
+
             ScoreText.Text = "0";
 
             _playerHealth = 100;
@@ -337,7 +340,8 @@ namespace HonkHeroGame
             PlayerScoreHelper.PlayerScore = new HonkHeroGameScore()
             {
                 Score = Math.Ceiling(_score),
-                CollectiblesCollected = _collectibleCollected
+                CollectiblesCollected = _collectibleCollected,
+                VehiclesTagged = _vehiclesTagged,
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
@@ -359,7 +363,7 @@ namespace HonkHeroGame
                 if (_powerUpSpawnCounter < 1)
                 {
                     SpawnPowerUp();
-                    _powerUpSpawnCounter = _random.Next(600, 800);
+                    _powerUpSpawnCounter = _random.Next(800, 1000);
                 }
             }
             //}
@@ -667,6 +671,8 @@ namespace HonkHeroGame
 
             AddScore(5);
             AddHealth();
+
+            _vehiclesTagged++;
 
             SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
         }

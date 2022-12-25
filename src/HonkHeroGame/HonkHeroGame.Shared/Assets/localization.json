@@ -527,6 +527,23 @@
     ]
   },
   {
+    "Key": "VehiclesTaggedText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Vehicles"
+      },
+      {
+        "Culture": "de",
+        "Value": "Autos"
+      },
+      {
+        "Culture": "bn",
+        "Value": "যানবাহন"
+      }
+    ]
+  },
+  {
     "Key": "CollectiblesCollectedText",
     "CultureValues": [
       {
