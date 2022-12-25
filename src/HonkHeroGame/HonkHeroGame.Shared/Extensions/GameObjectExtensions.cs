@@ -56,10 +56,10 @@ namespace HonkHeroGame
             //  height: gameObject.Height - 50 * scale);
 
             var rect = new Rect(
-                x: gameObject.GetLeft() + (gameObject.Width / 4),
-                y: gameObject.GetTop() + (gameObject.Height / 4),
-                width: gameObject.Width - (gameObject.Width / 4),
-                height: gameObject.Height - (gameObject.Width / 4));
+                x: gameObject.GetLeft() + (gameObject.Width / 5),
+                y: gameObject.GetTop() + (gameObject.Height / 5),
+                width: gameObject.Width - (gameObject.Width / 5),
+                height: gameObject.Height - (gameObject.Width / 5));
 
             //gameObject.SetHitBoxBorder(rect);
             return rect;
