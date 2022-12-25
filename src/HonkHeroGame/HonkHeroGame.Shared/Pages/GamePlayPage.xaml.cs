@@ -721,12 +721,19 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            if (GameView.Children.OfType<Vehicle>().Any(x => x.GetCollisionPreventionHitBox(_scale).IntersectsWith(vehicle.GetHitBox()) && vehicle.Speed > x.Speed))
+            if (GameView.Children.OfType<Vehicle>().Any(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetHitBox()) && vehicle.Speed > x.Speed))
             {
                 if (vehicle.GetLeft() < _windowWidth)
                     vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed / 2) * 0.5);
 
-                vehicle.SetLeft(vehicle.GetLeft() - (vehicle.Speed / 1.5));
+                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+            }
+            else if (GameView.Children.OfType<Vehicle>().Any(x => x.GetHitBox().IntersectsWith(vehicle.GetHitBox()) && vehicle.Speed > x.Speed))
+            {
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed / 2) * 0.5);
+
+                vehicle.SetLeft(vehicle.GetLeft() - (vehicle.Speed / 1.5) * 1.2);
             }
             else
             {
@@ -753,20 +760,15 @@ namespace HonkHeroGame
                     SpawnHonk(vehicle);
 
                 // slower vehicles will slow down faster vehicles
-                //if (GameView.Children.OfType<Vehicle>()
-                //    .FirstOrDefault(v => v.GetCollisionPreventionHitBox(_scale)
-                //    .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-                //{
-                //    if (collidingVehicle.Speed > vehicle.Speed)
-                //    {
-                //        collidingVehicle.Speed = vehicle.Speed;
-                //    }
-                //    //else if (vehicle.Speed > collidingVehicle.Speed)
-                //    //{
-                //    //    if (vehicle.Speed > _gameSpeed / 2)
-                //    //        vehicle.Speed--;
-                //    //}
-                //}
+                if (GameView.Children.OfType<Vehicle>()
+                    .FirstOrDefault(v => v.GetHitBox()
+                    .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
+                {
+                    if (collidingVehicle.Speed > vehicle.Speed)
+                    {
+                        collidingVehicle.Speed = vehicle.Speed;
+                    }
+                }
             }
         }
 
