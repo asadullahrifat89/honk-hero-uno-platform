@@ -78,7 +78,7 @@ namespace HonkHeroGame
         private readonly int _numberOfLanes = 5;
         private readonly List<(double Start, double End)> _lanes = new();
 
-        private (int Lane, double Top) _lastVehicleSpawnPoint = (0, 0);
+        private (int Z, double Y) _lastVehiclePoint = (0, 0);
 
         #endregion
 
@@ -221,7 +221,7 @@ namespace HonkHeroGame
                 SpawnVehicle();
 
             // add some collectibles
-            for (int i = 0; i < 5; i++)
+            for (double i = 0; i < 7 * _scale; i++)
                 SpawnCollectible();
         }
 
@@ -721,10 +721,31 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            if (vehicle.GetLeft() < _windowWidth)
-                vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5);
+            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed > x.Speed) is Vehicle slow)
+            {
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / 2);
 
-            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
+
+                //slow.SetLeft(slow.GetLeft() - slow.Speed);
+            }
+            else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
+            {
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+
+                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+
+                fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
+            }
+            else
+            {
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+
+                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+            }
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
             {
@@ -742,20 +763,14 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                // slower vehicles will slow down faster vehicles
-                if (GameView.Children.OfType<Vehicle>()
-                    .FirstOrDefault(v => v.GetCollisionPreventionHitBox(_scale)
-                    .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-                {
-                    if (collidingVehicle.Speed > vehicle.Speed)
-                    {
-                        collidingVehicle.Speed = vehicle.Speed;
-                    }
-                    else if (collidingVehicle.Speed < vehicle.Speed)
-                    {
-                        vehicle.Speed = collidingVehicle.Speed;                        
-                    }                   
-                }
+                //// slower vehicles will slow down faster vehicles
+                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetHitBox().IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
+                //{
+                //    if (collidingVehicle.Speed > vehicle.Speed)
+                //    {
+                //        collidingVehicle.Speed = vehicle.Speed;
+                //    }
+                //}
             }
         }
 
@@ -773,25 +788,40 @@ namespace HonkHeroGame
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
             var laneNumber = _random.Next(0, _lanes.Count);
+
+            if (laneNumber == _lastVehiclePoint.Z)
+            {
+                if (laneNumber + 1 == _lanes.Count)
+                    laneNumber--;
+                else
+                    laneNumber += _random.Next(-1, 2);
+
+                if (laneNumber > _lanes.Count - 1)
+                    laneNumber = _lanes.Count;
+
+                if (laneNumber < 0)
+                    laneNumber = 0;
+            }
+
             var (Start, End) = _lanes[laneNumber];
 
-            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2);
+            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 4));
             var top = laneNumber == 0 ? End : laneNumber + 1 == _lanes.Count ? Start : _random.Next((int)Start, (int)End);
 
             vehicle.SetPosition(
                 left: left,
                 top: top);
 
-            if (_lastVehicleSpawnPoint.Lane > 0 || _lastVehicleSpawnPoint.Top > 0)
-            {
-                if (top > _lastVehicleSpawnPoint.Top)
-                    vehicle.SetZ(_lastVehicleSpawnPoint.Lane + 1);
-            }
+            if (top >= _lastVehiclePoint.Y)
+                vehicle.SetZ(_lastVehiclePoint.Z + 1);
             else
-                vehicle.SetZ(laneNumber);
+                vehicle.SetZ(_lastVehiclePoint.Z - 1);
 
-            _lastVehicleSpawnPoint = (laneNumber, top);
+            _lastVehiclePoint = (vehicle.GetZ(), top);
 
+            // always keep player on top
+            if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
+                _player.SetZ(_lastVehiclePoint.Z + 1);
 #if DEBUG
             Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
 #endif
