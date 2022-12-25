@@ -54,13 +54,13 @@ namespace HonkHeroGame
 
         private PowerUpType _powerUpType;
 
-        private int _powerUpCount;
-        private readonly int _powerUpSpawnLimit = 1;
+        //private int _powerUpCount;
+        //private readonly int _powerUpSpawnLimit = 1;
 
         private int _powerUpSpawnCounter = 600;
 
         private int _powerModeDurationCounter;
-        private readonly int _powerModeDuration = 1000;
+        private readonly int _powerModeDurationDefault = 1000;
 
         private double _score;
         private double _scoreCap;
@@ -73,6 +73,7 @@ namespace HonkHeroGame
         private Point _attackPosition;
 
         private int _collectibleCollected;
+        private int _vehiclesTagged;
 
         private readonly int _numberOfLanes = 5;
         private readonly List<(double Start, double End)> _lanes = new();
@@ -235,14 +236,16 @@ namespace HonkHeroGame
             _isGameOver = false;
             _isPowerMode = false;
 
-            _powerModeDurationCounter = _powerModeDuration;
-            _powerUpCount = 0;
+            _powerModeDurationCounter = _powerModeDurationDefault;
+            //_powerUpCount = 0;
 
             _score = 0;
             _scoreCap = 50;
             _difficultyMultiplier = 1;
 
             _collectibleCollected = 0;
+            _vehiclesTagged = 0;
+
             ScoreText.Text = "0";
 
             _playerHealth = 100;
@@ -337,7 +340,8 @@ namespace HonkHeroGame
             PlayerScoreHelper.PlayerScore = new HonkHeroGameScore()
             {
                 Score = Math.Ceiling(_score),
-                CollectiblesCollected = _collectibleCollected
+                CollectiblesCollected = _collectibleCollected,
+                VehiclesTagged = _vehiclesTagged,
             };
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
@@ -350,16 +354,19 @@ namespace HonkHeroGame
 
         private void SpawnGameObjects()
         {
-            if (_powerUpCount < _powerUpSpawnLimit)
+            //if (_powerUpCount < _powerUpSpawnLimit)
+            //{
+            if (!_isPowerMode)
             {
                 _powerUpSpawnCounter--;
 
                 if (_powerUpSpawnCounter < 1)
                 {
                     SpawnPowerUp();
-                    _powerUpSpawnCounter = _random.Next(600, 1000);
+                    _powerUpSpawnCounter = _random.Next(800, 1000);
                 }
             }
+            //}
         }
 
         private void UpdateGameObjects()
@@ -647,8 +654,8 @@ namespace HonkHeroGame
 
         private bool WaitForHonk(Vehicle vehicle)
         {
-            if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width < _windowWidth
-                && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height < _windowHeight)
+            if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width / 3 < _windowWidth
+                && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height / 3 < _windowHeight)
             {
                 return vehicle.WaitForHonk();
             }
@@ -664,6 +671,8 @@ namespace HonkHeroGame
 
             AddScore(5);
             AddHealth();
+
+            _vehiclesTagged++;
 
             SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
         }
@@ -893,7 +902,6 @@ namespace HonkHeroGame
 
             RandomizePowerUpPosition(powerUp);
             GameView.Children.Add(powerUp);
-
 #if DEBUG
             Console.WriteLine("POWER UP SPAWNED: " + powerUp.PowerUpType);
 #endif
@@ -925,8 +933,8 @@ namespace HonkHeroGame
         private void PowerUp(PowerUp powerUp)
         {
             _isPowerMode = true;
-            _powerModeDurationCounter = _powerModeDuration;
-            _powerUpCount++;
+
+            _powerModeDurationCounter = _powerModeDurationDefault;
             _powerUpType = powerUp.PowerUpType;
 
             powerUpText.Visibility = Visibility.Visible;
@@ -936,7 +944,7 @@ namespace HonkHeroGame
         private void PowerUpCoolDown()
         {
             _powerModeDurationCounter -= 1;
-            double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDuration * 4;
+            double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDurationDefault * 4;
 
             powerUpText.Text = "";
 
@@ -949,7 +957,6 @@ namespace HonkHeroGame
         private void PowerDown()
         {
             _isPowerMode = false;
-            _powerUpCount--;
 
             powerUpText.Visibility = Visibility.Collapsed;
             SoundHelper.PlaySound(SoundType.POWER_DOWN);

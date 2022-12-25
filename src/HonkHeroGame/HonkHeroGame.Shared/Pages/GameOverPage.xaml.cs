@@ -231,6 +231,7 @@ namespace HonkHeroGame
         {
             ScoreNumberText.Text = PlayerScoreHelper.PlayerScore.Score.ToString("#");
             CollectiblesCollectedText.Text = $"{LocalizationHelper.GetLocalizedResource("CollectiblesCollectedText")} x " + PlayerScoreHelper.PlayerScore.CollectiblesCollected;
+            VehiclesTaggedText.Text = $"{LocalizationHelper.GetLocalizedResource("VehiclesTaggedText")} x " + PlayerScoreHelper.PlayerScore.VehiclesTagged;
         }
 
         private void SetLeaderboardContext()
