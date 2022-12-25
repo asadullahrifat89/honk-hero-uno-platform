@@ -34,7 +34,7 @@ namespace HonkHeroGame
                             break;
                         case SoundType.SONG:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.7, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, loop: true);
                             }
                             break;
                         case SoundType.INTRO:
@@ -138,6 +138,18 @@ namespace HonkHeroGame
         {
             if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType && x.IsPaused) is Sound playingSound)
                 playingSound.Resume();
+        }
+
+        public static void VolumeUp(SoundType soundType)
+        {
+            if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                playingSound.VolumeUp();
+        }
+
+        public static void VolumeDown(SoundType soundType)
+        {
+            if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                playingSound.VolumeDown();
         }
 
         #endregion

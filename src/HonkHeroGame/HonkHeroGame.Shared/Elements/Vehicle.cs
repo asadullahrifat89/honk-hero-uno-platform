@@ -17,7 +17,7 @@ namespace HonkHeroGame
         private readonly Random _random = new();
 
         private readonly Grid _content = new();
-        private readonly TextBlock _emoji = new() { Visibility = Visibility.Collapsed, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top, FontSize = 45 };
+        private readonly TextBlock _emoji = new() { Visibility = Visibility.Collapsed, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top };
         private readonly Image _vehicle = new() { Stretch = Stretch.Uniform, Visibility = Visibility.Collapsed };
 
 
@@ -41,6 +41,8 @@ namespace HonkHeroGame
             }
 
             Speed = speed;
+
+            _emoji.FontSize = 45 * scale;
 
             _content.Children.Add(_vehicle);
             _content.Children.Add(_emoji);

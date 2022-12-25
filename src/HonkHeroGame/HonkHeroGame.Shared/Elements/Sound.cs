@@ -12,6 +12,7 @@
         {
             SoundType = soundType;
             SoundSource = soundSource;
+            Volume = volume;
 
             var baseUrl = AssetHelper.GetBaseUrl();
             var source = $"{baseUrl}/{SoundSource}";
@@ -27,6 +28,8 @@
         public bool IsPlaying { get; set; }
 
         public bool IsPaused { get; set; }
+
+        public double Volume { get; set; } = 1.0;
 
         #endregion
 
@@ -53,6 +56,24 @@
         public void Resume()
         {
             _audioPlayer.Resume();
+        }
+
+        public void VolumeUp()
+        {
+            if (Volume < 0.9)
+            {
+                Volume += 0.1;
+                _audioPlayer.SetVolume(Volume);
+            }
+        }
+
+        public void VolumeDown()
+        {
+            if (Volume > 0.1)
+            {
+                Volume -= 0.1;
+                _audioPlayer.SetVolume(Volume);
+            }
         }
 
         #endregion

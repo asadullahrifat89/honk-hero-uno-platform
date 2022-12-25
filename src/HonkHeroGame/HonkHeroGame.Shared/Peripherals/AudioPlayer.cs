@@ -45,5 +45,11 @@ namespace HonkHeroGame
         {
             this.ExecuteJavascript("element.play();");
         }
+
+        public void SetVolume(double volume)
+        {
+            var audio = $"element.volume = {volume}; ";
+            this.ExecuteJavascript(audio);
+        }
     }
 }
