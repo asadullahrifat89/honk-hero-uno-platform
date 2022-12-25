@@ -1240,5 +1240,22 @@
         "Value": "জয়ের সুযোগের জন্য সাইন আপ করুন।"
       }
     ]
+  },
+  {
+    "Key": "AttributionText",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "🎵 Special thanks to 🎵"
+      },
+      {
+        "Culture": "de",
+        "Value": "🎵 Besonderen Dank an 🎵"
+      },
+      {
+        "Culture": "bn",
+        "Value": "🎵 বিশেষ ধন্যবাদ 🎵"
+      }
+    ]
   }
 ]
