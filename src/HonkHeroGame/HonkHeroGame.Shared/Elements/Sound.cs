@@ -1,4 +1,7 @@
-﻿namespace HonkHeroGame
+﻿using System;
+using System.Linq.Expressions;
+
+namespace HonkHeroGame
 {
     public class Sound
     {
@@ -58,12 +61,40 @@
             _audioPlayer.Resume();
         }
 
+        public void SetVolume(double volume = 1.0)
+        {
+            Volume = volume;
+            _audioPlayer.SetVolume(Volume);
+        }
+
         public void VolumeUp()
         {
             if (Volume < 0.9)
             {
                 Volume += 0.1;
                 _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME UP: " + Volume);
+#endif
+            }
+        }
+
+        public void VolumeUp(double level)
+        {
+            if (Volume < 0.9)
+            {
+                var levelTarget = level;
+
+                if (Volume + level > 1.0)
+                    levelTarget = Volume + level - 1;
+
+                Volume += levelTarget;
+                _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME UP: " + levelTarget + "VOLUME: " + Volume);
+#endif
             }
         }
 
@@ -73,6 +104,10 @@
             {
                 Volume -= 0.1;
                 _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME DOWN: " + Volume);
+#endif
             }
         }
 
