@@ -727,9 +727,6 @@ namespace HonkHeroGame
                     vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5 / 2);
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
-
-                //if (slow.GetTop() < _lanes[_lanes.Count - 3].Start)
-                //    slow.SetLeft(slow.GetLeft() - slow.Speed * 2);
             }
             else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
@@ -737,9 +734,6 @@ namespace HonkHeroGame
                     vehicle.SetTop(vehicle.GetTop() - vehicle.Speed * 0.5 * 2);
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed * 2);
-
-                //if (fast.GetTop() < _lanes[_lanes.Count - 3].Start)
-                //    fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
             }
             else
             {
@@ -765,14 +759,14 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                // slower vehicles will slow down faster vehicles
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetHitBox().IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-                {
-                    if (collidingVehicle.Speed > vehicle.Speed)
-                    {
-                        collidingVehicle.Speed = vehicle.Speed;
-                    }
-                }
+                //// slower vehicles will slow down faster vehicles
+                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetHitBox().IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
+                //{
+                //    if (collidingVehicle.Speed > vehicle.Speed)
+                //    {
+                //        collidingVehicle.Speed = vehicle.Speed;
+                //    }
+                //}
             }
         }
 
