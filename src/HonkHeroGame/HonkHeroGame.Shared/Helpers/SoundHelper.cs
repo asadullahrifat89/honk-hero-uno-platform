@@ -29,12 +29,28 @@ namespace HonkHeroGame
                     {
                         case SoundType.AMBIENCE:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.9, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, playback: () =>
+                                {
+                                    RandomizeSound(SoundType.AMBIENCE);
+                                    PlaySound(SoundType.AMBIENCE);
+
+#if DEBUG
+                                    Console.WriteLine("AUDIO PLAYBACK: " + SoundType.AMBIENCE);
+#endif
+                                });
                             }
                             break;
                         case SoundType.SONG:
                             {
-                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 0.7, loop: true);
+                                sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, playback: () =>
+                                {
+                                    RandomizeSound(SoundType.SONG);
+                                    PlaySound(SoundType.SONG);
+
+#if DEBUG
+                                    Console.WriteLine("AUDIO PLAYBACK: " + SoundType.SONG);
+#endif
+                                });
                             }
                             break;
                         case SoundType.INTRO:
@@ -60,7 +76,7 @@ namespace HonkHeroGame
 
                 _playingSounds = new List<Sound>();
 
-                // add all sounds except background and intro as these will be randomized before playing
+                // add all sounds except randomizable sounds as these will be randomized before playing
                 _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.AMBIENCE and not SoundType.INTRO and not SoundType.SONG));
 
                 completed?.Invoke();
@@ -78,15 +94,20 @@ namespace HonkHeroGame
         public static void RandomizeSound(SoundType soundType)
         {
             foreach (var sound in _playingSounds.Where(x => x.SoundType == soundType))
-            {
                 sound.Stop();
-            }
 
             var sounds = _sounds.Where(x => x.SoundType == soundType).ToArray();
-            var soundTaken = sounds[_random.Next(0, sounds.Length)];
+            var soundIndex = _random.Next(0, sounds.Length);
+            var soundTaken = sounds[soundIndex];
 
             _playingSounds.RemoveAll(x => x.SoundType == soundType);
             _playingSounds.Add(soundTaken);
+
+            soundTaken.SetVolume(1.0);
+
+#if DEBUG
+            Console.WriteLine("SOUND INDEX: " + soundIndex + "SOUND URI: " + soundTaken.SoundSource);
+#endif
         }
 
         public static bool IsSoundPlaying(SoundType soundType)
@@ -138,6 +159,24 @@ namespace HonkHeroGame
         {
             if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType && x.IsPaused) is Sound playingSound)
                 playingSound.Resume();
+        }
+
+        public static void VolumeUp(SoundType soundType)
+        {
+            if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                playingSound.VolumeUp();
+        }
+
+        public static void VolumeUp(SoundType soundType, double level)
+        {
+            if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                playingSound.VolumeUp(level);
+        }
+
+        public static void VolumeDown(SoundType soundType)
+        {
+            if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                playingSound.VolumeDown();
         }
 
         #endregion

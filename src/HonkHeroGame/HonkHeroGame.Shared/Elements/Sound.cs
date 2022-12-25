@@ -1,21 +1,30 @@
-﻿namespace HonkHeroGame
+﻿using System;
+using System.Linq.Expressions;
+
+namespace HonkHeroGame
 {
     public class Sound
     {
         #region Fields
 
-        private readonly AudioPlayer _audioPlayer;
+        private readonly AudioElement _audioPlayer;
 
         #endregion
 
-        public Sound(SoundType soundType, string soundSource, double volume = 1.0, bool loop = false)
+        public Sound(SoundType soundType, string soundSource, double volume = 1.0, bool loop = false, Action playback = null)
         {
             SoundType = soundType;
             SoundSource = soundSource;
+            Volume = volume;
 
             var baseUrl = AssetHelper.GetBaseUrl();
             var source = $"{baseUrl}/{SoundSource}";
-            _audioPlayer = new AudioPlayer(source: source, volume: volume, loop: loop);
+
+            _audioPlayer = new AudioElement(
+                source: source,
+                volume: volume,
+                loop: loop,
+                playback: playback);
         }
 
         #region Properties
@@ -27,6 +36,8 @@
         public bool IsPlaying { get; set; }
 
         public bool IsPaused { get; set; }
+
+        public double Volume { get; set; } = 1.0;
 
         #endregion
 
@@ -53,6 +64,56 @@
         public void Resume()
         {
             _audioPlayer.Resume();
+        }
+
+        public void SetVolume(double volume = 1.0)
+        {
+            Volume = volume;
+            _audioPlayer.SetVolume(Volume);
+        }
+
+        public void VolumeUp()
+        {
+            if (Volume < 0.9)
+            {
+                Volume += 0.1;
+                _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME UP: " + Volume);
+#endif
+            }
+        }
+
+        public void VolumeUp(double level)
+        {
+            if (Volume < 0.9)
+            {
+                var levelTarget = level;
+
+                if (Volume + level > 1.0)
+                    levelTarget = Volume + level - 1;
+
+                Volume += levelTarget;
+                _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME UP: " + levelTarget + "VOLUME: " + Volume);
+#endif
+            }
+        }
+
+        public void VolumeDown()
+        {
+            if (Volume > 0.1)
+            {
+                Volume -= 0.1;
+                _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME DOWN: " + Volume);
+#endif
+            }
         }
 
         #endregion
