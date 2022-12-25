@@ -1112,10 +1112,11 @@ namespace HonkHeroGame
                     width: Constants.PLAYER_WIDTH * _scale,
                     height: Constants.PLAYER_HEIGHT * _scale);
 
-            var laneHeight = _windowHeight / _numberOfLanes;
-            _lanes.Clear();
 
-            for (int i = 0; i <= _numberOfLanes; i++)
+            _lanes.Clear();
+            double laneHeight = _windowHeight / _numberOfLanes;
+
+            for (int i = 0; i < _numberOfLanes + 1; i++)
             {
                 _lanes.Add((laneHeight * i, laneHeight * (i + 1)));
             }

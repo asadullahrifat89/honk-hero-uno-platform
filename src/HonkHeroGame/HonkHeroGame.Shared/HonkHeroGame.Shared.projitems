@@ -131,6 +131,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution1.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution2.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution3.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution4.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
