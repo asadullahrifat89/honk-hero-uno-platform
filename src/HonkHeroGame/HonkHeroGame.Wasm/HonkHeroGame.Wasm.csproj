@@ -37,7 +37,7 @@
 		<UpToDateCheckInput Include="..\HonkHeroGame.Shared\**\*.xaml" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="Assets\SplashScreen.png" />
+		<None Remove="Assets\SplashScreen.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="WasmCSS\Fonts.css" />
@@ -74,6 +74,6 @@
 	</ItemGroup>
 	<Import Project="..\HonkHeroGame.Shared\HonkHeroGame.Shared.projitems" Label="Shared" Condition="Exists('..\HonkHeroGame.Shared\HonkHeroGame.Shared.projitems')" />
 	<ItemGroup>
-	  <_Globbed_Content Remove="Assets\SplashScreen.png" />
+		<_Globbed_Content Remove="Assets\SplashScreen.png" />
 	</ItemGroup>
 </Project>

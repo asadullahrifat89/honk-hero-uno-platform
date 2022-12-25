@@ -289,6 +289,36 @@
         </StackPanel>
         <!--#endregion-->
 
+        <!--#region Attribution-->
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Orientation="Vertical">
+
+            <TextBlock
+                x:Name="AttributionText"
+                FontSize="18"
+                Text="🎵 Special thanks to 🎵"
+                TextAlignment="Center" />
+
+            <StackPanel Orientation="Horizontal">
+                <HyperlinkButton Height="50" NavigateUri="https://www.youtube.com/@AjairaLtdOriginals">
+                    <PersonPicture ProfilePicture="ms-appx:///Assets/Images/attribution1.jpg" />
+                </HyperlinkButton>
+
+                <HyperlinkButton Height="50" NavigateUri="https://www.youtube.com/@Cfu36">
+                    <PersonPicture ProfilePicture="ms-appx:///Assets/Images/attribution2.jpg" />
+                </HyperlinkButton>
+
+                <HyperlinkButton Height="50" NavigateUri="https://www.facebook.com/HornHudaiBajayVudai">
+                    <PersonPicture ProfilePicture="ms-appx:///Assets/Images/attribution3.jpg" />
+                </HyperlinkButton>
+            </StackPanel>
+
+        </StackPanel>
+        <!--#endregion-->
+
     </Grid>
 
 </Page>
