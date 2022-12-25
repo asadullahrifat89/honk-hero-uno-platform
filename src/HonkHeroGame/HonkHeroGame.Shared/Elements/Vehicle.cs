@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Linq;
+using System.Security.Policy;
 
 namespace HonkHeroGame
 {
@@ -14,8 +16,17 @@ namespace HonkHeroGame
 
         private readonly Random _random = new();
         private readonly Grid _content = new();
-        private readonly TextBlock _emoji = new() { Visibility = Visibility.Collapsed, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top };
-        private readonly Image _vehicle = new() { Stretch = Stretch.Uniform, Visibility = Visibility.Collapsed };
+        private readonly Image _emoji = new()
+        {
+            Visibility = Visibility.Collapsed,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Top,
+        };
+        private readonly Image _vehicle = new()
+        {
+            Stretch = Stretch.Uniform,
+            Visibility = Visibility.Collapsed
+        };
 
         #endregion
 
@@ -35,7 +46,8 @@ namespace HonkHeroGame
 
             Speed = speed;
 
-            _emoji.FontSize = 45 * scale;
+            _emoji.Height = 55 * scale;
+            _emoji.Margin = new Thickness(0, 15 * scale, 0, 0);
 
             _content.Children.Add(_vehicle);
             _content.Children.Add(_emoji);
@@ -49,9 +61,7 @@ namespace HonkHeroGame
 
         public int HonkIndex { get; set; }
 
-        public bool IsHonking { get; set; }
-
-        public bool IsBusted { get; set; }
+        public HonkState HonkState { get; set; }
 
         public bool WillHonk { get; set; }
 
@@ -69,15 +79,15 @@ namespace HonkHeroGame
 
         public bool WaitForHonk()
         {
-            if (!IsBusted && WillHonk)
+            if (HonkState != HonkState.HONKING_BUSTED && WillHonk)
             {
                 _honkCounter--;
 
                 if (_honkCounter < 0)
                 {
                     _honkCounter = SetHonkCounter();
-                    IsHonking = true;
-                    SetEmoji("📢");
+                    HonkState = HonkState.HONKING;
+                    SetEmoji(HonkState);
 
                     return true;
                 }
@@ -88,19 +98,17 @@ namespace HonkHeroGame
 
         public void BustHonking()
         {
-            IsHonking = false;
-            IsBusted = true;
+            HonkState = HonkState.HONKING_BUSTED;
             IsMarkedForPopping = true;
             HasPopped = false;
-            SetEmoji("🔇");
+            SetEmoji(HonkState);
         }
 
         public void ResetHonking()
         {
-            IsHonking = false;
-            IsBusted = false;
+            HonkState = HonkState.DEFAULT;
             IsMarkedForPopping = false;
-            SetEmoji("");
+            SetEmoji(HonkState.DEFAULT);
 
             WillHonk = Convert.ToBoolean(_random.Next(0, 2));
 
@@ -126,13 +134,39 @@ namespace HonkHeroGame
             HonkIndex = _random.Next(0, 3);
         }
 
-        private void SetEmoji(string emoji)
+        private void SetEmoji(HonkState honkState)
         {
-            _emoji.Text = emoji;
-            _emoji.Visibility = emoji.IsNullOrBlank() ? Visibility.Collapsed : Visibility.Visible;
+            switch (honkState)
+            {
+                case HonkState.DEFAULT:
+                    _emoji.Visibility = Visibility.Collapsed;
+                    break;
+                case HonkState.HONKING:
+                    {
+                        _emoji.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING).Value);
+                        _emoji.Visibility = Visibility.Visible;
+                    }
+                    break;
+                case HonkState.HONKING_BUSTED:
+                    {
+                        _emoji.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING_BUSTED).Value);
+                        _emoji.Visibility = Visibility.Visible;
+                    }
+                    break;
+                default:
+                    _emoji.Visibility = Visibility.Collapsed;
+                    break;
+            }
         }
 
         #endregion
+    }
+
+    public enum HonkState
+    {
+        DEFAULT,
+        HONKING,
+        HONKING_BUSTED,
     }
 }
 
