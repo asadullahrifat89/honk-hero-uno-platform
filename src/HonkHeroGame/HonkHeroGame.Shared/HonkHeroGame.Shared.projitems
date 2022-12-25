@@ -77,7 +77,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SignUpPage.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StartPage.xaml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Peripherals\AudioPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Peripherals\AudioElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Peripherals\LocalizationKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IBackendService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Contracts\IHttpRequestService.cs" />

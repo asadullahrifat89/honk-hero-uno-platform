@@ -7,11 +7,11 @@ namespace HonkHeroGame
     {
         #region Fields
 
-        private readonly AudioPlayer _audioPlayer;
+        private readonly AudioElement _audioPlayer;
 
         #endregion
 
-        public Sound(SoundType soundType, string soundSource, double volume = 1.0, bool loop = false)
+        public Sound(SoundType soundType, string soundSource, double volume = 1.0, bool loop = false, Action playback = null)
         {
             SoundType = soundType;
             SoundSource = soundSource;
@@ -19,7 +19,12 @@ namespace HonkHeroGame
 
             var baseUrl = AssetHelper.GetBaseUrl();
             var source = $"{baseUrl}/{SoundSource}";
-            _audioPlayer = new AudioPlayer(source: source, volume: volume, loop: loop);
+
+            _audioPlayer = new AudioElement(
+                source: source,
+                volume: volume,
+                loop: loop,
+                playback: playback);
         }
 
         #region Properties
