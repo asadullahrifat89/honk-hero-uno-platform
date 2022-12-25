@@ -144,7 +144,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle11.png" />
@@ -165,7 +164,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song5.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song0.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song7.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected3.mp3" />

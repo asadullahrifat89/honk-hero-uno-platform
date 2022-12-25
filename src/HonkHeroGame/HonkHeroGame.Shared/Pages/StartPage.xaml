@@ -184,7 +184,7 @@
                 <!--  Brand logo  -->
                 <HyperlinkButton
                     x:Name="BrandButton"
-                    Height="100"
+                    Height="80"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                     <Image Source="ms-appx:///Assets/Images/logo_brand.png" />
