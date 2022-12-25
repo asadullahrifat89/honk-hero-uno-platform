@@ -41,6 +41,7 @@ namespace HonkHeroGame
         private readonly double _playerHealPoints = 7;
 
         private readonly double _playerPositionGrace = 7;
+        private readonly double _playerAttackingScalePoint = 0.2;
 
         private double _playerLag;
         private readonly double _playerLagDefault = 35;
@@ -488,6 +489,48 @@ namespace HonkHeroGame
         {
             _playerAttackDurationCounter--;
 
+            if (_playerAttackDurationCounter > _playerAttackDurationCounterDefault / 2)
+            {
+                //TODO: increase scale
+
+                //if (_player.GetScaleY() <= 2)
+                //{
+                //    if (_player.FacingDirectionX == MovementDirectionX.Right)
+                //        _player.SetScaleTransform(
+                //            scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
+                //            scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+                //    else
+                //        _player.SetScaleTransform(
+                //            scaleX: (_player.GetScaleX() - _playerAttackingScalePoint),
+                //            scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+                //}
+
+                if (_player.GetScaleY() <= 2)
+                    _player.SetScaleTransform(
+                        scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
+                        scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+            }
+            else
+            {
+                if (_player.GetScaleY() > 1.0)
+                {
+                    //TODO: decrease scale
+
+                    //if (_player.FacingDirectionX == MovementDirectionX.Right)
+                    //    _player.SetScaleTransform(
+                    //        scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
+                    //        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
+                    //else
+                    //    _player.SetScaleTransform(
+                    //        scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
+                    //        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
+
+                    _player.SetScaleTransform(
+                        scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
+                        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
+                }
+            }
+
             MovePlayer(point: _attackPosition, isAttacking: true);
 
             if (_playerAttackDurationCounter <= 0)
@@ -575,8 +618,9 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicle.GetLeft());
-            honk.SetTop(vehicle.GetTop());
+            honk.SetLeft(vehicle.GetLeft() - 10 * _scale);
+            honk.SetTop(vehicle.GetTop() + vehicle.Height / 3);
+
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
 
@@ -589,7 +633,7 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 2.5);
             honk.SetTop(honk.GetTop() - honk.Speed);
             honk.Fade();
 
@@ -601,7 +645,9 @@ namespace HonkHeroGame
         {
             if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width < _windowWidth
                 && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height < _windowHeight)
+            {
                 return vehicle.WaitForHonk();
+            }
 
             return false;
         }

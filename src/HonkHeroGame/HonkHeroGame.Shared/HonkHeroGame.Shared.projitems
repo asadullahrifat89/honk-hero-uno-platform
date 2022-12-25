@@ -135,6 +135,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-trees-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-walkway-center.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\tree.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
@@ -145,7 +146,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle11.png" />

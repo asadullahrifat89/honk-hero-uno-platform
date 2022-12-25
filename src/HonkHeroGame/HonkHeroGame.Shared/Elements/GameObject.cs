@@ -148,10 +148,26 @@ namespace HonkHeroGame
             _content.Visibility = Visibility.Visible;
         }
 
-        public void SetScaleTransform(double scaleTransform)
+        public void SetScaleTransform(double scaleXY)
         {
-            _compositeTransform.ScaleX = scaleTransform;
-            _compositeTransform.ScaleY = scaleTransform;
+            _compositeTransform.ScaleX = scaleXY;
+            _compositeTransform.ScaleY = scaleXY;
+        }
+
+        public void SetScaleTransform(double scaleX, double scaleY)
+        {
+            _compositeTransform.ScaleX = scaleX;
+            _compositeTransform.ScaleY = scaleY;
+        }
+
+        public double GetScaleX()
+        {
+            return _compositeTransform.ScaleX;
+        }
+
+        public double GetScaleY() 
+        {
+            return _compositeTransform.ScaleY;
         }
 
         public void SetScaleX(double scaleX)

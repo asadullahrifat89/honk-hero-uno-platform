@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
-using Windows.Foundation;
 
 namespace HonkHeroGame
 {
@@ -12,8 +11,6 @@ namespace HonkHeroGame
         #region Fields
 
         private int _honkCounter;
-        private readonly int _honkCounterMin = 50;
-        private readonly int _honkCounterMax = 150;
         private readonly Random _random = new();
 
         private readonly Grid _content = new();
@@ -37,7 +34,7 @@ namespace HonkHeroGame
             if (WillHonk)
             {
                 SetHonkIndex();
-                _honkCounter = SetHonkCounter();
+                //_honkCounter = SetHonkCounter();
             }
 
             Speed = speed;
@@ -125,7 +122,7 @@ namespace HonkHeroGame
 
         private int SetHonkCounter()
         {
-            return _random.Next(_honkCounterMin, _honkCounterMax);
+            return _random.Next(50, 150);
         }
 
         private void SetHonkIndex()
