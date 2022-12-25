@@ -798,7 +798,9 @@ namespace HonkHeroGame
 
             _lastVehiclePoint = (vehicle.GetZ(), top);
 
-            _player.SetZ(_lastVehiclePoint.Z + 1);
+            // always keep player on top
+            if (_player.GetZ() < _lastVehiclePoint.Z + 1)
+                _player.SetZ(_lastVehiclePoint.Z + 1);
 #if DEBUG
             Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
 #endif
