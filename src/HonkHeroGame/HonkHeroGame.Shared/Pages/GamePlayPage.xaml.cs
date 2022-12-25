@@ -784,7 +784,7 @@ namespace HonkHeroGame
 
             var (Start, End) = _lanes[laneNumber];
 
-            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2);
+            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 4));
             var top = laneNumber == 0 ? End : laneNumber + 1 == _lanes.Count ? Start : _random.Next((int)Start, (int)End);
 
             vehicle.SetPosition(
@@ -798,6 +798,7 @@ namespace HonkHeroGame
 
             _lastVehiclePoint = (vehicle.GetZ(), top);
 
+            _player.SetZ(_lastVehiclePoint.Z + 1);
 #if DEBUG
             Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
 #endif
