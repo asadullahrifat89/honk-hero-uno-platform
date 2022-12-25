@@ -46,8 +46,8 @@ namespace HonkHeroGame
 
             Speed = speed;
 
-            _emoji.Height = 50 * scale;
-            _emoji.Margin = new Thickness(0, 10 * scale, 0, 0);
+            _emoji.Height = 55 * scale;
+            _emoji.Margin = new Thickness(0, 15 * scale, 0, 0);
 
             _content.Children.Add(_vehicle);
             _content.Children.Add(_emoji);
