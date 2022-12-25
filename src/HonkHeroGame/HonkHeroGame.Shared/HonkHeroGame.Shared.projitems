@@ -165,7 +165,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song5.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song0.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song7.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\collectible-collected3.mp3" />

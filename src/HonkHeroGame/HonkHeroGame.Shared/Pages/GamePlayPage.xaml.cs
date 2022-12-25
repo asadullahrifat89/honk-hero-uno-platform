@@ -22,8 +22,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 1.5;
-        private readonly double _gameSpeedDefault = 1.5;
+        private double _gameSpeed = 1.8;
+        private readonly double _gameSpeedDefault = 1.8;
 
         private int _markNum;
 
