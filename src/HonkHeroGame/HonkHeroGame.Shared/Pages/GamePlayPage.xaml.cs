@@ -538,7 +538,7 @@ namespace HonkHeroGame
             {
                 _player.SetState(PlayerState.Flying);
                 _player.SetScaleTransform(1);
-            }                
+            }
         }
 
         private bool MovePlayer(Point point, bool isAttacking = false)
@@ -795,7 +795,6 @@ namespace HonkHeroGame
         private void UpdateCollectible(GameObject collectible)
         {
             collectible.SetTop(collectible.GetTop() + _gameSpeed);
-            //collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 0.5);
 
             if (collectible.GetTop() > GameView.Height)
             {
@@ -821,11 +820,8 @@ namespace HonkHeroGame
                             Collectible();
                         }
 
-                        // if magnet power up received then pull collectibles to player
-                        if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
-                            MagnetPull(collectible);
+                        MagnetPull(collectible);
                     }
-
                 }
             }
         }
@@ -961,24 +957,36 @@ namespace HonkHeroGame
 
         private void MagnetPull(GameObject collectible)
         {
-            var collectibleHitBoxDistant = collectible.GetDistantHitBox();
-
-            if (_playerDistantHitBox.IntersectsWith(collectibleHitBoxDistant))
+            // if magnet power up received then pull collectibles to player
+            if (_isPowerMode && _powerUpType == PowerUpType.MagnetPull)
             {
-                var collectibleHitBox = collectible.GetHitBox();
+                var collectibleHitBoxDistant = collectible.GetDistantHitBox();
 
-                if (_playerHitBox.Left < collectibleHitBox.Left)
-                    collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 3.5);
+                if (_playerDistantHitBox.IntersectsWith(collectibleHitBoxDistant))
+                {
+                    var collectibleHitBox = collectible.GetHitBox();
 
-                if (collectibleHitBox.Right < _playerHitBox.Left)
-                    collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 3.5);
+                    if (_playerHitBox.Left < collectibleHitBox.Left)
+                        collectible.SetLeft(collectible.GetLeft() - _gameSpeed * 3.5);
 
-                if (collectibleHitBox.Top > _playerHitBox.Bottom)
-                    collectible.SetTop(collectible.GetTop() - _gameSpeed * 3.5);
+                    if (collectibleHitBox.Right < _playerHitBox.Left)
+                        collectible.SetLeft(collectible.GetLeft() + _gameSpeed * 3.5);
 
-                if (collectibleHitBox.Bottom < _playerHitBox.Top)
-                    collectible.SetTop(collectible.GetTop() + _gameSpeed * 3.5);
+                    if (collectibleHitBox.Top > _playerHitBox.Bottom)
+                        collectible.SetTop(collectible.GetTop() - _gameSpeed * 3.5);
+
+                    if (collectibleHitBox.Bottom < _playerHitBox.Top)
+                        collectible.SetTop(collectible.GetTop() + _gameSpeed * 3.5);
+                }
             }
+        }
+
+        private double TwoxScore(double score)
+        {
+            if (_isPowerMode && _powerUpType == PowerUpType.TwoxScore)
+                score *= 2;
+
+            return score;
         }
 
         #endregion
@@ -989,6 +997,8 @@ namespace HonkHeroGame
 
         private void AddScore(double score)
         {
+            score = TwoxScore(score);
+
             _score += score;
             ScaleDifficulty();
         }

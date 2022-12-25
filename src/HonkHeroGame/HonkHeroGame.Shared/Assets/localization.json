@@ -8,7 +8,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Honk Hero"
+        "Value": "Honke Held"
       },
       {
         "Culture": "bn",
@@ -93,7 +93,7 @@
       },
       {
         "Culture": "de",
-        "Value": "So gehts!"
+        "Value": "Spielanleitung"
       },
       {
         "Culture": "bn",
@@ -199,7 +199,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "❤️ দিয়ে তৈরি"
+        "Value": "❤️ দ্বারা তৈরি"
       }
     ]
   },
@@ -280,7 +280,7 @@
       },
       {
         "Culture": "de",
-        "Value": "So gehts"
+        "Value": "Spielanleitung"
       },
       {
         "Culture": "bn",
@@ -293,15 +293,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Player"
+        "Value": "Hero"
       },
       {
         "Culture": "de",
-        "Value": "Spieler"
+        "Value": "Held"
       },
       {
         "Culture": "bn",
-        "Value": "প্লেয়ার"
+        "Value": "নায়ক"
       }
     ]
   },
@@ -310,15 +310,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Move your player across the screen with your mouse or touch screen."
+        "Value": "Move your hero with your mouse or touchscreen taps."
       },
       {
         "Culture": "de",
-        "Value": "Bewegen Sie Ihr Auto mit der Maus, der Tastatur oder dem Touchscreen über den Bildschirm."
+        "Value": "Bewegen Sie Ihren Helden mit der Maus oder durch Tippen auf den Touchscreen."
       },
       {
         "Culture": "bn",
-        "Value": "আপনার মাউস বা টাচ স্ক্রিন দিয়ে আপনার প্লেয়ারকে স্ক্রীন জুড়ে সরান।"
+        "Value": "আপনার মাউস বা টাচস্ক্রিন ট্যাপ দিয়ে আপনার নায়ককে সরান।"
       }
     ]
   },
@@ -344,15 +344,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Tag honking cars with stickers."
+        "Value": "Tap on honking cars to tag them with stickers."
       },
       {
         "Culture": "de",
-        "Value": "Markieren Sie hupende Autos mit Aufklebern."
+        "Value": "Tippen Sie auf hupende Autos, um sie mit Aufklebern zu markieren."
       },
       {
         "Culture": "bn",
-        "Value": "স্টিকার দিয়ে হর্নিং গাড়ি ট্যাগ করুন।"
+        "Value": "স্টিকার দিয়ে ট্যাগ করতে হর্নিং গাড়িতে ট্যাপ করুন।"
       }
     ]
   },
@@ -365,7 +365,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Sammelobjekte"
+        "Value": "Aufkleber"
       },
       {
         "Culture": "bn",
@@ -382,7 +382,7 @@
       },
       {
         "Culture": "de",
-        "Value": "So oft wie möglich einsammeln, um den Punktestand zu erhöhen."
+        "Value": "Sammeln Sie so viele wie möglich, um Ihre Punktzahl zu erhöhen."
       },
       {
         "Culture": "bn",
@@ -399,7 +399,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Power-ups"
+        "Value": "Einschalten"
       },
       {
         "Culture": "bn",
@@ -412,15 +412,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect these to activate magnet pull, silence slam, and 2x score multiplier."
+        "Value": "Collect these to activate magnet pull and 2x score multiplier."
       },
       {
         "Culture": "de",
-        "Value": "Einsammeln um Kraftschild, Zeitraffer, 2x- und 4x-Punktemultiplikator zu aktivieren."
+        "Value": "Sammeln Sie diese, um den Magnetzug und den 2-fachen Punktemultiplikator zu aktivieren."
       },
       {
         "Culture": "bn",
-        "Value": "ম্যাগনেট টান, সাইলেন্স স্ল্যাম এবং 2x স্কোর গুণক সক্রিয় করতে এইগুলি সংগ্রহ করুন।"
+        "Value": "চুম্বক টান এবং 2x স্কোর গুণক সক্রিয় করতে এগুলি সংগ্রহ করুন।"
       }
     ]
   },
@@ -446,15 +446,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "This is your health bar. You lose health when vehicles honk."
+        "Value": "This is your hearing bar. You'll lose hearing when vehicles honk."
       },
       {
         "Culture": "de",
-        "Value": "Dies ist Ihre Gesundheitsleiste. Sie verlieren Gesundheit, wenn Fahrzeuge hupen."
+        "Value": "Dies ist Ihre Hörleiste. Sie verlieren Ihr Gehör, wenn Fahrzeuge hupen."
       },
       {
         "Culture": "bn",
-        "Value": "এটি আপনার স্বাস্থ্য বার। যানবাহন হর্ন বাজলে আপনি স্বাস্থ্য হারাবেন।"
+        "Value": "এটি আপনার শ্রবণ বার। যানবাহনের হর্ন বাজলে আপনি শ্রবণশক্তি হারাবেন।"
       }
     ]
   },
@@ -535,7 +535,7 @@
       },
       {
         "Culture": "de",
-        "Value": "Sammelobjekte"
+        "Value": "Aufkleber"
       },
       {
         "Culture": "bn",
@@ -752,15 +752,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "You already have an account?"
+        "Value": "I have an account"
       },
       {
         "Culture": "de",
-        "Value": "Sie haben bereits einen Account?"
+        "Value": "Ich habe einen Account"
       },
       {
         "Culture": "bn",
-        "Value": "আপনার ইতিমধ্যেই একটি অ্যাকাউন্ট আছে?"
+        "Value": "আমার একটি একাউন্ট আছে"
       }
     ]
   },
