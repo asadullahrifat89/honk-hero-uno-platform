@@ -93,7 +93,7 @@
                     Margin="10,0,10,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="18"
+                    FontSize="16"
                     Text="Let's stop honkers who honk for no reason"
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />

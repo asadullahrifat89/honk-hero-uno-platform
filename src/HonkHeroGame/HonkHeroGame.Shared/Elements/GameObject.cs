@@ -245,6 +245,7 @@ namespace HonkHeroGame
         POWERUP,
         HONK,
         COLLECTIBLE,
+        ROAD_DECORATION,
     }
 }
 

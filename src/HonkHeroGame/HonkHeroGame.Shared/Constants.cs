@@ -71,6 +71,10 @@ namespace HonkHeroGame
 
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup2.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-left.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-right.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-walkway-center.png")),
         };
 
         #endregion
@@ -89,6 +93,7 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song3.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song4.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song5.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song6.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience2.mp3"),
@@ -105,9 +110,6 @@ namespace HonkHeroGame
 
             new KeyValuePair<SoundType, string>(SoundType.POWER_UP, "Assets/Sounds/power-up.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.POWER_DOWN, "Assets/Sounds/power-down.mp3"),
-
-            //new KeyValuePair<SoundType, string>(SoundType.HEALTH_GAIN, "Assets/Sounds/health-gain.mp3"),
-            //new KeyValuePair<SoundType, string>(SoundType.HEALTH_LOSS, "Assets/Sounds/health-loss.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected2.mp3"),
