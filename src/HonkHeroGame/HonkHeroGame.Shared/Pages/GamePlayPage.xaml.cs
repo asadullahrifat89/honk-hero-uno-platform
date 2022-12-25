@@ -742,7 +742,7 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                // if vechicle will collide with another vehicle, slower vehicles will slow down faster vehicles
+                // slower vehicles will slow down faster vehicles
                 if (GameView.Children.OfType<Vehicle>()
                     .FirstOrDefault(v => v.GetCollisionPreventionHitBox(_scale)
                     .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
