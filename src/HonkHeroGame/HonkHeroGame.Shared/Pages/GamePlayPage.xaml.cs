@@ -748,10 +748,13 @@ namespace HonkHeroGame
                     .IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
                 {
                     if (collidingVehicle.Speed > vehicle.Speed)
+                    {
                         collidingVehicle.Speed = vehicle.Speed;
-                    else
-                        //vehicle.Speed = collidingVehicle.Speed;
-                        collidingVehicle.Speed = vehicle.Speed / 2;
+                    }
+                    else if (collidingVehicle.Speed < vehicle.Speed)
+                    {
+                        vehicle.Speed = collidingVehicle.Speed;                        
+                    }                   
                 }
             }
         }
