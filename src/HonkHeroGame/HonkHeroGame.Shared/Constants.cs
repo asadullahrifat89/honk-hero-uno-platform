@@ -19,7 +19,7 @@ namespace HonkHeroGame
 
         public const double STICKER_SIZE = 30;
 
-        public const double HONK_SIZE = 100;
+        public const double HONK_SIZE = 120;
 
         public const double POWERUP_SIZE = 70;
 

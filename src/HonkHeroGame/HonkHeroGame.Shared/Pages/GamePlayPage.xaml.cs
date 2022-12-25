@@ -78,7 +78,7 @@ namespace HonkHeroGame
         private readonly int _numberOfLanes = 5;
         private readonly List<(double Start, double End)> _lanes = new();
 
-        private (int Lane, double Top) _lastVehicleSpawnPoint = (0, 0);
+        private (int Z, double Y) _lastVehiclePoint = (0, 0);
 
         #endregion
 
@@ -753,8 +753,8 @@ namespace HonkHeroGame
                     }
                     else if (collidingVehicle.Speed < vehicle.Speed)
                     {
-                        vehicle.Speed = collidingVehicle.Speed;                        
-                    }                   
+                        vehicle.Speed = collidingVehicle.Speed;
+                    }
                 }
             }
         }
@@ -773,6 +773,15 @@ namespace HonkHeroGame
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
             var laneNumber = _random.Next(0, _lanes.Count);
+
+            if (laneNumber == _lastVehiclePoint.Z)
+            {
+                if (laneNumber + 1 == _lanes.Count)
+                    laneNumber--;
+                else
+                    laneNumber += _random.Next(-1, 2);
+            }
+
             var (Start, End) = _lanes[laneNumber];
 
             var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * 2);
@@ -782,15 +791,12 @@ namespace HonkHeroGame
                 left: left,
                 top: top);
 
-            if (_lastVehicleSpawnPoint.Lane > 0 || _lastVehicleSpawnPoint.Top > 0)
-            {
-                if (top > _lastVehicleSpawnPoint.Top)
-                    vehicle.SetZ(_lastVehicleSpawnPoint.Lane + 1);
-            }
+            if (top >= _lastVehiclePoint.Y)
+                vehicle.SetZ(_lastVehiclePoint.Z + 1);
             else
-                vehicle.SetZ(laneNumber);
+                vehicle.SetZ(_lastVehiclePoint.Z - 1);
 
-            _lastVehicleSpawnPoint = (laneNumber, top);
+            _lastVehiclePoint = (vehicle.GetZ(), top);
 
 #if DEBUG
             Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
