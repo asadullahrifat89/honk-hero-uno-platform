@@ -49,11 +49,17 @@ namespace HonkHeroGame
 
         public static Rect GetCloseHitBox(this GameObject gameObject, double scale)
         {
+            //var rect = new Rect(
+            //  x: gameObject.GetLeft() + 50 * scale,
+            //  y: gameObject.GetTop() + 50 * scale,
+            //  width: gameObject.Width - 50 * scale,
+            //  height: gameObject.Height - 50 * scale);
+
             var rect = new Rect(
-              x: gameObject.GetLeft() + 50 * scale,
-              y: gameObject.GetTop() + 50 * scale,
-              width: gameObject.Width - 50 * scale,
-              height: gameObject.Height - 50 * scale);
+                x: gameObject.GetLeft() + (gameObject.Width / 4),
+                y: gameObject.GetTop() + (gameObject.Height / 4),
+                width: gameObject.Width - (gameObject.Width / 4),
+                height: gameObject.Height - (gameObject.Width / 4));
 
             //gameObject.SetHitBoxBorder(rect);
             return rect;
