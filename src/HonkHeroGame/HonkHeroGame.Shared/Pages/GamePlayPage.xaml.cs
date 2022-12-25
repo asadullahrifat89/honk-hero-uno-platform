@@ -623,13 +623,13 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(_scale, vehicle.Speed / 2);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed / 1.5);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicle.GetLeft() - 10 * _scale);
-            honk.SetTop(vehicle.GetTop() + vehicle.Height / 3);
+            honk.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
+            honk.SetTop(vehicle.GetTop());
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
@@ -643,7 +643,7 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 2.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
             honk.SetTop(honk.GetTop() - honk.Speed);
             honk.Fade();
 
@@ -728,8 +728,8 @@ namespace HonkHeroGame
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
 
-                slow.SetTop(slow.GetTop() - (slow.Speed * 0.5) / 2);
-                slow.SetLeft(slow.GetLeft() - slow.Speed);
+                slow.SetTop(slow.GetTop() - (slow.Speed * 0.5));
+                slow.SetLeft(slow.GetLeft() - slow.Speed / 2);
             }
             else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
