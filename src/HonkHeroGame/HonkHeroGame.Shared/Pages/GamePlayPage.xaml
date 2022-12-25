@@ -80,7 +80,8 @@
 
         <!--#region Player health, game Score-->
         <StackPanel
-            HorizontalAlignment="Center"
+            Margin="5,0,0,0"
+            HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
 
@@ -166,6 +167,7 @@
                 FontWeight="Bold"
                 TextAlignment="Right"
                 Visibility="Collapsed" />
+
         </StackPanel>
         <!--#endregion-->
 

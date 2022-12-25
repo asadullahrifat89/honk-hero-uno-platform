@@ -482,6 +482,7 @@ namespace HonkHeroGame
             {
                 _playerIdleDurationCounter = _playerIdleDurationCounterDefault;
                 _player.SetState(PlayerState.Idle);
+                _player.SetScaleTransform(1);
             }
         }
 
@@ -534,7 +535,10 @@ namespace HonkHeroGame
             MovePlayer(point: _attackPosition, isAttacking: true);
 
             if (_playerAttackDurationCounter <= 0)
+            {
                 _player.SetState(PlayerState.Flying);
+                _player.SetScaleTransform(1);
+            }                
         }
 
         private bool MovePlayer(Point point, bool isAttacking = false)

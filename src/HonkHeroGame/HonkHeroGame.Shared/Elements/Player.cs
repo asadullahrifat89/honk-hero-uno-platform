@@ -34,14 +34,12 @@ namespace HonkHeroGame
             {
                 case PlayerState.Idle:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
-                        SetScaleTransform(1);
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);                        
                     }
                     break;
                 case PlayerState.Flying:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);
-                        SetScaleY(1);
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);                        
                     }
                     break;
                 case PlayerState.Attacking:
