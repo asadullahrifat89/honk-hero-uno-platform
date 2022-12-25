@@ -11,12 +11,11 @@ namespace HonkHeroGame
         #region Fields
 
         private int _honkCounter;
-        private readonly Random _random = new();
 
+        private readonly Random _random = new();
         private readonly Grid _content = new();
         private readonly TextBlock _emoji = new() { Visibility = Visibility.Collapsed, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Top };
         private readonly Image _vehicle = new() { Stretch = Stretch.Uniform, Visibility = Visibility.Collapsed };
-
 
         #endregion
 
@@ -32,10 +31,7 @@ namespace HonkHeroGame
             WillHonk = Convert.ToBoolean(_random.Next(0, 2));
 
             if (WillHonk)
-            {
                 SetHonkIndex();
-                //_honkCounter = SetHonkCounter();
-            }
 
             Speed = speed;
 
