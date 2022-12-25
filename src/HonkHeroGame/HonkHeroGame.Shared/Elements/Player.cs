@@ -75,11 +75,8 @@ namespace HonkHeroGame
     public enum PlayerState
     {
         Idle,
-        Jumping,
-        Falling,
         Flying,
         Attacking,
-        Appreciating,
     }
 
     public enum IdlingDirectionY

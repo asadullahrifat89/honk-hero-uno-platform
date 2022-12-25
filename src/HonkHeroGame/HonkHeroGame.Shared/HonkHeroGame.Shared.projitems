@@ -130,6 +130,7 @@
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-trees-left.png" />
