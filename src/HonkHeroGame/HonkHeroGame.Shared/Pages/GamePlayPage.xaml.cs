@@ -50,7 +50,7 @@ namespace HonkHeroGame
         private readonly int _playerIdleDurationCounterDefault = 20;
 
         private int _playerAttackDurationCounter;
-        private readonly int _playerAttackDurationCounterDefault = 14;
+        private readonly int _playerAttackDurationCounterDefault = 15;
 
         private PowerUpType _powerUpType;
 
@@ -354,8 +354,6 @@ namespace HonkHeroGame
 
         private void SpawnGameObjects()
         {
-            //if (_powerUpCount < _powerUpSpawnLimit)
-            //{
             if (!_isPowerMode)
             {
                 _powerUpSpawnCounter--;
@@ -366,7 +364,6 @@ namespace HonkHeroGame
                     _powerUpSpawnCounter = _random.Next(800, 1000);
                 }
             }
-            //}
         }
 
         private void UpdateGameObjects()

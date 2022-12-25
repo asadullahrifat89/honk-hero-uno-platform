@@ -6,7 +6,7 @@ namespace HonkHeroGame
     public static class Constants
     {
         public const string GAME_ID = "honk-hero";
-        public const string COMPANY_ID = "selise";
+        public const string COMPANY_ID = "horen-maare";
 
         #region Measurements
 
