@@ -682,7 +682,7 @@ namespace HonkHeroGame
         {
             Sticker sticker = new(_scale);
 
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.0);
             sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
 
             sticker.SetZ(vehicle.GetZ() + 1);
