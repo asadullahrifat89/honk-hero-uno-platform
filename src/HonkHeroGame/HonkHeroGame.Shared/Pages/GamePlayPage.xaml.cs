@@ -730,11 +730,11 @@ namespace HonkHeroGame
             }
             else
             {
-                if (vehicle.IsBusted && vehicle.AttachedSticker is not null)
+                if (vehicle.HonkState == HonkState.HONKING_BUSTED && vehicle.AttachedSticker is not null)
                     UpdateSticker(vehicle);
 
                 // if player hits the vehicle, bust honking and attach sticker
-                if (vehicle.IsHonking && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
+                if (vehicle.HonkState == HonkState.HONKING && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
                     BustHonk(vehicle);
 
                 if (WaitForHonk(vehicle))

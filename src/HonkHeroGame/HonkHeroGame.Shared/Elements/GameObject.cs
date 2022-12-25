@@ -246,6 +246,8 @@ namespace HonkHeroGame
         HONK,
         COLLECTIBLE,
         ROAD_DECORATION,
+        HONKING,
+        HONKING_BUSTED,
     }
 }
 

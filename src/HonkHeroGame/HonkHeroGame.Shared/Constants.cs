@@ -72,6 +72,9 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup2.png")),
 
+            new KeyValuePair<ElementType, Uri>(ElementType.HONKING, new Uri("ms-appx:///Assets/Images/speaker.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.HONKING_BUSTED, new Uri("ms-appx:///Assets/Images/speaker-mute.png")),
+
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-left.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-right.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-walkway-center.png")),
