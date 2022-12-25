@@ -75,7 +75,7 @@ namespace HonkHeroGame
         private int _collectibleCollected;
         private int _vehiclesTagged;
 
-        private readonly int _numberOfLanes = 5;
+        private readonly int _numberOfLanes = 4;
         private readonly List<(double Start, double End)> _lanes = new();
 
         private (int Z, double Y) _lastVehiclePoint = (0, 0);
@@ -623,13 +623,13 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(_scale, vehicle.Speed / 2);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed / 1.5);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicle.GetLeft() - 10 * _scale);
-            honk.SetTop(vehicle.GetTop() + vehicle.Height / 3);
+            honk.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
+            honk.SetTop(vehicle.GetTop());
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
@@ -643,7 +643,7 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 2.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
             honk.SetTop(honk.GetTop() - honk.Speed);
             honk.Fade();
 
@@ -728,7 +728,8 @@ namespace HonkHeroGame
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
 
-                //slow.SetLeft(slow.GetLeft() - slow.Speed);
+                slow.SetTop(slow.GetTop() - (slow.Speed * 0.5) / 2);
+                slow.SetLeft(slow.GetLeft() - slow.Speed / 2);
             }
             else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
@@ -737,6 +738,7 @@ namespace HonkHeroGame
 
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
 
+                fast.SetTop(fast.GetTop() - (fast.Speed * 0.5) / 2);
                 fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
             }
             else
@@ -763,14 +765,15 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                //// slower vehicles will slow down faster vehicles
-                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetHitBox().IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale))) is Vehicle collidingVehicle && collidingVehicle.Speed != vehicle.Speed)
-                //{
-                //    if (collidingVehicle.Speed > vehicle.Speed)
-                //    {
-                //        collidingVehicle.Speed = vehicle.Speed;
-                //    }
-                //}
+                // slower vehicles will slow down faster vehicles
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle slowerVehicle && vehicle.Speed > slowerVehicle.Speed)
+                    if (vehicle.Speed > 2)
+                        vehicle.Speed -= 0.1;
+
+                // slower vehicles will slow down faster vehicles
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle fasterVehicle && vehicle.Speed < fasterVehicle.Speed)
+                    if (vehicle.Speed < _gameSpeed * 2)
+                        vehicle.Speed += 0.1;
             }
         }
 
@@ -1160,7 +1163,7 @@ namespace HonkHeroGame
             _lanes.Clear();
             double laneHeight = _windowHeight / _numberOfLanes;
 
-            for (int i = 0; i < _numberOfLanes + 1; i++)
+            for (int i = 1; i <= _numberOfLanes + 1; i++)
             {
                 _lanes.Add((laneHeight * i, laneHeight * (i + 1)));
             }
