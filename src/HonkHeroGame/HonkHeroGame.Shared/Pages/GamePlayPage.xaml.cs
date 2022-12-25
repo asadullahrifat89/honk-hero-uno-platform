@@ -721,12 +721,12 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            if (GameView.Children.OfType<Vehicle>().Any(x => x.GetCollisionPreventionHitBox(_scale).IntersectsWith(vehicle.GetCollisionPreventionHitBox(_scale)) && vehicle.Speed > x.Speed))
+            if (GameView.Children.OfType<Vehicle>().Any(x => x.GetCollisionPreventionHitBox(_scale).IntersectsWith(vehicle.GetHitBox()) && vehicle.Speed > x.Speed))
             {
                 if (vehicle.GetLeft() < _windowWidth)
                     vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed / 2) * 0.5);
 
-                vehicle.SetLeft(vehicle.GetLeft() - (vehicle.Speed / 2));
+                vehicle.SetLeft(vehicle.GetLeft() - (vehicle.Speed / 1.5));
             }
             else
             {
