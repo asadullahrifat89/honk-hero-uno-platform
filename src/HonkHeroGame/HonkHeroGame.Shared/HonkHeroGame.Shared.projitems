@@ -132,6 +132,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution2.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution3.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution4.jpg" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\speaker-mute.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
@@ -141,7 +142,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-walkway-center.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\speaker-mute.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\speaker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
