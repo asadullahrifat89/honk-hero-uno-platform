@@ -16,7 +16,7 @@
     public enum PowerUpType
     {
         MagnetPull,
-        //SilenceSlam,
+        TwoxScore,
     }
 }
 
