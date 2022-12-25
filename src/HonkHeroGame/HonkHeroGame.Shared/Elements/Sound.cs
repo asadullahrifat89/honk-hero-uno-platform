@@ -129,9 +129,7 @@ namespace HonkHeroGame
         HONK_BUST,
         GAME_OVER,
         POWER_UP,
-        POWER_DOWN,
-        HEALTH_GAIN,
-        HEALTH_LOSS,
+        POWER_DOWN,        
         COLLECTIBLE,
     }
 }

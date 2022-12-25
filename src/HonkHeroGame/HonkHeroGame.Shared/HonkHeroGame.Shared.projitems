@@ -134,10 +134,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-trees-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-walkway-center.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\tree.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
@@ -187,6 +185,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song6.mp3" />
   </ItemGroup>
   <Import Project="HonkHeroGame.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
