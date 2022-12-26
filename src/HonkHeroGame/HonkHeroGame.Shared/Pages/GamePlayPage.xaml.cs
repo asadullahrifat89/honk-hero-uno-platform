@@ -748,13 +748,11 @@ namespace HonkHeroGame
 
                 if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
                 {
-                    //MoveVehicle(vehicle: vehicle, DivideSpeedBy: 2);
                     vehicle.Speed = slowerVehicle.Speed;
                     MoveVehicle(slowerVehicle);
                 }
                 else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
                 {
-                    //MoveVehicle(vehicle: speedingVehicle, DivideSpeedBy: 2);
                     speedingVehicle.Speed = vehicle.Speed;
                     MoveVehicle(vehicle);
                 }
