@@ -721,21 +721,6 @@ namespace HonkHeroGame
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
-            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > x.Speed) is Vehicle slow)
-            {
-                if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (slow.Speed * 0.5) / 2);
-
-                vehicle.SetLeft(vehicle.GetLeft() - slow.Speed / 2);
-            }
-            else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed < x.Speed) is Vehicle fast)
-            {
-                if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
-
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
-            }
-
             if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
             {
                 RecyleVehicle(vehicle);
@@ -745,11 +730,26 @@ namespace HonkHeroGame
                 if (vehicle.HonkState == HonkState.HONKING_BUSTED && vehicle.AttachedSticker is not null)
                     UpdateSticker(vehicle);
 
-                if (vehicle.HonkState == HonkState.HONKING && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
+                if (vehicle.HonkState == HonkState.HONKING && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicleCloseHitBox))
                     BustHonk(vehicle);
 
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
+
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > x.Speed) is Vehicle slow)
+                {
+                    if (vehicle.GetLeft() < _windowWidth)
+                        vehicle.SetTop(vehicle.GetTop() - (slow.Speed * 0.5) / 2);
+
+                    vehicle.SetLeft(vehicle.GetLeft() - slow.Speed / 2);
+                }
+                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed < x.Speed) is Vehicle fast)
+                {
+                    if (vehicle.GetLeft() < _windowWidth)
+                        vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+
+                    vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+                }
 
                 if (vehicle.GetLeft() < _windowWidth)
                     vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
