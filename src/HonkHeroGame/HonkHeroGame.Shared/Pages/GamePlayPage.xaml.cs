@@ -620,13 +620,15 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(scale: _scale, speed: vehicle.Speed / 1.5);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed / 2);
+
+            var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
-            honk.SetTop(vehicle.GetTop());
+            honk.SetLeft(vehicleHitBox.Left);
+            honk.SetTop(vehicleHitBox.Top);
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
@@ -640,8 +642,9 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 2);
             honk.SetTop(honk.GetTop() - honk.Speed);
+
             honk.Fade();
 
             if (honk.HasFaded)
@@ -786,7 +789,7 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _vehicles.Length);
 
             vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(0, 3);
+            vehicle.Speed = _gameSpeed + _random.Next(1, 4);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
