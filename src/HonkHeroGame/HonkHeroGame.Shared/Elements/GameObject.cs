@@ -185,6 +185,11 @@ namespace HonkHeroGame
             _compositeTransform.Rotation = rotation;
         }
 
+        public void SetSkewX(double skewX)
+        {
+            _compositeTransform.SkewX = skewX;
+        }
+
         public void SetSkewY(double skewY)
         {
             _compositeTransform.SkewY = skewY;

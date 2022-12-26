@@ -245,8 +245,6 @@ namespace HonkHeroGame
             _collectibleCollected = 0;
             _vehiclesTagged = 0;
 
-            ScoreText.Text = "0";
-
             _playerHealth = 100;
 
             PlayerHealthBarPanel.Visibility = Visibility.Visible;
@@ -681,11 +679,12 @@ namespace HonkHeroGame
         {
             Sticker sticker = new(_scale);
 
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.0);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+            SetStickerPosition(vehicle, sticker);
 
             sticker.SetZ(vehicle.GetZ() + 1);
-            sticker.SetRotation(_random.Next(-30, 45));
+            //sticker.SetSkewY(-30);
+            //sticker.SetSkewY(30);
+            sticker.SetRotation(_random.Next(-30, 30));
 
             GameView.Children.Add(sticker);
 
@@ -696,11 +695,18 @@ namespace HonkHeroGame
         {
             var sticker = vehicle.AttachedSticker;
 
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+            SetStickerPosition(vehicle, sticker);
 
-            if (sticker.GetTop() + sticker.Height < 0 || sticker.GetLeft() + sticker.Width < 0)
+            var stickerHitBox = sticker.GetHitBox();
+
+            if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0)
                 GameView.AddDestroyableGameObject(sticker);
+        }
+
+        private void SetStickerPosition(Vehicle vehicle, Sticker sticker)
+        {
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
         }
 
         #endregion
@@ -796,7 +802,7 @@ namespace HonkHeroGame
         private void SpawnCollectible()
         {
             Collectible collectible = new(_scale);
-            collectible.SetRotation(_random.Next(-30, 45));
+            collectible.SetRotation(_random.Next(-30, 30));
             collectible.SetZ(7);
 
             RandomizeCollectiblePosition(collectible);

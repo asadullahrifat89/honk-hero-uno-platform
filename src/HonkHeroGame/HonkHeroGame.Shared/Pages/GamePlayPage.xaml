@@ -80,7 +80,6 @@
 
         <!--#region Player health, game Score-->
         <StackPanel
-            Margin="5,0,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
@@ -122,15 +121,16 @@
                         Value="100" />
 
                 </StackPanel>
+
             </Border>
 
             <!--  Game Score  -->
             <Border
                 x:Name="ScorePanel"
                 Height="40"
-                Margin="5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
+                Margin="0,5,5,5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
                 BorderThickness="3"
                 CornerRadius="5"
                 Style="{StaticResource GameUIContainer}">
@@ -141,12 +141,13 @@
                     Orientation="Horizontal">
 
                     <!--  Score icon  -->
-                    <PersonPicture
-                        Width="30"
-                        Height="30"
-                        HorizontalAlignment="Center"
+                    <TextBlock
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        ProfilePicture="ms-appx:///Assets/Images/collectible.png" />
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="🌟"
+                        TextAlignment="Left" />
 
                     <!--  Score  -->
                     <TextBlock
