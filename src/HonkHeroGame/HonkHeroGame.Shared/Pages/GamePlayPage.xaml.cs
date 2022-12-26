@@ -718,7 +718,7 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle vehicle = new(_scale, _gameSpeed + _random.Next(-1, 2));
+            Vehicle vehicle = new(scale: _scale, speed: _gameSpeed + _random.Next(1, 5));
             GameView.Children.Add(vehicle);
         }
 
@@ -797,7 +797,7 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _vehicles.Length);
 
             vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(1, 4);
+            vehicle.Speed = _gameSpeed + _random.Next(1, 5);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
