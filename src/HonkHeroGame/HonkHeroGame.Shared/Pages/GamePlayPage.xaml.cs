@@ -1099,7 +1099,7 @@ namespace HonkHeroGame
                 {
                     GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
 
-                    gameObject.SetPosition(left: ((_windowWidth / 3 / 20)) + (i * 200 * _scale), top: ((_windowHeight / 3)) + (i * 200 * _scale) * 0.5);
+                    gameObject.SetPosition(left: (_windowWidth / 3 / 20) + (i * 200 * _scale), top: (_windowHeight / 3) + (i * 200 * _scale) * 0.5);
                     gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
                     gameObject.SetSkewY(42);
                     gameObject.SetRotation(-63.5);
@@ -1113,7 +1113,7 @@ namespace HonkHeroGame
                 {
                     GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
 
-                    gameObject.SetPosition(left: ((60 * _scale)) + (i * 200 * _scale), top: ((5 * _scale)) + (i * 200 * _scale) * 0.5);
+                    gameObject.SetPosition(left: (60 * _scale) + (i * 200 * _scale), top: (5 * _scale) + (i * 200 * _scale) * 0.5);
                     gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
                     gameObject.SetSkewY(42);
                     gameObject.SetRotation(-63.5);
@@ -1122,16 +1122,11 @@ namespace HonkHeroGame
                 }
             }
 
-
             RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;
 
             RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
-            RoadSideRightImage.Height = _windowHeight;
-
-            _player?.SetSize(
-                    width: Constants.PLAYER_WIDTH * _scale,
-                    height: Constants.PLAYER_HEIGHT * _scale);
+            RoadSideRightImage.Height = _windowHeight;           
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
 #endif           
