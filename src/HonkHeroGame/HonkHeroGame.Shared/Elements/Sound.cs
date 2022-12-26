@@ -70,20 +70,7 @@ namespace HonkHeroGame
         {
             Volume = volume;
             _audioPlayer.SetVolume(Volume);
-        }
-
-        public void VolumeUp()
-        {
-            if (Volume < 0.9)
-            {
-                Volume += 0.1;
-                _audioPlayer.SetVolume(Volume);
-
-#if DEBUG
-                Console.WriteLine("VOLUME UP: " + Volume);
-#endif
-            }
-        }
+        }       
 
         public void VolumeUp(double level)
         {
@@ -98,7 +85,20 @@ namespace HonkHeroGame
                 _audioPlayer.SetVolume(Volume);
 
 #if DEBUG
-                Console.WriteLine("VOLUME UP: " + levelTarget + "VOLUME: " + Volume);
+                Console.WriteLine("VOLUME UP: " + Volume + " -> VOLUME LEVEL: " + levelTarget);
+#endif
+            }
+        }
+
+        public void VolumeUp()
+        {
+            if (Volume < 0.9)
+            {
+                Volume += 0.02;
+                _audioPlayer.SetVolume(Volume);
+
+#if DEBUG
+                Console.WriteLine("VOLUME UP: " + Volume);
 #endif
             }
         }
@@ -107,7 +107,7 @@ namespace HonkHeroGame
         {
             if (Volume > 0.1)
             {
-                Volume -= 0.1;
+                Volume -= 0.02;
                 _audioPlayer.SetVolume(Volume);
 
 #if DEBUG
@@ -129,7 +129,7 @@ namespace HonkHeroGame
         HONK_BUST,
         GAME_OVER,
         POWER_UP,
-        POWER_DOWN,        
+        POWER_DOWN,
         COLLECTIBLE,
     }
 }
