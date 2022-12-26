@@ -1113,7 +1113,7 @@ namespace HonkHeroGame
                 {
                     GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
 
-                    gameObject.SetPosition(left: ((100 * _scale)) + (i * 200), top: ((5 * _scale)) + (i * 200) * 0.5);
+                    gameObject.SetPosition(left: ((60 * _scale)) + (i * 200 * _scale), top: ((5 * _scale)) + (i * 200 * _scale) * 0.5);
                     gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
                     gameObject.SetSkewY(42);
                     gameObject.SetRotation(-63.5);
@@ -1125,9 +1125,6 @@ namespace HonkHeroGame
 
             RoadSideLeftImage.Width = _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;
-
-            //RoadSideCenterImage.Width = _windowWidth;
-            //RoadSideCenterImage.Height = _windowHeight;
 
             RoadSideRightImage.Width = _windowWidth;
             RoadSideRightImage.Height = _windowHeight;
