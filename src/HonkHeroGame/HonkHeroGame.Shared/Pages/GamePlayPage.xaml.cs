@@ -212,7 +212,7 @@ namespace HonkHeroGame
         private void PopulateGameView()
         {
             // add some vehicles
-            for (double i = 0; i < 20 * _scale; i++)
+            for (double i = 0; i < 16 * _scale; i++)
                 SpawnVehicle();
 
             // add some collectibles
@@ -582,8 +582,8 @@ namespace HonkHeroGame
 
         private double GetFlightSpeed(double distance, bool isAttacking = false)
         {
-            var speedBoost = _player.PlayerState == PlayerState.Attacking 
-                ? _gameSpeedDefault * 2 
+            var speedBoost = _player.PlayerState == PlayerState.Attacking
+                ? _gameSpeedDefault * 2
                 : 1;
 
             return (distance / _playerLag) * speedBoost;
@@ -603,7 +603,7 @@ namespace HonkHeroGame
         {
             LooseHealth();
 
-            Honk honk = new(scale: _scale, speed: vehicle.Speed / 2.2);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5);
 
             var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
 
@@ -623,8 +623,8 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 2);
-            honk.SetTop(honk.GetTop() - honk.Speed);
+            honk.SetTop(honk.GetTop() - honk.Speed * 0.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed);
 
             honk.Fade();
 
@@ -701,7 +701,8 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle vehicle = new(scale: _scale, speed: _gameSpeed + _random.Next(1, 4));
+            var speed = _gameSpeed + _random.Next(0, 3);
+            Vehicle vehicle = new(scale: _scale, speed: speed);
             GameView.Children.Add(vehicle);
         }
 
@@ -736,34 +737,61 @@ namespace HonkHeroGame
                     vehicle.SetZ(intersectingVehicle.GetZ() - 1);
                 }
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
-                    && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
                 {
-                    vehicle.Speed = slowerVehicle.Speed;
-                    MoveVehicle(slowerVehicle);
-                }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
-                    && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
-                {
-                    speedingVehicle.Speed = vehicle.Speed;
-                    MoveVehicle(vehicle);
-                }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
-                    && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
-                {
-                    if (vehicle.GetZ() < equalspeedingVehicle.GetZ())
+                    if (vehicle.Speed > collidingVehicle.Speed)
                     {
-                        MoveVehicle(vehicle, 2);
+                        vehicle.Speed = collidingVehicle.Speed;
+
+                        MoveVehicle(collidingVehicle);
                     }
+                    else if (collidingVehicle.Speed > vehicle.Speed)
+                    {
+                        collidingVehicle.Speed = vehicle.Speed;
+
+                        MoveVehicle(vehicle);
+                    }
+                    //else if (collidingVehicle.Speed == vehicle.Speed)
+                    //{
+                    //    if (vehicle.GetZ() < collidingVehicle.GetZ())
+                    //        MoveVehicle(vehicle, 2);
+                    //    else
+                    //        MoveVehicle(collidingVehicle, 2);
+                    //}
                     else
                     {
-                        MoveVehicle(equalspeedingVehicle, 2);
+                        MoveVehicle(vehicle);
                     }
                 }
-                else
-                {
-                    MoveVehicle(vehicle);
-                }
+
+                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
+                //    && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
+                //{
+                //    vehicle.Speed = slowerVehicle.Speed;
+                //    MoveVehicle(slowerVehicle);
+                //}
+                //else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
+                //    && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
+                //{
+                //    speedingVehicle.Speed = vehicle.Speed;
+                //    MoveVehicle(vehicle);
+                //}
+                //else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
+                //    && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
+                //{
+                //    if (vehicle.GetZ() < equalspeedingVehicle.GetZ())
+                //    {
+                //        MoveVehicle(vehicle, 2);
+                //    }
+                //    else
+                //    {
+                //        MoveVehicle(equalspeedingVehicle, 2);
+                //    }
+                //}
+                //else
+                //{
+                //    MoveVehicle(vehicle);
+                //}
             }
         }
 
