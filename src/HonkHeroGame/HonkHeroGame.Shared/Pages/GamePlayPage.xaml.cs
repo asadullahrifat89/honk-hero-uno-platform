@@ -620,13 +620,15 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(scale: _scale, speed: vehicle.Speed / 1.5);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed / 2);
+
+            var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
-            honk.SetTop(vehicle.GetTop());
+            honk.SetLeft(vehicleHitBox.Left);
+            honk.SetTop(vehicleHitBox.Top);
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
@@ -640,8 +642,9 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 1.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed * 2);
             honk.SetTop(honk.GetTop() - honk.Speed);
+
             honk.Fade();
 
             if (honk.HasFaded)
@@ -743,26 +746,40 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > x.Speed) is Vehicle slow)
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
                 {
-                    if (vehicle.GetLeft() < _windowWidth)
-                        vehicle.SetTop(vehicle.GetTop() - (slow.Speed * 0.5) / 2);
-
-                    vehicle.SetLeft(vehicle.GetLeft() - slow.Speed / 2);
+                    vehicle.Speed = slowerVehicle.Speed;
+                    MoveVehicle(slowerVehicle);
                 }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed < x.Speed) is Vehicle fast)
+                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
                 {
-                    if (vehicle.GetLeft() < _windowWidth)
-                        vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
-
-                    vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+                    speedingVehicle.Speed = vehicle.Speed;
+                    MoveVehicle(vehicle);
                 }
-
-                if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
-
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
+                {
+                    if (vehicle.GetZ() < equalspeedingVehicle.GetZ())
+                    {
+                        MoveVehicle(vehicle, 2);
+                    }
+                    else
+                    {
+                        MoveVehicle(equalspeedingVehicle, 2);
+                    }
+                }
+                else
+                {
+                    MoveVehicle(vehicle);
+                }
             }
+        }
+
+        private void MoveVehicle(Vehicle vehicle, int DivideSpeedBy = 1)
+        {
+            if (vehicle.GetLeft() < _windowWidth)
+                vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / DivideSpeedBy);
+
+            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / DivideSpeedBy);
         }
 
         private void RecyleVehicle(Vehicle vehicle)
@@ -770,7 +787,7 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _vehicles.Length);
 
             vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(0, 3);
+            vehicle.Speed = _gameSpeed + _random.Next(1, 4);
 
             vehicle.ResetHonking();
             RandomizeVehiclePosition(vehicle);
