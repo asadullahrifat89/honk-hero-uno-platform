@@ -739,13 +739,13 @@ namespace HonkHeroGame
                 fast.SetTop(fast.GetTop() - (fast.Speed * 0.5) / 2);
                 fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
             }
-            else
-            {
-                if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+            //else
+            //{
+            //if (vehicle.GetLeft() < _windowWidth)
+            //    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
 
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
-            }
+            //vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+            //}
 
             if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
             {
@@ -763,15 +763,41 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                // slower vehicles will slow down faster vehicles
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle slowerVehicle && vehicle.Speed > slowerVehicle.Speed)
-                    if (vehicle.Speed > 2)
-                        vehicle.Speed -= 0.1;
+                //// slower vehicles will slow down faster vehicles
+                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle slowerVehicle && vehicle.Speed > slowerVehicle.Speed)
+                //    if (vehicle.Speed > 2)
+                //        vehicle.Speed -= 0.1;
 
-                // slower vehicles will slow down faster vehicles
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle fasterVehicle && vehicle.Speed < fasterVehicle.Speed)
-                    if (vehicle.Speed < _gameSpeed * 2)
-                        vehicle.Speed += 0.1;
+                //// slower vehicles will slow down faster vehicles
+                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle fasterVehicle && vehicle.Speed < fasterVehicle.Speed)
+                //    if (vehicle.Speed < _gameSpeed * 2)
+                //        vehicle.Speed += 0.1;
+
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => vehicle.GetCloseHitBox(_scale).Left < v.GetCloseHitBox(_scale).Right) is Vehicle collidingVehicle)
+                {
+                    //if (vehicle.Speed > 2)
+                    //    vehicle.Speed -= 0.1;
+
+                    if (vehicle.GetLeft() < _windowWidth)
+                        vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / 2);
+
+                    vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
+                }
+                else
+                {
+                    if (vehicle.GetLeft() < _windowWidth)
+                        vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+
+                    vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
+                }
+
+                //if (vehicle.Speed > 2)
+                //    vehicle.Speed -= 0.1;
+
+                //// slower vehicles will slow down faster vehicles
+                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle fasterVehicle && vehicle.Speed < fasterVehicle.Speed)
+                //    if (vehicle.Speed < _gameSpeed * 2)
+                //        vehicle.Speed += 0.1;
             }
         }
 
