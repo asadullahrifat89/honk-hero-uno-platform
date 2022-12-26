@@ -493,40 +493,19 @@ namespace HonkHeroGame
 
             if (_playerAttackDurationCounter > _playerAttackDurationCounterDefault / 2)
             {
-                //TODO: increase scale
-
-                //if (_player.GetScaleY() <= 2)
-                //{
-                //    if (_player.FacingDirectionX == MovementDirectionX.Right)
-                //        _player.SetScaleTransform(
-                //            scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
-                //            scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
-                //    else
-                //        _player.SetScaleTransform(
-                //            scaleX: (_player.GetScaleX() - _playerAttackingScalePoint),
-                //            scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
-                //}
-
+                // increase scale
                 if (_player.GetScaleY() <= 2)
+                {
                     _player.SetScaleTransform(
                         scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
                         scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+                }
             }
             else
             {
+                // decrease scale
                 if (_player.GetScaleY() > 1.0)
                 {
-                    //TODO: decrease scale
-
-                    //if (_player.FacingDirectionX == MovementDirectionX.Right)
-                    //    _player.SetScaleTransform(
-                    //        scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
-                    //        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
-                    //else
-                    //    _player.SetScaleTransform(
-                    //        scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
-                    //        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
-
                     _player.SetScaleTransform(
                         scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
                         scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
@@ -603,7 +582,11 @@ namespace HonkHeroGame
 
         private double GetFlightSpeed(double distance, bool isAttacking = false)
         {
-            return (distance / _playerLag) * (isAttacking ? _gameSpeedDefault * 2 : 1);
+            var speedBoost = _player.PlayerState == PlayerState.Attacking 
+                ? _gameSpeedDefault * 2 
+                : 1;
+
+            return (distance / _playerLag) * speedBoost;
         }
 
         private void PlayerAttack()
