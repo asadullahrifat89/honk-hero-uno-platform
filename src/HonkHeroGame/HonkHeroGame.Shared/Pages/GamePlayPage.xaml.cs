@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -74,9 +75,6 @@ namespace HonkHeroGame
 
         private int _collectibleCollected;
         private int _vehiclesTagged;
-
-        private readonly int _numberOfLanes = 4;
-        private readonly List<(double Start, double End)> _lanes = new();
 
         private (int Z, double Y) _lastVehiclePoint = (0, 0);
 
@@ -430,7 +428,7 @@ namespace HonkHeroGame
                 left: GameView.Width / 2 - _player.Width / 2,
                 top: GameView.Height / 2 - _player.Height - (50 * _scale));
 
-            _player.SetZ(_lanes.Count + 3);
+            _player.SetZ(8);
 
             GameView.Children.Add(_player);
         }
@@ -790,30 +788,12 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
-            var laneNumber = _random.Next(0, _lanes.Count);
-
-            if (laneNumber == _lastVehiclePoint.Z)
-            {
-                if (laneNumber + 1 == _lanes.Count)
-                    laneNumber--;
-                else
-                    laneNumber += _random.Next(-1, 2);
-
-                if (laneNumber > _lanes.Count - 1)
-                    laneNumber = _lanes.Count;
-
-                if (laneNumber < 0)
-                    laneNumber = 0;
-            }
-
-            var (Start, End) = _lanes[laneNumber];
-
             var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 4));
-            var top = laneNumber == 0 ? End : laneNumber + 1 == _lanes.Count ? Start : _random.Next((int)Start, (int)End);
+            var top = _random.Next(minValue: (int)GameView.Height / 4, (int)GameView.Height + (GameView.Width > GameView.Height ? (int)GameView.Height / 4 : 0));
 
             vehicle.SetPosition(
-                left: left,
-                top: top);
+            left: left,
+            top: top);
 
             if (top >= _lastVehiclePoint.Y)
                 vehicle.SetZ(_lastVehiclePoint.Z + 1);
@@ -825,9 +805,6 @@ namespace HonkHeroGame
             // always keep player on top
             if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
                 _player.SetZ(_lastVehiclePoint.Z + 1);
-#if DEBUG
-            Console.WriteLine("VEHICLE SPAWNED ON LANE: " + laneNumber + " X: " + left + " Y: " + top);
-#endif
         }
 
         #endregion
@@ -838,7 +815,7 @@ namespace HonkHeroGame
         {
             Collectible collectible = new(_scale);
             collectible.SetRotation(_random.Next(-30, 45));
-            collectible.SetZ(_lanes.Count + 1);
+            collectible.SetZ(7);
 
             RandomizeCollectiblePosition(collectible);
 
@@ -1158,23 +1135,8 @@ namespace HonkHeroGame
             _player?.SetSize(
                     width: Constants.PLAYER_WIDTH * _scale,
                     height: Constants.PLAYER_HEIGHT * _scale);
-
-
-            _lanes.Clear();
-            double laneHeight = _windowHeight / _numberOfLanes;
-
-            for (int i = 1; i <= _numberOfLanes; i++)
-            {
-                _lanes.Add((laneHeight * i, laneHeight * (i + 1)));
-            }
-
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
-
-            Console.WriteLine($"TOTAL LANE COUNT: {_lanes.Count}");
-
-            var lanesDetails = string.Join(" | ", _lanes.Select(x => $"{x.Start} <-> {x.End}").ToArray());
-            Console.WriteLine($"TOTAL LANE POINTS: {lanesDetails}");
 #endif           
         }
 
