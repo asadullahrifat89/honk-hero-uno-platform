@@ -29,23 +29,7 @@ namespace HonkHeroGame
 
         #region HitBox Debug
 
-        //private Border _hitBoxborder;
-
-        #endregion
-
-        #region Properties
-
-        public double Speed { get; set; } = 0;
-
-        public bool HasFaded => Opacity <= 0;
-
-        public bool IsMarkedForPopping { get; set; }
-
-        public bool IsFlaggedForShrinking { get; set; }
-
-        public bool HasShrinked => _compositeTransform.ScaleX <= 0;
-
-        public bool HasPopped { get; set; }
+        private Border _hitBoxborder;
 
         #endregion
 
@@ -68,7 +52,8 @@ namespace HonkHeroGame
             //_hitBoxborder = new Border()
             //{
             //    BorderThickness = new Thickness(1),
-            //    BorderBrush = new SolidColorBrush(Colors.Black)
+            //    BorderBrush = new SolidColorBrush(Colors.Black),
+            //    Visibility = Visibility.Collapsed,
             //};
 
             //var grid = new Grid()
@@ -87,13 +72,32 @@ namespace HonkHeroGame
 
         #endregion
 
+        #region Properties
+
+        public double Speed { get; set; } = 0;
+
+        public bool HasFaded => Opacity <= 0;
+
+        public bool IsMarkedForPopping { get; set; }
+
+        public bool IsFlaggedForShrinking { get; set; }
+
+        public bool HasShrinked => _compositeTransform.ScaleX <= 0;
+
+        public bool HasPopped { get; set; }
+
+        #endregion
+
         #region Methods
 
-        //public void SetHitBoxBorder(Rect rect)
-        //{
-        //    _hitBoxborder.Height = rect.Height;
-        //    _hitBoxborder.Width = rect.Width;
-        //}
+        public void SetHitBoxBorder(Rect rect)
+        {
+            _hitBoxborder.Height = rect.Height;
+            _hitBoxborder.Width = rect.Width;
+
+            if (_hitBoxborder.Visibility != Visibility.Visible)
+                _hitBoxborder.Visibility = Visibility.Visible;
+        }
 
         public void SetSize(double width, double height)
         {
@@ -165,7 +169,7 @@ namespace HonkHeroGame
             return _compositeTransform.ScaleX;
         }
 
-        public double GetScaleY() 
+        public double GetScaleY()
         {
             return _compositeTransform.ScaleY;
         }

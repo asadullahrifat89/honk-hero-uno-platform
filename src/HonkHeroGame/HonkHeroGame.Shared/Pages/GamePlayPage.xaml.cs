@@ -5,8 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Windows.Foundation;
@@ -148,6 +146,7 @@ namespace HonkHeroGame
                     _attackPosition = point.Position;
                     _pointerPosition = point.Position;
 
+                    _player.SetScaleTransform(1);
                     PlayerAttack();
                 }
             }
@@ -214,7 +213,7 @@ namespace HonkHeroGame
         private void PopulateGameView()
         {
             // add some vehicles
-            for (double i = 0; i < 20 * _scale; i++)
+            for (double i = 0; i < 16 * _scale; i++)
                 SpawnVehicle();
 
             // add some collectibles
@@ -495,40 +494,19 @@ namespace HonkHeroGame
 
             if (_playerAttackDurationCounter > _playerAttackDurationCounterDefault / 2)
             {
-                //TODO: increase scale
-
-                //if (_player.GetScaleY() <= 2)
-                //{
-                //    if (_player.FacingDirectionX == MovementDirectionX.Right)
-                //        _player.SetScaleTransform(
-                //            scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
-                //            scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
-                //    else
-                //        _player.SetScaleTransform(
-                //            scaleX: (_player.GetScaleX() - _playerAttackingScalePoint),
-                //            scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
-                //}
-
+                // increase scale
                 if (_player.GetScaleY() <= 2)
+                {
                     _player.SetScaleTransform(
                         scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
                         scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+                }
             }
             else
             {
+                // decrease scale
                 if (_player.GetScaleY() > 1.0)
                 {
-                    //TODO: decrease scale
-
-                    //if (_player.FacingDirectionX == MovementDirectionX.Right)
-                    //    _player.SetScaleTransform(
-                    //        scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
-                    //        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
-                    //else
-                    //    _player.SetScaleTransform(
-                    //        scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
-                    //        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
-
                     _player.SetScaleTransform(
                         scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
                         scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
@@ -605,7 +583,11 @@ namespace HonkHeroGame
 
         private double GetFlightSpeed(double distance, bool isAttacking = false)
         {
-            return (distance / _playerLag) * (isAttacking ? _gameSpeedDefault * 2 : 1);
+            var speedBoost = _player.PlayerState == PlayerState.Attacking
+                ? _gameSpeedDefault * 2
+                : 1;
+
+            return (distance / _playerLag) * speedBoost;
         }
 
         private void PlayerAttack()
@@ -622,7 +604,7 @@ namespace HonkHeroGame
         {
             LooseHealth();
 
-            Honk honk = new(scale: _scale, speed: vehicle.Speed / 2.2);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5);
 
             var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
 
@@ -642,8 +624,8 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetLeft(honk.GetLeft() - honk.Speed * 2);
-            honk.SetTop(honk.GetTop() - honk.Speed);
+            honk.SetTop(honk.GetTop() - honk.Speed * 0.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed);
 
             honk.Fade();
 
@@ -720,7 +702,8 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle vehicle = new(_scale, _gameSpeed + _random.Next(-1, 2));
+            var speed = _gameSpeed + _random.Next(0, 3);
+            Vehicle vehicle = new(scale: _scale, speed: speed);
             GameView.Children.Add(vehicle);
         }
 
@@ -746,37 +729,34 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetHitBox() is Rect xHitBox
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale) is Rect xHitBox
                     && xHitBox.IntersectsWith(vehicleCloseHitBox)
                     && vehicle.GetZ() > x.GetZ()
-                    && vehicleCloseHitBox.Top < xHitBox.Top
-                    && vehicleCloseHitBox.Bottom > xHitBox.Top) is Vehicle intersectingVehicle)
+                    && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle intersectingVehicle)
                 {
                     vehicle.SetZ(intersectingVehicle.GetZ() - 1);
                 }
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
-                    && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
                 {
-                    vehicle.Speed = slowerVehicle.Speed;
-                    MoveVehicle(slowerVehicle);
-                }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
-                    && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
-                {
-                    speedingVehicle.Speed = vehicle.Speed;
-                    MoveVehicle(vehicle);
-                }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
-                    && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
-                {
-                    if (vehicle.GetZ() < equalspeedingVehicle.GetZ())
+                    if (vehicle.Speed > collidingVehicle.Speed)
                     {
-                        MoveVehicle(vehicle, 2);
+                        vehicle.Speed = collidingVehicle.Speed;
+
+                        MoveVehicle(collidingVehicle);
                     }
-                    else
+                    else if (collidingVehicle.Speed > vehicle.Speed)
                     {
-                        MoveVehicle(equalspeedingVehicle, 2);
+                        collidingVehicle.Speed = vehicle.Speed;
+
+                        MoveVehicle(vehicle);
+                    }
+                    else if (collidingVehicle.Speed == vehicle.Speed)
+                    {
+                        if (vehicle.GetZ() > collidingVehicle.GetZ())
+                            MoveVehicle(collidingVehicle);
+                        else
+                            MoveVehicle(vehicle);
                     }
                 }
                 else

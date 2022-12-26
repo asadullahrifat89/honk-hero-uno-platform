@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Linq;
-using System.Security.Policy;
 
 namespace HonkHeroGame
 {
