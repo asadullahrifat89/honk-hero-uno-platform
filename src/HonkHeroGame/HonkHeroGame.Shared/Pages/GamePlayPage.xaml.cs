@@ -214,7 +214,7 @@ namespace HonkHeroGame
         private void PopulateGameView()
         {
             // add some vehicles
-            for (double i = 0; i < 15 * _scale; i++)
+            for (double i = 0; i < 20 * _scale; i++)
                 SpawnVehicle();
 
             // add some collectibles
