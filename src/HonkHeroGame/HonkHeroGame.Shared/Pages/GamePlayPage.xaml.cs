@@ -243,9 +243,7 @@ namespace HonkHeroGame
             _difficultyMultiplier = 1;
 
             _collectibleCollected = 0;
-            _vehiclesTagged = 0;
-
-            ScoreText.Text = "0";
+            _vehiclesTagged = 0;            
 
             _playerHealth = 100;
 
