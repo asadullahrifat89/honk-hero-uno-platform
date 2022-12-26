@@ -620,7 +620,9 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(scale: _scale, speed: vehicle.Speed / 2);
+            LooseHealth();
+
+            Honk honk = new(scale: _scale, speed: vehicle.Speed / 2.2);
 
             var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
 
@@ -636,8 +638,6 @@ namespace HonkHeroGame
             GameView.Children.Add(honk);
 
             SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
-
-            LooseHealth();
         }
 
         private void UpdateHonk(GameObject honk)
