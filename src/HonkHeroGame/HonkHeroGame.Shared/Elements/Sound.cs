@@ -76,7 +76,7 @@ namespace HonkHeroGame
         {
             if (Volume < 0.9)
             {
-                Volume += 0.1;
+                Volume += 0.01;
                 _audioPlayer.SetVolume(Volume);
 
 #if DEBUG
@@ -98,7 +98,7 @@ namespace HonkHeroGame
                 _audioPlayer.SetVolume(Volume);
 
 #if DEBUG
-                Console.WriteLine("VOLUME UP: " + levelTarget + "VOLUME: " + Volume);
+                Console.WriteLine("VOLUME UP: " + levelTarget + " -> VOLUME: " + Volume);
 #endif
             }
         }
@@ -107,7 +107,7 @@ namespace HonkHeroGame
         {
             if (Volume > 0.1)
             {
-                Volume -= 0.1;
+                Volume -= 0.01;
                 _audioPlayer.SetVolume(Volume);
 
 #if DEBUG

@@ -38,8 +38,8 @@ namespace HonkHeroGame
         private Rect _playerDistantHitBox;
 
         private double _playerHealth;
-        private readonly double _playerHitPoints = 5;
-        private readonly double _playerHealPoints = 7;
+        private readonly double _playerHitPoints = 3;
+        private readonly double _playerHealPoints = 5;
 
         private readonly double _playerPositionGrace = 7;
         private readonly double _playerAttackingScalePoint = 0.2;
@@ -868,7 +868,7 @@ namespace HonkHeroGame
         {
             if (_playerHealth < 100)
             {
-                SoundHelper.VolumeUp(soundType: SoundType.SONG, level: 0.2);
+                SoundHelper.VolumeUp(soundType: SoundType.SONG, level: 0.02);
 
                 var health = _playerHealPoints;
 
