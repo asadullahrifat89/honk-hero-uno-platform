@@ -136,7 +136,7 @@
                                 Width="35"
                                 Height="35"
                                 Margin="4"
-                                Source="ms-appx:///Assets/Images/vehicle8.png" />
+                                Source="ms-appx:///Assets/Images/vehicle10.png" />
                             <TextBlock
                                 x:Name="VehiclesTaggedText"
                                 Margin="5"

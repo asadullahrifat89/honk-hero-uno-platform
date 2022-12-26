@@ -141,12 +141,21 @@
                     Orientation="Horizontal">
 
                     <!--  Score icon  -->
-                    <PersonPicture
+                    <!--<PersonPicture
                         Width="30"
                         Height="30"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        ProfilePicture="ms-appx:///Assets/Images/collectible.png" />
+                        ProfilePicture="ms-appx:///Assets/Images/collectible.png" />-->
+
+                    <!--  Score icon  -->
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="🌟"
+                        TextAlignment="Left" />
 
                     <!--  Score  -->
                     <TextBlock
