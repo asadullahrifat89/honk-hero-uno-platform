@@ -243,7 +243,7 @@ namespace HonkHeroGame
             _difficultyMultiplier = 1;
 
             _collectibleCollected = 0;
-            _vehiclesTagged = 0;            
+            _vehiclesTagged = 0;
 
             _playerHealth = 100;
 
@@ -682,7 +682,9 @@ namespace HonkHeroGame
             SetStickerPosition(vehicle, sticker);
 
             sticker.SetZ(vehicle.GetZ() + 1);
-            sticker.SetSkewY(-30);
+            //sticker.SetSkewY(-30);
+            //sticker.SetSkewY(30);
+            sticker.SetRotation(_random.Next(-30, 30));
 
             GameView.Children.Add(sticker);
 
@@ -800,7 +802,7 @@ namespace HonkHeroGame
         private void SpawnCollectible()
         {
             Collectible collectible = new(_scale);
-            collectible.SetRotation(_random.Next(-30, 45));
+            collectible.SetRotation(_random.Next(-30, 30));
             collectible.SetZ(7);
 
             RandomizeCollectiblePosition(collectible);
