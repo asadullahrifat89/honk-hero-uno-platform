@@ -147,7 +147,7 @@ namespace HonkHeroGame
                     _pointerPosition = point.Position;
 
                     _player.SetScaleTransform(1);
-                    PlayerAttack();                    
+                    PlayerAttack();
                 }
             }
         }
@@ -729,11 +729,10 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetHitBox() is Rect xHitBox
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale) is Rect xHitBox
                     && xHitBox.IntersectsWith(vehicleCloseHitBox)
                     && vehicle.GetZ() > x.GetZ()
-                    && vehicleCloseHitBox.Top < xHitBox.Top
-                    && vehicleCloseHitBox.Bottom > xHitBox.Top) is Vehicle intersectingVehicle)
+                    && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle intersectingVehicle)
                 {
                     vehicle.SetZ(intersectingVehicle.GetZ() - 1);
                 }

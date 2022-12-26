@@ -42,30 +42,30 @@ namespace HonkHeroGame
             RenderTransform = _compositeTransform;
             CanDrag = false;
 
-            //SetChild(_content);
+            SetChild(_content);
 
             #region HitBox Debug
 
-            BorderThickness = new Thickness(1);
-            BorderBrush = new SolidColorBrush(Colors.Black);
+            //BorderThickness = new Thickness(1);
+            //BorderBrush = new SolidColorBrush(Colors.Black);
 
-            _hitBoxborder = new Border()
-            {
-                BorderThickness = new Thickness(1),
-                BorderBrush = new SolidColorBrush(Colors.Black),
-                Visibility = Visibility.Collapsed,
-            };
+            //_hitBoxborder = new Border()
+            //{
+            //    BorderThickness = new Thickness(1),
+            //    BorderBrush = new SolidColorBrush(Colors.Black),
+            //    Visibility = Visibility.Collapsed,
+            //};
 
-            var grid = new Grid()
-            {
-                HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center,
-                VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
-            };
+            //var grid = new Grid()
+            //{
+            //    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center,
+            //    VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
+            //};
 
-            grid.Children.Add(_content);
-            grid.Children.Add(_hitBoxborder);
+            //grid.Children.Add(_content);
+            //grid.Children.Add(_hitBoxborder);
 
-            SetChild(grid);
+            //SetChild(grid);
 
             #endregion
         }
