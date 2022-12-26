@@ -746,17 +746,29 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetHitBox() is Rect xHitBox
+                    && xHitBox.IntersectsWith(vehicleCloseHitBox)
+                    && vehicle.GetZ() > x.GetZ()
+                    && vehicleCloseHitBox.Top < xHitBox.Top
+                    && vehicleCloseHitBox.Bottom > xHitBox.Top) is Vehicle intersectingVehicle)
+                {
+                    vehicle.SetZ(intersectingVehicle.GetZ() - 1);
+                }
+
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
+                    && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
                 {
                     vehicle.Speed = slowerVehicle.Speed;
                     MoveVehicle(slowerVehicle);
                 }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
+                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
+                    && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
                 {
                     speedingVehicle.Speed = vehicle.Speed;
                     MoveVehicle(vehicle);
                 }
-                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
+                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)
+                    && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
                 {
                     if (vehicle.GetZ() < equalspeedingVehicle.GetZ())
                     {
