@@ -723,12 +723,16 @@ namespace HonkHeroGame
 
             if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > x.Speed) is Vehicle slow)
             {
-                vehicle.SetTop(vehicle.GetTop() - (slow.Speed * 0.5) / 2);
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (slow.Speed * 0.5) / 2);
+
                 vehicle.SetLeft(vehicle.GetLeft() - slow.Speed / 2);
             }
             else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
-                vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
+
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
             }
 
@@ -846,7 +850,7 @@ namespace HonkHeroGame
         private void RandomizeCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
-                left: _random.Next(50, (int)GameView.Width - 50),
+                left: _random.Next((int)collectible.Width, (int)(GameView.Width - collectible.Width)),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
@@ -910,7 +914,7 @@ namespace HonkHeroGame
         private void RandomizePowerUpPosition(GameObject powerUp)
         {
             powerUp.SetPosition(
-                left: _random.Next(0, (int)GameView.Width) - (100 * _scale),
+                left: _random.Next((int)powerUp.Width, (int)(GameView.Width - powerUp.Width)),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
