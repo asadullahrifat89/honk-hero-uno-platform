@@ -55,11 +55,7 @@ namespace HonkHeroGame
 
         private PowerUpType _powerUpType;
 
-        //private int _powerUpCount;
-        //private readonly int _powerUpSpawnLimit = 1;
-
         private int _powerUpSpawnCounter = 600;
-
         private int _powerModeDurationCounter;
         private readonly int _powerModeDurationDefault = 1000;
 
@@ -77,6 +73,7 @@ namespace HonkHeroGame
         private int _vehiclesTagged;
 
         private (int Z, double Y) _lastVehiclePoint = (0, 0);
+        private int _gameLevel = 1;
 
         #endregion
 
@@ -233,11 +230,13 @@ namespace HonkHeroGame
             _gameSpeed = _gameSpeedDefault * _scale;
             _playerLag = _playerLagDefault;
 
+            _gameLevel = 1;
+            SetGameLevelText();
+
             _isGameOver = false;
             _isPowerMode = false;
 
             _powerModeDurationCounter = _powerModeDurationDefault;
-            //_powerUpCount = 0;
 
             _score = 0;
             _scoreCap = 50;
@@ -941,7 +940,7 @@ namespace HonkHeroGame
             _powerModeDurationCounter = _powerModeDurationDefault;
             _powerUpType = powerUp.PowerUpType;
 
-            powerUpText.Visibility = Visibility.Visible;
+            PlayerPowerBar.Visibility = Visibility.Visible;
             SoundHelper.PlaySound(SoundType.POWER_UP);
         }
 
@@ -950,11 +949,11 @@ namespace HonkHeroGame
             _powerModeDurationCounter -= 1;
             double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDurationDefault * 4;
 
-            powerUpText.Text = "";
+            PlayerPowerBar.Text = "";
 
             for (int i = 0; i < remainingPow; i++)
             {
-                powerUpText.Text += "⚡";
+                PlayerPowerBar.Text += "⚡";
             }
         }
 
@@ -962,7 +961,7 @@ namespace HonkHeroGame
         {
             _isPowerMode = false;
 
-            powerUpText.Visibility = Visibility.Collapsed;
+            PlayerPowerBar.Visibility = Visibility.Collapsed;
             SoundHelper.PlaySound(SoundType.POWER_DOWN);
         }
 
@@ -1030,11 +1029,19 @@ namespace HonkHeroGame
                 _scoreCap += 50;
                 _difficultyMultiplier++;
 
+                _gameLevel++;
+                SetGameLevelText();
+
 #if DEBUG
                 Console.WriteLine("PLAYER LAG: " + _playerLag);
                 Console.WriteLine("GAME SPEED: " + _gameSpeed);
 #endif
             }
+        }
+
+        private void SetGameLevelText()
+        {
+            GameLevelText.Text = $"🔥 {_gameLevel}";
         }
 
         #endregion
