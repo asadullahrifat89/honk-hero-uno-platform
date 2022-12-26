@@ -681,11 +681,14 @@ namespace HonkHeroGame
         {
             Sticker sticker = new(_scale);
 
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.0);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.5);
 
             sticker.SetZ(vehicle.GetZ() + 1);
-            sticker.SetRotation(_random.Next(-30, 45));
+            sticker.SetSkewY(-30);
+            //sticker.SetRotation(63.5);
+
+            //sticker.SetRotation(_random.Next(-30, 45));
 
             GameView.Children.Add(sticker);
 
@@ -697,9 +700,11 @@ namespace HonkHeroGame
             var sticker = vehicle.AttachedSticker;
 
             sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 1.5);
+            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.5);
 
-            if (sticker.GetTop() + sticker.Height < 0 || sticker.GetLeft() + sticker.Width < 0)
+            var stickerHitBox = sticker.GetHitBox();
+
+            if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0)
                 GameView.AddDestroyableGameObject(sticker);
         }
 
