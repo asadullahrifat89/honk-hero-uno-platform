@@ -1093,32 +1093,25 @@ namespace HonkHeroGame
 
             UnderView.Children.Clear();
 
+            // potrait
             if (_windowHeight > _windowWidth)
             {
                 for (int i = 0; i <= 10; i++)
                 {
-                    GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
+                    var left = (_windowWidth / 3 / 20) + (i * 200 * _scale);
+                    var top = (_windowHeight / 3) + (i * 200 * _scale) * 0.5;
 
-                    gameObject.SetPosition(left: (_windowWidth / 3 / 20) + (i * 200 * _scale), top: (_windowHeight / 3) + (i * 200 * _scale) * 0.5);
-                    gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
-                    gameObject.SetSkewY(42);
-                    gameObject.SetRotation(-63.5);
-
-                    UnderView.Children.Add(gameObject);
+                    AddRoadMark(left / 1.1, top / 1.1);
                 }
             }
-            else
+            else // landscape
             {
                 for (int i = -1; i <= 10; i++)
                 {
-                    GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
+                    var left = (60 * _scale) + (i * 200 * _scale);
+                    var top = (5 * _scale) + (i * 200 * _scale) * 0.5;
 
-                    gameObject.SetPosition(left: (60 * _scale) + (i * 200 * _scale), top: (5 * _scale) + (i * 200 * _scale) * 0.5);
-                    gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
-                    gameObject.SetSkewY(42);
-                    gameObject.SetRotation(-63.5);
-
-                    UnderView.Children.Add(gameObject);
+                    AddRoadMark(left, top);
                 }
             }
 
@@ -1126,10 +1119,27 @@ namespace HonkHeroGame
             RoadSideLeftImage.Height = _windowHeight;
 
             RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
-            RoadSideRightImage.Height = _windowHeight;           
+            RoadSideRightImage.Height = _windowHeight;
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
 #endif           
+        }
+
+        private void AddRoadMark(double left, double top)
+        {
+            GameObject gameObject = new()
+            {
+                Background = new SolidColorBrush(Colors.White),
+                BorderBrush = new SolidColorBrush(Colors.Gray),
+                BorderThickness = new Thickness(2)
+            };
+
+            gameObject.SetPosition(left: left, top: top);
+            gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
+            gameObject.SetSkewY(42);
+            gameObject.SetRotation(-63.5);
+
+            UnderView.Children.Add(gameObject);
         }
 
         private void NavigateToPage(Type pageType)
