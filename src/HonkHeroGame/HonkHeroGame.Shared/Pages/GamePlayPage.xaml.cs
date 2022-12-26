@@ -719,35 +719,20 @@ namespace HonkHeroGame
             if (vehicle.IsMarkedForPopping && !vehicle.HasPopped)
                 vehicle.Pop();
 
-            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed > x.Speed) is Vehicle slow)
+            var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
+
+            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > x.Speed) is Vehicle slow)
             {
-                if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / 2);
-
-                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
-
-                slow.SetTop(slow.GetTop() - (slow.Speed * 0.5) / 2);
-                slow.SetLeft(slow.GetLeft() - slow.Speed / 2);
+                vehicle.SetTop(vehicle.GetTop() - (slow.Speed * 0.5) / 2);
+                vehicle.SetLeft(vehicle.GetLeft() - slow.Speed / 2);
             }
-            else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale)) && vehicle.Speed < x.Speed) is Vehicle fast)
+            else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed < x.Speed) is Vehicle fast)
             {
-                if (vehicle.GetLeft() < _windowWidth)
-                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
-
+                vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
                 vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
-
-                fast.SetTop(fast.GetTop() - (fast.Speed * 0.5) / 2);
-                fast.SetLeft(fast.GetLeft() - fast.Speed / 2);
             }
-            //else
-            //{
-            //if (vehicle.GetLeft() < _windowWidth)
-            //    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
 
-            //vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
-            //}
-
-            if (vehicle.GetTop() + vehicle.Height < 0 || vehicle.GetLeft() + vehicle.Width < 0)
+            if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
             {
                 RecyleVehicle(vehicle);
             }
@@ -756,48 +741,16 @@ namespace HonkHeroGame
                 if (vehicle.HonkState == HonkState.HONKING_BUSTED && vehicle.AttachedSticker is not null)
                     UpdateSticker(vehicle);
 
-                // if player hits the vehicle, bust honking and attach sticker
                 if (vehicle.HonkState == HonkState.HONKING && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicle.GetCloseHitBox(_scale)))
                     BustHonk(vehicle);
 
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                //// slower vehicles will slow down faster vehicles
-                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle slowerVehicle && vehicle.Speed > slowerVehicle.Speed)
-                //    if (vehicle.Speed > 2)
-                //        vehicle.Speed -= 0.1;
+                if (vehicle.GetLeft() < _windowWidth)
+                    vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
 
-                //// slower vehicles will slow down faster vehicles
-                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle fasterVehicle && vehicle.Speed < fasterVehicle.Speed)
-                //    if (vehicle.Speed < _gameSpeed * 2)
-                //        vehicle.Speed += 0.1;
-
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => vehicle.GetCloseHitBox(_scale).Left < v.GetCloseHitBox(_scale).Right) is Vehicle collidingVehicle)
-                {
-                    //if (vehicle.Speed > 2)
-                    //    vehicle.Speed -= 0.1;
-
-                    if (vehicle.GetLeft() < _windowWidth)
-                        vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / 2);
-
-                    vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 2);
-                }
-                else
-                {
-                    if (vehicle.GetLeft() < _windowWidth)
-                        vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5));
-
-                    vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
-                }
-
-                //if (vehicle.Speed > 2)
-                //    vehicle.Speed -= 0.1;
-
-                //// slower vehicles will slow down faster vehicles
-                //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(v => v.GetCloseHitBox(_scale).IntersectsWith(vehicle.GetCloseHitBox(_scale))) is Vehicle fasterVehicle && vehicle.Speed < fasterVehicle.Speed)
-                //    if (vehicle.Speed < _gameSpeed * 2)
-                //        vehicle.Speed += 0.1;
+                vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed);
             }
         }
 
