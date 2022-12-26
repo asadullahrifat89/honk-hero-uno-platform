@@ -1093,6 +1093,7 @@ namespace HonkHeroGame
 
             UnderView.Children.Clear();
 
+            // potrait
             if (_windowHeight > _windowWidth)
             {
                 for (int i = 0; i <= 10; i++)
@@ -1100,10 +1101,10 @@ namespace HonkHeroGame
                     var left = (_windowWidth / 3 / 20) + (i * 200 * _scale);
                     var top = (_windowHeight / 3) + (i * 200 * _scale) * 0.5;
 
-                    AddRoadMark(left, top);
+                    AddRoadMark(left / 1.1, top / 1.1);
                 }
             }
-            else
+            else // landscape
             {
                 for (int i = -1; i <= 10; i++)
                 {
