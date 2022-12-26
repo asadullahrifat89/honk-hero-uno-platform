@@ -745,11 +745,26 @@ namespace HonkHeroGame
 
                 if (GameView.Children.OfType<Vehicle>().FirstOrDefault(slowerVehicle => slowerVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && vehicle.Speed > slowerVehicle.Speed) is Vehicle slowerVehicle)
                 {
-                    MoveVehicle(vehicle: vehicle, speedFactor: 2);
+                    //MoveVehicle(vehicle: vehicle, DivideSpeedBy: 2);
+                    vehicle.Speed = slowerVehicle.Speed;
+                    MoveVehicle(slowerVehicle);
                 }
                 else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(speedingVehicle => speedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && speedingVehicle.Speed > vehicle.Speed) is Vehicle speedingVehicle)
                 {
-                    MoveVehicle(vehicle: speedingVehicle, speedFactor: 2);
+                    //MoveVehicle(vehicle: speedingVehicle, DivideSpeedBy: 2);
+                    speedingVehicle.Speed = vehicle.Speed;
+                    MoveVehicle(vehicle);
+                }
+                else if (GameView.Children.OfType<Vehicle>().FirstOrDefault(equalspeedingVehicle => equalspeedingVehicle.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox) && equalspeedingVehicle.Speed == vehicle.Speed) is Vehicle equalspeedingVehicle)
+                {
+                    if (vehicle.GetZ() < equalspeedingVehicle.GetZ())
+                    {
+                        MoveVehicle(vehicle, 2);
+                    }
+                    else
+                    {
+                        MoveVehicle(equalspeedingVehicle, 2);
+                    }
                 }
                 else
                 {
@@ -758,12 +773,12 @@ namespace HonkHeroGame
             }
         }
 
-        private void MoveVehicle(Vehicle vehicle, int speedFactor = 1)
+        private void MoveVehicle(Vehicle vehicle, int DivideSpeedBy = 1)
         {
             if (vehicle.GetLeft() < _windowWidth)
-                vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / 1);
+                vehicle.SetTop(vehicle.GetTop() - (vehicle.Speed * 0.5) / DivideSpeedBy);
 
-            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / 1);
+            vehicle.SetLeft(vehicle.GetLeft() - vehicle.Speed / DivideSpeedBy);
         }
 
         private void RecyleVehicle(Vehicle vehicle)
