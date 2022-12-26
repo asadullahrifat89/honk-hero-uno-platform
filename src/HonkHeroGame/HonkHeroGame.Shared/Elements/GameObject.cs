@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -28,7 +29,46 @@ namespace HonkHeroGame
 
         #region HitBox Debug
 
-        //private Border _hitBoxborder;
+        private Border _hitBoxborder;
+
+        #endregion
+
+        #region Ctor
+
+        public GameObject()
+        {
+            RenderTransformOrigin = new Point(0.5, 0.5);
+
+            RenderTransform = _compositeTransform;
+            CanDrag = false;
+
+            //SetChild(_content);
+
+            #region HitBox Debug
+
+            BorderThickness = new Thickness(1);
+            BorderBrush = new SolidColorBrush(Colors.Black);
+
+            _hitBoxborder = new Border()
+            {
+                BorderThickness = new Thickness(1),
+                BorderBrush = new SolidColorBrush(Colors.Black),
+                Visibility = Visibility.Collapsed,
+            };
+
+            var grid = new Grid()
+            {
+                HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center,
+                VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
+            };
+
+            grid.Children.Add(_content);
+            grid.Children.Add(_hitBoxborder);
+
+            SetChild(grid);
+
+            #endregion
+        }
 
         #endregion
 
@@ -48,51 +88,16 @@ namespace HonkHeroGame
 
         #endregion
 
-        #region Ctor
-
-        public GameObject()
-        {
-            RenderTransformOrigin = new Point(0.5, 0.5);
-
-            RenderTransform = _compositeTransform;
-            CanDrag = false;
-
-            SetChild(_content);
-
-            #region HitBox Debug
-
-            //BorderThickness = new Thickness(1);
-            //BorderBrush = new SolidColorBrush(Colors.Black);
-
-            //_hitBoxborder = new Border()
-            //{
-            //    BorderThickness = new Thickness(1),
-            //    BorderBrush = new SolidColorBrush(Colors.Black)
-            //};
-
-            //var grid = new Grid()
-            //{
-            //    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center,
-            //    VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
-            //};
-
-            //grid.Children.Add(_content);
-            //grid.Children.Add(_hitBoxborder);
-
-            //SetChild(grid);
-
-            #endregion
-        }
-
-        #endregion
-
         #region Methods
 
-        //public void SetHitBoxBorder(Rect rect)
-        //{
-        //    _hitBoxborder.Height = rect.Height;
-        //    _hitBoxborder.Width = rect.Width;
-        //}
+        public void SetHitBoxBorder(Rect rect)
+        {
+            _hitBoxborder.Height = rect.Height;
+            _hitBoxborder.Width = rect.Width;
+
+            if (_hitBoxborder.Visibility != Visibility.Visible)
+                _hitBoxborder.Visibility = Visibility.Visible;
+        }
 
         public void SetSize(double width, double height)
         {
@@ -164,7 +169,7 @@ namespace HonkHeroGame
             return _compositeTransform.ScaleX;
         }
 
-        public double GetScaleY() 
+        public double GetScaleY()
         {
             return _compositeTransform.ScaleY;
         }

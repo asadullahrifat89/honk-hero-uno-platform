@@ -34,12 +34,12 @@ namespace HonkHeroGame
             {
                 case PlayerState.Idle:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);                        
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
                     }
                     break;
                 case PlayerState.Flying:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);                        
+                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);
                     }
                     break;
                 case PlayerState.Attacking:
@@ -56,13 +56,25 @@ namespace HonkHeroGame
         {
             FacingDirectionX = movementDirectionX;
 
-            switch (movementDirectionX)
+            switch (PlayerState)
             {
-                case MovementDirectionX.Left:
-                    SetScaleX(scaleX * -1);
+                case PlayerState.Flying:
+                    {
+                        switch (movementDirectionX)
+                        {
+                            case MovementDirectionX.Left:
+                                SetScaleX(scaleX * -1);
+                                break;
+                            case MovementDirectionX.Right:
+                                SetScaleX(scaleX);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     break;
-                case MovementDirectionX.Right:
-                    SetScaleX(scaleX);
+                case PlayerState.Idle:
+                case PlayerState.Attacking:
                     break;
                 default:
                     break;
