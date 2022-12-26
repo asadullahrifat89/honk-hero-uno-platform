@@ -13,33 +13,7 @@
         <!--#region Animation-->
 
         <!--  This hosts the road  -->
-        <GameEnvironment x:Name="UnderView" Background="Transparent">
-            <GameObject
-                x:Name="RoadMarkLeft2"
-                Background="#f2f1f3"
-                BorderBrush="Gray"
-                BorderThickness="2" />
-            <GameObject
-                x:Name="RoadMarkLeft"
-                Background="#f2f1f3"
-                BorderBrush="Gray"
-                BorderThickness="2" />
-            <!--<GameObject
-                x:Name="HighWayDivider"
-                Background="#f2f1f3"
-                BorderBrush="Gray"
-                BorderThickness="2" />-->
-            <GameObject
-                x:Name="RoadMarkRight"
-                Background="#f2f1f3"
-                BorderBrush="Gray"
-                BorderThickness="2" />
-            <GameObject
-                x:Name="RoadMarkRight2"
-                Background="#f2f1f3"
-                BorderBrush="Gray"
-                BorderThickness="2" />
-        </GameEnvironment>
+        <GameEnvironment x:Name="UnderView" Background="Transparent" />
 
         <Image
             x:Name="RoadSideRightImage"
@@ -47,11 +21,11 @@
             VerticalAlignment="Top"
             Source="ms-appx:///Assets/Images/road-side-buildings-right.png" />
 
-        <Image
+        <!--<Image
             x:Name="RoadSideCenterImage"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Source="ms-appx:///Assets/Images/road-side-walkway-center.png" />
+            Source="ms-appx:///Assets/Images/road-side-walkway-center.png" />-->
 
         <!--  This hosts the player and game elements  -->
         <GameEnvironment x:Name="GameView" Background="Transparent" />
@@ -61,21 +35,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Source="ms-appx:///Assets/Images/road-side-buildings-left.png" />
-
-        <!--  Gradient  -->
-        <!--<Border
-            x:Name="GradientBorder"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="{x:Bind Path=PlayerHealthBarPanel.Visibility, Mode=OneWay}">
-            <Border.Background>
-                <LinearGradientBrush Opacity="0.15" StartPoint="1,0.5" EndPoint="0,0.5">
-                    <GradientStop Offset="0.00" Color="SkyBlue" />
-                    <GradientStop Offset="1.00" Color="Transparent" />
-                </LinearGradientBrush>
-            </Border.Background>
-        </Border>-->
-        <!--#endregion-->
         <!--#endregion-->
 
         <!--#region Player health, game Score-->

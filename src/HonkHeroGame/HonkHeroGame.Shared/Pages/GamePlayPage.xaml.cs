@@ -1,7 +1,9 @@
-﻿using Microsoft.UI.Input;
+﻿using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -874,7 +876,7 @@ namespace HonkHeroGame
         {
             if (_playerHealth < 100)
             {
-                SoundHelper.VolumeUp(soundType: SoundType.SONG/*, level: 0.04*/);
+                SoundHelper.VolumeUp(soundType: SoundType.SONG, level: 0.04);
 
                 var health = _playerHealPoints;
 
@@ -1089,48 +1091,42 @@ namespace HonkHeroGame
             UnderView.Width = _windowWidth;
             UnderView.Height = _windowHeight;
 
-            RoadMarkLeft2.Width = 15 * _scale;
-            RoadMarkLeft2.Height = _windowHeight;
-            RoadMarkLeft2.SetLeft(5);
-            RoadMarkLeft2.SetSkewY(43);
-            RoadMarkLeft2.SetRotation(-63.5);
+            UnderView.Children.Clear();
 
-            RoadMarkLeft.Width = 15 * _scale;
-            RoadMarkLeft.Height = _windowHeight;
-            RoadMarkLeft.SetLeft((_windowWidth / 4 - (RoadMarkLeft.Width / 2)));
-            RoadMarkLeft.SetSkewY(43);
-            RoadMarkLeft.SetRotation(-63.5);
+            if (_windowHeight > _windowWidth)
+            {
+                for (int i = 0; i <= 10; i++)
+                {
+                    GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
 
-            //HighWayDivider.Width = 15 * _scale;
-            //HighWayDivider.Height = _windowHeight;
-            //HighWayDivider.SetLeft(_windowWidth / 2 - (HighWayDivider.Width / 2));
-            //HighWayDivider.SetSkewY(43);
-            //HighWayDivider.SetRotation(-63.5);
+                    gameObject.SetPosition(left: (_windowWidth / 3 / 20) + (i * 200 * _scale), top: (_windowHeight / 3) + (i * 200 * _scale) * 0.5);
+                    gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
+                    gameObject.SetSkewY(42);
+                    gameObject.SetRotation(-63.5);
 
-            RoadMarkRight.Width = 15 * _scale;
-            RoadMarkRight.Height = _windowHeight;
-            RoadMarkRight.SetLeft((_windowWidth / 4 - (RoadMarkRight.Width / 2)) * 3);
-            RoadMarkRight.SetSkewY(43);
-            RoadMarkRight.SetRotation(-63.5);
+                    UnderView.Children.Add(gameObject);
+                }
+            }
+            else
+            {
+                for (int i = -1; i <= 10; i++)
+                {
+                    GameObject gameObject = new() { Background = new SolidColorBrush(Colors.White), BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(2) };
 
-            RoadMarkRight2.Width = 15 * _scale;
-            RoadMarkRight2.Height = _windowHeight;
-            RoadMarkRight2.SetLeft((_windowWidth / 4 - (RoadMarkRight2.Width / 2)) * 4);
-            RoadMarkRight2.SetSkewY(43);
-            RoadMarkRight2.SetRotation(-63.5);
+                    gameObject.SetPosition(left: (60 * _scale) + (i * 200 * _scale), top: (5 * _scale) + (i * 200 * _scale) * 0.5);
+                    gameObject.SetSize(width: 20 * _scale, height: _windowHeight / 10);
+                    gameObject.SetSkewY(42);
+                    gameObject.SetRotation(-63.5);
 
-            RoadSideLeftImage.Width = _windowWidth;
+                    UnderView.Children.Add(gameObject);
+                }
+            }
+
+            RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
             RoadSideLeftImage.Height = _windowHeight;
 
-            RoadSideCenterImage.Width = _windowWidth;
-            RoadSideCenterImage.Height = _windowHeight;
-
-            RoadSideRightImage.Width = _windowWidth;
-            RoadSideRightImage.Height = _windowHeight;
-
-            _player?.SetSize(
-                    width: Constants.PLAYER_WIDTH * _scale,
-                    height: Constants.PLAYER_HEIGHT * _scale);
+            RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
+            RoadSideRightImage.Height = _windowHeight;           
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
 #endif           
