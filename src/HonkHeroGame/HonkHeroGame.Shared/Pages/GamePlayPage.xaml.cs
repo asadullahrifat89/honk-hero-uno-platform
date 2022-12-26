@@ -686,8 +686,6 @@ namespace HonkHeroGame
             sticker.SetZ(vehicle.GetZ() + 1);
             sticker.SetSkewY(-30);
 
-            //sticker.SetRotation(_random.Next(-30, 45));
-
             GameView.Children.Add(sticker);
 
             return sticker;
