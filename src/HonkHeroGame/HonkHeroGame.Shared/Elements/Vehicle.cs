@@ -38,11 +38,6 @@ namespace HonkHeroGame
             Height = Constants.VEHICLE_SIZE * scale;
             Width = Constants.VEHICLE_SIZE * scale;
 
-            WillHonk = Convert.ToBoolean(_random.Next(0, 2));
-
-            if (WillHonk)
-                SetHonkIndex();
-
             Speed = speed;
 
             _emoji.Height = 55 * scale;
@@ -52,6 +47,8 @@ namespace HonkHeroGame
             _content.Children.Add(_emoji);
 
             SetChild(_content);
+
+            SetHonk();
         }
 
         #endregion
@@ -108,7 +105,11 @@ namespace HonkHeroGame
             HonkState = HonkState.DEFAULT;
             IsMarkedForPopping = false;
             SetEmoji(HonkState.DEFAULT);
+            SetHonk();
+        }
 
+        private void SetHonk()
+        {
             WillHonk = Convert.ToBoolean(_random.Next(0, 2));
 
             if (WillHonk)
