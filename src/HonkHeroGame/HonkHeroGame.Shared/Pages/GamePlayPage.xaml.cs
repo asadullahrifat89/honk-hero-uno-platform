@@ -602,8 +602,6 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            LooseHealth();
-
             Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5);
 
             var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
@@ -620,6 +618,8 @@ namespace HonkHeroGame
             GameView.Children.Add(honk);
 
             SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
+
+            LooseHealth();
         }
 
         private void UpdateHonk(GameObject honk)
@@ -635,8 +635,15 @@ namespace HonkHeroGame
 
         private bool WaitForHonk(Vehicle vehicle)
         {
-            if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width / 3 < _windowWidth
-                && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height / 3 < _windowHeight)
+            var vehicleHitBox = vehicle.GetHitBox();
+
+            //if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width / 3 < _windowWidth
+            //    && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height / 3 < _windowHeight)
+            //{
+            //    return vehicle.WaitForHonk();
+            //}
+
+            if (vehicleHitBox.Left < _windowWidth * 1.5)
             {
                 return vehicle.WaitForHonk();
             }
