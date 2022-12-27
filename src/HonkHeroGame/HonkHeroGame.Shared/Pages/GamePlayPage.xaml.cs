@@ -39,7 +39,7 @@ namespace HonkHeroGame
 
         private double _playerHealth;
         private readonly double _playerHitPoints = 3;
-        private readonly double _playerHealPoints = 5;
+        private readonly double _playerHealPoints = 4;
 
         private readonly double _playerPositionGrace = 7;
         private readonly double _playerAttackingScalePoint = 0.2;
@@ -638,7 +638,7 @@ namespace HonkHeroGame
             var vehicleHitBox = vehicle.GetHitBox();
 
             if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.2 : _windowWidth * 2))
-                return vehicle.WaitForHonk();
+                return vehicle.WaitForHonk(_gameLevel);
 
             return false;
         }
@@ -702,7 +702,12 @@ namespace HonkHeroGame
         private void SpawnVehicle()
         {
             var speed = _gameSpeed + _random.Next(0, 3);
-            Vehicle vehicle = new(scale: _scale, speed: speed);
+
+            Vehicle vehicle = new(
+                scale: _scale,
+                speed: speed,
+                gameLevel: _gameLevel);
+
             GameView.Children.Add(vehicle);
         }
 
@@ -780,7 +785,7 @@ namespace HonkHeroGame
             vehicle.SetContent(_vehicles[_markNum]);
             vehicle.Speed = _gameSpeed + _random.Next(1, 4);
 
-            vehicle.ResetHonking();
+            vehicle.ResetHonking(_gameLevel);
             RandomizeVehiclePosition(vehicle);
         }
 
