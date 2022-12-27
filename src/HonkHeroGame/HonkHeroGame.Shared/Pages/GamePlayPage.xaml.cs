@@ -728,12 +728,12 @@ namespace HonkHeroGame
                 if (WaitForHonk(vehicle))
                     SpawnHonk(vehicle);
 
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale) is Rect xHitBox
+                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
                     && xHitBox.IntersectsWith(vehicleCloseHitBox)
-                    && vehicle.GetZ() > x.GetZ()
-                    && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle intersectingVehicle)
+                    && vehicle.GetZ() >= x.GetZ()
+                    && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
                 {
-                    vehicle.SetZ(intersectingVehicle.GetZ() - 1);
+                    vehicle.SetZ(underneathVehicle.GetZ() - 1);
                 }
 
                 if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
@@ -1041,7 +1041,7 @@ namespace HonkHeroGame
         {
             if (_score > _scoreCap)
             {
-                _gameSpeed = (_gameSpeedDefault * _scale) + 0.2 * _difficultyMultiplier;
+                _gameSpeed = (_gameSpeedDefault * _scale) + (0.2 * _difficultyMultiplier / 2);
 
                 if (_playerLag > 15)
                     _playerLag = _playerLagDefault - (_difficultyMultiplier * 1.5);
