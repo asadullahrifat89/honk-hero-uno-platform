@@ -884,7 +884,7 @@ namespace HonkHeroGame
         {
             if (_playerHealth < 100)
             {
-                SoundHelper.VolumeUp(soundType: SoundType.SONG, level: 0.04);
+                //SoundHelper.VolumeUp(soundType: SoundType.SONG, level: 0.04);
 
                 var health = _playerHealPoints;
 
@@ -892,6 +892,8 @@ namespace HonkHeroGame
                     health = _playerHealth + _playerHealPoints - 100;
 
                 _playerHealth += health;
+
+                SoundHelper.SetVolume(SoundType.SONG, _playerHealth / 100);
             }
         }
 
@@ -900,6 +902,8 @@ namespace HonkHeroGame
             SoundHelper.VolumeDown(SoundType.SONG);
 
             _playerHealth -= _playerHitPoints;
+
+            SoundHelper.SetVolume(SoundType.SONG, _playerHealth / 100);
 
             if (_playerHealth <= 0)
                 GameOver();

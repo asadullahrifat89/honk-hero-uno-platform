@@ -67,9 +67,15 @@ namespace HonkHeroGame
 
         public void SetVolume(double volume = 1.0)
         {
+            if (volume < 0)
+                volume = 0;
+
+            if (volume > 1.0)
+                volume = 1.0;
+
             Volume = volume;
             _audioPlayer.SetVolume(Volume);
-        }       
+        }
 
         public void VolumeUp(double level)
         {
