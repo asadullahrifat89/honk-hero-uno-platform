@@ -643,7 +643,7 @@ namespace HonkHeroGame
             //    return vehicle.WaitForHonk();
             //}
 
-            if (vehicleHitBox.Left < _windowWidth * 1.5)
+            if (vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.2 : _windowWidth * 2))
             {
                 return vehicle.WaitForHonk();
             }

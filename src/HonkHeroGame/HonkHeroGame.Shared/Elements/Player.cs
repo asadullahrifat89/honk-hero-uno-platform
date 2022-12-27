@@ -1,9 +1,19 @@
-﻿using System.Linq;
+﻿using Microsoft.UI.Xaml.Controls;
+using System.Linq;
 
 namespace HonkHeroGame
 {
     public class Player : GameObject
     {
+        #region Fields
+
+        private readonly Grid _content = new();
+        private readonly Image _idle = new() { Opacity = 1 };
+        private readonly Image _flying = new() { Opacity = 0 };
+        private readonly Image _attacking = new() { Opacity = 0 };
+
+        #endregion
+
         public Player(double scale)
         {
             Tag = ElementType.PLAYER;
@@ -11,7 +21,17 @@ namespace HonkHeroGame
             Width = Constants.PLAYER_WIDTH * scale;
             Height = Constants.PLAYER_HEIGHT * scale;
 
-            SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
+            _idle.Source = Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value;
+            _flying.Source = Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value;
+            _attacking.Source = Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_ATTACKING).Value;
+
+            _content.Children.Add(_idle);
+            _content.Children.Add(_flying);
+            _content.Children.Add(_attacking);
+
+            SetChild(_content);
+
+            //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
         }
 
         #region Properties
@@ -34,17 +54,26 @@ namespace HonkHeroGame
             {
                 case PlayerState.Idle:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
+                        _idle.Opacity = 1;
+                        _flying.Opacity = 0;
+                        _attacking.Opacity = 0;
+                        //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER).Value);
                     }
                     break;
                 case PlayerState.Flying:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);
+                        _idle.Opacity = 0;
+                        _flying.Opacity = 1;
+                        _attacking.Opacity = 0;
+                        //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_FLYING).Value);
                     }
                     break;
                 case PlayerState.Attacking:
                     {
-                        SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_ATTACKING).Value);
+                        _idle.Opacity = 0;
+                        _flying.Opacity = 0;
+                        _attacking.Opacity = 1;
+                        //SetContent(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.PLAYER_ATTACKING).Value);
                     }
                     break;
                 default:
@@ -97,11 +126,11 @@ namespace HonkHeroGame
         Down,
     }
 
-    public enum MovementDirectionY
-    {
-        Up,
-        Down,
-    }
+    //public enum MovementDirectionY
+    //{
+    //    Up,
+    //    Down,
+    //}
 
     public enum MovementDirectionX
     {
