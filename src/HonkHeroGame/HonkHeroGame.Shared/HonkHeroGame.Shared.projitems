@@ -139,7 +139,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-left.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-walkway-center.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\speaker.png" />

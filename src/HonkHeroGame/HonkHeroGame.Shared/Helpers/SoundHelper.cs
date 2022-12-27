@@ -161,6 +161,12 @@ namespace HonkHeroGame
                 playingSound.Resume();
         }
 
+        public static void SetVolume(SoundType soundType, double level)
+        {
+            if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
+                playingSound.SetVolume(level);
+        }
+
         public static void VolumeUp(SoundType soundType)
         {
             if (_playingSounds.FirstOrDefault(x => x.SoundType == soundType) is Sound playingSound)
