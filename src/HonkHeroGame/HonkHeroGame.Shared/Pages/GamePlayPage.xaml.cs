@@ -1039,7 +1039,7 @@ namespace HonkHeroGame
 
         private void ScaleDifficulty()
         {
-            if (_score > _scoreCap)
+            if (_gameLevel < 101 && _score > _scoreCap)
             {
                 _gameSpeed = (_gameSpeedDefault * _scale) + (0.2 * _difficultyMultiplier / 2);
 

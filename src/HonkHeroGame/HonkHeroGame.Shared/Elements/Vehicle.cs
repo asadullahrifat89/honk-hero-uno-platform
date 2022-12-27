@@ -108,6 +108,11 @@ namespace HonkHeroGame
             SetHonk();
         }
 
+        public void AttachSticker(Sticker collectible)
+        {
+            AttachedSticker = collectible;
+        }
+
         private void SetHonk()
         {
             WillHonk = Convert.ToBoolean(_random.Next(0, 2));
@@ -119,14 +124,9 @@ namespace HonkHeroGame
             }
         }
 
-        public void AttachSticker(Sticker collectible)
-        {
-            AttachedSticker = collectible;
-        }
-
         private int SetHonkCounter()
         {
-            return _random.Next(50, 160);
+            return _random.Next(50, 150);
         }
 
         private void SetHonkIndex()
