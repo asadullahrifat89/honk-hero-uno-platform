@@ -126,7 +126,7 @@ namespace HonkHeroGame
 
         private int SetHonkCounter()
         {
-            return _random.Next(50, 150);
+            return _random.Next(50, 160);
         }
 
         private void SetHonkIndex()

@@ -23,8 +23,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 1.8;
-        private readonly double _gameSpeedDefault = 1.8;
+        private double _gameSpeed = 1.3;
+        private readonly double _gameSpeedDefault = 1.3;
 
         private int _markNum;
 
@@ -637,16 +637,8 @@ namespace HonkHeroGame
         {
             var vehicleHitBox = vehicle.GetHitBox();
 
-            //if (vehicle.GetLeft() > 0 && vehicle.GetLeft() + vehicle.Width / 3 < _windowWidth
-            //    && vehicle.GetTop() > 0 && vehicle.GetTop() + vehicle.Height / 3 < _windowHeight)
-            //{
-            //    return vehicle.WaitForHonk();
-            //}
-
-            if (vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.2 : _windowWidth * 2))
-            {
+            if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.2 : _windowWidth * 2))
                 return vehicle.WaitForHonk();
-            }
 
             return false;
         }
