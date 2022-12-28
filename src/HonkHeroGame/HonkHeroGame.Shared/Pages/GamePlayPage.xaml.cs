@@ -691,7 +691,10 @@ namespace HonkHeroGame
 
         private void SetStickerPosition(Vehicle vehicle, Sticker sticker)
         {
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            //sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
+            //sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
+
+            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
             sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
         }
 
