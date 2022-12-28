@@ -22,12 +22,12 @@ namespace HonkHeroGame
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Top,
         };
-        private readonly Image _honkingBusted = new()
-        {
-            Opacity = 0,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Top,
-        };
+        //private readonly Image _honkingBusted = new()
+        //{
+        //    Opacity = 0,
+        //    HorizontalAlignment = HorizontalAlignment.Center,
+        //    VerticalAlignment = VerticalAlignment.Top,
+        //};
         private readonly Image _vehicle = new()
         {
             Stretch = Stretch.Uniform,
@@ -51,13 +51,13 @@ namespace HonkHeroGame
             _honking.Margin = new Thickness(0, 15 * scale, 0, 0);
             _honking.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING).Value);
 
-            _honkingBusted.Height = 55 * scale;
-            _honkingBusted.Margin = new Thickness(0, 15 * scale, 0, 0);
-            _honkingBusted.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING_BUSTED).Value);
+            //_honkingBusted.Height = 55 * scale;
+            //_honkingBusted.Margin = new Thickness(0, 15 * scale, 0, 0);
+            //_honkingBusted.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING_BUSTED).Value);
 
             _content.Children.Add(_vehicle);
             _content.Children.Add(_honking);
-            _content.Children.Add(_honkingBusted);
+            //_content.Children.Add(_honkingBusted);
 
             SetChild(_content);
             SetHonk(gameLevel);
@@ -154,19 +154,19 @@ namespace HonkHeroGame
                 case HonkState.DEFAULT:
                     {
                         _honking.Opacity = 0;
-                        _honkingBusted.Opacity = 0;
+                        //_honkingBusted.Opacity = 0;
                     }
                     break;
                 case HonkState.HONKING:
                     {
                         _honking.Opacity = 1;
-                        _honkingBusted.Opacity = 0;
+                        //_honkingBusted.Opacity = 0;
                     }
                     break;
                 case HonkState.HONKING_BUSTED:
                     {
                         _honking.Opacity = 0;
-                        _honkingBusted.Opacity = 1;
+                        //_honkingBusted.Opacity = 1;
                     }
                     break;
                 default:
