@@ -12,27 +12,18 @@ namespace HonkHeroGame
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double VEHICLE_SIZE = 190;
+        public const double VEHICLE_SIZE = 195;
 
         public const double PLAYER_WIDTH = 90;
         public const double PLAYER_HEIGHT = 90;
 
         public const double STICKER_SIZE = 40;
 
-        public const double HONK_SIZE = 110;
+        public const double HONK_SIZE = 100;
 
-        public const double POWERUP_SIZE = 70;
+        public const double POWERUP_SIZE = 80;
 
-        public const double COLLECTIBLE_SIZE = 70;
-
-        public const double HEALTH_WIDTH = 80;
-        public const double HEALTH_HEIGHT = 80;
-
-        public const double CLOUD_WIDTH = 150;
-        public const double CLOUD_HEIGHT = 100;
-
-        public const double ISLAND_WIDTH = 600;
-        public const double ISLAND_HEIGHT = 600;
+        public const double COLLECTIBLE_SIZE = 65;
 
         #endregion
 
