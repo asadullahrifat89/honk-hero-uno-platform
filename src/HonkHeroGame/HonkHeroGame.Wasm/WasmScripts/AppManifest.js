@@ -1,5 +1,5 @@
 ﻿var UnoAppManifest = {
     splashScreenImage: "Assets/SplashScreen.png",
-    splashScreenColor: "#ffffff",
+    splashScreenColor: "#111111",
     displayName: "Honk Hero"
 }
