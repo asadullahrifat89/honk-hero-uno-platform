@@ -1170,7 +1170,8 @@ namespace HonkHeroGame
             {
                 Background = new SolidColorBrush(Colors.White),
                 BorderBrush = new SolidColorBrush(Colors.Gray),
-                BorderThickness = new Thickness(2)
+                BorderThickness = new Thickness(2),
+                CornerRadius = new CornerRadius(5),
             };
 
             gameObject.SetPosition(left: left, top: top);
