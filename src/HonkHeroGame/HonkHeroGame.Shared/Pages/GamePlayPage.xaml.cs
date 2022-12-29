@@ -621,7 +621,7 @@ namespace HonkHeroGame
 
             GameView.Children.Add(honk);
 
-            SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkSoundIndex);
+            SoundHelper.PlaySound(soundType: SoundType.HONK, index: vehicle.HonkSoundIndex);
 
             LooseHealth();
         }
