@@ -623,7 +623,9 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(soundType: SoundType.HONK, index: vehicle.HonkSoundIndex);
 
-            LooseHealth();
+            // only loose health if the honk is spawned inside game view
+            if (vehicleHitBox.Top < _windowHeight)
+                LooseHealth();
         }
 
         private void UpdateHonk(GameObject honk)
