@@ -36,7 +36,7 @@
                 <Setter Property="BorderBrush" Value="#111111" />
                 <Setter Property="BorderThickness" Value="3" />
                 <!--<Setter Property="FontWeight" Value="SemiBold" />-->
-                <Setter Property="FontSize" Value="19" />
+                <Setter Property="FontSize" Value="18" />
                 <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="IsFocusEngagementEnabled" Value="False" />

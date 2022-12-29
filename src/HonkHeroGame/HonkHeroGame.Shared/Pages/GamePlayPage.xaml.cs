@@ -613,8 +613,8 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicleCloseHitBox.Left);
-            honk.SetTop(vehicleCloseHitBox.Top);
+            honk.SetLeft(vehicleCloseHitBox.Left - vehicle.Width / 2);
+            honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
