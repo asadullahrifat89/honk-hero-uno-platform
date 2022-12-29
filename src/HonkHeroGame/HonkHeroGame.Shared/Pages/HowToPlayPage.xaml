@@ -56,7 +56,7 @@
                     <StackPanel Margin="10" VerticalAlignment="Center">
 
                         <Image
-                            Width="50"
+                            Width="100"
                             Height="150"
                             Margin="5"
                             Source="ms-appx:///Assets/Images/player_idle.png" />
@@ -73,7 +73,6 @@
                             x:Name="PlayerInstructionsDetail"
                             Margin="5"
                             FontSize="16"
-                            FontWeight="SemiBold"
                             Text="Control your jumping and falling direction by moving your pointer across the screen."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
@@ -92,8 +91,8 @@
 
                             <!--  Health  -->
                             <Image
-                                Width="25"
-                                Height="25"
+                                Width="50"
+                                Height="50"
                                 Source="ms-appx:///Assets/Images/ear.png" />
 
                             <!--  Health bar  -->
@@ -122,7 +121,6 @@
                             x:Name="HealthsInstructionsDetail"
                             Margin="5"
                             FontSize="16"
-                            FontWeight="SemiBold"
                             Text="This is your health bar. You loose health if you fall out of the screen."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
@@ -132,17 +130,17 @@
                     <StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image
-                                Width="80"
+                                Width="90"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/vehicle1.png" />
                             <Image
-                                Width="80"
+                                Width="90"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/vehicle2.png" />
                             <Image
-                                Width="80"
+                                Width="90"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/vehicle3.png" />
@@ -159,7 +157,6 @@
                             x:Name="VehiclesInstructionsDetail"
                             Margin="5"
                             FontSize="16"
-                            FontWeight="SemiBold"
                             Text="Avoid colliding with other cars and loosing health."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
@@ -168,21 +165,24 @@
                     <!--  Collectibles  -->
                     <StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Image
-                                Width="50"
-                                Height="150"
-                                Margin="5"
-                                Source="ms-appx:///Assets/Images/collectible.png" />
-                            <Image
-                                Width="50"
-                                Height="150"
-                                Margin="5"
-                                Source="ms-appx:///Assets/Images/collectible.png" />
-                            <Image
-                                Width="50"
-                                Height="150"
-                                Margin="5"
-                                Source="ms-appx:///Assets/Images/collectible.png" />
+                            <Border Margin="5" CornerRadius="5">
+                                <Image
+                                    Width="60"
+                                    Height="150"
+                                    Source="ms-appx:///Assets/Images/collectible.png" />
+                            </Border>
+                            <Border Margin="5" CornerRadius="5">
+                                <Image
+                                    Width="60"
+                                    Height="150"
+                                    Source="ms-appx:///Assets/Images/collectible.png" />
+                            </Border>
+                            <Border Margin="5" CornerRadius="5">
+                                <Image
+                                    Width="60"
+                                    Height="150"
+                                    Source="ms-appx:///Assets/Images/collectible.png" />
+                            </Border>
                         </StackPanel>
                         <TextBlock
                             x:Name="CollectiblesInstructionsHeader"
@@ -196,7 +196,6 @@
                             x:Name="CollectiblesInstructionsDetail"
                             Margin="5"
                             FontSize="16"
-                            FontWeight="SemiBold"
                             Text="Collect these as much as you can to add to your score."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
@@ -206,12 +205,12 @@
                     <StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image
-                                Width="50"
+                                Width="60"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/powerup1.png" />
                             <Image
-                                Width="50"
+                                Width="60"
                                 Height="150"
                                 Margin="5"
                                 Source="ms-appx:///Assets/Images/powerup2.png" />
@@ -228,7 +227,6 @@
                             x:Name="PowerUpsInstructionsDetail"
                             Margin="5"
                             FontSize="16"
-                            FontWeight="SemiBold"
                             Text="Collect these to activate magnet pull or flying soccer."
                             TextAlignment="Center"
                             TextWrapping="WrapWholeWords" />
