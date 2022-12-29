@@ -77,6 +77,9 @@ namespace HonkHeroGame
 
         private int _honkTemplatesCount = 0;
 
+        public int _inGameMessageCollDownCounter = 0;
+        public int _inGameMessageCollDownCounterDefault = 120;
+
         #endregion
 
         #region Ctor
@@ -289,9 +292,13 @@ namespace HonkHeroGame
             UpdateGameObjects();
             RemoveGameObjects();
 
+            if (_inGameMessageCollDownCounter > 0)
+                CoolDownInGameTextMessage();
+
             if (_isPowerMode)
             {
                 PowerUpCoolDown();
+
                 if (_powerModeDurationCounter <= 0)
                     PowerDown();
             }
@@ -994,6 +1001,18 @@ namespace HonkHeroGame
             _powerModeDurationCounter = _powerModeDurationDefault;
             _powerUpType = powerUp.PowerUpType;
 
+            switch (_powerUpType)
+            {
+                case PowerUpType.MagnetPull:
+                    ShowInGameTextMessage("MAGNET_PULL", true);
+                    break;
+                case PowerUpType.TwoxScore:
+                    ShowInGameTextMessage("2X_SCORE", true);
+                    break;
+                default:
+                    break;
+            }
+
             PlayerPowerBar.Visibility = Visibility.Visible;
             SoundHelper.PlaySound(SoundType.POWER_UP);
         }
@@ -1074,12 +1093,13 @@ namespace HonkHeroGame
                 if (_playerLag > 15)
                     _playerLag = _playerLagDefault - (_difficultyMultiplier * 1.5);
 
-                _scoreCap += 50;
+                _scoreCap += (int)(50 * (_difficultyMultiplier / 2));
+
                 _difficultyMultiplier++;
-
                 _gameLevel++;
-                SetGameLevelText();
 
+                SetGameLevelText();
+                ShowInGameTextMessage(resourceKey: "LEVEL_UP", coolDown: true);
 #if DEBUG
                 Console.WriteLine("PLAYER LAG: " + _playerLag);
                 Console.WriteLine("GAME SPEED: " + _gameSpeed);
@@ -1091,7 +1111,6 @@ namespace HonkHeroGame
         {
             ScoreText.Text = $"🌟 {_score:#} / {_scoreCap}";
         }
-
 
         private void SetGameLevelText()
         {
@@ -1201,16 +1220,26 @@ namespace HonkHeroGame
 
         #region InGameMessage
 
-        private void ShowInGameTextMessage(string resourceKey)
+        private void ShowInGameTextMessage(string resourceKey, bool coolDown = false)
         {
+            _inGameMessageCollDownCounter = coolDown ? _inGameMessageCollDownCounterDefault : 0;
+
             InGameMessageText.Text = LocalizationHelper.GetLocalizedResource(resourceKey);
             InGameMessagePanel.Visibility = Visibility.Visible;
         }
 
         private void HideInGameTextMessage()
         {
-            InGameMessageText.Text = "";
             InGameMessagePanel.Visibility = Visibility.Collapsed;
+            InGameMessageText.Text = "";
+        }
+
+        public void CoolDownInGameTextMessage()
+        {
+            _inGameMessageCollDownCounter--;
+
+            if (_inGameMessageCollDownCounter <= 0)
+                HideInGameTextMessage();
         }
 
         #endregion
