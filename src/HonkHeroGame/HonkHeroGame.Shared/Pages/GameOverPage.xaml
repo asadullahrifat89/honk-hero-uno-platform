@@ -54,7 +54,6 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             FontSize="15"
-                            FontWeight="SemiBold"
                             Text="You could earn a place on the leaderboard if you login."
                             TextWrapping="WrapWholeWords" />
 
@@ -142,7 +141,6 @@
                                 Margin="5"
                                 VerticalAlignment="Center"
                                 FontSize="15"
-                                FontWeight="Bold"
                                 Text="Vehicles"
                                 TextAlignment="Center"
                                 TextWrapping="WrapWholeWords" />
@@ -164,7 +162,6 @@
                                 Margin="5"
                                 VerticalAlignment="Center"
                                 FontSize="15"
-                                FontWeight="Bold"
                                 Text="Collectibles"
                                 TextAlignment="Center"
                                 TextWrapping="WrapWholeWords" />
