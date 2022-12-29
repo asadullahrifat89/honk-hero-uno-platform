@@ -608,13 +608,13 @@ namespace HonkHeroGame
         {
             Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5);
 
-            var vehicleHitBox = vehicle.GetCloseHitBox(_scale);
+            var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicleHitBox.Left);
-            honk.SetTop(vehicleHitBox.Top);
+            honk.SetLeft(vehicleCloseHitBox.Left);
+            honk.SetTop(vehicleCloseHitBox.Top);
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
@@ -623,8 +623,10 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(soundType: SoundType.HONK, index: vehicle.HonkSoundIndex);
 
+            var honkHitBox = honk.GetHitBox();
+
             // only loose health if the honk is spawned inside game view
-            if (vehicleHitBox.Top < _windowHeight)
+            if (honkHitBox.Top > 0 && honkHitBox.Top < _windowHeight && honkHitBox.Left > 0 && honkHitBox.Left < _windowWidth)
                 LooseHealth();
         }
 
