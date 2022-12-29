@@ -822,7 +822,7 @@ namespace HonkHeroGame
             var one4thHeight = GameView.Height / 4;
 
             var top = _random.Next(
-                minValue: (int)(one4thHeight - vehicle.Height),
+                minValue: (int)(one4thHeight + vehicle.Height),
                 maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
 
             vehicle.SetPosition(
