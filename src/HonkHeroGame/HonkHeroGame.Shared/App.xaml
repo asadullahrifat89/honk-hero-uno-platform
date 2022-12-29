@@ -105,7 +105,7 @@
             <SolidColorBrush x:Key="ProgressBarOkColor" Color="#000000" />
 
             <SolidColorBrush x:Key="GameBackgroundColor" Color="#ffd401" />
-            <SolidColorBrush x:Key="RoadBackgroundColor" Color="#21395d" />
+            <SolidColorBrush x:Key="RoadBackgroundColor" Color="#2d3030" />
             <!--#endregion-->
 
         </ResourceDictionary>

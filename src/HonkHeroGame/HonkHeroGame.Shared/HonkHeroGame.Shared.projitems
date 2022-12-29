@@ -139,10 +139,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-left.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honking-busted.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\road-side-buildings-right.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\sticker.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\collectible.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk1.png" />
