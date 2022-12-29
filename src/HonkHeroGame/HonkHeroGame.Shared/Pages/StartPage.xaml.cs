@@ -423,7 +423,12 @@ namespace HonkHeroGame
 
         private void SpawnVehicle()
         {
-            Vehicle Vehicle = new(scale: _scale, speed: _gameSpeed, gameLevel: 1);
+            Vehicle Vehicle = new(
+                scale: _scale,
+                speed: _gameSpeed,
+                gameLevel: 1,
+                honkTemplatesCount: 0);
+
             UnderView.Children.Add(Vehicle);
         }
 
