@@ -49,13 +49,13 @@
                 Tag="bn" />
 
             <!--  German  -->
-            <!--<Button
+            <Button
                 x:Name="DeutschButton"
                 Margin="2"
                 Click="LanguageButton_Click"
                 Content="Deutsch"
                 Style="{StaticResource DefaultButton}"
-                Tag="de" />-->
+                Tag="de" />
 
         </StackPanel>
         <!--#endregion-->

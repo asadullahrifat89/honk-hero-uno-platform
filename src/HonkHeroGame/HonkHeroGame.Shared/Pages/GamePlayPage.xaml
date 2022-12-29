@@ -37,60 +37,19 @@
             Source="ms-appx:///Assets/Images/road-side-buildings-left.png" />
         <!--#endregion-->
 
-        <!--#region Player health, game Score-->
+        <!--#region Player health, power up-->
         <StackPanel
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
 
-            <!--  Player health  -->
-            <Border
-                x:Name="PlayerHealthBarPanel"
-                Height="40"
-                Margin="5"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                BorderThickness="3"
-                CornerRadius="5"
-                Style="{StaticResource GameUIContainer}">
-
-                <StackPanel
-                    Margin="5,0,5,0"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-
-                    <!--  Health  -->
-                    <Image
-                        Width="25"
-                        Height="25"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Source="ms-appx:///Assets/Images/ear.png" />
-
-                    <!--  Health bar  -->
-                    <ProgressBar
-                        x:Name="PlayerHealthBar"
-                        Width="50"
-                        Height="5"
-                        Margin="5,0"
-                        VerticalAlignment="Center"
-                        Foreground="Crimson"
-                        Maximum="100"
-                        Minimum="0"
-                        Value="100" />
-
-                </StackPanel>
-
-            </Border>
-
-            <!--  Power up & game score  -->
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Vertical">
 
                 <!--  Power up  -->
                 <Border
                     x:Name="PowerUpPanel"
                     Height="40"
-                    Margin="0,5,5,5"
+                    Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     BorderThickness="3"
@@ -99,19 +58,20 @@
                     Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}">
 
                     <StackPanel
-                        Margin="3,0,5,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
 
                         <!--  Power up icon  -->
                         <TextBlock
-                            Margin="5,0,0,0"
+                            Width="25"
+                            Height="25"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="20"
                             FontWeight="Bold"
                             Text="👊"
-                            TextAlignment="Left" />
+                            TextAlignment="Center" />
 
                         <!--  Power up  -->
                         <ProgressBar
@@ -121,7 +81,7 @@
                             Margin="5,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Foreground="Crimson"
+                            Foreground="Goldenrod"
                             Maximum="100"
                             Minimum="0"
                             Visibility="Collapsed"
@@ -131,11 +91,11 @@
 
                 </Border>
 
-                <!--  Game Score  -->
+                <!--  Player health  -->
                 <Border
-                    x:Name="ScorePanel"
+                    x:Name="PlayerHealthBarPanel"
                     Height="40"
-                    Margin="0,5,5,5"
+                    Margin="5"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     BorderThickness="3"
@@ -143,45 +103,76 @@
                     Style="{StaticResource GameUIContainer}">
 
                     <StackPanel
-                        Margin="3,0,5,0"
+                        Margin="5,0,5,0"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
 
-                        <!--  Score icon  -->
-                        <!--<TextBlock
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="🌟"
-                        TextAlignment="Left" />-->
-
-                        <!--  Score  -->
-                        <TextBlock
-                            Name="ScoreText"
-                            Margin="5,0,0,0"
+                        <!--  Health icon  -->
+                        <Image
+                            Width="25"
+                            Height="25"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Text="0"
-                            TextAlignment="Left" />
+                            Source="ms-appx:///Assets/Images/ear.png" />
 
-                        <!--  Game level  -->
-                        <TextBlock
-                            x:Name="GameLevelText"
-                            Margin="5,0,0,0"
-                            HorizontalAlignment="Left"
+                        <!--  Health bar  -->
+                        <ProgressBar
+                            x:Name="PlayerHealthBar"
+                            Width="50"
+                            Height="5"
+                            Margin="5,0"
                             VerticalAlignment="Center"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            TextAlignment="Left" />
+                            Foreground="Crimson"
+                            Maximum="100"
+                            Minimum="0"
+                            Value="100" />
 
                     </StackPanel>
 
                 </Border>
 
             </StackPanel>
+
+            <!--  Game Score  -->
+            <Border
+                x:Name="ScorePanel"
+                Height="40"
+                Margin="0,5,5,5"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                BorderThickness="3"
+                CornerRadius="5"
+                Style="{StaticResource GameUIContainer}">
+
+                <StackPanel
+                    Margin="3,0,5,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+
+                    <!--  Score  -->
+                    <TextBlock
+                        Name="ScoreText"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="0"
+                        TextAlignment="Left" />
+
+                    <!--  Game level  -->
+                    <TextBlock
+                        x:Name="GameLevelText"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        TextAlignment="Left" />
+
+                </StackPanel>
+
+            </Border>
 
         </StackPanel>
 
