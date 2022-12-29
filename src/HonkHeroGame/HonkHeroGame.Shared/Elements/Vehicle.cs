@@ -48,11 +48,11 @@ namespace HonkHeroGame
 
             Speed = speed;
 
-            _honking.Height = 55 * scale;
+            _honking.Height = 50 * scale;
             _honking.Margin = new Thickness(0, 15 * scale, 0, 0);
             _honking.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING).Value);
 
-            _honkingBusted.Height = 55 * scale;
+            _honkingBusted.Height = 50 * scale;
             _honkingBusted.Margin = new Thickness(0, 15 * scale, 0, 0);
             _honkingBusted.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING_BUSTED).Value);
 
