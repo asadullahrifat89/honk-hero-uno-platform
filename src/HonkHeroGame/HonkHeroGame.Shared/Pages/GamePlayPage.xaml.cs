@@ -1154,10 +1154,10 @@ namespace HonkHeroGame
                 }
             }
 
-            RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
+            RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.1;
             RoadSideLeftImage.Height = _windowHeight;
 
-            RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth;
+            RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.1;
             RoadSideRightImage.Height = _windowHeight;
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
