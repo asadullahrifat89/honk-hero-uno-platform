@@ -275,7 +275,7 @@ namespace HonkHeroGame
 
         private void GameViewLoop()
         {
-            ScoreText.Text = _score.ToString("#");
+            SetScoreText();
             PlayerHealthBar.Value = _playerHealth;
 
             _playerHitBox = _player.GetHitBox();
@@ -987,14 +987,8 @@ namespace HonkHeroGame
         private void PowerUpCoolDown()
         {
             _powerModeDurationCounter -= 1;
-            double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDurationDefault * 4;
-
-            PlayerPowerBar.Text = "";
-
-            for (int i = 0; i < remainingPow; i++)
-            {
-                PlayerPowerBar.Text += "⚡";
-            }
+            double remainingPow = (double)_powerModeDurationCounter / (double)_powerModeDurationDefault * 100;
+            PlayerPowerBar.Value = remainingPow;
         }
 
         private void PowerDown()
@@ -1078,6 +1072,12 @@ namespace HonkHeroGame
 #endif
             }
         }
+
+        private void SetScoreText()
+        {
+            ScoreText.Text = $"🌟 {_score:#} / {_scoreCap}";
+        }
+
 
         private void SetGameLevelText()
         {
