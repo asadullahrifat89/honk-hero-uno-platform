@@ -106,7 +106,7 @@ namespace HonkHeroGame
             soundTaken.SetVolume(1.0);
 
 #if DEBUG
-            Console.WriteLine("SOUND INDEX: " + soundIndex + "SOUND URI: " + soundTaken.SoundSource);
+            Console.WriteLine("RANDOMIZE SOUND -> SOUND INDEX: " + soundIndex + " SOUND URI: " + soundTaken.SoundSource);
 #endif
         }
 

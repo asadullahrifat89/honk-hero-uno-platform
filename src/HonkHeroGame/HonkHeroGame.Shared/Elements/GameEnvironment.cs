@@ -15,7 +15,7 @@ namespace HonkHeroGame
 
         public GameEnvironment()
         {
-            RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+            //RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
         }
 
         #endregion
@@ -29,15 +29,6 @@ namespace HonkHeroGame
 
         public void RemoveDestroyableGameObjects()
         {
-            //if (Parallel.ForEach(destroyableGameObjects, destroyable =>
-            //{
-            //    RemoveGameObject(destroyable);
-
-            //}).IsCompleted)
-            //{
-            //    ClearDestroyableGameObjects();
-            //}
-
             foreach (var destroyable in destroyableGameObjects)
             {
                 RemoveGameObject(destroyable);

@@ -24,6 +24,7 @@ namespace HonkHeroGame
         };
 
         private bool _popPlusCompleted;
+        private double _popScaleLimit = 1.9;
 
         #endregion
 
@@ -203,13 +204,13 @@ namespace HonkHeroGame
         {
             if (!HasPopped)
             {
-                if (!_popPlusCompleted && _compositeTransform.ScaleX < 1.5)
+                if (!_popPlusCompleted && _compositeTransform.ScaleX < _popScaleLimit)
                 {
                     _compositeTransform.ScaleX += 0.1;
                     _compositeTransform.ScaleY += 0.1;
                 }
 
-                if (_compositeTransform.ScaleX >= 1.5)
+                if (_compositeTransform.ScaleX >= _popScaleLimit)
                     _popPlusCompleted = true;
 
                 if (_popPlusCompleted)
