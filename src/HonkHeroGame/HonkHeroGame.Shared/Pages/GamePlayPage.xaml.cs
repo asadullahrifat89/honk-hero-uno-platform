@@ -646,8 +646,7 @@ namespace HonkHeroGame
         private void BustHonk(Vehicle vehicle)
         {
             Sticker sticker = SpawnSticker(vehicle);
-            vehicle.BustHonking();
-            vehicle.AttachSticker(sticker);
+            vehicle.BustHonking(sticker);
 
             AddScore(5);
             AddHealth();
@@ -655,6 +654,19 @@ namespace HonkHeroGame
             _vehiclesTagged++;
 
             SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
+        }
+
+        private bool IsHonkBusted(Vehicle vehicle)
+        {
+            return vehicle.IsHonkBusted();
+        }
+
+        private bool CanBustHonk(Vehicle vehicle, Rect vehicleCloseHitBox)
+        {
+            return vehicle.CanBustHonk(
+                vehicleCloseHitBox: vehicleCloseHitBox,
+                playerState: _player.PlayerState,
+                playerHitBox: _playerHitBox);
         }
 
         #endregion
@@ -727,10 +739,10 @@ namespace HonkHeroGame
             }
             else
             {
-                if (vehicle.HonkState == HonkState.HONKING_BUSTED && vehicle.AttachedSticker is not null)
+                if (IsHonkBusted(vehicle))
                     UpdateSticker(vehicle);
 
-                if (vehicle.HonkState == HonkState.HONKING && _player.PlayerState == PlayerState.Attacking && _playerHitBox.IntersectsWith(vehicleCloseHitBox))
+                if (CanBustHonk(vehicle: vehicle, vehicleCloseHitBox: vehicleCloseHitBox))
                     BustHonk(vehicle);
 
                 if (WaitForHonk(vehicle))
