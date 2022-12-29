@@ -29,7 +29,7 @@ namespace HonkHeroGame
 
         #region HitBox Debug
 
-        private Border _hitBoxborder;
+        //private Border _hitBoxborder;
 
         #endregion
 
@@ -92,11 +92,11 @@ namespace HonkHeroGame
 
         public void SetHitBoxBorder(Rect rect)
         {
-            _hitBoxborder.Height = rect.Height;
-            _hitBoxborder.Width = rect.Width;
+            //_hitBoxborder.Height = rect.Height;
+            //_hitBoxborder.Width = rect.Width;
 
-            if (_hitBoxborder.Visibility != Visibility.Visible)
-                _hitBoxborder.Visibility = Visibility.Visible;
+            //if (_hitBoxborder.Visibility != Visibility.Visible)
+            //    _hitBoxborder.Visibility = Visibility.Visible;
         }
 
         public void SetSize(double width, double height)

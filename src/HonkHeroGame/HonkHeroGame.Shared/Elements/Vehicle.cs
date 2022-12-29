@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Linq;
+using Windows.Foundation;
 
 namespace HonkHeroGame
 {
@@ -75,6 +76,10 @@ namespace HonkHeroGame
 
         public Sticker AttachedSticker { get; set; }
 
+        //public double Health { get; set; } = 100;
+
+        //public double HitPoints { get; set; } = 100;
+
         #endregion
 
         #region Methods
@@ -85,9 +90,14 @@ namespace HonkHeroGame
             _vehicle.Visibility = Visibility.Visible;
         }
 
-        public void AttachSticker(Sticker collectible)
+        public bool IsHonkBusted()
         {
-            AttachedSticker = collectible;
+            return HonkState == HonkState.HONKING_BUSTED && AttachedSticker is not null;
+        }
+
+        public bool CanBustHonk(Rect vehicleCloseHitBox, PlayerState playerState, Rect playerHitBox)
+        {
+            return HonkState == HonkState.HONKING && playerState == PlayerState.Attacking && playerHitBox.IntersectsWith(vehicleCloseHitBox);
         }
 
         public bool WaitForHonk(int gameLevel)
@@ -99,8 +109,7 @@ namespace HonkHeroGame
                 if (_honkCounter < 0)
                 {
                     _honkCounter = SetHonkCounter(gameLevel);
-                    HonkState = HonkState.HONKING;
-                    SetEmoji(HonkState);
+                    UpdateHonkState(HonkState.HONKING);
 
                     return true;
                 }
@@ -109,19 +118,19 @@ namespace HonkHeroGame
             return false;
         }
 
-        public void BustHonking()
+        public void BustHonking(Sticker sticker)
         {
-            HonkState = HonkState.HONKING_BUSTED;
             IsMarkedForPopping = true;
             HasPopped = false;
-            SetEmoji(HonkState);
+
+            AttachedSticker = sticker;
+            UpdateHonkState(HonkState.HONKING_BUSTED);
         }
 
         public void ResetHonking(int gameLevel)
         {
-            HonkState = HonkState.DEFAULT;
             IsMarkedForPopping = false;
-            SetEmoji(HonkState.DEFAULT);
+            UpdateHonkState(HonkState.DEFAULT);
             SetHonk(gameLevel);
         }
 
@@ -147,8 +156,10 @@ namespace HonkHeroGame
             HonkIndex = _random.Next(0, 3);
         }
 
-        private void SetEmoji(HonkState honkState)
+        private void UpdateHonkState(HonkState honkState)
         {
+            HonkState = honkState;
+
             switch (honkState)
             {
                 case HonkState.DEFAULT:

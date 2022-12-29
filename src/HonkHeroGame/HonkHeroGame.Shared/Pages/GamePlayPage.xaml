@@ -83,76 +83,105 @@
 
             </Border>
 
-            <!--  Game Score  -->
-            <Border
-                x:Name="ScorePanel"
-                Height="40"
-                Margin="0,5,5,5"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                BorderThickness="3"
-                CornerRadius="5"
-                Style="{StaticResource GameUIContainer}">
+            <!--  Power up & game score  -->
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom">
 
-                <StackPanel
-                    Margin="3,0,5,0"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
+                <!--  Power up  -->
+                <Border
+                    x:Name="PowerUpPanel"
+                    Height="40"
+                    Margin="0,5,5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="3"
+                    CornerRadius="5"
+                    Style="{StaticResource GameUIContainer}"
+                    Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}">
 
-                    <!--  Score icon  -->
-                    <TextBlock
+                    <StackPanel
+                        Margin="3,0,5,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <!--  Power up icon  -->
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="👊"
+                            TextAlignment="Left" />
+
+                        <!--  Power up  -->
+                        <ProgressBar
+                            x:Name="PlayerPowerBar"
+                            Width="50"
+                            Height="5"
+                            Margin="5,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Foreground="Crimson"
+                            Maximum="100"
+                            Minimum="0"
+                            Visibility="Collapsed"
+                            Value="100" />
+
+                    </StackPanel>
+
+                </Border>
+
+                <!--  Game Score  -->
+                <Border
+                    x:Name="ScorePanel"
+                    Height="40"
+                    Margin="0,5,5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    BorderThickness="3"
+                    CornerRadius="5"
+                    Style="{StaticResource GameUIContainer}">
+
+                    <StackPanel
+                        Margin="3,0,5,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <!--  Score icon  -->
+                        <!--<TextBlock
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontSize="20"
                         FontWeight="Bold"
                         Text="🌟"
-                        TextAlignment="Left" />
+                        TextAlignment="Left" />-->
 
-                    <!--  Score  -->
-                    <TextBlock
-                        Name="ScoreText"
-                        Margin="5,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="0"
-                        TextAlignment="Left" />
+                        <!--  Score  -->
+                        <TextBlock
+                            Name="ScoreText"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="0"
+                            TextAlignment="Left" />
 
-                    <!--  Game level  -->
-                    <TextBlock
-                        x:Name="GameLevelText"
-                        Margin="5,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        TextAlignment="Left" />
+                        <!--  Game level  -->
+                        <TextBlock
+                            x:Name="GameLevelText"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            TextAlignment="Left" />
 
-                    <!--  Power up icon  -->
-                    <TextBlock
-                        Margin="5,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="👊"
-                        TextAlignment="Left"
-                        Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}" />
+                    </StackPanel>
 
-                    <!--  Power up  -->
-                    <TextBlock
-                        Name="PlayerPowerBar"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        TextAlignment="Right"
-                        Visibility="Collapsed" />
+                </Border>
 
-                </StackPanel>
-
-            </Border>
+            </StackPanel>
 
         </StackPanel>
 
