@@ -177,7 +177,7 @@
                 x:Name="InGameMessagePanel"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                CornerRadius="10"
+                Style="{StaticResource GameUIContainer}"
                 Visibility="Collapsed">
                 <TextBlock
                     x:Name="InGameMessageText"
@@ -186,12 +186,9 @@
                     VerticalAlignment="Center"
                     FontSize="30"
                     FontWeight="Bold"
-                    Foreground="White"
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords" />
-                <Border.Background>
-                    <SolidColorBrush Opacity="0.5" Color="White" />
-                </Border.Background>
+
             </Border>
             <!--#endregion-->
 

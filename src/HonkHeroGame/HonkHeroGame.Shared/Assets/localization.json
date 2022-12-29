@@ -1242,6 +1242,57 @@
     ]
   },
   {
+    "Key": "LEVEL_UP",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Level up"
+      },
+      {
+        "Culture": "de",
+        "Value": "Aufleveln"
+      },
+      {
+        "Culture": "bn",
+        "Value": "লেভেল আপ"
+      }
+    ]
+  },
+  {
+    "Key": "MAGNET_PULL",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Magnet Pull"
+      },
+      {
+        "Culture": "de",
+        "Value": "Magnetzug"
+      },
+      {
+        "Culture": "bn",
+        "Value": "চুম্বক টান"
+      }
+    ]
+  },
+  {
+    "Key": "2X_SCORE",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "2x score"
+      },
+      {
+        "Culture": "de",
+        "Value": "2x Punkte"
+      },
+      {
+        "Culture": "bn",
+        "Value": "2x স্কোর"
+      }
+    ]
+  },
+  {
     "Key": "AttributionText",
     "CultureValues": [
       {
