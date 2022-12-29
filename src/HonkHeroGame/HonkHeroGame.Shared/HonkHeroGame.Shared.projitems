@@ -23,11 +23,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Collectible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Honk.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Vehicle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Elements\Cloud.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Sticker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\GameObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Elements\Health.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\PowerUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Elements\Sound.cs" />
@@ -148,7 +146,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\health.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle11.png" />

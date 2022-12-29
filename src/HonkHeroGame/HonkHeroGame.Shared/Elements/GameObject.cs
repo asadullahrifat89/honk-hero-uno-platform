@@ -249,8 +249,6 @@ namespace HonkHeroGame
         PLAYER_ATTACKING,
         PLAYER_APPRECIATING,
         VEHICLE,
-        HEALTH,
-        CLOUD,
         STICKER,
         POWERUP,
         HONK,
