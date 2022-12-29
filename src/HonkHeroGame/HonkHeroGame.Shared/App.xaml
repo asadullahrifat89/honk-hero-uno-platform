@@ -79,7 +79,7 @@
                 <Setter Property="Background" Value="#ffffff" />
                 <Setter Property="BorderBrush" Value="#111111" />
                 <Setter Property="CornerRadius" Value="10" />
-                <Setter Property="BorderThickness" Value="0,3,0,3" />
+                <Setter Property="BorderThickness" Value="3" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>

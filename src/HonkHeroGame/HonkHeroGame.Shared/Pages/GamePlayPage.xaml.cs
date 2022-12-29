@@ -1161,10 +1161,12 @@ namespace HonkHeroGame
                 }
             }
 
-            RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.3;
+            var applicableWidth = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.5;
+
+            RoadSideLeftImage.Width = applicableWidth;
             RoadSideLeftImage.Height = _windowHeight;
 
-            RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.3;
+            RoadSideRightImage.Width = applicableWidth;
             RoadSideRightImage.Height = _windowHeight;
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
@@ -1176,7 +1178,7 @@ namespace HonkHeroGame
             GameObject gameObject = new()
             {
                 Background = new SolidColorBrush(Colors.White),
-                BorderBrush = new SolidColorBrush(Colors.Gray),
+                BorderBrush = new SolidColorBrush(Colors.Black),
                 BorderThickness = new Thickness(2),
                 CornerRadius = new CornerRadius(5),
             };
