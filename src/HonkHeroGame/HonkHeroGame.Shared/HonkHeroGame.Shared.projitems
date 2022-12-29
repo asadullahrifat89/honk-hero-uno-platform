@@ -156,6 +156,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle13.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle14.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle15.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle16.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle17.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle4.png" />

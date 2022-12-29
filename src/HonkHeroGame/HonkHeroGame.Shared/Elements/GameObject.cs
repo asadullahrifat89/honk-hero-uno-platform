@@ -24,7 +24,7 @@ namespace HonkHeroGame
         };
 
         private bool _popPlusCompleted;
-        private double _popScaleLimit = 1.8;
+        private double _popScaleLimit = 1.9;
 
         #endregion
 
