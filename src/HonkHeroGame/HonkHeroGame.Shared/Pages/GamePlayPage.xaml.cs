@@ -815,8 +815,15 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
-            var left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 4));
-            var top = _random.Next(minValue: (int)GameView.Height / 4, (int)GameView.Height + (GameView.Width > GameView.Height ? (int)GameView.Height / 4 : 0));
+            var left = _random.Next(
+                minValue: (int)GameView.Width,
+                maxValue: (int)GameView.Width * _random.Next(1, 4));
+
+            var one4thHeight = GameView.Height / 4;
+
+            var top = _random.Next(
+                minValue: (int)(one4thHeight - vehicle.Height),
+                maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
 
             vehicle.SetPosition(
             left: left,
@@ -1154,10 +1161,10 @@ namespace HonkHeroGame
                 }
             }
 
-            RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.1;
+            RoadSideLeftImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.3;
             RoadSideLeftImage.Height = _windowHeight;
 
-            RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.1;
+            RoadSideRightImage.Width = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.3;
             RoadSideRightImage.Height = _windowHeight;
 #if DEBUG
             Console.WriteLine($"SCALE: {_scale}");
