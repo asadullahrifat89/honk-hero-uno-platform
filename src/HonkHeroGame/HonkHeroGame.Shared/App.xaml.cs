@@ -67,7 +67,7 @@ namespace HonkHeroGame
             _goBackNotAllowedToPages = new List<Type>() { typeof(GamePlayPage) };
             _goBackPageRoutes = new List<(Type IfGoingBackTo, Type RouteTo)>() { (IfGoingBackTo: typeof(GameOverPage), RouteTo: typeof(StartPage)) };
 
-            LocalizationHelper.CurrentCulture = "bn";
+            LocalizationHelper.CurrentCulture = "en";
         }
 
         #endregion        

@@ -79,7 +79,7 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.MENU_SELECT, "Assets/Sounds/menu-select.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.INTRO, "Assets/Sounds/intro.mp3"),
-                        
+
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song2.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song3.mp3"),
@@ -95,6 +95,9 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk2.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk3.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk4.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk5.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk6.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.HONK_BUST, "Assets/Sounds/honk_bust1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK_BUST, "Assets/Sounds/honk_bust2.mp3"),

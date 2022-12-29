@@ -39,7 +39,7 @@ namespace HonkHeroGame
 
         #region Ctor
 
-        public Vehicle(double scale, double speed, int gameLevel)
+        public Vehicle(double scale, double speed, int gameLevel, int honkTemplatesCount)
         {
             Tag = ElementType.VEHICLE;
 
@@ -61,18 +61,20 @@ namespace HonkHeroGame
             //_content.Children.Add(_honkingBusted);
 
             SetChild(_content);
-            SetHonk(gameLevel);
+            SetHonk(
+                gameLevel: gameLevel,
+                honkTemplatesCount: honkTemplatesCount);
         }
 
         #endregion
 
         #region Properties
 
-        public int HonkIndex { get; set; }
-
-        public HonkState HonkState { get; set; }
+        public int HonkSoundIndex { get; set; }
 
         public bool WillHonk { get; set; }
+
+        public HonkState HonkState { get; set; }
 
         public Sticker AttachedSticker { get; set; }
 
@@ -127,20 +129,20 @@ namespace HonkHeroGame
             UpdateHonkState(HonkState.HONKING_BUSTED);
         }
 
-        public void ResetHonking(int gameLevel)
+        public void ResetHonking(int gameLevel,int honkTemplatesCount)
         {
             IsMarkedForPopping = false;
             UpdateHonkState(HonkState.DEFAULT);
-            SetHonk(gameLevel);
+            SetHonk(gameLevel, honkTemplatesCount);
         }
 
-        private void SetHonk(int gameLevel)
+        private void SetHonk(int gameLevel, int honkTemplatesCount)
         {
             WillHonk = Convert.ToBoolean(_random.Next(0, 2));
 
             if (WillHonk)
             {
-                SetHonkIndex();
+                SetHonkIndex(honkTemplatesCount);
                 _honkCounter = SetHonkCounter(gameLevel);
             }
         }
@@ -151,9 +153,9 @@ namespace HonkHeroGame
             return _random.Next(50 - (int)Math.Floor(0.2 * halfGameLevel), 120 - (int)Math.Floor(0.4 * halfGameLevel));
         }
 
-        private void SetHonkIndex()
+        private void SetHonkIndex(int honkTemplatesCount)
         {
-            HonkIndex = _random.Next(0, 3);
+            HonkSoundIndex = _random.Next(0, honkTemplatesCount);
         }
 
         private void UpdateHonkState(HonkState honkState)

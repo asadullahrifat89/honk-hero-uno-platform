@@ -75,6 +75,8 @@ namespace HonkHeroGame
         private (int Z, double Y) _lastVehiclePoint = (0, 0);
         private int _gameLevel = 1;
 
+        private int _honkTemplatesCount = 0;
+
         #endregion
 
         #region Ctor
@@ -199,6 +201,8 @@ namespace HonkHeroGame
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
             _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
+
+            _honkTemplatesCount = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.HONK).Count();
         }
 
         private void PopulateGameViews()
@@ -617,7 +621,7 @@ namespace HonkHeroGame
 
             GameView.Children.Add(honk);
 
-            SoundHelper.PlaySound(SoundType.HONK, vehicle.HonkIndex);
+            SoundHelper.PlaySound(soundType: SoundType.HONK, index: vehicle.HonkSoundIndex);
 
             LooseHealth();
         }
@@ -721,7 +725,8 @@ namespace HonkHeroGame
             Vehicle vehicle = new(
                 scale: _scale,
                 speed: speed,
-                gameLevel: _gameLevel);
+                gameLevel: _gameLevel,
+                honkTemplatesCount: _honkTemplatesCount);
 
             GameView.Children.Add(vehicle);
         }
@@ -800,7 +805,7 @@ namespace HonkHeroGame
             vehicle.SetContent(_vehicles[_markNum]);
             vehicle.Speed = _gameSpeed + _random.Next(1, 4);
 
-            vehicle.ResetHonking(_gameLevel);
+            vehicle.ResetHonking(gameLevel: _gameLevel, honkTemplatesCount: _honkTemplatesCount);
             RandomizeVehiclePosition(vehicle);
         }
 
@@ -904,8 +909,6 @@ namespace HonkHeroGame
         {
             if (_playerHealth < 100)
             {
-                //SoundHelper.VolumeUp(soundType: SoundType.SONG, level: 0.04);
-
                 var health = _playerHealPoints;
 
                 if (_playerHealth + _playerHealPoints > 100)
