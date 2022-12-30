@@ -157,12 +157,10 @@ namespace HonkHeroGame
                     PointerPoint point = e.GetCurrentPoint(GameView);
 
                     _pointerPosition = point.Position;
+                    _attackPosition = point.Position;
 
                     if (!InGameMessageIsVisible)
-                    {
-                        _attackPosition = point.Position;
                         PlayerAttack();
-                    }
                 }
             }
         }
