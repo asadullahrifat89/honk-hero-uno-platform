@@ -40,100 +40,53 @@
 
             <!--#region Player health, power up, game score-->
             <StackPanel
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
                 Orientation="Horizontal">
 
-                <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+                <!--  Player health  -->
+                <Border
+                    x:Name="PlayerHealthBarPanel"
+                    Height="40"
+                    Margin="5,5,0,5"
+                    BorderThickness="3"
+                    CornerRadius="5"
+                    Style="{StaticResource GameUIContainer}">
 
-                    <!--  Player health  -->
-                    <Border
-                        x:Name="PlayerHealthBarPanel"
-                        Height="40"
-                        Margin="5"
-                        BorderThickness="3"
-                        CornerRadius="5"
-                        Style="{StaticResource GameUIContainer}">
+                    <StackPanel
+                        Margin="5,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
 
-                        <StackPanel
-                            Margin="5,0,5,0"
+                        <!--  Health icon  -->
+                        <Image
+                            Width="25"
+                            Height="25"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Source="ms-appx:///Assets/Images/ear.png" />
+
+                        <!--  Health bar  -->
+                        <ProgressBar
+                            x:Name="PlayerHealthBar"
+                            Width="50"
+                            Height="5"
+                            Margin="5,0"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal">
+                            Foreground="Crimson"
+                            Maximum="100"
+                            Minimum="0"
+                            Value="100" />
 
-                            <!--  Health icon  -->
-                            <Image
-                                Width="25"
-                                Height="25"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Source="ms-appx:///Assets/Images/ear.png" />
+                    </StackPanel>
 
-                            <!--  Health bar  -->
-                            <ProgressBar
-                                x:Name="PlayerHealthBar"
-                                Width="50"
-                                Height="5"
-                                Margin="5,0"
-                                VerticalAlignment="Center"
-                                Foreground="Crimson"
-                                Maximum="100"
-                                Minimum="0"
-                                Value="100" />
-
-                        </StackPanel>
-
-                    </Border>
-
-                    <!--  Power up  -->
-                    <Border
-                        x:Name="PowerUpPanel"
-                        Height="40"
-                        Margin="5,0,5,5"
-                        BorderThickness="3"
-                        CornerRadius="5"
-                        Style="{StaticResource GameUIContainer}"
-                        Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}">
-
-                        <StackPanel
-                            Margin="5,0,5,0"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-
-                            <!--  Power up icon  -->
-                            <TextBlock
-                                Width="25"
-                                HorizontalAlignment="Left"
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Text="👊"
-                                TextAlignment="Center" />
-
-                            <!--  Power up  -->
-                            <ProgressBar
-                                x:Name="PlayerPowerBar"
-                                Width="50"
-                                Height="5"
-                                Margin="5,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Foreground="Goldenrod"
-                                Maximum="100"
-                                Minimum="0"
-                                Visibility="Collapsed"
-                                Value="100" />
-
-                        </StackPanel>
-
-                    </Border>
-
-                </StackPanel>
+                </Border>
 
                 <!--  Game score  -->
                 <Border
                     x:Name="ScorePanel"
                     Height="40"
-                    Margin="0,5,5,5"
-                    VerticalAlignment="Top"
+                    Margin="5"
                     BorderThickness="3"
                     CornerRadius="5"
                     Style="{StaticResource GameUIContainer}">
@@ -166,27 +119,91 @@
 
                 </Border>
 
+                <!--  Power up  -->
+                <Border
+                    x:Name="PowerUpPanel"
+                    Height="40"
+                    Margin="0,5,5,5"
+                    BorderThickness="3"
+                    CornerRadius="5"
+                    Style="{StaticResource GameUIContainer}"
+                    Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}">
+
+                    <StackPanel
+                        Margin="5,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <!--  Power up icon  -->
+                        <TextBlock
+                            Width="25"
+                            HorizontalAlignment="Left"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="👊"
+                            TextAlignment="Center" />
+
+                        <!--  Power up  -->
+                        <ProgressBar
+                            x:Name="PlayerPowerBar"
+                            Width="50"
+                            Height="5"
+                            Margin="5,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Foreground="Goldenrod"
+                            Maximum="100"
+                            Minimum="0"
+                            Visibility="Collapsed"
+                            Value="100" />
+
+                    </StackPanel>
+
+                </Border>
+
             </StackPanel>
             <!--#endregion-->
 
             <!--#region In game message-->
-            <Border
+            <StackPanel
                 x:Name="InGameMessagePanel"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Style="{StaticResource GameUIContainer}"
                 Visibility="Collapsed">
-                <TextBlock
-                    x:Name="InGameMessageText"
-                    Margin="10"
+
+                <Image
+                    x:Name="LevelUpImage"
+                    Width="80"
+                    Height="80"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="30"
-                    FontWeight="Bold"
-                    TextAlignment="Center"
-                    TextWrapping="WrapWholeWords" />
+                    Source="ms-appx:///Assets/Images/level_up.png"
+                    Visibility="Collapsed" />
 
-            </Border>
+                <Image
+                    x:Name="PowerUpImage"
+                    Width="80"
+                    Height="80"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Source="ms-appx:///Assets/Images/power_up.png"
+                    Visibility="Collapsed" />
+
+                <Border Style="{StaticResource GameUIContainer}">
+
+                    <TextBlock
+                        x:Name="InGameMessageText"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="30"
+                        FontWeight="Bold"
+                        TextAlignment="Center"
+                        TextWrapping="WrapWholeWords" />
+
+                </Border>
+
+            </StackPanel>
             <!--#endregion-->
 
             <!--#region Input border-->
@@ -202,12 +219,21 @@
             <!--#region Pause & quit game-->
             <StackPanel
                 x:Name="QuitGamePanel"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
                 Orientation="Horizontal"
                 Visibility="Collapsed">
 
-                <!--  Quit game  -->
+                <!--  Confirm quit game  -->
+                <Button
+                    x:Name="ConfirmQuitGameButton"
+                    Height="45"
+                    Margin="5"
+                    Click="ConfirmQuitGameButton_Click"
+                    Content="Quit Game?"
+                    Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
+
+                <!--  Pause game  -->
                 <ToggleButton
                     x:Name="QuitGameButton"
                     Width="45"
@@ -218,15 +244,6 @@
                     Unchecked="QuitGameButton_Unchecked">
                     <SymbolIcon Symbol="Pause" />
                 </ToggleButton>
-
-                <!--  Confirm quit game  -->
-                <Button
-                    x:Name="ConfirmQuitGameButton"
-                    Height="45"
-                    Margin="5"
-                    Click="ConfirmQuitGameButton_Click"
-                    Content="Quit Game?"
-                    Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
 
             </StackPanel>
             <!--#endregion-->

@@ -78,8 +78,8 @@ namespace HonkHeroGame
         private int _honkTemplatesCount = 0;
 
         private int _inGameMessageCoolDownCounter = 0;
-        private readonly int _inGameMessageCoolDownCounterDefault = 120;
-        private readonly int _slowMotionFactor = 7;
+        private readonly int _inGameMessageCoolDownCounterDefault = 125;
+        private readonly int _slowMotionFactor = 10;
 
         #endregion
 
@@ -666,10 +666,13 @@ namespace HonkHeroGame
 
         private bool WaitForHonk(Vehicle vehicle)
         {
-            var vehicleHitBox = vehicle.GetHitBox();
+            if (!InGameMessageIsVisible)
+            {
+                var vehicleHitBox = vehicle.GetHitBox();
 
-            if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.1 : _windowWidth * 2))
-                return vehicle.WaitForHonk(_gameLevel);
+                if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.1 : _windowWidth * 2))
+                    return vehicle.WaitForHonk(_gameLevel);
+            }
 
             return false;
         }
@@ -1059,6 +1062,7 @@ namespace HonkHeroGame
 
             PlayerPowerBar.Visibility = Visibility.Visible;
             SoundHelper.PlaySound(SoundType.POWER_UP);
+            PowerUpImage.Visibility = Visibility.Visible;
         }
 
         private void PowerUpCoolDown()
@@ -1155,6 +1159,7 @@ namespace HonkHeroGame
             SetGameLevelText();
             ShowInGameTextMessage(resourceKey: "LEVEL_UP", coolDown: true);
             SoundHelper.PlaySound(SoundType.LEVEL_UP);
+            LevelUpImage.Visibility = Visibility.Visible;
         }
 
         private void SetScoreText()
@@ -1282,6 +1287,12 @@ namespace HonkHeroGame
         {
             InGameMessagePanel.Visibility = Visibility.Collapsed;
             InGameMessageText.Text = "";
+
+            if (LevelUpImage.Visibility == Visibility.Visible)
+                LevelUpImage.Visibility = Visibility.Collapsed;
+
+            if (PowerUpImage.Visibility == Visibility.Visible)
+                PowerUpImage.Visibility = Visibility.Collapsed;
         }
 
         public void CoolDownInGameTextMessage()
