@@ -79,7 +79,7 @@ namespace HonkHeroGame
 
         private int _inGameMessageCoolDownCounter = 0;
         private readonly int _inGameMessageCoolDownCounterDefault = 120;
-        private readonly int _slowMotionFactor = 5;
+        private readonly int _slowMotionFactor = 7;
 
         #endregion
 
