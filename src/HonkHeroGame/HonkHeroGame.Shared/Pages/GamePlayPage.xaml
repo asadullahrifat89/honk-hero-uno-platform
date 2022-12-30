@@ -10,6 +10,7 @@
 
     <Border
         Margin="5"
+        Background="{ThemeResource RoadBackgroundColor}"
         BorderBrush="#111111"
         BorderThickness="3">
 
@@ -17,7 +18,7 @@
 
             <!--#region Animation-->
             <!--  This hosts the road  -->
-            <GameEnvironment x:Name="UnderView" Background="{ThemeResource RoadBackgroundColor}" />
+            <GameEnvironment x:Name="UnderView" Background="Transparent" />
 
             <Image
                 x:Name="RoadSideRightImage"
