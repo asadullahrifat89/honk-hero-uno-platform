@@ -1062,7 +1062,6 @@ namespace HonkHeroGame
 
             PlayerPowerBar.Visibility = Visibility.Visible;
             SoundHelper.PlaySound(SoundType.POWER_UP);
-            PowerUpImage.Visibility = Visibility.Visible;
         }
 
         private void PowerUpCoolDown()
@@ -1159,7 +1158,6 @@ namespace HonkHeroGame
             SetGameLevelText();
             ShowInGameTextMessage(resourceKey: "LEVEL_UP", coolDown: true);
             SoundHelper.PlaySound(SoundType.LEVEL_UP);
-            LevelUpImage.Visibility = Visibility.Visible;
         }
 
         private void SetScoreText()
@@ -1287,12 +1285,6 @@ namespace HonkHeroGame
         {
             InGameMessagePanel.Visibility = Visibility.Collapsed;
             InGameMessageText.Text = "";
-
-            if (LevelUpImage.Visibility == Visibility.Visible)
-                LevelUpImage.Visibility = Visibility.Collapsed;
-
-            if (PowerUpImage.Visibility == Visibility.Visible)
-                PowerUpImage.Visibility = Visibility.Collapsed;
         }
 
         public void CoolDownInGameTextMessage()

@@ -165,45 +165,24 @@
             <!--#endregion-->
 
             <!--#region In game message-->
-            <StackPanel
+            <Border
                 x:Name="InGameMessagePanel"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Style="{StaticResource GameUIContainer}"
                 Visibility="Collapsed">
 
-                <Image
-                    x:Name="LevelUpImage"
-                    Width="80"
-                    Height="80"
+                <TextBlock
+                    x:Name="InGameMessageText"
+                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Source="ms-appx:///Assets/Images/level_up.png"
-                    Visibility="Collapsed" />
+                    FontSize="30"
+                    FontWeight="Bold"
+                    TextAlignment="Center"
+                    TextWrapping="WrapWholeWords" />
 
-                <Image
-                    x:Name="PowerUpImage"
-                    Width="80"
-                    Height="80"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Source="ms-appx:///Assets/Images/power_up.png"
-                    Visibility="Collapsed" />
-
-                <Border Style="{StaticResource GameUIContainer}">
-
-                    <TextBlock
-                        x:Name="InGameMessageText"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="30"
-                        FontWeight="Bold"
-                        TextAlignment="Center"
-                        TextWrapping="WrapWholeWords" />
-
-                </Border>
-
-            </StackPanel>
+            </Border>
             <!--#endregion-->
 
             <!--#region Input border-->
