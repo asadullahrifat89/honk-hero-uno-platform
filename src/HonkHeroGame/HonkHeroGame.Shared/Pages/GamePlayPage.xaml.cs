@@ -79,6 +79,7 @@ namespace HonkHeroGame
 
         private int _inGameMessageCoolDownCounter = 0;
         private readonly int _inGameMessageCoolDownCounterDefault = 120;
+        private readonly int _slowMotionFactor = 5;
 
         #endregion
 
@@ -606,7 +607,7 @@ namespace HonkHeroGame
 
             var flightSpeed = (distance / _playerLag) * speedBoost;
 
-            return InGameMessageIsVisible ? flightSpeed / 4 : flightSpeed;
+            return InGameMessageIsVisible ? flightSpeed / _slowMotionFactor : flightSpeed;
         }
 
         private void PlayerAttack()
@@ -657,7 +658,7 @@ namespace HonkHeroGame
 
         private void MoveHonk(GameObject honk)
         {
-            var honkSpeed = InGameMessageIsVisible ? honk.Speed / 4 : honk.Speed;
+            var honkSpeed = InGameMessageIsVisible ? honk.Speed / _slowMotionFactor : honk.Speed;
 
             honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
             honk.SetLeft(honk.GetLeft() - honkSpeed);
@@ -815,7 +816,7 @@ namespace HonkHeroGame
 
         private void MoveVehicle(Vehicle vehicle, int DivideSpeedBy = 1)
         {
-            var vehicleSpeed = InGameMessageIsVisible ? vehicle.Speed / 4 : vehicle.Speed;
+            var vehicleSpeed = InGameMessageIsVisible ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
 
             if (vehicle.GetLeft() < _windowWidth)
                 vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / DivideSpeedBy);
@@ -928,7 +929,7 @@ namespace HonkHeroGame
 
         private void MoveCollectible(GameObject collectible)
         {
-            var collectibleSpeed = InGameMessageIsVisible ? _gameSpeed / 4 : _gameSpeed;
+            var collectibleSpeed = InGameMessageIsVisible ? _gameSpeed / _slowMotionFactor : _gameSpeed;
 
             collectible.SetTop(collectible.GetTop() + collectibleSpeed);
         }
@@ -1032,7 +1033,7 @@ namespace HonkHeroGame
 
         private void MovePowerUp(GameObject powerUp)
         {
-            var powerUpSpeed = InGameMessageIsVisible ? _gameSpeed / 4 : _gameSpeed;
+            var powerUpSpeed = InGameMessageIsVisible ? _gameSpeed / _slowMotionFactor : _gameSpeed;
 
             powerUp.SetTop(powerUp.GetTop() + powerUpSpeed);
         }
@@ -1131,23 +1132,29 @@ namespace HonkHeroGame
         {
             if (_gameLevel < 101 && _score > _scoreCap)
             {
-                _gameSpeed = (_gameSpeedDefault * _scale) + (0.2 * _difficultyMultiplier / 2);
-
-                if (_playerLag > 15)
-                    _playerLag = _playerLagDefault - (_difficultyMultiplier * 1.5);
-
-                _scoreCap += (int)(50 * (_difficultyMultiplier / 2));
-
-                _difficultyMultiplier++;
-                _gameLevel++;
-
-                SetGameLevelText();
-                ShowInGameTextMessage(resourceKey: "LEVEL_UP", coolDown: true);
+                LevelUp();
 #if DEBUG
                 Console.WriteLine("PLAYER LAG: " + _playerLag);
                 Console.WriteLine("GAME SPEED: " + _gameSpeed);
 #endif
             }
+        }
+
+        private void LevelUp()
+        {
+            _gameSpeed = (_gameSpeedDefault * _scale) + (0.2 * _difficultyMultiplier / 2);
+
+            if (_playerLag > 15)
+                _playerLag = _playerLagDefault - (_difficultyMultiplier * 1.5);
+
+            _scoreCap += (int)(50 * (_difficultyMultiplier / 2));
+
+            _difficultyMultiplier++;
+            _gameLevel++;
+
+            SetGameLevelText();
+            ShowInGameTextMessage(resourceKey: "LEVEL_UP", coolDown: true);
+            SoundHelper.PlaySound(SoundType.LEVEL_UP);
         }
 
         private void SetScoreText()

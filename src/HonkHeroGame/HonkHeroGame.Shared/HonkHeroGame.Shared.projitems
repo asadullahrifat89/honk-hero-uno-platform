@@ -164,6 +164,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\level-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience3.mp3" />
@@ -187,8 +190,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song4.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song6.mp3" />

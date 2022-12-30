@@ -110,6 +110,8 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected2.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected3.mp3"),
+
+            new KeyValuePair<SoundType, string>(SoundType.LEVEL_UP, "Assets/Sounds/level-up.mp3"),
         };
 
         #endregion

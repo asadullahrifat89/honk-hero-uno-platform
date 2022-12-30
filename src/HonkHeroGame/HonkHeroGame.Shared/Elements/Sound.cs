@@ -136,5 +136,6 @@ namespace HonkHeroGame
         POWER_UP,
         POWER_DOWN,
         COLLECTIBLE,
+        LEVEL_UP,
     }
 }
