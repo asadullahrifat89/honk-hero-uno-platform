@@ -10,6 +10,7 @@
 
     <Border
         Margin="5"
+        Background="{ThemeResource RoadBackgroundColor}"
         BorderBrush="#111111"
         BorderThickness="3">
 
@@ -17,23 +18,19 @@
 
             <!--#region Animation-->
             <!--  This hosts the road  -->
-            <GameEnvironment x:Name="UnderView" Background="{ThemeResource RoadBackgroundColor}" />
+            <GameEnvironment x:Name="UnderView" Background="Transparent" />
 
+            <!--  Road right side image  -->
             <Image
                 x:Name="RoadSideRightImage"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Source="ms-appx:///Assets/Images/road-side-buildings-right.png" />
 
-            <!--<Image
-            x:Name="RoadSideCenterImage"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Source="ms-appx:///Assets/Images/road-side-walkway-center.png" />-->
-
             <!--  This hosts the player and game elements  -->
             <GameEnvironment x:Name="GameView" Background="Transparent" />
 
+            <!--  Road left side image  -->
             <Image
                 x:Name="RoadSideLeftImage"
                 HorizontalAlignment="Left"

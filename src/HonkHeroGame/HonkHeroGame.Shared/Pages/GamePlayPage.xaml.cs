@@ -77,8 +77,14 @@ namespace HonkHeroGame
 
         private int _honkTemplatesCount = 0;
 
-        public int _inGameMessageCollDownCounter = 0;
-        public int _inGameMessageCollDownCounterDefault = 120;
+        private int _inGameMessageCollDownCounter = 0;
+        private int _inGameMessageCollDownCounterDefault = 120;
+
+        #endregion
+
+        #region Properties
+
+        public bool InGameMessageIsVisible => !InGameMessageText.Text.IsNullOrBlank();
 
         #endregion
 
@@ -639,13 +645,18 @@ namespace HonkHeroGame
 
         private void UpdateHonk(GameObject honk)
         {
-            honk.SetTop(honk.GetTop() - honk.Speed * 0.5);
-            honk.SetLeft(honk.GetLeft() - honk.Speed);
+            MoveHonk(honk);
 
             honk.Fade();
 
             if (honk.HasFaded)
                 GameView.AddDestroyableGameObject(honk);
+        }
+
+        private void MoveHonk(GameObject honk)
+        {
+            honk.SetTop(honk.GetTop() - honk.Speed * 0.5);
+            honk.SetLeft(honk.GetLeft() - honk.Speed);
         }
 
         private bool WaitForHonk(Vehicle vehicle)
@@ -692,7 +703,7 @@ namespace HonkHeroGame
         {
             Sticker sticker = new(_scale);
 
-            SetStickerPosition(vehicle, sticker);
+            MoveSticker(vehicle, sticker);
 
             sticker.SetZ(vehicle.GetZ() + 1);
             //sticker.SetSkewY(-30);
@@ -708,7 +719,7 @@ namespace HonkHeroGame
         {
             var sticker = vehicle.AttachedSticker;
 
-            SetStickerPosition(vehicle, sticker);
+            MoveSticker(vehicle, sticker);
 
             var stickerHitBox = sticker.GetHitBox();
 
@@ -716,11 +727,8 @@ namespace HonkHeroGame
                 GameView.AddDestroyableGameObject(sticker);
         }
 
-        private void SetStickerPosition(Vehicle vehicle, Sticker sticker)
+        private void MoveSticker(Vehicle vehicle, Sticker sticker)
         {
-            //sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 1.5);
-            //sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
-
             sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
             sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
         }
@@ -822,15 +830,30 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
+            var one4thHeight = GameView.Height / 4;
+
             var left = _random.Next(
                 minValue: (int)GameView.Width,
                 maxValue: (int)GameView.Width * _random.Next(1, 4));
 
-            var one4thHeight = GameView.Height / 4;
+            //var top = _random.Next(
+            //    minValue: (int)(one4thHeight + vehicle.Height),
+            //    maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
 
-            var top = _random.Next(
-                minValue: (int)(one4thHeight + vehicle.Height),
-                maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
+            double top;
+
+            if (GameView.Height > GameView.Width)
+            {
+                top = _random.Next(
+                    minValue: (int)(one4thHeight),
+                    maxValue: (int)(GameView.Height - vehicle.Height));
+            }
+            else
+            {
+                top = _random.Next(
+                    minValue: (int)(one4thHeight + vehicle.Height),
+                    maxValue: (int)(GameView.Height - vehicle.Height + (int)(one4thHeight)));
+            }
 
             vehicle.SetPosition(
             left: left,
@@ -865,7 +888,7 @@ namespace HonkHeroGame
 
         private void UpdateCollectible(GameObject collectible)
         {
-            collectible.SetTop(collectible.GetTop() + _gameSpeed);
+            MoveCollectible(collectible);
 
             if (collectible.GetTop() > GameView.Height)
             {
@@ -895,6 +918,11 @@ namespace HonkHeroGame
                     }
                 }
             }
+        }
+
+        private void MoveCollectible(GameObject collectible)
+        {
+            collectible.SetTop(collectible.GetTop() + _gameSpeed);
         }
 
         private void RecyleCollectible(GameObject collectible)
@@ -980,7 +1008,7 @@ namespace HonkHeroGame
 
         private void UpdatePowerUp(GameObject powerUp)
         {
-            powerUp.SetTop(powerUp.GetTop() + _gameSpeed);
+            MovePowerUp(powerUp);
 
             if (_playerHitBox.IntersectsWith(powerUp.GetHitBox()))
             {
@@ -992,6 +1020,11 @@ namespace HonkHeroGame
                 if (powerUp.GetTop() > GameView.Height)
                     GameView.AddDestroyableGameObject(powerUp);
             }
+        }
+
+        private void MovePowerUp(GameObject powerUp)
+        {
+            powerUp.SetTop(powerUp.GetTop() + _gameSpeed);
         }
 
         private void PowerUp(PowerUp powerUp)
