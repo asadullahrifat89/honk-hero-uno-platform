@@ -822,15 +822,30 @@ namespace HonkHeroGame
 
         private void RandomizeVehiclePosition(GameObject vehicle)
         {
+            var one4thHeight = GameView.Height / 4;
+
             var left = _random.Next(
                 minValue: (int)GameView.Width,
                 maxValue: (int)GameView.Width * _random.Next(1, 4));
 
-            var one4thHeight = GameView.Height / 4;
+            //var top = _random.Next(
+            //    minValue: (int)(one4thHeight + vehicle.Height),
+            //    maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
 
-            var top = _random.Next(
-                minValue: (int)(one4thHeight + vehicle.Height),
-                maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
+            double top;
+
+            if (GameView.Height > GameView.Width)
+            {
+                top = _random.Next(
+                    minValue: (int)(one4thHeight),
+                    maxValue: (int)(GameView.Height - vehicle.Height));
+            }
+            else
+            {
+                top = _random.Next(
+                    minValue: (int)(one4thHeight + vehicle.Height),
+                    maxValue: (int)(GameView.Height - vehicle.Height + (int)(one4thHeight)));
+            }
 
             vehicle.SetPosition(
             left: left,
