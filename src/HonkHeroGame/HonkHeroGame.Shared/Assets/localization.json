@@ -1246,15 +1246,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Level up"
+        "Value": "🔥 Level up"
       },
       {
         "Culture": "de",
-        "Value": "Aufleveln"
+        "Value": "🔥 Aufleveln"
       },
       {
         "Culture": "bn",
-        "Value": "লেভেল আপ"
+        "Value": "🔥 লেভেল আপ"
       }
     ]
   },
@@ -1263,15 +1263,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Magnet Pull"
+        "Value": "👊 Magnet Pull"
       },
       {
         "Culture": "de",
-        "Value": "Magnetzug"
+        "Value": "👊 Magnetzug"
       },
       {
         "Culture": "bn",
-        "Value": "চুম্বক টান"
+        "Value": "👊 চুম্বক টান"
       }
     ]
   },
@@ -1280,15 +1280,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "2x score"
+        "Value": "👊 2x score"
       },
       {
         "Culture": "de",
-        "Value": "2x Punkte"
+        "Value": "👊 2x Punkte"
       },
       {
         "Culture": "bn",
-        "Value": "2x স্কোর"
+        "Value": "👊 2x স্কোর"
       }
     ]
   },

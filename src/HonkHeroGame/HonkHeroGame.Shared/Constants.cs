@@ -59,7 +59,7 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.HONK, new Uri("ms-appx:///Assets/Images/honk2.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
-
+                        
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.POWERUP, new Uri("ms-appx:///Assets/Images/powerup2.png")),
 
@@ -68,6 +68,9 @@ namespace HonkHeroGame
 
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-left.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-right.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.LEVEL_UP, new Uri("ms-appx:///Assets/Images/level_up.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.POWER_UP, new Uri("ms-appx:///Assets/Images/power_up.png")),
         };
 
         #endregion
@@ -110,6 +113,8 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected2.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected3.mp3"),
+
+            new KeyValuePair<SoundType, string>(SoundType.LEVEL_UP, "Assets/Sounds/level-up.mp3"),
         };
 
         #endregion

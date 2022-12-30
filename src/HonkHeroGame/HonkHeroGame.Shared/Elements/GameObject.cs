@@ -256,6 +256,8 @@ namespace HonkHeroGame
         ROAD_DECORATION,
         HONKING,
         HONKING_BUSTED,
+        LEVEL_UP,
+        POWER_UP
     }
 }
 

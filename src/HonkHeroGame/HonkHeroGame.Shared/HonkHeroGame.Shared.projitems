@@ -132,6 +132,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution3.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution4.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\level_up.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
@@ -146,6 +147,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\power_up.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle11.png" />
@@ -164,6 +166,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle8.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\level-up.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\ambience3.mp3" />
@@ -187,8 +192,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song4.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song6.mp3" />
