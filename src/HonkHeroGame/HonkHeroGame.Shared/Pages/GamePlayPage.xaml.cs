@@ -96,7 +96,7 @@ namespace HonkHeroGame
             InitializeComponent();
 
             _isGameOver = true;
-            ShowInGameTextMessage("TAP_ON_SCREEN_TO_BEGIN");
+            ShowInGameTextMessage(GetLocalizedResource("TAP_ON_SCREEN_TO_BEGIN"));
 
             _windowHeight = Window.Current.Bounds.Height;
             _windowWidth = Window.Current.Bounds.Width;
@@ -155,11 +155,12 @@ namespace HonkHeroGame
                 if (QuitGameButton.IsChecked == false)
                 {
                     PointerPoint point = e.GetCurrentPoint(GameView);
-                    _attackPosition = point.Position;
-                    _pointerPosition = point.Position;
 
-                    _player.SetScaleTransform(1);
-                    PlayerAttack();
+                    _pointerPosition = point.Position;
+                    _attackPosition = point.Position;
+
+                    if (!InGameMessageIsVisible)
+                        PlayerAttack();
                 }
             }
         }
@@ -323,7 +324,7 @@ namespace HonkHeroGame
         private void PauseGame()
         {
             InputView.Focus(FocusState.Programmatic);
-            ShowInGameTextMessage("GAME_PAUSED");
+            ShowInGameTextMessage(GetLocalizedResource("GAME_PAUSED"));
 
             _gameViewTimer?.Dispose();
 
@@ -508,7 +509,9 @@ namespace HonkHeroGame
 
         private void PlayerAttacking()
         {
-            _playerAttackDurationCounter--;
+            var scalePoint = InGameMessageIsVisible ? _playerAttackingScalePoint / _slowMotionFactor : _playerAttackingScalePoint;
+
+            _playerAttackDurationCounter = InGameMessageIsVisible ? _playerAttackDurationCounter - (1 / _slowMotionFactor) : _playerAttackDurationCounter - 1;
 
             if (_playerAttackDurationCounter > _playerAttackDurationCounterDefault / 2)
             {
@@ -516,8 +519,8 @@ namespace HonkHeroGame
                 if (_player.GetScaleY() <= 2)
                 {
                     _player.SetScaleTransform(
-                        scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
-                        scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+                        scaleX: _player.GetScaleX() + scalePoint,
+                        scaleY: _player.GetScaleY() + scalePoint);
                 }
             }
             else
@@ -526,8 +529,8 @@ namespace HonkHeroGame
                 if (_player.GetScaleY() > 1.0)
                 {
                     _player.SetScaleTransform(
-                        scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
-                        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
+                        scaleX: _player.GetScaleX() - scalePoint,
+                        scaleY: _player.GetScaleY() - scalePoint);
                 }
             }
 
@@ -612,6 +615,7 @@ namespace HonkHeroGame
 
         private void PlayerAttack()
         {
+            _player.SetScaleTransform(1);
             _playerAttackDurationCounter = _playerAttackDurationCounterDefault;
             _player.SetState(PlayerState.Attacking);
         }
@@ -834,6 +838,10 @@ namespace HonkHeroGame
             vehicle.SetContent(_vehicles[_markNum]);
             vehicle.Speed = _gameSpeed + _random.Next(1, 4);
 
+            // loose health if a honking car escapes view without getting tagged with a sticker
+            if (vehicle.HonkState == HonkState.HONKING)
+                LooseHealth();
+
             vehicle.ResetHonking(gameLevel: _gameLevel, honkTemplatesCount: _honkTemplatesCount);
             RandomizeVehiclePosition(vehicle);
         }
@@ -1051,10 +1059,10 @@ namespace HonkHeroGame
             switch (_powerUpType)
             {
                 case PowerUpType.MagnetPull:
-                    ShowInGameTextMessage("MAGNET_PULL", true);
+                    ShowInGameTextMessage(GetLocalizedResource("MAGNET_PULL"), true);
                     break;
                 case PowerUpType.TwoxScore:
-                    ShowInGameTextMessage("2X_SCORE", true);
+                    ShowInGameTextMessage(GetLocalizedResource("2X_SCORE"), true);
                     break;
                 default:
                     break;
@@ -1156,7 +1164,7 @@ namespace HonkHeroGame
             _gameLevel++;
 
             SetGameLevelText();
-            ShowInGameTextMessage(resourceKey: "LEVEL_UP", coolDown: true);
+            ShowInGameTextMessage(GetLocalizedResource("LEVEL_UP") + " " + _gameLevel, true);
             SoundHelper.PlaySound(SoundType.LEVEL_UP);
         }
 
@@ -1273,12 +1281,16 @@ namespace HonkHeroGame
 
         #region InGameMessage
 
-        private void ShowInGameTextMessage(string resourceKey, bool coolDown = false)
+        private void ShowInGameTextMessage(string message, bool coolDown = false)
         {
             _inGameMessageCoolDownCounter = coolDown ? _inGameMessageCoolDownCounterDefault : 0;
-
-            InGameMessageText.Text = LocalizationHelper.GetLocalizedResource(resourceKey);
+            InGameMessageText.Text = message;
             InGameMessagePanel.Visibility = Visibility.Visible;
+        }
+
+        private string GetLocalizedResource(string resourceKey)
+        {
+            return LocalizationHelper.GetLocalizedResource(resourceKey);
         }
 
         private void HideInGameTextMessage()
