@@ -155,11 +155,14 @@ namespace HonkHeroGame
                 if (QuitGameButton.IsChecked == false)
                 {
                     PointerPoint point = e.GetCurrentPoint(GameView);
-                    _attackPosition = point.Position;
+
                     _pointerPosition = point.Position;
 
-                    _player.SetScaleTransform(1);
-                    PlayerAttack();
+                    if (!InGameMessageIsVisible)
+                    {
+                        _attackPosition = point.Position;
+                        PlayerAttack();
+                    }
                 }
             }
         }
@@ -508,7 +511,9 @@ namespace HonkHeroGame
 
         private void PlayerAttacking()
         {
-            _playerAttackDurationCounter--;
+            var scalePoint = InGameMessageIsVisible ? _playerAttackingScalePoint / _slowMotionFactor : _playerAttackingScalePoint;
+
+            _playerAttackDurationCounter = InGameMessageIsVisible ? _playerAttackDurationCounter - (1 / _slowMotionFactor) : _playerAttackDurationCounter - 1;
 
             if (_playerAttackDurationCounter > _playerAttackDurationCounterDefault / 2)
             {
@@ -516,8 +521,8 @@ namespace HonkHeroGame
                 if (_player.GetScaleY() <= 2)
                 {
                     _player.SetScaleTransform(
-                        scaleX: _player.GetScaleX() + _playerAttackingScalePoint,
-                        scaleY: _player.GetScaleY() + _playerAttackingScalePoint);
+                        scaleX: _player.GetScaleX() + scalePoint,
+                        scaleY: _player.GetScaleY() + scalePoint);
                 }
             }
             else
@@ -526,8 +531,8 @@ namespace HonkHeroGame
                 if (_player.GetScaleY() > 1.0)
                 {
                     _player.SetScaleTransform(
-                        scaleX: _player.GetScaleX() - _playerAttackingScalePoint,
-                        scaleY: _player.GetScaleY() - _playerAttackingScalePoint);
+                        scaleX: _player.GetScaleX() - scalePoint,
+                        scaleY: _player.GetScaleY() - scalePoint);
                 }
             }
 
@@ -612,6 +617,7 @@ namespace HonkHeroGame
 
         private void PlayerAttack()
         {
+            _player.SetScaleTransform(1);
             _playerAttackDurationCounter = _playerAttackDurationCounterDefault;
             _player.SetState(PlayerState.Attacking);
         }
