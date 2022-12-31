@@ -980,13 +980,13 @@ namespace HonkHeroGame
                         {
                             top = _random.Next(
                                 minValue: (int)(halfHeight),
-                                maxValue: (int)(GameView.Height - vehicle.Height));
+                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
                         }
                         else // landscape
                         {
                             top = _random.Next(
-                                minValue: (int)(halfHeight + vehicle.Height),
-                                maxValue: (int)(GameView.Height - vehicle.Height + (int)(one4thHeight)));
+                                minValue: (int)(halfHeight - vehicle.Height),
+                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
                         }
                     }
                     break;
