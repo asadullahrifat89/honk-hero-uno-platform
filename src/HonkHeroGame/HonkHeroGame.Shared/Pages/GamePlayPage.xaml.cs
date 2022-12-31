@@ -841,7 +841,21 @@ namespace HonkHeroGame
                 && vehicle.GetZ() >= x.GetZ()
                 && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
             {
-                vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                switch (vehicle.StreamingDirection)
+                {
+                    case StreamingDirection.UpStream:
+                        {
+                            vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                        }
+                        break;
+                    case StreamingDirection.DownStream:
+                        {
+                            vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
@@ -860,10 +874,28 @@ namespace HonkHeroGame
                 }
                 else if (collidingVehicle.Speed == vehicle.Speed)
                 {
-                    if (vehicle.GetZ() > collidingVehicle.GetZ())
-                        MoveVehicle(collidingVehicle);
-                    else
-                        MoveVehicle(vehicle);
+                    switch (vehicle.StreamingDirection)
+                    {
+                        case StreamingDirection.UpStream:
+                            {
+
+                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                    MoveVehicle(collidingVehicle);
+                                else
+                                    MoveVehicle(vehicle);
+                            }
+                            break;
+                        case StreamingDirection.DownStream:
+                            {
+                                if (vehicle.GetZ() < collidingVehicle.GetZ())
+                                    MoveVehicle(collidingVehicle);
+                                else
+                                    MoveVehicle(vehicle);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             else
