@@ -711,12 +711,12 @@ namespace HonkHeroGame
                         {
                             if (_windowWidth > _windowHeight)
                             {
-                                if (vehicleHitBox.Right < _windowWidth + (_windowWidth / 2))
+                                if (vehicleHitBox.Right < _windowWidth + (_windowWidth / 3))
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                             else
                             {
-                                if (vehicleHitBox.Right < _windowWidth * 2)
+                                if (vehicleHitBox.Right < _windowWidth * 2.5)
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                         }
@@ -725,12 +725,12 @@ namespace HonkHeroGame
                         {
                             if (_windowWidth > _windowHeight)
                             {
-                                if (vehicleHitBox.Right > (_windowWidth / 2) * -1)
+                                if (vehicleHitBox.Right > (_windowWidth / 3) * -1)
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                             else
                             {
-                                if (vehicleHitBox.Right > _windowWidth * -1)
+                                if (vehicleHitBox.Right > _windowWidth * -2.5)
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                         }
