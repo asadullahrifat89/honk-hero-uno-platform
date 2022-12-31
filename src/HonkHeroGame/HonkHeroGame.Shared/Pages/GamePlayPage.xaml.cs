@@ -72,8 +72,7 @@ namespace HonkHeroGame
 
         private int _collectibleCollected;
         private int _vehiclesTagged;
-
-        private (int Z, double Y) _lastVehiclePoint = (0, 0);
+                
         private int _gameLevel = 1;
 
         private int _honkTemplatesCount = 0;
@@ -83,6 +82,7 @@ namespace HonkHeroGame
         private readonly int _slowMotionFactor = 10;
 
         private int _maxVehicleZ;
+        //private (int Z, double Y) _lastVehiclePoint = (0, 0);
 
         #endregion
 
@@ -780,10 +780,11 @@ namespace HonkHeroGame
 
             MoveSticker(vehicle, sticker);
 
-            sticker.SetZ(vehicle.GetZ() + 1);
+            sticker.SetZ(vehicle.GetZ() + 1);          
+            sticker.SetRotation(_random.Next(-30, 30));
+
             //sticker.SetSkewY(-30);
             //sticker.SetSkewY(30);
-            sticker.SetRotation(_random.Next(-30, 30));
 
             GameView.Children.Add(sticker);
 
@@ -793,6 +794,7 @@ namespace HonkHeroGame
         private void UpdateSticker(Vehicle vehicle)
         {
             var sticker = vehicle.AttachedSticker;
+            sticker.SetZ(vehicle.GetZ() + 1);
 
             MoveSticker(vehicle, sticker);
 
@@ -851,55 +853,55 @@ namespace HonkHeroGame
             if (WaitForHonk(vehicle))
                 SpawnHonk(vehicle);
 
-            //switch (vehicle.StreamingDirection)
-            //{
-            //    case StreamingDirection.UpStream:
-            //        {
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
+                            && xHitBox.IntersectsWith(vehicleCloseHitBox)                            
+                            && vehicleCloseHitBox.Bottom < xHitBox.Bottom
+                            && vehicle.GetZ() >= x.GetZ()) is Vehicle underneathVehicle)
+                        {
+                            switch (underneathVehicle.StreamingDirection)
+                            {
+                                case StreamingDirection.UpStream:
+                                    vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                                    break;
+                                case StreamingDirection.DownStream:
+                                    vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
+                           && xHitBox.IntersectsWith(vehicleCloseHitBox)                           
+                           && vehicleCloseHitBox.Bottom > xHitBox.Bottom
+                           && vehicle.GetZ() <= x.GetZ()) is Vehicle underneathVehicle)
+                        {
+                            //switch (underneathVehicle.StreamingDirection)
+                            //{
+                            //    case StreamingDirection.UpStream:
+                            //        vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                            //        break;
+                            //    case StreamingDirection.DownStream:
+                            //        vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                            //        break;
+                            //    default:
+                            //        break;
+                            //}
 
-
-            //            //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
-            //            //    && xHitBox.IntersectsWith(vehicleCloseHitBox)
-            //            //    && vehicle.GetZ() >= x.GetZ()
-            //            //    && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
-            //            //{
-            //            //    switch (underneathVehicle.StreamingDirection)
-            //            //    {
-            //            //        case StreamingDirection.UpStream:
-            //            //            vehicle.SetZ(underneathVehicle.GetZ() - 1);
-            //            //            break;
-            //            //        case StreamingDirection.DownStream:
-            //            //            vehicle.SetZ(underneathVehicle.GetZ() + 1);
-            //            //            break;
-            //            //        default:
-            //            //            break;
-            //            //    }
-            //            //}
-            //        }
-            //        break;
-            //    case StreamingDirection.DownStream:
-            //        {
-            //            //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
-            //            //   && xHitBox.IntersectsWith(vehicleCloseHitBox)
-            //            //   && vehicle.GetZ() <= x.GetZ()
-            //            //   && vehicleCloseHitBox.Bottom > xHitBox.Bottom) is Vehicle underneathVehicle)
-            //            //{
-            //            //    switch (underneathVehicle.StreamingDirection)
-            //            //    {
-            //            //        case StreamingDirection.UpStream:
-            //            //            vehicle.SetZ(underneathVehicle.GetZ() - 1);
-            //            //            break;
-            //            //        case StreamingDirection.DownStream:
-            //            //            vehicle.SetZ(underneathVehicle.GetZ() + 1);
-            //            //            break;
-            //            //        default:
-            //            //            break;
-            //            //    }
-            //            //}
-            //        }
-            //        break;
-            //    default:
-            //        break;
-            //}
+                            vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == vehicle.StreamingDirection
                 && x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
@@ -1091,13 +1093,14 @@ namespace HonkHeroGame
                     break;
             }
 
-            var ownZ = vehicle.GetZ();
-            var lastZ = _lastVehiclePoint.Z;
+            //var ownZ = vehicle.GetZ();
+            //var lastZ = _lastVehiclePoint.Z;
 
-            if (top >= _lastVehiclePoint.Y)
-                vehicle.SetZ(ownZ > lastZ ? ownZ + 1 : lastZ + 1);
-            else
-                vehicle.SetZ(ownZ > lastZ ? ownZ - 1 : lastZ - 1);
+            //if (top >= _lastVehiclePoint.Y && ownZ <= lastZ)
+            //    vehicle.SetZ(ownZ > lastZ ? ownZ + 1 : lastZ + 1);
+
+            //else
+            //    vehicle.SetZ(ownZ > lastZ ? ownZ - 1 : lastZ - 1);
 
             vehicle.SetPosition(
                 left: left,
@@ -1108,7 +1111,7 @@ namespace HonkHeroGame
             if (_player is not null && _player.GetZ() <= _maxVehicleZ)
                 _player.SetZ(_maxVehicleZ + 1);
 
-            _lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
+            //_lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
         }
 
         #endregion
