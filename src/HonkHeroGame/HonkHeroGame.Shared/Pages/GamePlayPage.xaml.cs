@@ -1031,8 +1031,8 @@ namespace HonkHeroGame
                         if (GameView.Height > GameView.Width)
                         {
                             top = _random.Next(
-                                minValue: (int)(halfHeight - vehicle.Height),
-                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
+                                minValue: (int)(halfHeight - one4thHeight),
+                                maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
                         }
                         else // landscape
                         {
@@ -1421,7 +1421,7 @@ namespace HonkHeroGame
                 }
             }
 
-            var applicableWidth = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.5;
+            var applicableWidth = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.4;
 
             RoadSideLeftImage.Width = applicableWidth;
             RoadSideLeftImage.Height = _windowHeight;

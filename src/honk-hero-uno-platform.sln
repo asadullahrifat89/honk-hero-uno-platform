@@ -7,7 +7,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HonkHeroGame.Shared", "Honk
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{85223D36-88B9-479B-966F-B0F4DCDDE6AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HonkHeroGame.Wasm", "HonkHeroGame\HonkHeroGame.Wasm\HonkHeroGame.Wasm.csproj", "{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HonkHeroGame.Wasm", "HonkHeroGame\HonkHeroGame.Wasm\HonkHeroGame.Wasm.csproj", "{13B5ADCC-03AE-40B4-8614-7BA8654C8CDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
