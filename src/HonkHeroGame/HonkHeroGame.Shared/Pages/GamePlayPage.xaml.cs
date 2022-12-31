@@ -624,7 +624,10 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5, streamingDirection: vehicle.StreamingDirection);
+            Honk honk = new(
+                scale: _scale,
+                speed: vehicle.Speed * 1.5,
+                streamingDirection: vehicle.StreamingDirection);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
@@ -641,8 +644,8 @@ namespace HonkHeroGame
                     break;
                 case StreamingDirection.DownStream:
                     {
-                        honk.SetLeft(vehicleCloseHitBox.Right + vehicle.Width / 2);
-                        honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
+                        honk.SetLeft(vehicleCloseHitBox.Right - vehicle.Width / 2);
+                        honk.SetTop(vehicleCloseHitBox.Bottom - (50 * _scale));
                     }
                     break;
                 default:
@@ -693,7 +696,7 @@ namespace HonkHeroGame
                     break;
                 default:
                     break;
-            }          
+            }
         }
 
         private bool WaitForHonk(Vehicle vehicle)
@@ -702,8 +705,25 @@ namespace HonkHeroGame
             {
                 var vehicleHitBox = vehicle.GetHitBox();
 
-                if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.1 : _windowWidth * 2))
-                    return vehicle.WaitForHonk(_gameLevel);
+                var honkingWidth = _windowWidth > _windowHeight ? _windowWidth * 1.1 : _windowWidth * 2;
+
+                switch (vehicle.StreamingDirection)
+                {
+                    case StreamingDirection.UpStream:
+                        {
+                            if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < honkingWidth)
+                                return vehicle.WaitForHonk(_gameLevel);
+                        }
+                        break;
+                    case StreamingDirection.DownStream:
+                        {
+                            if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Right < honkingWidth)
+                                return vehicle.WaitForHonk(_gameLevel);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
             return false;
@@ -979,13 +999,13 @@ namespace HonkHeroGame
                         if (GameView.Height > GameView.Width)
                         {
                             top = _random.Next(
-                                minValue: (int)(halfHeight),
+                                minValue: (int)(halfHeight - vehicle.Height),
                                 maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
                         }
                         else // landscape
                         {
                             top = _random.Next(
-                                minValue: (int)(halfHeight - vehicle.Height),
+                                minValue: (int)(halfHeight - vehicle.Height - one4thHeight),
                                 maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
                         }
                     }
