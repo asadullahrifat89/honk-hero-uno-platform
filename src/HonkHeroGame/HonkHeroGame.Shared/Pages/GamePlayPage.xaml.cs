@@ -836,26 +836,32 @@ namespace HonkHeroGame
             if (WaitForHonk(vehicle))
                 SpawnHonk(vehicle);
 
-            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
-                && xHitBox.IntersectsWith(vehicleCloseHitBox)
-                && vehicle.GetZ() >= x.GetZ()
-                && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
+            switch (vehicle.StreamingDirection)
             {
-                switch (vehicle.StreamingDirection)
-                {
-                    case StreamingDirection.UpStream:
+                case StreamingDirection.UpStream:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
+                            && xHitBox.IntersectsWith(vehicleCloseHitBox)
+                            && vehicle.GetZ() >= x.GetZ()
+                            && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
                         {
                             vehicle.SetZ(underneathVehicle.GetZ() - 1);
                         }
-                        break;
-                    case StreamingDirection.DownStream:
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
+                           && xHitBox.IntersectsWith(vehicleCloseHitBox)
+                           && vehicle.GetZ() <= x.GetZ()
+                           && vehicleCloseHitBox.Bottom > xHitBox.Bottom) is Vehicle underneathVehicle)
                         {
-                            underneathVehicle.SetZ(vehicle.GetZ() - 1);
+                            vehicle.SetZ(underneathVehicle.GetZ() + 1);
                         }
-                        break;
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                default:
+                    break;
             }
 
             if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
