@@ -850,7 +850,7 @@ namespace HonkHeroGame
                         break;
                     case StreamingDirection.DownStream:
                         {
-                            vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                            underneathVehicle.SetZ(vehicle.GetZ() - 1);
                         }
                         break;
                     default:
@@ -887,10 +887,10 @@ namespace HonkHeroGame
                             break;
                         case StreamingDirection.DownStream:
                             {
-                                if (vehicle.GetZ() < collidingVehicle.GetZ())
-                                    MoveVehicle(collidingVehicle);
-                                else
+                                if (vehicle.GetZ() > collidingVehicle.GetZ())
                                     MoveVehicle(vehicle);
+                                else
+                                    MoveVehicle(collidingVehicle);
                             }
                             break;
                         default:
@@ -1015,7 +1015,7 @@ namespace HonkHeroGame
                         {
                             top = _random.Next(
                                 minValue: (int)(one4thHeight + vehicle.Height),
-                                maxValue: (int)(halfHeight - vehicle.Height + (int)(one4thHeight)));
+                                maxValue: (int)(halfHeight + one4thHeight));
                         }
                     }
                     break;
@@ -1038,7 +1038,7 @@ namespace HonkHeroGame
                         {
                             top = _random.Next(
                                 minValue: (int)(halfHeight - vehicle.Height - one4thHeight),
-                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
+                                maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
                         }
                     }
                     break;
