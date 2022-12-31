@@ -915,23 +915,18 @@ namespace HonkHeroGame
                 case StreamingDirection.UpStream:
                     {
                         if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
-                        {
                             RecyleVehicle(vehicle);
-                        }
                     }
                     break;
                 case StreamingDirection.DownStream:
                     {
                         if (vehicleCloseHitBox.Top > _windowHeight || vehicleCloseHitBox.Left > _windowWidth)
-                        {
                             RecyleVehicle(vehicle);
-                        }
                     }
                     break;
                 default:
                     break;
             }
-
         }
 
         private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
@@ -1061,7 +1056,7 @@ namespace HonkHeroGame
                 left: left,
                 top: top);
 
-            _lastVehiclePoint = (vehicle.GetZ(), top);
+            _lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
 
             // always keep player on top
             if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
