@@ -31,7 +31,7 @@
   ],
   "name": "Honk Hero",
   "short_name": "Honk Hero",
-  "start_url": "https://asadullahrifat89.github.io/honk-hero-uno-platform/",
+  "start_url": "/honk-hero-uno-platform/",
   "theme_color": "#111111",
-  "scope": "https://asadullahrifat89.github.io/honk-hero-uno-platform/"
+  "scope": "/honk-hero-uno-platform/"
 }
