@@ -158,7 +158,7 @@ namespace HonkHeroGame
         private int SetHonkCounter(int gameLevel)
         {
             var halfGameLevel = gameLevel / 2;
-            return _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 120 - (int)Math.Floor(0.4 * halfGameLevel));
+            return _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 125 - (int)Math.Floor(0.4 * halfGameLevel));
         }
 
         private void SetHonkIndex(int honkTemplatesCount)
