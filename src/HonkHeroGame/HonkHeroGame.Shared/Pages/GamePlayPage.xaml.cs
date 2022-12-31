@@ -394,7 +394,7 @@ namespace HonkHeroGame
                         UpdatePlayer();
                         break;
                     case ElementType.HONK:
-                        UpdateHonk(x);
+                        UpdateHonk(x as Honk);
                         break;
                     case ElementType.COLLECTIBLE:
                         UpdateCollectible(x);
@@ -624,15 +624,30 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5);
+            Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5, streamingDirection: vehicle.StreamingDirection);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicleCloseHitBox.Left - vehicle.Width / 2);
-            honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
+            switch (honk.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        honk.SetLeft(vehicleCloseHitBox.Left - vehicle.Width / 2);
+                        honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        honk.SetLeft(vehicleCloseHitBox.Right + vehicle.Width / 2);
+                        honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             honk.SetRotation(_random.Next(-30, 45));
             honk.SetZ(vehicle.GetZ() + 1);
@@ -648,7 +663,7 @@ namespace HonkHeroGame
                 LooseHealth();
         }
 
-        private void UpdateHonk(GameObject honk)
+        private void UpdateHonk(Honk honk)
         {
             MoveHonk(honk);
 
@@ -658,12 +673,27 @@ namespace HonkHeroGame
                 GameView.AddDestroyableGameObject(honk);
         }
 
-        private void MoveHonk(GameObject honk)
+        private void MoveHonk(Honk honk)
         {
             var honkSpeed = InGameMessageIsVisible ? honk.Speed / _slowMotionFactor : honk.Speed;
 
-            honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
-            honk.SetLeft(honk.GetLeft() - honkSpeed);
+            switch (honk.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
+                        honk.SetLeft(honk.GetLeft() - honkSpeed);
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        honk.SetTop(honk.GetTop() + honkSpeed * 0.5);
+                        honk.SetLeft(honk.GetLeft() + honkSpeed);
+                    }
+                    break;
+                default:
+                    break;
+            }          
         }
 
         private bool WaitForHonk(Vehicle vehicle)
@@ -922,13 +952,14 @@ namespace HonkHeroGame
                             minValue: (int)GameView.Width,
                             maxValue: (int)GameView.Width * _random.Next(1, 4));
 
+                        // portrait
                         if (GameView.Height > GameView.Width)
                         {
                             top = _random.Next(
                                 minValue: (int)(one4thHeight),
                                 maxValue: (int)(halfHeight - vehicle.Height));
                         }
-                        else
+                        else // landscape
                         {
                             top = _random.Next(
                                 minValue: (int)(one4thHeight + vehicle.Height),
@@ -938,17 +969,20 @@ namespace HonkHeroGame
                     break;
                 case StreamingDirection.DownStream:
                     {
+                        //TODO: fix down streaming car position
+
                         left = _random.Next(
                            minValue: (int)(GameView.Width * _random.Next(1, 4)) * -1,
                            maxValue: 0);
 
+                        // portrait
                         if (GameView.Height > GameView.Width)
                         {
                             top = _random.Next(
                                 minValue: (int)(halfHeight),
                                 maxValue: (int)(GameView.Height - vehicle.Height));
                         }
-                        else
+                        else // landscape
                         {
                             top = _random.Next(
                                 minValue: (int)(halfHeight + vehicle.Height),
