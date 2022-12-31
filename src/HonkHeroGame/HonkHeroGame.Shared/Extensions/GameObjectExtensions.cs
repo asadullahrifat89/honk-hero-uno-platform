@@ -44,7 +44,7 @@ namespace HonkHeroGame
               height: gameObject.Height);
 
             //gameObject.SetHitBoxBorder(rect);
-            
+
             return rect;
         }
 
@@ -72,11 +72,14 @@ namespace HonkHeroGame
 
         public static Rect GetDistantHitBox(this GameObject gameObject)
         {
+            var maxWidth = (gameObject.Width * 4);
+            var maxHeight = (gameObject.Height * 4);
+
             return new Rect(
-                x: gameObject.GetLeft() - (gameObject.Width * 4),
-                y: gameObject.GetTop() - (gameObject.Height * 4),
-                width: gameObject.Width + (gameObject.Width * 4),
-                height: gameObject.Height + (gameObject.Height * 4));
+                x: gameObject.GetLeft() - maxWidth,
+                y: gameObject.GetTop() - maxHeight,
+                width: gameObject.Width + maxWidth,
+                height: gameObject.Height + maxHeight);
         }
 
         #endregion
