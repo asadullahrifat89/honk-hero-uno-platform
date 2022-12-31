@@ -39,7 +39,12 @@ namespace HonkHeroGame
 
         #region Ctor
 
-        public Vehicle(double scale, double speed, int gameLevel, int honkTemplatesCount)
+        public Vehicle(
+            double scale,
+            double speed,
+            int gameLevel,
+            int honkTemplatesCount,
+            StreamingDirection streamingDirection = StreamingDirection.UpStream)
         {
             Tag = ElementType.VEHICLE;
 
@@ -47,6 +52,7 @@ namespace HonkHeroGame
             Width = Constants.VEHICLE_SIZE * scale;
 
             Speed = speed;
+            StreamingDirection = streamingDirection;
 
             _honking.Height = 50 * scale;
             _honking.Margin = new Thickness(0, 15 * scale, 0, 0);
@@ -81,6 +87,8 @@ namespace HonkHeroGame
         //public double Health { get; set; } = 100;
 
         //public double HitPoints { get; set; } = 100;
+
+        public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpStream;
 
         #endregion
 
@@ -129,7 +137,7 @@ namespace HonkHeroGame
             UpdateHonkState(HonkState.HONKING_BUSTED);
         }
 
-        public void ResetHonking(int gameLevel,int honkTemplatesCount)
+        public void ResetHonking(int gameLevel, int honkTemplatesCount)
         {
             IsMarkedForPopping = false;
             UpdateHonkState(HonkState.DEFAULT);
@@ -195,6 +203,12 @@ namespace HonkHeroGame
         DEFAULT,
         HONKING,
         HONKING_BUSTED,
+    }
+
+    public enum StreamingDirection
+    {
+        UpStream,
+        DownStream,
     }
 }
 

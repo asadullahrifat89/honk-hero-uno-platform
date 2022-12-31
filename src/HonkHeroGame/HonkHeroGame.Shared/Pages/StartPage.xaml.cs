@@ -26,7 +26,7 @@ namespace HonkHeroGame
 
         private int _markNum;
 
-        private Uri[] _vehicles;
+        private Uri[] _vehiclesUpStreams;
         private Uri[] _collectibles;
 
         private readonly IBackendService _backendService;
@@ -342,7 +342,7 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
+            _vehiclesUpStreams = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPSTREAM).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
@@ -443,8 +443,8 @@ namespace HonkHeroGame
 
         private void RecyleVehicle(Vehicle vehicle)
         {
-            _markNum = _random.Next(0, _vehicles.Length);
-            vehicle.SetContent(_vehicles[_markNum]);
+            _markNum = _random.Next(0, _vehiclesUpStreams.Length);
+            vehicle.SetContent(_vehiclesUpStreams[_markNum]);
             RandomizeVehiclePosition(vehicle);
         }
 
