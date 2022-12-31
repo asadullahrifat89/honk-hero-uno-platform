@@ -1028,11 +1028,6 @@ namespace HonkHeroGame
             RandomizeVehiclePosition(vehicle);
         }
 
-        private double RandomizeVehicleSpeed()
-        {
-            return _gameSpeed + _random.Next(0, _windowWidth > _windowHeight ? 5 : 3);
-        }
-
         private void RandomizeVehiclePosition(Vehicle vehicle)
         {
             var one4thHeight = GameView.Height / 4;
@@ -1106,6 +1101,14 @@ namespace HonkHeroGame
             if (_player is not null && _player.GetZ() <= _maxVehicleZ)
                 _player.SetZ(_maxVehicleZ + 1);
 
+        }
+
+        private double RandomizeVehicleSpeed()
+        {
+            if (_windowWidth > _windowHeight)
+                return _gameSpeed + _random.Next(1, 5);
+            else
+                return _gameSpeed + _random.Next(0, 3);
         }
 
         #endregion
