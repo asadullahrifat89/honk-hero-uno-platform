@@ -2,7 +2,7 @@
 {
     public class Honk : GameObject
     {
-        public Honk(double scale, double speed)
+        public Honk(double scale, double speed, StreamingDirection streamingDirection = StreamingDirection.UpStream)
         {
             Tag = ElementType.HONK;
 
@@ -10,7 +10,10 @@
             Width = Constants.HONK_SIZE * scale;
 
             Speed = speed;
+            StreamingDirection = streamingDirection;
         }
+
+        public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpStream;
     }
 }
 

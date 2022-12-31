@@ -126,11 +126,11 @@ namespace HonkHeroGame
         Down,
     }
 
-    //public enum MovementDirectionY
-    //{
-    //    Up,
-    //    Down,
-    //}
+    public enum MovementDirectionY
+    {
+        Up,
+        Down,
+    }
 
     public enum MovementDirectionX
     {

@@ -28,7 +28,8 @@ namespace HonkHeroGame
 
         private int _markNum;
 
-        private Uri[] _vehicles;
+        private Uri[] _vehiclesUpStreams;
+        private Uri[] _vehiclesDownStreams;
         private Uri[] _honks;
         private Uri[] _collectibles;
         private Uri[] _powerUps;
@@ -80,6 +81,8 @@ namespace HonkHeroGame
         private int _inGameMessageCoolDownCounter = 0;
         private readonly int _inGameMessageCoolDownCounterDefault = 125;
         private readonly int _slowMotionFactor = 10;
+
+        private int _maxVehicleZ;
 
         #endregion
 
@@ -159,8 +162,7 @@ namespace HonkHeroGame
                     _pointerPosition = point.Position;
                     _attackPosition = point.Position;
 
-                    if (!InGameMessageIsVisible)
-                        PlayerAttack();
+                    PlayerAttack();
                 }
             }
         }
@@ -208,7 +210,9 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _vehicles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE).Select(x => x.Value).ToArray();
+            _vehiclesUpStreams = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPSTREAM).Select(x => x.Value).ToArray();
+            _vehiclesDownStreams = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_DOWNSTREAM).Select(x => x.Value).ToArray();
+
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
             _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
@@ -227,13 +231,8 @@ namespace HonkHeroGame
 
         private void PopulateGameView()
         {
-            // add some vehicles
-            for (double i = 0; i < 16 * _scale; i++)
-                SpawnVehicle();
-
-            // add some collectibles
-            for (double i = 0; i < 7 * _scale; i++)
-                SpawnCollectible();
+            SpawnVehicles();
+            SpawnCollectibles();
         }
 
         private void StartGame()
@@ -396,7 +395,7 @@ namespace HonkHeroGame
                         UpdatePlayer();
                         break;
                     case ElementType.HONK:
-                        UpdateHonk(x);
+                        UpdateHonk(x as Honk);
                         break;
                     case ElementType.COLLECTIBLE:
                         UpdateCollectible(x);
@@ -626,17 +625,35 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
-            Honk honk = new(scale: _scale, speed: vehicle.Speed * 1.5);
+            Honk honk = new(
+                scale: _scale,
+                speed: vehicle.Speed * 1.5,
+                streamingDirection: vehicle.StreamingDirection);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
             _markNum = _random.Next(0, _honks.Length);
             honk.SetContent(_honks[_markNum]);
 
-            honk.SetLeft(vehicleCloseHitBox.Left - vehicle.Width / 2);
-            honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
+            switch (honk.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        honk.SetLeft(vehicleCloseHitBox.Left - vehicle.Width / 2);
+                        honk.SetTop(vehicleCloseHitBox.Top - (25 * _scale));
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        honk.SetLeft(vehicleCloseHitBox.Right - vehicle.Width / 2);
+                        honk.SetTop(vehicleCloseHitBox.Bottom - (50 * _scale));
+                    }
+                    break;
+                default:
+                    break;
+            }
 
-            honk.SetRotation(_random.Next(-30, 45));
+            honk.SetRotation(_random.Next(-30, 30));
             honk.SetZ(vehicle.GetZ() + 1);
 
             GameView.Children.Add(honk);
@@ -650,7 +667,7 @@ namespace HonkHeroGame
                 LooseHealth();
         }
 
-        private void UpdateHonk(GameObject honk)
+        private void UpdateHonk(Honk honk)
         {
             MoveHonk(honk);
 
@@ -660,12 +677,27 @@ namespace HonkHeroGame
                 GameView.AddDestroyableGameObject(honk);
         }
 
-        private void MoveHonk(GameObject honk)
+        private void MoveHonk(Honk honk)
         {
             var honkSpeed = InGameMessageIsVisible ? honk.Speed / _slowMotionFactor : honk.Speed;
 
-            honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
-            honk.SetLeft(honk.GetLeft() - honkSpeed);
+            switch (honk.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
+                        honk.SetLeft(honk.GetLeft() - honkSpeed);
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        honk.SetTop(honk.GetTop() + honkSpeed * 0.5);
+                        honk.SetLeft(honk.GetLeft() + honkSpeed);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private bool WaitForHonk(Vehicle vehicle)
@@ -674,8 +706,27 @@ namespace HonkHeroGame
             {
                 var vehicleHitBox = vehicle.GetHitBox();
 
-                if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < (_windowWidth > _windowHeight ? _windowWidth * 1.1 : _windowWidth * 2))
-                    return vehicle.WaitForHonk(_gameLevel);
+                var honkingWidth = _windowWidth > _windowHeight ? _windowWidth * 1.1 : _windowWidth * 2;
+
+                switch (vehicle.StreamingDirection)
+                {
+                    case StreamingDirection.UpStream:
+                        {
+                            if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Left < honkingWidth)
+                                return vehicle.WaitForHonk(_gameLevel);
+                        }
+                        break;
+                    case StreamingDirection.DownStream:
+                        {
+                            //TODO: fix downstreaming honk wait
+
+                            if (vehicleHitBox.Left > 0 - honkingWidth && vehicleHitBox.Right < _windowWidth)
+                                return vehicle.WaitForHonk(_gameLevel);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
             return false;
@@ -749,15 +800,25 @@ namespace HonkHeroGame
 
         #region Vehicle
 
-        private void SpawnVehicle()
+        private void SpawnVehicles()
         {
-            var speed = _gameSpeed + _random.Next(0, 3);
+            for (double i = 0; i < 8 * _scale; i++)
+                SpawnVehicle(StreamingDirection.UpStream);
+
+            for (double i = 0; i < 8 * _scale; i++)
+                SpawnVehicle(StreamingDirection.DownStream);
+        }
+
+        private void SpawnVehicle(StreamingDirection streamingDirection)
+        {
+            var speed = RandomizeVehicleSpeed();
 
             Vehicle vehicle = new(
                 scale: _scale,
                 speed: speed,
                 gameLevel: _gameLevel,
-                honkTemplatesCount: _honkTemplatesCount);
+                honkTemplatesCount: _honkTemplatesCount,
+                streamingDirection: streamingDirection);
 
             GameView.Children.Add(vehicle);
         }
@@ -769,129 +830,260 @@ namespace HonkHeroGame
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
-            if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
+            if (IsHonkBusted(vehicle))
+                UpdateSticker(vehicle);
+
+            if (CanBustHonk(vehicle: vehicle, vehicleCloseHitBox: vehicleCloseHitBox))
+                BustHonk(vehicle);
+
+            if (WaitForHonk(vehicle))
+                SpawnHonk(vehicle);
+
+            switch (vehicle.StreamingDirection)
             {
-                RecyleVehicle(vehicle);
+                case StreamingDirection.UpStream:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
+                            && xHitBox.IntersectsWith(vehicleCloseHitBox)
+                            && vehicle.GetZ() >= x.GetZ()
+                            && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
+                        {
+                            vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                        }
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
+                           && xHitBox.IntersectsWith(vehicleCloseHitBox)
+                           && vehicle.GetZ() <= x.GetZ()
+                           && vehicleCloseHitBox.Bottom > xHitBox.Bottom) is Vehicle underneathVehicle)
+                        {
+                            vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
+            {
+                if (vehicle.Speed > collidingVehicle.Speed)
+                {
+                    vehicle.Speed = collidingVehicle.Speed;
+
+                    MoveVehicle(collidingVehicle);
+                }
+                else if (collidingVehicle.Speed > vehicle.Speed)
+                {
+                    collidingVehicle.Speed = vehicle.Speed;
+
+                    MoveVehicle(vehicle);
+                }
+                else if (collidingVehicle.Speed == vehicle.Speed)
+                {
+                    switch (vehicle.StreamingDirection)
+                    {
+                        case StreamingDirection.UpStream:
+                            {
+
+                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                    MoveVehicle(collidingVehicle);
+                                else
+                                    MoveVehicle(vehicle);
+                            }
+                            break;
+                        case StreamingDirection.DownStream:
+                            {
+                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                    MoveVehicle(vehicle);
+                                else
+                                    MoveVehicle(collidingVehicle);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             else
             {
-                if (IsHonkBusted(vehicle))
-                    UpdateSticker(vehicle);
+                MoveVehicle(vehicle);
+            }
 
-                if (CanBustHonk(vehicle: vehicle, vehicleCloseHitBox: vehicleCloseHitBox))
-                    BustHonk(vehicle);
-
-                if (WaitForHonk(vehicle))
-                    SpawnHonk(vehicle);
-
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetDistantHitBox() is Rect xHitBox
-                    && xHitBox.IntersectsWith(vehicleCloseHitBox)
-                    && vehicle.GetZ() >= x.GetZ()
-                    && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
-                {
-                    vehicle.SetZ(underneathVehicle.GetZ() - 1);
-                }
-
-                if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
-                {
-                    if (vehicle.Speed > collidingVehicle.Speed)
+            // recycle vehicle according to streaming direction
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
                     {
-                        vehicle.Speed = collidingVehicle.Speed;
-
-                        MoveVehicle(collidingVehicle);
+                        if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
+                            RecyleVehicle(vehicle);
                     }
-                    else if (collidingVehicle.Speed > vehicle.Speed)
+                    break;
+                case StreamingDirection.DownStream:
                     {
-                        collidingVehicle.Speed = vehicle.Speed;
-
-                        MoveVehicle(vehicle);
+                        if (vehicleCloseHitBox.Top > _windowHeight || vehicleCloseHitBox.Left > _windowWidth)
+                            RecyleVehicle(vehicle);
                     }
-                    else if (collidingVehicle.Speed == vehicle.Speed)
-                    {
-                        if (vehicle.GetZ() > collidingVehicle.GetZ())
-                            MoveVehicle(collidingVehicle);
-                        else
-                            MoveVehicle(vehicle);
-                    }
-                }
-                else
-                {
-                    MoveVehicle(vehicle);
-                }
+                    break;
+                default:
+                    break;
             }
         }
 
-        private void MoveVehicle(Vehicle vehicle, int DivideSpeedBy = 1)
+        private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
         {
             var vehicleSpeed = InGameMessageIsVisible ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
 
-            if (vehicle.GetLeft() < _windowWidth)
-                vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / DivideSpeedBy);
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        if (vehicle.GetLeft() < _windowWidth)
+                            vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / divideSpeedBy);
 
-            vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / DivideSpeedBy);
+                        vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / divideSpeedBy);
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        if (vehicle.GetLeft() + vehicle.Width > 0)
+                            vehicle.SetTop(vehicle.GetTop() + (vehicleSpeed * 0.5) / divideSpeedBy);
+
+                        vehicle.SetLeft(vehicle.GetLeft() + vehicleSpeed / divideSpeedBy);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void RecyleVehicle(Vehicle vehicle)
         {
-            _markNum = _random.Next(0, _vehicles.Length);
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        _markNum = _random.Next(0, _vehiclesUpStreams.Length);
+                        vehicle.SetContent(_vehiclesUpStreams[_markNum]);
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        _markNum = _random.Next(0, _vehiclesDownStreams.Length);
+                        vehicle.SetContent(_vehiclesDownStreams[_markNum]);
+                    }
+                    break;
+                default:
+                    break;
+            }
 
-            vehicle.SetContent(_vehicles[_markNum]);
-            vehicle.Speed = _gameSpeed + _random.Next(1, 4);
+            vehicle.Speed = RandomizeVehicleSpeed();
 
             // loose health if a honking car escapes view without getting tagged with a sticker
             if (vehicle.HonkState == HonkState.HONKING)
                 LooseHealth();
 
-            vehicle.ResetHonking(gameLevel: _gameLevel, honkTemplatesCount: _honkTemplatesCount);
+            vehicle.ResetHonking(
+                gameLevel: _gameLevel,
+                honkTemplatesCount: _honkTemplatesCount);
+
             RandomizeVehiclePosition(vehicle);
         }
 
-        private void RandomizeVehiclePosition(GameObject vehicle)
+        private double RandomizeVehicleSpeed()
+        {
+            return _gameSpeed + _random.Next(0, _windowWidth > _windowHeight ? 5 : 3);
+        }
+
+        private void RandomizeVehiclePosition(Vehicle vehicle)
         {
             var one4thHeight = GameView.Height / 4;
+            var halfHeight = GameView.Height / 2;
 
-            var left = _random.Next(
-                minValue: (int)GameView.Width,
-                maxValue: (int)GameView.Width * _random.Next(1, 4));
+            double left = 0;
+            double top = 0;
 
-            //var top = _random.Next(
-            //    minValue: (int)(one4thHeight + vehicle.Height),
-            //    maxValue: (int)(GameView.Height - vehicle.Height + (GameView.Width > GameView.Height ? (int)(one4thHeight) : 0)));
-
-            double top;
-
-            if (GameView.Height > GameView.Width)
+            switch (vehicle.StreamingDirection)
             {
-                top = _random.Next(
-                    minValue: (int)(one4thHeight),
-                    maxValue: (int)(GameView.Height - vehicle.Height));
-            }
-            else
-            {
-                top = _random.Next(
-                    minValue: (int)(one4thHeight + vehicle.Height),
-                    maxValue: (int)(GameView.Height - vehicle.Height + (int)(one4thHeight)));
-            }
+                case StreamingDirection.UpStream:
+                    {
+                        left = _random.Next(
+                            minValue: (int)GameView.Width,
+                            maxValue: (int)GameView.Width * _random.Next(1, 4));
 
-            vehicle.SetPosition(
-            left: left,
-            top: top);
+                        // portrait
+                        if (GameView.Height > GameView.Width)
+                        {
+                            top = _random.Next(
+                                minValue: (int)(one4thHeight - vehicle.Height),
+                                maxValue: (int)(halfHeight));
+                        }
+                        else // landscape
+                        {
+                            top = _random.Next(
+                                minValue: (int)(one4thHeight + vehicle.Height),
+                                maxValue: (int)(halfHeight + one4thHeight));
+                        }
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        left = _random.Next(
+                           minValue: (int)(GameView.Width * _random.Next(1, 4)) * -1,
+                           maxValue: 0);
+
+                        // portrait
+                        if (GameView.Height > GameView.Width)
+                        {
+                            top = _random.Next(
+                                minValue: (int)(halfHeight - one4thHeight),
+                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
+                        }
+                        else // landscape
+                        {
+                            top = _random.Next(
+                                minValue: (int)(halfHeight - (vehicle.Height * 2) - one4thHeight),
+                                maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             if (top >= _lastVehiclePoint.Y)
                 vehicle.SetZ(_lastVehiclePoint.Z + 1);
             else
                 vehicle.SetZ(_lastVehiclePoint.Z - 1);
 
-            _lastVehiclePoint = (vehicle.GetZ(), top);
+            vehicle.SetPosition(
+                left: left,
+                top: top);
 
-            // always keep player on top
-            if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
-                _player.SetZ(_lastVehiclePoint.Z + 1);
+            _maxVehicleZ = GameView.Children.OfType<Vehicle>().Max(x => x.GetZ());
+
+            if (_player is not null && _player.GetZ() <= _maxVehicleZ)
+                _player.SetZ(_maxVehicleZ + 1);
+
+            //_lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
+
+            //// always keep player on top
+            //if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
+            //    _player.SetZ(_lastVehiclePoint.Z + 1);
         }
 
         #endregion
 
         #region Collectible
+
+        private void SpawnCollectibles()
+        {
+            // add some collectibles
+            for (double i = 0; i < 7 * _scale; i++)
+                SpawnCollectible();
+        }
 
         private void SpawnCollectible()
         {
@@ -958,6 +1150,8 @@ namespace HonkHeroGame
             collectible.SetPosition(
                 left: _random.Next((int)collectible.Width, (int)(GameView.Width - collectible.Width)),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
+
+            collectible.SetZ(_maxVehicleZ + 1);
         }
 
         private void Collectible()
@@ -1241,7 +1435,7 @@ namespace HonkHeroGame
                 }
             }
 
-            var applicableWidth = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.5;
+            var applicableWidth = _windowWidth > _windowHeight ? (_windowWidth / 2) * 1.1 : _windowWidth * 1.45;
 
             RoadSideLeftImage.Width = applicableWidth;
             RoadSideLeftImage.Height = _windowHeight;
