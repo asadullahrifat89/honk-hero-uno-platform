@@ -846,14 +846,31 @@ namespace HonkHeroGame
 
         }
 
-        private void MoveVehicle(Vehicle vehicle, int DivideSpeedBy = 1)
+        private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
         {
             var vehicleSpeed = InGameMessageIsVisible ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
 
-            if (vehicle.GetLeft() < _windowWidth)
-                vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / DivideSpeedBy);
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpStream:
+                    {
+                        if (vehicle.GetLeft() < _windowWidth)
+                            vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / divideSpeedBy);
 
-            vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / DivideSpeedBy);
+                        vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / divideSpeedBy);
+                    }
+                    break;
+                case StreamingDirection.DownStream:
+                    {
+                        if (vehicle.GetLeft() + vehicle.Width > 0)
+                            vehicle.SetTop(vehicle.GetTop() + (vehicleSpeed * 0.5) / divideSpeedBy);
+
+                        vehicle.SetLeft(vehicle.GetLeft() + vehicleSpeed / divideSpeedBy);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void RecyleVehicle(Vehicle vehicle)
@@ -892,6 +909,7 @@ namespace HonkHeroGame
         private void RandomizeVehiclePosition(Vehicle vehicle)
         {
             var one4thHeight = GameView.Height / 4;
+            var halfHeight = GameView.Height / 2;
 
             double left = 0;
             double top = 0;
@@ -908,33 +926,48 @@ namespace HonkHeroGame
                         {
                             top = _random.Next(
                                 minValue: (int)(one4thHeight),
-                                maxValue: (int)(GameView.Height - vehicle.Height));
+                                maxValue: (int)(halfHeight - vehicle.Height));
                         }
                         else
                         {
                             top = _random.Next(
                                 minValue: (int)(one4thHeight + vehicle.Height),
-                                maxValue: (int)(GameView.Height - vehicle.Height + (int)(one4thHeight)));
+                                maxValue: (int)(halfHeight - vehicle.Height + (int)(one4thHeight)));
                         }
-
-                        if (top >= _lastVehiclePoint.Y)
-                            vehicle.SetZ(_lastVehiclePoint.Z + 1);
-                        else
-                            vehicle.SetZ(_lastVehiclePoint.Z - 1);
                     }
                     break;
                 case StreamingDirection.DownStream:
                     {
+                        left = _random.Next(
+                           minValue: (int)(GameView.Width * _random.Next(1, 4)) * -1,
+                           maxValue: 0);
 
+                        if (GameView.Height > GameView.Width)
+                        {
+                            top = _random.Next(
+                                minValue: (int)(halfHeight),
+                                maxValue: (int)(GameView.Height - vehicle.Height));
+                        }
+                        else
+                        {
+                            top = _random.Next(
+                                minValue: (int)(halfHeight + vehicle.Height),
+                                maxValue: (int)(GameView.Height - vehicle.Height + (int)(one4thHeight)));
+                        }
                     }
                     break;
                 default:
                     break;
             }
 
+            if (top >= _lastVehiclePoint.Y)
+                vehicle.SetZ(_lastVehiclePoint.Z + 1);
+            else
+                vehicle.SetZ(_lastVehiclePoint.Z - 1);
+
             vehicle.SetPosition(
                 left: left,
-                top: top);          
+                top: top);
 
             _lastVehiclePoint = (vehicle.GetZ(), top);
 
