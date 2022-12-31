@@ -799,7 +799,7 @@ namespace HonkHeroGame
 
             var stickerHitBox = sticker.GetHitBox();
 
-            if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0)
+            if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0 || stickerHitBox.Top > _windowHeight || stickerHitBox.Left > _windowWidth)
                 GameView.AddDestroyableGameObject(sticker);
         }
 
@@ -929,15 +929,15 @@ namespace HonkHeroGame
 
         private void CalibrateAndSetVehicleZ(Vehicle vehicle)
         {
-            var vehicleHitBox = vehicle.GetHitBox();
+            var vehicleDistantHitBox = vehicle.GetDistantHitBox();
 
             switch (vehicle.StreamingDirection)
             {
                 case StreamingDirection.UpWard:
                     {
-                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect xHitBox
-                            && xHitBox.IntersectsWith(vehicleHitBox)
-                            && vehicleHitBox.Bottom > xHitBox.Bottom
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                            && x_DistantHitBox.IntersectsWith(vehicleDistantHitBox)
+                            && vehicleDistantHitBox.Bottom > x_DistantHitBox.Bottom
                             && vehicle.GetZ() <= x.GetZ()) is Vehicle underneathVehicle)
                         {
                             vehicle.SetZ(underneathVehicle.GetZ() + 1);
@@ -946,17 +946,17 @@ namespace HonkHeroGame
                     break;
                 case StreamingDirection.DownWard:
                     {
-                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect xHitBox
-                           && xHitBox.IntersectsWith(vehicleHitBox)
-                           && vehicleHitBox.Bottom > xHitBox.Bottom
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                           && x_DistantHitBox.IntersectsWith(vehicleDistantHitBox)
+                           && vehicleDistantHitBox.Bottom > x_DistantHitBox.Bottom
                            && vehicle.GetZ() <= x.GetZ()) is Vehicle aboveVehicle)
                         {
                             vehicle.SetZ(aboveVehicle.GetZ() + 1);
                         }
 
-                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect xHitBox
-                          && xHitBox.IntersectsWith(vehicleHitBox)
-                          && vehicleHitBox.Bottom < xHitBox.Bottom
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                          && x_DistantHitBox.IntersectsWith(vehicleDistantHitBox)
+                          && vehicleDistantHitBox.Bottom < x_DistantHitBox.Bottom
                           && vehicle.GetZ() >= x.GetZ()) is Vehicle belowVehicle)
                         {
                             vehicle.SetZ(belowVehicle.GetZ() - 1);
@@ -1026,11 +1026,6 @@ namespace HonkHeroGame
                 honkTemplatesCount: _honkTemplatesCount);
 
             RandomizeVehiclePosition(vehicle);
-        }
-
-        private double RandomizeVehicleSpeed()
-        {
-            return _gameSpeed + _random.Next(0, _windowWidth > _windowHeight ? 5 : 3);
         }
 
         private void RandomizeVehiclePosition(Vehicle vehicle)
@@ -1106,6 +1101,14 @@ namespace HonkHeroGame
             if (_player is not null && _player.GetZ() <= _maxVehicleZ)
                 _player.SetZ(_maxVehicleZ + 1);
 
+        }
+
+        private double RandomizeVehicleSpeed()
+        {
+            if (_windowWidth > _windowHeight)
+                return _gameSpeed + _random.Next(1, 5);
+            else
+                return _gameSpeed + _random.Next(0, 3);
         }
 
         #endregion

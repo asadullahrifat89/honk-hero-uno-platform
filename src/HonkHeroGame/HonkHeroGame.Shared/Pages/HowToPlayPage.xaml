@@ -130,20 +130,20 @@
                     <StackPanel Margin="10" VerticalAlignment="Center">
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Image
-                                Width="90"
+                                Width="85"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/vehicle1.png" />
+                                Source="ms-appx:///Assets/Images/vehicle15_up.png" />
                             <Image
-                                Width="90"
+                                Width="85"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/vehicle2.png" />
+                                Source="ms-appx:///Assets/Images/vehicle17_down.png" />
                             <Image
-                                Width="90"
+                                Width="85"
                                 Height="150"
                                 Margin="5"
-                                Source="ms-appx:///Assets/Images/vehicle3.png" />
+                                Source="ms-appx:///Assets/Images/vehicle16_up.png" />
                         </StackPanel>
                         <TextBlock
                             x:Name="VehiclesInstructionsHeader"
