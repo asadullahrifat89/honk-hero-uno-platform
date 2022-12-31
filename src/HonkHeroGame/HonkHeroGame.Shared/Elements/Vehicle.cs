@@ -44,7 +44,7 @@ namespace HonkHeroGame
             double speed,
             int gameLevel,
             int honkTemplatesCount,
-            StreamingDirection streamingDirection = StreamingDirection.UpStream)
+            StreamingDirection streamingDirection = StreamingDirection.UpWard)
         {
             Tag = ElementType.VEHICLE;
 
@@ -88,7 +88,7 @@ namespace HonkHeroGame
 
         //public double HitPoints { get; set; } = 100;
 
-        public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpStream;
+        public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace HonkHeroGame
         private int SetHonkCounter(int gameLevel)
         {
             var halfGameLevel = gameLevel / 2;
-            return _random.Next(50 - (int)Math.Floor(0.2 * halfGameLevel), 120 - (int)Math.Floor(0.4 * halfGameLevel));
+            return _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 125 - (int)Math.Floor(0.4 * halfGameLevel));
         }
 
         private void SetHonkIndex(int honkTemplatesCount)
@@ -207,8 +207,8 @@ namespace HonkHeroGame
 
     public enum StreamingDirection
     {
-        UpStream,
-        DownStream,
+        UpWard,
+        DownWard,
     }
 }
 

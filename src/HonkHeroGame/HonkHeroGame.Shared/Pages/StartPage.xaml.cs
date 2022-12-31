@@ -342,7 +342,7 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _vehiclesUpStreams = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPSTREAM).Select(x => x.Value).ToArray();
+            _vehiclesUpStreams = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPWARD).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
         }
 
