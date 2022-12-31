@@ -109,6 +109,8 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song6.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song7.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song8.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song9.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.SONG, "Assets/Sounds/song10.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.AMBIENCE, "Assets/Sounds/ambience2.mp3"),

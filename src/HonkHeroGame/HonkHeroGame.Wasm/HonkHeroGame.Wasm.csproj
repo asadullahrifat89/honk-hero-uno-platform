@@ -28,7 +28,7 @@
 		<!--<WasmShellMonoRuntimeExecutionMode>Interpreter</WasmShellMonoRuntimeExecutionMode>-->
 
 		<!--PWA-->
-		<!--<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>-->
+		<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.png" />
