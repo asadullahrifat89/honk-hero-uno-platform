@@ -1041,7 +1041,7 @@ namespace HonkHeroGame
                                 minValue: (int)(one4thHeight - vehicle.Height),
                                 maxValue: (int)(halfHeight));
 
-                            top += one4thHeight;
+                            top += one4thHeight + vehicle.Height;
                         }
                         else // landscape
                         {
@@ -1066,7 +1066,7 @@ namespace HonkHeroGame
                                 minValue: (int)(halfHeight - one4thHeight),
                                 maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
 
-                            top -= (one4thHeight + (50 * _scale));
+                            top -= (one4thHeight + vehicle.Height);
                         }
                         else // landscape
                         {
