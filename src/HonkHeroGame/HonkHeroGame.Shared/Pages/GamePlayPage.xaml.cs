@@ -811,7 +811,7 @@ namespace HonkHeroGame
 
         private void SpawnVehicle(StreamingDirection streamingDirection)
         {
-            var speed = _gameSpeed + _random.Next(0, 3);
+            var speed = RandomizeVehicleSpeed();
 
             Vehicle vehicle = new(
                 scale: _scale,
@@ -979,7 +979,7 @@ namespace HonkHeroGame
                     break;
             }
 
-            vehicle.Speed = _gameSpeed + _random.Next(1, 4);
+            vehicle.Speed = RandomizeVehicleSpeed();
 
             // loose health if a honking car escapes view without getting tagged with a sticker
             if (vehicle.HonkState == HonkState.HONKING)
@@ -990,6 +990,11 @@ namespace HonkHeroGame
                 honkTemplatesCount: _honkTemplatesCount);
 
             RandomizeVehiclePosition(vehicle);
+        }
+
+        private double RandomizeVehicleSpeed()
+        {
+            return _gameSpeed + _random.Next(0, _windowWidth > _windowHeight ? 5 : 3);
         }
 
         private void RandomizeVehiclePosition(Vehicle vehicle)
@@ -1034,7 +1039,7 @@ namespace HonkHeroGame
                         {
                             top = _random.Next(
                                 minValue: (int)(halfHeight - one4thHeight),
-                                maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
+                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
                         }
                         else // landscape
                         {
