@@ -23,8 +23,8 @@ namespace HonkHeroGame
         private double _windowHeight, _windowWidth;
         private double _scale;
 
-        private double _gameSpeed = 1.3;
-        private readonly double _gameSpeedDefault = 1.3;
+        private double _gameSpeed;
+        private readonly double _gameSpeedDefault = 1.5;
 
         private int _markNum;
 
@@ -848,7 +848,17 @@ namespace HonkHeroGame
                             && vehicle.GetZ() >= x.GetZ()
                             && vehicleCloseHitBox.Bottom < xHitBox.Bottom) is Vehicle underneathVehicle)
                         {
-                            vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                            switch (underneathVehicle.StreamingDirection)
+                            {
+                                case StreamingDirection.UpStream:
+                                    vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                                    break;
+                                case StreamingDirection.DownStream:
+                                    vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     break;
@@ -859,7 +869,17 @@ namespace HonkHeroGame
                            && vehicle.GetZ() <= x.GetZ()
                            && vehicleCloseHitBox.Bottom > xHitBox.Bottom) is Vehicle underneathVehicle)
                         {
-                            vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                            switch (underneathVehicle.StreamingDirection)
+                            {
+                                case StreamingDirection.UpStream:
+                                    vehicle.SetZ(underneathVehicle.GetZ() - 1);
+                                    break;
+                                case StreamingDirection.DownStream:
+                                    vehicle.SetZ(underneathVehicle.GetZ() + 1);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     break;
@@ -887,7 +907,6 @@ namespace HonkHeroGame
                     {
                         case StreamingDirection.UpStream:
                             {
-
                                 if (vehicle.GetZ() > collidingVehicle.GetZ())
                                     MoveVehicle(collidingVehicle);
                                 else
@@ -1011,7 +1030,7 @@ namespace HonkHeroGame
                     {
                         left = _random.Next(
                             minValue: (int)GameView.Width,
-                            maxValue: (int)GameView.Width * _random.Next(1, 4));
+                            maxValue: (int)GameView.Width * _random.Next(1, 3));
 
                         // portrait
                         if (GameView.Height > GameView.Width)
@@ -1026,12 +1045,14 @@ namespace HonkHeroGame
                                 minValue: (int)(one4thHeight + vehicle.Height),
                                 maxValue: (int)(halfHeight + one4thHeight));
                         }
+
+                        top += halfHeight;
                     }
                     break;
                 case StreamingDirection.DownStream:
                     {
                         left = _random.Next(
-                           minValue: (int)(GameView.Width * _random.Next(1, 4)) * -1,
+                           minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1,
                            maxValue: 0);
 
                         // portrait
@@ -1047,6 +1068,8 @@ namespace HonkHeroGame
                                 minValue: (int)(halfHeight - (vehicle.Height * 2) - one4thHeight),
                                 maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
                         }
+
+                        top -= halfHeight;
                     }
                     break;
                 default:
@@ -1067,7 +1090,7 @@ namespace HonkHeroGame
             if (_player is not null && _player.GetZ() <= _maxVehicleZ)
                 _player.SetZ(_maxVehicleZ + 1);
 
-            //_lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
+            _lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
 
             //// always keep player on top
             //if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
