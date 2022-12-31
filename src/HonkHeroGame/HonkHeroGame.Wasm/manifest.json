@@ -33,5 +33,5 @@
   "short_name": "Honk Hero",
   "start_url": "/honk-hero-uno-platform/index.html",
   "theme_color": "#111111",
-  "scope": "/honk-hero-uno-platform/index.html"
+  "scope": "/honk-hero-uno-platform/"
 }
