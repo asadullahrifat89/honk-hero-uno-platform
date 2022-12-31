@@ -1017,8 +1017,8 @@ namespace HonkHeroGame
                         if (GameView.Height > GameView.Width)
                         {
                             top = _random.Next(
-                                minValue: (int)(one4thHeight),
-                                maxValue: (int)(halfHeight - vehicle.Height));
+                                minValue: (int)(one4thHeight - vehicle.Height),
+                                maxValue: (int)(halfHeight));
                         }
                         else // landscape
                         {
