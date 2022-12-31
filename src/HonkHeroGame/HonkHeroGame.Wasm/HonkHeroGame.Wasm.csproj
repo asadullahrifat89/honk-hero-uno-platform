@@ -82,5 +82,10 @@
 		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.11" />
 		<PackageReference Include="Uno.WinUI.Lottie" Version="4.6.39" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="manifest.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 	<Import Project="..\HonkHeroGame.Shared\HonkHeroGame.Shared.projitems" Label="Shared" Condition="Exists('..\HonkHeroGame.Shared\HonkHeroGame.Shared.projitems')" />	
 </Project>
