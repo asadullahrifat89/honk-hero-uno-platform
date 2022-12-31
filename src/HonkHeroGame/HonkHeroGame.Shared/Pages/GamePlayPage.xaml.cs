@@ -717,7 +717,7 @@ namespace HonkHeroGame
                         break;
                     case StreamingDirection.DownStream:
                         {
-                            if (vehicleHitBox.Left > 0 && vehicleHitBox.Top > 0 && vehicleHitBox.Right < honkingWidth)
+                            if (vehicleHitBox.Left > honkingWidth * -1 && vehicleHitBox.Right < _windowWidth)
                                 return vehicle.WaitForHonk(_gameLevel);
                         }
                         break;
