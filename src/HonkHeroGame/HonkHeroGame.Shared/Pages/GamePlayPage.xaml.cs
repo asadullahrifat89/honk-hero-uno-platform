@@ -82,6 +82,8 @@ namespace HonkHeroGame
         private readonly int _inGameMessageCoolDownCounterDefault = 125;
         private readonly int _slowMotionFactor = 10;
 
+        private int _maxVehicleZ;
+
         #endregion
 
         #region Properties
@@ -160,8 +162,7 @@ namespace HonkHeroGame
                     _pointerPosition = point.Position;
                     _attackPosition = point.Position;
 
-                    if (!InGameMessageIsVisible)
-                        PlayerAttack();
+                    PlayerAttack();
                 }
             }
         }
@@ -652,7 +653,7 @@ namespace HonkHeroGame
                     break;
             }
 
-            honk.SetRotation(_random.Next(-30, 45));
+            honk.SetRotation(_random.Next(-30, 30));
             honk.SetZ(vehicle.GetZ() + 1);
 
             GameView.Children.Add(honk);
@@ -717,7 +718,9 @@ namespace HonkHeroGame
                         break;
                     case StreamingDirection.DownStream:
                         {
-                            if (vehicleHitBox.Left > honkingWidth * -1 && vehicleHitBox.Right < _windowWidth)
+                            //TODO: fix downstreaming honk wait
+
+                            if (vehicleHitBox.Left > 0 - honkingWidth && vehicleHitBox.Right < _windowWidth)
                                 return vehicle.WaitForHonk(_gameLevel);
                         }
                         break;
@@ -1022,8 +1025,6 @@ namespace HonkHeroGame
                     break;
                 case StreamingDirection.DownStream:
                     {
-                        //TODO: fix down streaming car position
-
                         left = _random.Next(
                            minValue: (int)(GameView.Width * _random.Next(1, 4)) * -1,
                            maxValue: 0);
@@ -1038,7 +1039,7 @@ namespace HonkHeroGame
                         else // landscape
                         {
                             top = _random.Next(
-                                minValue: (int)(halfHeight - vehicle.Height - one4thHeight),
+                                minValue: (int)(halfHeight - (vehicle.Height * 2) - one4thHeight),
                                 maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
                         }
                     }
@@ -1056,11 +1057,16 @@ namespace HonkHeroGame
                 left: left,
                 top: top);
 
-            _lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
+            _maxVehicleZ = GameView.Children.OfType<Vehicle>().Max(x => x.GetZ());
 
-            // always keep player on top
-            if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
-                _player.SetZ(_lastVehiclePoint.Z + 1);
+            if (_player is not null && _player.GetZ() <= _maxVehicleZ)
+                _player.SetZ(_maxVehicleZ + 1);
+
+            //_lastVehiclePoint = (Z: vehicle.GetZ(), Y: top);
+
+            //// always keep player on top
+            //if (_player is not null && _player.GetZ() < _lastVehiclePoint.Z + 1)
+            //    _player.SetZ(_lastVehiclePoint.Z + 1);
         }
 
         #endregion
@@ -1139,6 +1145,8 @@ namespace HonkHeroGame
             collectible.SetPosition(
                 left: _random.Next((int)collectible.Width, (int)(GameView.Width - collectible.Width)),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
+
+            collectible.SetZ(_maxVehicleZ + 1);
         }
 
         private void Collectible()
