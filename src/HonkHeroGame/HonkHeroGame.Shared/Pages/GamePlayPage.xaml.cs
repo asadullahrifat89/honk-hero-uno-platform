@@ -1422,7 +1422,7 @@ namespace HonkHeroGame
                 }
             }
 
-            var applicableWidth = _windowWidth > _windowHeight ? _windowWidth / 2 : _windowWidth * 1.4;
+            var applicableWidth = _windowWidth > _windowHeight ? (_windowWidth / 2) * 1.1 : _windowWidth * 1.45;
 
             RoadSideLeftImage.Width = applicableWidth;
             RoadSideLeftImage.Height = _windowHeight;
