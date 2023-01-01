@@ -935,7 +935,7 @@ namespace HonkHeroGame
         {
             Honk honk = new(
                 scale: _scale,
-                speed: vehicle.Speed * 1.5,
+                speed: vehicle.Speed * 1.3,
                 streamingDirection: vehicle.StreamingDirection);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
