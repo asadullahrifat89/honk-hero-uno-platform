@@ -935,7 +935,7 @@ namespace HonkHeroGame
         {
             Honk honk = new(
                 scale: _scale,
-                speed: vehicle.Speed * 1.3,
+                speed: vehicle.Speed * 1.4,
                 streamingDirection: vehicle.StreamingDirection);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
@@ -954,7 +954,7 @@ namespace HonkHeroGame
                 case StreamingDirection.DownWard:
                     {
                         honk.SetLeft(vehicleCloseHitBox.Right - vehicle.Width / 2);
-                        honk.SetTop(vehicleCloseHitBox.Bottom - (50 * _scale));
+                        honk.SetTop(vehicleCloseHitBox.Bottom - (75 * _scale));
                     }
                     break;
                 default:
