@@ -205,8 +205,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk_bust1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk_bust2.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro1.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song4.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
