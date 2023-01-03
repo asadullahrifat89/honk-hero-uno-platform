@@ -352,7 +352,7 @@
       },
       {
         "Culture": "bn",
-        "Value": "স্টিকার দিয়ে ট্যাগ করতে হর্নিং গাড়িতে ট্যাপ করুন।"
+        "Value": "স্টিকার দিয়ে ট্যাগ করতে হঙ্কিং গাড়িতে ট্যাপ করুন।"
       }
     ]
   },
@@ -378,15 +378,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Collect as many as you can to increase your score."
+        "Value": "Collect as many as you can to tag honking vehicles with stickers."
       },
       {
         "Culture": "de",
-        "Value": "Sammeln Sie so viele wie möglich, um Ihre Punktzahl zu erhöhen."
+        "Value": "Sammle so viele wie möglich, um hupende Fahrzeuge mit Aufklebern zu markieren."
       },
       {
         "Culture": "bn",
-        "Value": "আপনার স্কোর বাড়াতে যতটা সম্ভব সংগ্রহ করুন।"
+        "Value": "হঙ্কিং গাড়িতে স্টিকার লাগাতে এগুলো যতটা সম্ভব সংগ্রহ করুন।"
       }
     ]
   },
@@ -1306,6 +1306,23 @@
       {
         "Culture": "bn",
         "Value": "🎵 বিশেষ ধন্যবাদ 🎵"
+      }
+    ]
+  },
+  {
+    "Key": "COLLECT_STICKERS",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Collect Stickers"
+      },
+      {
+        "Culture": "de",
+        "Value": "Sammeln Sie Aufkleber"
+      },
+      {
+        "Culture": "bn",
+        "Value": "স্টিকার সংগ্রহ করুন"
       }
     ]
   }

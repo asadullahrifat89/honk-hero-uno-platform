@@ -71,6 +71,7 @@ namespace HonkHeroGame
         private Point _attackPosition;
 
         private int _collectibleCollected;
+        private int _stickersAmount;
         private int _vehiclesTagged;
 
         private int _gameLevel = 1;
@@ -85,7 +86,7 @@ namespace HonkHeroGame
 
         #region Properties
 
-        public bool InGameMessageIsVisible => !InGameMessageText.Text.IsNullOrBlank();
+        public bool InGameMessageSlowMotionInEffect { get; set; }
 
         #endregion
 
@@ -239,6 +240,8 @@ namespace HonkHeroGame
             HideInGameTextMessage();
             ResetControls();
 
+            InGameMessageSlowMotionInEffect = false;
+
             _gameSpeed = _gameSpeedDefault * _scale;
             _playerLag = _playerLagDefault;
 
@@ -253,8 +256,12 @@ namespace HonkHeroGame
             _score = 0;
             _scoreCap = 50;
             _difficultyMultiplier = 1;
+            SetScoreText();
 
             _collectibleCollected = 0;
+            _stickersAmount = 10;
+            SetStickersAmountText();
+
             _vehiclesTagged = 0;
 
             _playerHealth = 100;
@@ -286,7 +293,6 @@ namespace HonkHeroGame
 
         private void GameViewLoop()
         {
-            SetScoreText();
             PlayerHealthBar.Value = _playerHealth;
 
             _playerHitBox = _player.GetHitBox();
@@ -472,9 +478,9 @@ namespace HonkHeroGame
 
         private void PlayerIdle()
         {
-            _playerIdleDurationCounter = InGameMessageIsVisible ? _playerIdleDurationCounter - (1 / _slowMotionFactor) : _playerIdleDurationCounter - 1;
+            _playerIdleDurationCounter = InGameMessageSlowMotionInEffect ? _playerIdleDurationCounter - (1 / _slowMotionFactor) : _playerIdleDurationCounter - 1;
 
-            var speed = (InGameMessageIsVisible ? 1 / _slowMotionFactor : 1);
+            var speed = (InGameMessageSlowMotionInEffect ? 1 / _slowMotionFactor : 1);
 
             switch (_player.IdlingDirectionY)
             {
@@ -507,9 +513,9 @@ namespace HonkHeroGame
 
         private void PlayerAttacking()
         {
-            var scalePoint = InGameMessageIsVisible ? _playerAttackingScalePoint / _slowMotionFactor : _playerAttackingScalePoint;
+            var scalePoint = InGameMessageSlowMotionInEffect ? _playerAttackingScalePoint / _slowMotionFactor : _playerAttackingScalePoint;
 
-            _playerAttackDurationCounter = InGameMessageIsVisible ? _playerAttackDurationCounter - (1 / _slowMotionFactor) : _playerAttackDurationCounter - 1;
+            _playerAttackDurationCounter = InGameMessageSlowMotionInEffect ? _playerAttackDurationCounter - (1 / _slowMotionFactor) : _playerAttackDurationCounter - 1;
 
             if (_playerAttackDurationCounter > _playerAttackDurationCounterDefault / 2)
             {
@@ -608,7 +614,7 @@ namespace HonkHeroGame
 
             var flightSpeed = (distance / _playerLag) * speedBoost;
 
-            return InGameMessageIsVisible ? flightSpeed / _slowMotionFactor : flightSpeed;
+            return InGameMessageSlowMotionInEffect ? flightSpeed / _slowMotionFactor : flightSpeed;
         }
 
         private void PlayerAttack()
@@ -792,7 +798,7 @@ namespace HonkHeroGame
 
         private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
         {
-            var vehicleSpeed = InGameMessageIsVisible ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
+            var vehicleSpeed = InGameMessageSlowMotionInEffect ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
 
             switch (vehicle.StreamingDirection)
             {
@@ -987,7 +993,7 @@ namespace HonkHeroGame
 
         private void MoveHonk(Honk honk)
         {
-            var honkSpeed = InGameMessageIsVisible ? honk.Speed / _slowMotionFactor : honk.Speed;
+            var honkSpeed = InGameMessageSlowMotionInEffect ? honk.Speed / _slowMotionFactor : honk.Speed;
 
             switch (honk.StreamingDirection)
             {
@@ -1010,7 +1016,7 @@ namespace HonkHeroGame
 
         private bool WaitForHonk(Vehicle vehicle)
         {
-            if (!InGameMessageIsVisible)
+            if (!InGameMessageSlowMotionInEffect)
             {
                 var vehicleHitBox = vehicle.GetHitBox();
 
@@ -1054,15 +1060,25 @@ namespace HonkHeroGame
 
         private void BustHonk(Vehicle vehicle)
         {
-            Sticker sticker = SpawnSticker(vehicle);
-            vehicle.BustHonking(sticker);
+            // honk busting is only possible when stickers are at hand
+            if (_stickersAmount > 0)
+            {
+                Sticker sticker = SpawnSticker(vehicle);
+                vehicle.BustHonking(sticker);
 
-            AddScore(5);
-            AddHealth();
+                AddScore(5);
+                AddHealth();
 
-            _vehiclesTagged++;
+                _vehiclesTagged++;
+                _stickersAmount--;
+                SetStickersAmountText();
 
-            SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
+                SoundHelper.PlayRandomSound(SoundType.HONK_BUST);
+            }
+            else
+            {
+                ShowInGameTextMessage(GetLocalizedResource("COLLECT_STICKERS"));
+            }
         }
 
         private bool IsHonkBusted(Vehicle vehicle)
@@ -1176,7 +1192,7 @@ namespace HonkHeroGame
 
         private void MoveCollectible(GameObject collectible)
         {
-            var collectibleSpeed = InGameMessageIsVisible ? _gameSpeed / _slowMotionFactor : _gameSpeed;
+            var collectibleSpeed = InGameMessageSlowMotionInEffect ? _gameSpeed / _slowMotionFactor : _gameSpeed;
 
             collectible.SetTop(collectible.GetTop() + collectibleSpeed);
         }
@@ -1198,9 +1214,15 @@ namespace HonkHeroGame
 
         private void Collectible()
         {
-            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
             _collectibleCollected++;
+            _stickersAmount++;
+            SetStickersAmountText();
+
+            if (InGameMessageText.Text == GetLocalizedResource("COLLECT_STICKERS"))
+                HideInGameTextMessage();
+
             AddScore(1);
+            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
         }
 
         #endregion
@@ -1280,7 +1302,7 @@ namespace HonkHeroGame
 
         private void MovePowerUp(GameObject powerUp)
         {
-            var powerUpSpeed = InGameMessageIsVisible ? _gameSpeed / _slowMotionFactor : _gameSpeed;
+            var powerUpSpeed = InGameMessageSlowMotionInEffect ? _gameSpeed / _slowMotionFactor : _gameSpeed;
 
             powerUp.SetTop(powerUp.GetTop() + powerUpSpeed);
         }
@@ -1295,10 +1317,10 @@ namespace HonkHeroGame
             switch (_powerUpType)
             {
                 case PowerUpType.MagnetPull:
-                    ShowInGameTextMessage(GetLocalizedResource("MAGNET_PULL"), true);
+                    ShowInGameTextMessage(message: GetLocalizedResource("MAGNET_PULL"), activateSlowMotion: true);
                     break;
                 case PowerUpType.TwoxScore:
-                    ShowInGameTextMessage(GetLocalizedResource("2X_SCORE"), true);
+                    ShowInGameTextMessage(message: GetLocalizedResource("2X_SCORE"), activateSlowMotion: true);
                     break;
                 default:
                     break;
@@ -1368,6 +1390,8 @@ namespace HonkHeroGame
             score = TwoxScore(score);
 
             _score += score;
+
+            SetScoreText();
             ScaleDifficulty();
         }
 
@@ -1406,12 +1430,17 @@ namespace HonkHeroGame
 
         private void SetScoreText()
         {
-            ScoreText.Text = $"🌟 {_score:#} / {_scoreCap}";
+            ScoreText.Text = $"🌟 {_score} / {_scoreCap}";
         }
 
         private void SetGameLevelText()
         {
             GameLevelText.Text = $"🔥 {_gameLevel}";
+        }
+
+        private void SetStickersAmountText()
+        {
+            StickersAmountText.Text = $"{_stickersAmount}";
         }
 
         #endregion
@@ -1517,11 +1546,12 @@ namespace HonkHeroGame
 
         #region InGameMessage
 
-        private void ShowInGameTextMessage(string message, bool coolDown = false)
+        private void ShowInGameTextMessage(string message, bool activateSlowMotion = false)
         {
-            _inGameMessageCoolDownCounter = coolDown ? _inGameMessageCoolDownCounterDefault : 0;
+            _inGameMessageCoolDownCounter = activateSlowMotion ? _inGameMessageCoolDownCounterDefault : 0;
             InGameMessageText.Text = message;
             InGameMessagePanel.Visibility = Visibility.Visible;
+            InGameMessageSlowMotionInEffect = activateSlowMotion;
         }
 
         private string GetLocalizedResource(string resourceKey)
@@ -1540,7 +1570,12 @@ namespace HonkHeroGame
             _inGameMessageCoolDownCounter--;
 
             if (_inGameMessageCoolDownCounter <= 0)
+            {
                 HideInGameTextMessage();
+
+                if (InGameMessageSlowMotionInEffect)
+                    InGameMessageSlowMotionInEffect = false;
+            }
         }
 
         #endregion
