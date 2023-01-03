@@ -123,48 +123,89 @@
 
                 </StackPanel>
 
-                <!--  Power up  -->
-                <Border
-                    x:Name="PowerUpPanel"
-                    Height="40"
-                    Margin="5,0"
-                    HorizontalAlignment="Left"
-                    BorderThickness="3"
-                    CornerRadius="5"
-                    Style="{StaticResource GameUIContainer}"
-                    Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal">
 
-                    <StackPanel
-                        Margin="5,0"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
+                    <!--  Power up  -->
+                    <Border
+                        x:Name="PowerUpPanel"
+                        Height="40"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        BorderThickness="3"
+                        CornerRadius="5"
+                        Style="{StaticResource GameUIContainer}"
+                        Visibility="{x:Bind Path=PlayerPowerBar.Visibility, Mode=OneWay}">
 
-                        <!--  Power up icon  -->
-                        <TextBlock
-                            Width="25"
-                            HorizontalAlignment="Left"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Text="👊"
-                            TextAlignment="Center" />
-
-                        <!--  Power up  -->
-                        <ProgressBar
-                            x:Name="PlayerPowerBar"
-                            Width="50"
-                            Height="5"
+                        <StackPanel
                             Margin="5,0"
-                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Foreground="Goldenrod"
-                            Maximum="100"
-                            Minimum="0"
-                            Visibility="Collapsed"
-                            Value="100" />
+                            Orientation="Horizontal">
 
-                    </StackPanel>
+                            <!--  Power up icon  -->
+                            <TextBlock
+                                Width="25"
+                                HorizontalAlignment="Left"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Text="👊"
+                                TextAlignment="Center" />
 
-                </Border>
+                            <!--  Power up  -->
+                            <ProgressBar
+                                x:Name="PlayerPowerBar"
+                                Width="50"
+                                Height="5"
+                                Margin="5,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="Goldenrod"
+                                Maximum="100"
+                                Minimum="0"
+                                Visibility="Collapsed"
+                                Value="100" />
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!--  Stickers  -->
+                    <Border
+                        x:Name="StickersPanel"
+                        Height="40"
+                        Margin="5,0"
+                        HorizontalAlignment="Left"
+                        BorderThickness="3"
+                        CornerRadius="5"
+                        Style="{StaticResource GameUIContainer}">
+
+                        <StackPanel
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <!--  Stickers icon  -->
+                            <Image
+                                Width="25"
+                                Height="25"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Source="ms-appx:///Assets/Images/collectible.png" />
+
+                            <!--  Stickers count  -->
+                            <TextBlock
+                                x:Name="StickersAmountText"
+                                Width="25"
+                                Margin="5,0"
+                                HorizontalAlignment="Left"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                TextAlignment="Left" />
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
 
             </StackPanel>
             <!--#endregion-->

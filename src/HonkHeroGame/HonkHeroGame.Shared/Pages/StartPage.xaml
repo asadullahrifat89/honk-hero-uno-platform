@@ -78,7 +78,7 @@
                 <Image
                     Height="80"
                     Margin="0,10,0,0"
-                    Source="ms-appx:///Assets/Images/player_idle.png" />
+                    Source="ms-appx:///Assets/Images/logo_game.png" />
 
                 <!--  Game name  -->
                 <TextBlock

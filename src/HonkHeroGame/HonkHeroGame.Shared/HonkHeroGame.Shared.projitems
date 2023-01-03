@@ -131,11 +131,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution2.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution3.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution4.jpg" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\level_up.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\powerup1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_attacking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\ear.png" />
@@ -147,7 +147,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\game_over.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\power_up.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle10_down.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle11_down.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle12_down.png" />
