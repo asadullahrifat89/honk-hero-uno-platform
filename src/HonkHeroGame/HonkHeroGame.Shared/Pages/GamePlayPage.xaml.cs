@@ -482,7 +482,7 @@ namespace HonkHeroGame
             {
                 top = (GameView.Height - (_bossEngaged.Height * 2) - one4thHeight);
 
-                top -= (halfHeight + (50 * _scale));
+                top -= (halfHeight + (25 * _scale));
             }
 
             _bossEngaged.SetPosition(
