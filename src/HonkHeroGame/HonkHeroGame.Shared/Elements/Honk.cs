@@ -2,11 +2,18 @@
 {
     public class Honk : GameObject
     {
-        public Honk(double scale, double speed, VehicleClass vehicleClass, StreamingDirection streamingDirection = StreamingDirection.UpWard)
+        public Honk(
+            double scale,
+            double speed,
+            double displacement,
+            VehicleClass vehicleClass,
+            StreamingDirection streamingDirection = StreamingDirection.UpWard)
         {
             Tag = ElementType.HONK;
 
-            switch (vehicleClass)
+            VehicleClass = vehicleClass;
+
+            switch (VehicleClass)
             {
                 case VehicleClass.DEFAULT_CLASS:
                     {
@@ -25,10 +32,15 @@
             }
 
             Speed = speed;
-            StreamingDirection = streamingDirection;
+            Displacement = displacement;
+            StreamingDirection = streamingDirection;            
         }
 
         public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
+
+        public VehicleClass VehicleClass { get; set; }
+
+        public double Displacement { get; set; }
     }
 }
 
