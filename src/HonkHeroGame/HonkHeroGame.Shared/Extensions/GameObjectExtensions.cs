@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System.ComponentModel.DataAnnotations;
+using Windows.Foundation;
 
 namespace HonkHeroGame
 {
@@ -50,11 +51,14 @@ namespace HonkHeroGame
 
         public static Rect GetCloseHitBox(this GameObject gameObject)
         {
+            var fourthWidht = gameObject.Width / 4;
+            var fourthHeight = gameObject.Height / 4;
+
             var rect = new Rect(
-                x: gameObject.GetLeft() + (gameObject.Width / 3),
-                y: gameObject.GetTop() + (gameObject.Height / 3),
-                width: gameObject.Width - (gameObject.Width / 3),
-                height: gameObject.Height - (gameObject.Width / 3));
+                x: gameObject.GetLeft() + fourthWidht,
+                y: gameObject.GetTop() + fourthHeight,
+                width: gameObject.Width - fourthWidht,
+                height: gameObject.Height - fourthHeight);
 
             //gameObject.SetHitBoxBorder(rect);
 

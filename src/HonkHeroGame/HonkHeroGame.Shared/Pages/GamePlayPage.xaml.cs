@@ -654,7 +654,7 @@ namespace HonkHeroGame
 
         private Vehicle SpawnVehicle(StreamingDirection streamingDirection, VehicleClass vehicleClass = VehicleClass.DEFAULT_CLASS)
         {
-            var speed = RandomizeVehicleSpeed();
+            var speed = RecycleVehicleSpeed();
 
             Vehicle vehicle = new(
                 scale: _scale,
@@ -714,7 +714,7 @@ namespace HonkHeroGame
 
         private void CalibrateAndMoveVehicle(Vehicle vehicle, Rect vehicleCloseHitBox)
         {
-            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == vehicle.StreamingDirection && x.GetHitBox().IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
+            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == vehicle.StreamingDirection && x.GetCloseHitBox().IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
             {
                 MakeVehicleIdle(vehicle, collidingVehicle);
 
@@ -730,11 +730,13 @@ namespace HonkHeroGame
                 }
                 else if (vehicle.Speed == collidingVehicle.Speed)
                 {
+                    var collidingVehicleCloseHitBox = collidingVehicle.GetCloseHitBox();
+
                     switch (vehicle.StreamingDirection)
                     {
                         case StreamingDirection.DownWard:
                             {
-                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                if (vehicleCloseHitBox.Right > collidingVehicleCloseHitBox.Right)
                                     MoveVehicle(vehicle);
                                 else
                                     MoveVehicle(collidingVehicle);
@@ -742,10 +744,10 @@ namespace HonkHeroGame
                             break;
                         case StreamingDirection.UpWard:
                             {
-                                if (vehicle.GetZ() < collidingVehicle.GetZ())
-                                    MoveVehicle(collidingVehicle);
-                                else
+                                if (vehicleCloseHitBox.Left < collidingVehicleCloseHitBox.Left)
                                     MoveVehicle(vehicle);
+                                else
+                                    MoveVehicle(collidingVehicle);
                             }
                             break;
                         default:
@@ -795,7 +797,7 @@ namespace HonkHeroGame
             {
                 case VehicleClass.DEFAULT_CLASS:
                     {
-                        if (collidingVehicle.VehicleClass == VehicleClass.BOSS_CLASS && collidingVehicle.MovementIntent == MovementIntent.IDLE && vehicle.MovementIntent != MovementIntent.IDLE)
+                        if (collidingVehicle.MovementIntent == MovementIntent.IDLE && vehicle.MovementIntent != MovementIntent.IDLE)
                             vehicle.MovementIntent = MovementIntent.IDLE;
                     }
                     break;
@@ -872,63 +874,6 @@ namespace HonkHeroGame
             }
         }
 
-        private void CalibrateAndSetVehicleZ(Vehicle vehicle)
-        {
-            var vehicle_distantHitBox = vehicle.GetDistantHitBox();
-
-            switch (vehicle.StreamingDirection)
-            {
-                case StreamingDirection.DownWard:
-                    {
-                        //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect x_DistantHitBox
-                        //   && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
-                        //   && vehicle_distantHitBox.Bottom > x_DistantHitBox.Bottom
-                        //   && vehicle.GetZ() <= x.GetZ()) is Vehicle aboveVehicle)
-                        //{
-                        //    vehicle.SetZ(aboveVehicle.GetZ() + 1);
-                        //}
-
-                        //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect x_DistantHitBox
-                        //  && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
-                        //  && vehicle_distantHitBox.Bottom < x_DistantHitBox.Bottom
-                        //  && vehicle.GetZ() > x.GetZ()) is Vehicle belowVehicle)
-                        //{
-                        //    vehicle.SetZ(belowVehicle.GetZ() - 1);
-                        //}
-
-                        //if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect x_DistantHitBox
-                        //  && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
-                        //  && vehicle_distantHitBox.Bottom < x_DistantHitBox.Bottom
-                        //  && vehicle.GetZ() >= x.GetZ()) is Vehicle belowVehicle2)
-                        //{
-                        //    vehicle.SetZ(belowVehicle2.GetZ() - 1);
-                        //}
-
-                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect x_DistantHitBox
-                           && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
-                           && vehicle_distantHitBox.Bottom > x_DistantHitBox.Bottom
-                           && vehicle.GetZ() <= x.GetZ()) is Vehicle belowVehicle)
-                        {
-                            vehicle.SetZ(belowVehicle.GetZ() + 1);
-                        }
-                    }
-                    break;
-                case StreamingDirection.UpWard:
-                    {
-                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect x_DistantHitBox
-                            && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
-                            && vehicle_distantHitBox.Bottom < x_DistantHitBox.Bottom
-                            && vehicle.GetZ() >= x.GetZ()) is Vehicle overVehicle)
-                        {
-                            vehicle.SetZ(overVehicle.GetZ() - 1);
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
         private void RecyleVehicle(Vehicle vehicle)
         {
             switch (vehicle.StreamingDirection)
@@ -949,7 +894,7 @@ namespace HonkHeroGame
                     break;
             }
 
-            vehicle.Speed = RandomizeVehicleSpeed();
+            vehicle.Speed = RecycleVehicleSpeed();
 
             vehicle.ResetHonking(
                 gameLevel: _gameLevel,
@@ -1096,12 +1041,61 @@ namespace HonkHeroGame
             vehicle.SetPosition(left: left, top: top);
         }
 
-        private double RandomizeVehicleSpeed()
+        private double RecycleVehicleSpeed()
         {
             if (_windowWidth > _windowHeight)
                 return _gameSpeed + _random.Next(1, 5);
             else
                 return _gameSpeed + _random.Next(0, 3);
+        }
+
+        private void CalibrateAndSetVehicleZ(Vehicle vehicle)
+        {
+            var vehicle_distantHitBox = vehicle.GetDistantHitBox();
+
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.DownWard:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                           && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
+                           && vehicle_distantHitBox.Bottom > x_DistantHitBox.Bottom
+                           && vehicle.GetZ() <= x.GetZ()) is Vehicle belowVehicle)
+                        {
+                            vehicle.SetZ(belowVehicle.GetZ() + 1);
+                        }
+
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.DownWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                          && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
+                          && vehicle_distantHitBox.Bottom < x_DistantHitBox.Bottom
+                          && vehicle.GetZ() >= x.GetZ()) is Vehicle overVehicle)
+                        {
+                            vehicle.SetZ(overVehicle.GetZ() - 1);
+                        }
+                    }
+                    break;
+                case StreamingDirection.UpWard:
+                    {
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                            && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
+                            && vehicle_distantHitBox.Bottom < x_DistantHitBox.Bottom
+                            && vehicle.GetZ() >= x.GetZ()) is Vehicle overVehicle)
+                        {
+                            vehicle.SetZ(overVehicle.GetZ() - 1);
+                        }
+
+                        if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == StreamingDirection.UpWard && x.GetDistantHitBox() is Rect x_DistantHitBox
+                            && x_DistantHitBox.IntersectsWith(vehicle_distantHitBox)
+                            && vehicle_distantHitBox.Bottom > x_DistantHitBox.Bottom
+                            && vehicle.GetZ() <= x.GetZ()) is Vehicle underVehicle)
+                        {
+                            vehicle.SetZ(underVehicle.GetZ() + 1);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion
@@ -1124,7 +1118,7 @@ namespace HonkHeroGame
             _markNum = _random.Next(0, _vehicles_Boss.Length);
             _bossEngaged.SetContent(_vehicles_Boss[_markNum]);
 
-            _bossEngaged.Speed = RandomizeVehicleSpeed();
+            _bossEngaged.Speed = RecycleVehicleSpeed();
 
             RecycleVehiclePosition(_bossEngaged);
 
@@ -1142,7 +1136,7 @@ namespace HonkHeroGame
             BossHealthBarPanel.Visibility = Visibility.Visible;
         }
 
-        private void DisengageBoss(Vehicle boss)
+        private void DisengageBoss()
         {
             SoundHelper.StopSound(SoundType.BOSS_IDLING);
             SoundHelper.PlaySound(SoundType.BOSS_CLEAR);
@@ -1150,11 +1144,10 @@ namespace HonkHeroGame
             SoundHelper.RandomizeSound(SoundType.SONG);
             SoundHelper.PlaySound(SoundType.SONG);
 
-            boss.Speed = RandomizeVehicleSpeed();
-
             // make all idle vechiles move
             foreach (var vehicle in GameView.Children.OfType<Vehicle>().Where(x => x.MovementIntent == MovementIntent.IDLE))
             {
+                vehicle.Speed = RecycleVehicleSpeed();
                 vehicle.MovementIntent = MovementIntent.MOVE;
             }
 
@@ -1414,7 +1407,7 @@ namespace HonkHeroGame
                                 Sticker sticker = SpawnSticker(vehicle);
                                 vehicle.AttachedSticker = sticker;
 
-                                DisengageBoss(vehicle);
+                                DisengageBoss();
                                 AddScore(10);
                                 _vehiclesTagged++;
                             }
