@@ -187,6 +187,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-entry.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-idling.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk1.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk7.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song8.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\level-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
@@ -217,7 +219,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song6.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song9.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song10.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk2.mp3" />
   </ItemGroup>
   <Import Project="HonkHeroGame.Shared.globs.props" Condition="'$(IsCodeSharingProject)'!='true'" />
 </Project>
