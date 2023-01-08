@@ -13,6 +13,7 @@ namespace HonkHeroGame
         public const double DEFAULT_FRAME_TIME = 18;
 
         public const double VEHICLE_SIZE = 195;
+        public const double BOSS_VEHICLE_SIZE = 310;
 
         public const double PLAYER_WIDTH = 90;
         public const double PLAYER_HEIGHT = 90;
@@ -20,6 +21,7 @@ namespace HonkHeroGame
         public const double STICKER_SIZE = 40;
 
         public const double HONK_SIZE = 100;
+        public const double BOSS_HONK_SIZE = 120;
 
         public const double POWERUP_SIZE = 80;
 
@@ -86,6 +88,10 @@ namespace HonkHeroGame
 
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-left.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-right.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss2.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss3.png")),
         };
 
         #endregion
@@ -119,6 +125,7 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk4.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk5.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk6.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.HONK, "Assets/Sounds/honk7.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.HONK_BUST, "Assets/Sounds/honk_bust1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.HONK_BUST, "Assets/Sounds/honk_bust2.mp3"),
@@ -133,6 +140,15 @@ namespace HonkHeroGame
             new KeyValuePair<SoundType, string>(SoundType.COLLECTIBLE, "Assets/Sounds/collectible-collected3.mp3"),
 
             new KeyValuePair<SoundType, string>(SoundType.LEVEL_UP, "Assets/Sounds/level-up.mp3"),
+            
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_ENTRY, "Assets/Sounds/boss-entry.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_IDLING, "Assets/Sounds/boss-idling.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_CLEAR, "Assets/Sounds/boss-clear.mp3"),
+
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_HONK, "Assets/Sounds/boss-honk1.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_HONK, "Assets/Sounds/boss-honk2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_HONK, "Assets/Sounds/boss-honk3.mp3"),
+
         };
 
         #endregion

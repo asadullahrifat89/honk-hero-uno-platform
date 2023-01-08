@@ -137,5 +137,9 @@ namespace HonkHeroGame
         POWER_DOWN,
         COLLECTIBLE,
         LEVEL_UP,
+        BOSS_ENTRY,
+        BOSS_IDLING,        
+        BOSS_HONK,
+        BOSS_CLEAR,
     }
 }

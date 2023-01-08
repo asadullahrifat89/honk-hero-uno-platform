@@ -53,11 +53,12 @@ namespace HonkHeroGame
                                 });
                             }
                             break;
+                        case SoundType.BOSS_IDLING:
                         case SoundType.INTRO:
                             {
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, loop: true);
                             }
-                            break;                       
+                            break;
                         default:
                             {
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value);

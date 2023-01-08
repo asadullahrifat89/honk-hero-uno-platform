@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Polly;
 using System;
 using System.Linq;
 using Windows.Foundation;
@@ -44,12 +45,36 @@ namespace HonkHeroGame
             double speed,
             int gameLevel,
             int honkTemplatesCount,
-            StreamingDirection streamingDirection = StreamingDirection.UpWard)
+            StreamingDirection streamingDirection = StreamingDirection.UpWard,
+            VehicleClass vehicleClass = VehicleClass.DEFAULT_CLASS)
         {
             Tag = ElementType.VEHICLE;
 
-            Height = Constants.VEHICLE_SIZE * scale;
-            Width = Constants.VEHICLE_SIZE * scale;
+            VehicleClass = vehicleClass;
+
+            switch (VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        Height = Constants.VEHICLE_SIZE * scale;
+                        Width = Constants.VEHICLE_SIZE * scale;
+
+                        SetHonk(gameLevel: gameLevel, honkTemplatesCount: honkTemplatesCount, willHonk: Convert.ToBoolean(_random.Next(0, 2)));
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        Height = Constants.BOSS_VEHICLE_SIZE * scale;
+                        Width = Constants.BOSS_VEHICLE_SIZE * scale;
+
+                        Health = 100 * (gameLevel / 2);
+
+                        SetHonk(gameLevel: gameLevel, honkTemplatesCount: honkTemplatesCount, willHonk: true);
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             Speed = speed;
             StreamingDirection = streamingDirection;
@@ -67,9 +92,6 @@ namespace HonkHeroGame
             _content.Children.Add(_honkingBusted);
 
             SetChild(_content);
-            SetHonk(
-                gameLevel: gameLevel,
-                honkTemplatesCount: honkTemplatesCount);
         }
 
         #endregion
@@ -84,11 +106,17 @@ namespace HonkHeroGame
 
         public Sticker AttachedSticker { get; set; }
 
-        //public double Health { get; set; } = 100;
-
-        //public double HitPoints { get; set; } = 100;
-
         public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
+
+        public VehicleClass VehicleClass { get; set; } = VehicleClass.DEFAULT_CLASS;
+
+        public VehicleIntent VehicleIntent { get; set; } = VehicleIntent.MOVE;
+
+        public double Health { get; set; } = 100;
+
+        public double HitPoints { get; set; } = 5;
+
+        public bool IsRecoveringFromPlayerAttack { get; set; }
 
         #endregion
 
@@ -107,7 +135,7 @@ namespace HonkHeroGame
 
         public bool CanBustHonk(Rect vehicleCloseHitBox, PlayerState playerState, Rect playerHitBox)
         {
-            return HonkState == HonkState.HONKING && playerState == PlayerState.Attacking && playerHitBox.IntersectsWith(vehicleCloseHitBox);
+            return HonkState == HonkState.HONKING && !IsRecoveringFromPlayerAttack && playerState == PlayerState.Attacking && playerHitBox.IntersectsWith(vehicleCloseHitBox);
         }
 
         public bool WaitForHonk(int gameLevel)
@@ -128,25 +156,55 @@ namespace HonkHeroGame
             return false;
         }
 
-        public void BustHonking(Sticker sticker)
+        public bool BustHonk()
         {
+            bool isHonkBusted = false;
+
             IsMarkedForPopping = true;
             HasPopped = false;
 
-            AttachedSticker = sticker;
-            UpdateHonkState(HonkState.HONKING_BUSTED);
+            switch (VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        UpdateHonkState(HonkState.HONKING_BUSTED);
+                        isHonkBusted = true;
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        Health -= HitPoints;
+                        IsRecoveringFromPlayerAttack = true;
+
+                        if (Health <= 0)
+                        {
+                            UpdateHonkState(HonkState.HONKING_BUSTED);
+                            isHonkBusted = true;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return isHonkBusted;
         }
 
-        public void ResetHonking(int gameLevel, int honkTemplatesCount)
+        public void ResetHonking(int gameLevel, int honkTemplatesCount, bool willHonk)
         {
             IsMarkedForPopping = false;
+
             UpdateHonkState(HonkState.DEFAULT);
-            SetHonk(gameLevel, honkTemplatesCount);
+
+            SetHonk(
+                gameLevel: gameLevel,
+                honkTemplatesCount: honkTemplatesCount,
+                willHonk: willHonk);
         }
 
-        private void SetHonk(int gameLevel, int honkTemplatesCount)
+        private void SetHonk(int gameLevel, int honkTemplatesCount, bool willHonk)
         {
-            WillHonk = Convert.ToBoolean(_random.Next(0, 2));
+            WillHonk = willHonk;
 
             if (WillHonk)
             {
@@ -158,7 +216,19 @@ namespace HonkHeroGame
         private int SetHonkCounter(int gameLevel)
         {
             var halfGameLevel = gameLevel / 2;
-            return _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 125 - (int)Math.Floor(0.4 * halfGameLevel));
+
+            int count = _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 125 - (int)Math.Floor(0.4 * halfGameLevel));
+
+            switch (VehicleClass)
+            {
+                case VehicleClass.BOSS_CLASS:
+                    count = count * 2;
+                    break;
+                default:
+                    break;
+            }
+
+            return count;
         }
 
         private void SetHonkIndex(int honkTemplatesCount)
@@ -205,10 +275,22 @@ namespace HonkHeroGame
         HONKING_BUSTED,
     }
 
+    public enum VehicleIntent
+    {
+        MOVE,
+        IDLE,
+    }
+
     public enum StreamingDirection
     {
         UpWard,
         DownWard,
+    }
+
+    public enum VehicleClass
+    {
+        DEFAULT_CLASS,
+        BOSS_CLASS,
     }
 }
 

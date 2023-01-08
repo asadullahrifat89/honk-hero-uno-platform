@@ -75,7 +75,7 @@
                                 Height="5"
                                 Margin="5,0"
                                 VerticalAlignment="Center"
-                                Foreground="Crimson"
+                                Foreground="Green"
                                 Maximum="100"
                                 Minimum="0"
                                 Value="100" />
@@ -200,6 +200,46 @@
                                 FontSize="20"
                                 FontWeight="Bold"
                                 TextAlignment="Left" />
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!--  Boss health  -->
+                    <Border
+                        x:Name="BossHealthBarPanel"
+                        Height="40"
+                        Margin="5,5,0,5"
+                        BorderThickness="3"
+                        CornerRadius="5"
+                        Style="{StaticResource GameUIContainer}"
+                        Visibility="Collapsed">
+
+                        <StackPanel
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <!--  Boss icon  -->
+                            <TextBlock
+                                Width="25"
+                                HorizontalAlignment="Left"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Text="👊"
+                                TextAlignment="Center" />
+
+                            <!--  Health bar  -->
+                            <ProgressBar
+                                x:Name="BossHealthBar"
+                                Width="50"
+                                Height="5"
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                Foreground="Crimson"
+                                Maximum="100"
+                                Minimum="0"
+                                Value="100" />
 
                         </StackPanel>
 
