@@ -189,6 +189,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-idling.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk2.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-clear.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk7.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk3.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song8.mp3" />

@@ -977,7 +977,7 @@ namespace HonkHeroGame
                                     // portrait
                                     if (GameView.Height > GameView.Width)
                                     {
-                                        top = halfHeight;
+                                        top = one4thHeight;
 
                                         top += one4thHeight + vehicle.Height;
                                     }
@@ -1028,7 +1028,7 @@ namespace HonkHeroGame
                                     // portrait
                                     if (GameView.Height > GameView.Width)
                                     {
-                                        top = (halfHeight - one4thHeight);
+                                        top = (GameView.Height - vehicle.Height - one4thHeight);
 
                                         top -= (one4thHeight + vehicle.Height);
                                     }
@@ -1073,7 +1073,7 @@ namespace HonkHeroGame
             var streamingDirections = Enum.GetNames<StreamingDirection>();
 
             //TODO: set random streaming dir
-            var streamingDirection = StreamingDirection.UpWard; //(StreamingDirection)_random.Next(0, streamingDirections.Length);
+            var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
 
             _bossEngaged = SpawnVehicle(streamingDirection: streamingDirection, vehicleClass: VehicleClass.BOSS_CLASS);
 
@@ -1100,7 +1100,8 @@ namespace HonkHeroGame
 
         private void DisengageBoss(Vehicle boss)
         {
-            StopBossSounds();
+            SoundHelper.StopSound(SoundType.BOSS_IDLING);
+            SoundHelper.PlaySound(SoundType.BOSS_CLEAR);
 
             SoundHelper.RandomizeSound(SoundType.SONG);
             SoundHelper.PlaySound(SoundType.SONG);
@@ -1147,7 +1148,7 @@ namespace HonkHeroGame
                                     break;
                                 default:
                                     break;
-                            }                          
+                            }
                         }
                         break;
                     default:
@@ -1738,11 +1739,6 @@ namespace HonkHeroGame
         {
             SoundHelper.PlaySound(SoundType.BOSS_ENTRY);
             SoundHelper.PlaySound(SoundType.BOSS_IDLING);
-        }
-
-        private void StopBossSounds()
-        {
-            SoundHelper.StopSound(SoundType.BOSS_IDLING);
         }
 
         private void StopGameSounds()
