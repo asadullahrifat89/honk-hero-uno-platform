@@ -30,6 +30,7 @@ namespace HonkHeroGame
 
         private Uri[] _vehicles_Up;
         private Uri[] _vehicles_Down;
+        private Uri[] _vehicles_Boss;
         private Uri[] _honks;
         private Uri[] _collectibles;
         private Uri[] _powerUps;
@@ -210,6 +211,7 @@ namespace HonkHeroGame
         {
             _vehicles_Up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPWARD).Select(x => x.Value).ToArray();
             _vehicles_Down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
+            _vehicles_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_BOSS).Select(x => x.Value).ToArray();
 
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();

@@ -126,6 +126,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution1.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution2.jpg" />
@@ -182,6 +184,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9_down.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9_up.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-entry.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song8.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\level-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />

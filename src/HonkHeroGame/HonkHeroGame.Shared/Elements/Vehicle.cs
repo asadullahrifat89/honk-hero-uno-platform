@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Polly;
 using System;
 using System.Linq;
 using Windows.Foundation;
@@ -44,12 +45,32 @@ namespace HonkHeroGame
             double speed,
             int gameLevel,
             int honkTemplatesCount,
-            StreamingDirection streamingDirection = StreamingDirection.UpWard)
+            StreamingDirection streamingDirection = StreamingDirection.UpWard,
+            VehicleClass vehicleClass = VehicleClass.DEFAULT_CLASS)
         {
             Tag = ElementType.VEHICLE;
 
-            Height = Constants.VEHICLE_SIZE * scale;
-            Width = Constants.VEHICLE_SIZE * scale;
+            VehicleClass = vehicleClass;
+
+            switch (VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        Height = Constants.VEHICLE_SIZE * scale;
+                        Width = Constants.VEHICLE_SIZE * scale;
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        Height = Constants.BOSS_VEHICLE_SIZE * scale;
+                        Width = Constants.BOSS_VEHICLE_SIZE * scale;
+
+                        Health = 100 * (gameLevel / 2);
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             Speed = speed;
             StreamingDirection = streamingDirection;
@@ -84,11 +105,13 @@ namespace HonkHeroGame
 
         public Sticker AttachedSticker { get; set; }
 
-        //public double Health { get; set; } = 100;
-
-        //public double HitPoints { get; set; } = 100;
-
         public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
+
+        public VehicleClass VehicleClass { get; set; } = VehicleClass.DEFAULT_CLASS;
+
+        public double Health { get; set; } = 100;
+
+        public double HitPoints { get; set; } = 5;
 
         #endregion
 
@@ -209,6 +232,12 @@ namespace HonkHeroGame
     {
         UpWard,
         DownWard,
+    }
+
+    public enum VehicleClass
+    {
+        DEFAULT_CLASS,
+        BOSS_CLASS,
     }
 }
 
