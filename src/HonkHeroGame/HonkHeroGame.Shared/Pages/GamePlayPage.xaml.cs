@@ -1126,6 +1126,8 @@ namespace HonkHeroGame
         {
             if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
             {
+                var halfWidth = vehicle.Width / 2;
+
                 switch (vehicle.HonkState)
                 {
                     case HonkState.DEFAULT:
@@ -1136,13 +1138,13 @@ namespace HonkHeroGame
                             {
                                 case StreamingDirection.UpWard:
                                     {
-                                        if (vehicleCloseHitBox.Right <= _windowWidth / 2)
+                                        if (vehicleCloseHitBox.Right - halfWidth <= _windowWidth / 2)
                                             vehicle.VehicleIntent = VehicleIntent.IDLE;
                                     }
                                     break;
                                 case StreamingDirection.DownWard:
                                     {
-                                        if (vehicleCloseHitBox.Left >= _windowWidth / 2)
+                                        if (vehicleCloseHitBox.Left + halfWidth >= _windowWidth / 2)
                                             vehicle.VehicleIntent = VehicleIntent.IDLE;
                                     }
                                     break;
