@@ -114,7 +114,9 @@ namespace HonkHeroGame
 
         public double Health { get; set; } = 100;
 
-        public double HitPoints { get; set; } = 0.01;
+        public double HitPoints { get; set; } = 5;
+
+        public bool IsRecoveringFromPlayerAttack { get; set; }
 
         #endregion
 
@@ -133,7 +135,7 @@ namespace HonkHeroGame
 
         public bool CanBustHonk(Rect vehicleCloseHitBox, PlayerState playerState, Rect playerHitBox)
         {
-            return HonkState == HonkState.HONKING && playerState == PlayerState.Attacking && playerHitBox.IntersectsWith(vehicleCloseHitBox);
+            return HonkState == HonkState.HONKING && !IsRecoveringFromPlayerAttack && playerState == PlayerState.Attacking && playerHitBox.IntersectsWith(vehicleCloseHitBox);
         }
 
         public bool WaitForHonk(int gameLevel)
@@ -154,10 +156,9 @@ namespace HonkHeroGame
             return false;
         }
 
-        public (bool IsHonkingBusted, double Health, bool HasTakenDamage) BustHonking()
+        public bool BustHonk()
         {
             bool isHonkBusted = false;
-            bool hasTakenDamage = false;
 
             IsMarkedForPopping = true;
             HasPopped = false;
@@ -166,31 +167,27 @@ namespace HonkHeroGame
             {
                 case VehicleClass.DEFAULT_CLASS:
                     {
-                        Health = 0;
                         UpdateHonkState(HonkState.HONKING_BUSTED);
                         isHonkBusted = true;
-                        hasTakenDamage = true;
                     }
                     break;
                 case VehicleClass.BOSS_CLASS:
                     {
                         Health -= HitPoints;
-                        hasTakenDamage = true;
+                        IsRecoveringFromPlayerAttack = true;
 
                         if (Health <= 0)
                         {
                             UpdateHonkState(HonkState.HONKING_BUSTED);
                             isHonkBusted = true;
                         }
-
-
                     }
                     break;
                 default:
                     break;
             }
 
-            return (isHonkBusted, Health, hasTakenDamage);
+            return isHonkBusted;
         }
 
         public void ResetHonking(int gameLevel, int honkTemplatesCount, bool willHonk)

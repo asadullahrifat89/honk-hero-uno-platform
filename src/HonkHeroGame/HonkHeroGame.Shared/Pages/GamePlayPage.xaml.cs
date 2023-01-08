@@ -85,8 +85,7 @@ namespace HonkHeroGame
         private readonly int _slowMotionFactor = 10;
 
         private bool _isBossEngaged;
-        private double _bossHealth;
-        private bool _hasBossTakenDamage;
+        private Vehicle _bossEngaged;
 
         #endregion
 
@@ -304,8 +303,8 @@ namespace HonkHeroGame
         {
             PlayerHealthBar.Value = _playerHealth;
 
-            if (_isBossEngaged)
-                BossHealthBar.Value = _bossHealth;
+            if (_isBossEngaged && _bossEngaged is not null)
+                BossHealthBar.Value = _bossEngaged.Health;
 
             _playerHitBox = _player.GetHitBox();
             _playerDistantHitBox = _player.GetDistantHitBox();
@@ -455,15 +454,15 @@ namespace HonkHeroGame
         {
             SoundHelper.StopSound(SoundType.SONG);
 
-            Vehicle boss = SpawnVehicle(streamingDirection: StreamingDirection.DownWard, vehicleClass: VehicleClass.BOSS_CLASS);
+            _bossEngaged = SpawnVehicle(streamingDirection: StreamingDirection.DownWard, vehicleClass: VehicleClass.BOSS_CLASS);
 
             _markNum = _random.Next(0, _vehicles_Boss.Length);
-            boss.SetContent(_vehicles_Boss[_markNum]);
+            _bossEngaged.SetContent(_vehicles_Boss[_markNum]);
 
-            boss.Speed = RandomizeVehicleSpeed();
+            _bossEngaged.Speed = RandomizeVehicleSpeed();
 
             var one4thHeight = GameView.Height / 4;
-            var halfHeight = GameView.Height / 2;
+            //var halfHeight = GameView.Height / 2;
 
             double left;
             double top;
@@ -475,22 +474,22 @@ namespace HonkHeroGame
             // portrait
             if (GameView.Height > GameView.Width)
             {
-                top = (GameView.Height - boss.Height - one4thHeight);
+                top = (GameView.Height - _bossEngaged.Height - one4thHeight);
 
-                top -= (one4thHeight + boss.Height);
+                top -= (one4thHeight + _bossEngaged.Height);
             }
             else // landscape
             {
-                top = (GameView.Height - (boss.Height * 2) - one4thHeight);
+                top = (GameView.Height - (_bossEngaged.Height * 2) - one4thHeight);
 
                 top -= (one4thHeight + (50 * _scale));
             }
 
-            boss.SetPosition(
+            _bossEngaged.SetPosition(
                left: left,
                top: top);
 
-            boss.ResetHonking(
+            _bossEngaged.ResetHonking(
                gameLevel: _gameLevel,
                honkTemplatesCount: _bossHonkTemplatesCount,
                willHonk: true);
@@ -522,6 +521,7 @@ namespace HonkHeroGame
             ShowInGameTextMessage(message: GetLocalizedResource("BOSS_CLEARED"), activateSlowMotion: true);
 
             _isBossEngaged = false;
+            _bossEngaged = null;
 
             BossHealthBarPanel.Visibility = Visibility.Collapsed;
         }
@@ -544,6 +544,12 @@ namespace HonkHeroGame
                         break;
                 }
             }
+        }
+
+        private void MakeBossAttackable()
+        {
+            if (_isBossEngaged && _bossEngaged.IsRecoveringFromPlayerAttack)
+                _bossEngaged.IsRecoveringFromPlayerAttack = false;
         }
 
         #endregion
@@ -655,8 +661,10 @@ namespace HonkHeroGame
             {
                 _player.SetState(PlayerState.Flying);
                 _player.SetScaleTransform(1);
+
+                MakeBossAttackable();
             }
-        }
+        }       
 
         private bool MovePlayer(Point point)
         {
@@ -733,6 +741,8 @@ namespace HonkHeroGame
             _player.SetScaleTransform(1);
             _playerAttackDurationCounter = _playerAttackDurationCounterDefault;
             _player.SetState(PlayerState.Attacking);
+
+            MakeBossAttackable();
         }
 
         #endregion
@@ -1250,9 +1260,9 @@ namespace HonkHeroGame
                 {
                     case VehicleClass.DEFAULT_CLASS:
                         {
-                            var (IsHonkingBusted, Health, HasTakenDamage) = vehicle.BustHonking();
+                            var isHonkingBusted = vehicle.BustHonk();
 
-                            if (IsHonkingBusted)
+                            if (isHonkingBusted)
                             {
                                 Sticker sticker = SpawnSticker(vehicle);
                                 vehicle.AttachedSticker = sticker;
@@ -1264,12 +1274,9 @@ namespace HonkHeroGame
                         break;
                     case VehicleClass.BOSS_CLASS:
                         {
-                            var (IsHonkingBusted, Health, HasTakenDamage) = vehicle.BustHonking();
+                            var isHonkingBusted = vehicle.BustHonk();                            
 
-                            _bossHealth = Health;
-                            _hasBossTakenDamage = HasTakenDamage;
-
-                            if (IsHonkingBusted)
+                            if (isHonkingBusted)
                             {
                                 Sticker sticker = SpawnSticker(vehicle);
                                 vehicle.AttachedSticker = sticker;
