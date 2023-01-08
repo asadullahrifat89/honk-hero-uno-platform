@@ -6,7 +6,9 @@
         {
             Tag = ElementType.HONK;
 
-            switch (vehicleClass)
+            VehicleClass = vehicleClass;
+
+            switch (VehicleClass)
             {
                 case VehicleClass.DEFAULT_CLASS:
                     {
@@ -29,6 +31,8 @@
         }
 
         public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
+
+        public VehicleClass VehicleClass { get; set; }
     }
 }
 

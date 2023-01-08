@@ -1198,11 +1198,19 @@ namespace HonkHeroGame
 
         private void SpawnHonk(Vehicle vehicle)
         {
+            StreamingDirection streamingDirection = vehicle.StreamingDirection;
+
+            if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
+            {
+                var streamingDirections = Enum.GetNames<StreamingDirection>();
+                streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+            }
+
             Honk honk = new(
                 scale: _scale,
                 speed: vehicle.Speed * 1.4,
                 vehicleClass: vehicle.VehicleClass,
-                streamingDirection: vehicle.StreamingDirection);
+                streamingDirection: streamingDirection);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox(_scale);
 
@@ -1265,18 +1273,48 @@ namespace HonkHeroGame
         {
             var honkSpeed = InGameMessageSlowMotionInEffect ? honk.Speed / _slowMotionFactor : honk.Speed;
 
-            switch (honk.StreamingDirection)
+            switch (honk.VehicleClass)
             {
-                case StreamingDirection.UpWard:
+                case VehicleClass.DEFAULT_CLASS:
                     {
-                        honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
-                        honk.SetLeft(honk.GetLeft() - honkSpeed);
+                        switch (honk.StreamingDirection)
+                        {
+                            case StreamingDirection.UpWard:
+                                {
+                                    honk.SetTop(honk.GetTop() - honkSpeed * 0.5);
+                                    honk.SetLeft(honk.GetLeft() - honkSpeed);
+                                }
+                                break;
+                            case StreamingDirection.DownWard:
+                                {
+                                    honk.SetTop(honk.GetTop() + honkSpeed * 0.5);
+                                    honk.SetLeft(honk.GetLeft() + honkSpeed);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     break;
-                case StreamingDirection.DownWard:
+                case VehicleClass.BOSS_CLASS:
                     {
-                        honk.SetTop(honk.GetTop() + honkSpeed * 0.5);
-                        honk.SetLeft(honk.GetLeft() + honkSpeed);
+                        switch (honk.StreamingDirection)
+                        {
+                            case StreamingDirection.UpWard:
+                                {
+                                    honk.SetTop(honk.GetTop() - honkSpeed * _random.NextDouble());
+                                    honk.SetLeft(honk.GetLeft() - honkSpeed);
+                                }
+                                break;
+                            case StreamingDirection.DownWard:
+                                {
+                                    honk.SetTop(honk.GetTop() + honkSpeed * _random.NextDouble());
+                                    honk.SetLeft(honk.GetLeft() + honkSpeed);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     break;
                 default:
