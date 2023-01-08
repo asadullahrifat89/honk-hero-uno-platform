@@ -78,6 +78,7 @@ namespace HonkHeroGame
         private int _gameLevel = 1;
 
         private int _honkTemplatesCount = 0;
+        private int _bossHonkTemplatesCount = 0;
 
         private int _inGameMessageCoolDownCounter = 0;
         private readonly int _inGameMessageCoolDownCounterDefault = 125;
@@ -218,6 +219,7 @@ namespace HonkHeroGame
             _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
 
             _honkTemplatesCount = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.HONK).Count();
+            _bossHonkTemplatesCount = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.BOSS_HONK).Count();
         }
 
         private void PopulateGameViews()
@@ -639,7 +641,7 @@ namespace HonkHeroGame
                 SpawnVehicle(StreamingDirection.DownWard);
         }
 
-        private void SpawnVehicle(StreamingDirection streamingDirection)
+        private Vehicle SpawnVehicle(StreamingDirection streamingDirection, VehicleClass vehicleClass = VehicleClass.DEFAULT_CLASS)
         {
             var speed = RandomizeVehicleSpeed();
 
@@ -648,9 +650,12 @@ namespace HonkHeroGame
                 speed: speed,
                 gameLevel: _gameLevel,
                 honkTemplatesCount: _honkTemplatesCount,
-                streamingDirection: streamingDirection);
+                streamingDirection: streamingDirection,
+                vehicleClass: vehicleClass);
 
             GameView.Children.Add(vehicle);
+
+            return vehicle;
         }
 
         private void UpdateVehicle(Vehicle vehicle)
@@ -670,6 +675,39 @@ namespace HonkHeroGame
                 SpawnHonk(vehicle);
 
             CalibrateAndSetVehicleZ(vehicle);
+
+            switch (vehicle.VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        switch (vehicle.HonkState)
+                        {
+                            case HonkState.DEFAULT:
+                                break;
+                            case HonkState.HONKING:
+                                {
+                                    // make boss vehicle stop in the middle after reaching center of the road
+                                    if (vehicleCloseHitBox.Left > _windowWidth / 2)
+                                        vehicle.VehicleIntent = VehicleIntent.IDLE;
+                                }
+                                break;
+                            case HonkState.HONKING_BUSTED:
+                                {
+                                    if (vehicle.VehicleIntent != VehicleIntent.MOVE)
+                                        vehicle.VehicleIntent = VehicleIntent.MOVE;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
             CalibrateAndMoveBehicle(vehicle, vehicleCloseHitBox);
             DetectAndRecycleVehicle(vehicle, vehicleCloseHitBox);
 
@@ -677,28 +715,6 @@ namespace HonkHeroGame
 
             if (vehicleZ > _player.GetZ())
                 _player.SetZ(vehicleZ + 1);
-        }
-
-        private void DetectAndRecycleVehicle(Vehicle vehicle, Rect vehicleCloseHitBox)
-        {
-            // recycle vehicle according to streaming direction
-            switch (vehicle.StreamingDirection)
-            {
-                case StreamingDirection.UpWard:
-                    {
-                        if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
-                            RecyleVehicle(vehicle);
-                    }
-                    break;
-                case StreamingDirection.DownWard:
-                    {
-                        if (vehicleCloseHitBox.Top > _windowHeight || vehicleCloseHitBox.Left > _windowWidth)
-                            RecyleVehicle(vehicle);
-                    }
-                    break;
-                default:
-                    break;
-            }
         }
 
         private void CalibrateAndMoveBehicle(Vehicle vehicle, Rect vehicleCloseHitBox)
@@ -710,13 +726,15 @@ namespace HonkHeroGame
                 {
                     vehicle.Speed = collidingVehicle.Speed;
 
-                    MoveVehicle(collidingVehicle);
+                    if (vehicle.VehicleIntent == VehicleIntent.MOVE)
+                        MoveVehicle(collidingVehicle);
                 }
                 else if (collidingVehicle.Speed > vehicle.Speed)
                 {
                     collidingVehicle.Speed = vehicle.Speed;
 
-                    MoveVehicle(vehicle);
+                    if (vehicle.VehicleIntent == VehicleIntent.MOVE)
+                        MoveVehicle(vehicle);
                 }
                 else if (collidingVehicle.Speed == vehicle.Speed)
                 {
@@ -724,17 +742,17 @@ namespace HonkHeroGame
                     {
                         case StreamingDirection.UpWard:
                             {
-                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                if (vehicle.GetZ() > collidingVehicle.GetZ() && vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
                                     MoveVehicle(collidingVehicle);
-                                else
+                                else if (vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
                                     MoveVehicle(vehicle);
                             }
                             break;
                         case StreamingDirection.DownWard:
                             {
-                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                if (vehicle.GetZ() > collidingVehicle.GetZ() && vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
                                     MoveVehicle(vehicle);
-                                else
+                                else if (vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
                                     MoveVehicle(collidingVehicle);
                             }
                             break;
@@ -745,7 +763,70 @@ namespace HonkHeroGame
             }
             else
             {
-                MoveVehicle(vehicle);
+                if (vehicle.VehicleIntent == VehicleIntent.MOVE)
+                    MoveVehicle(vehicle);
+            }
+        }
+
+        private void DetectAndRecycleVehicle(Vehicle vehicle, Rect vehicleCloseHitBox)
+        {
+            // recycle vehicle according to streaming direction
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpWard:
+                    {
+                        if (vehicleCloseHitBox.Bottom < 0 || vehicleCloseHitBox.Right < 0)
+                        {
+                            switch (vehicle.VehicleClass)
+                            {
+                                case VehicleClass.DEFAULT_CLASS:
+                                    {
+                                        RecyleVehicle(vehicle);
+
+                                        // loose health if a honking car escapes view without getting tagged with a sticker
+                                        if (vehicle.HonkState == HonkState.HONKING)
+                                            LooseHealth();
+                                    }
+                                    break;
+                                case VehicleClass.BOSS_CLASS:
+                                    {
+                                        GameView.AddDestroyableGameObject(vehicle);
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                case StreamingDirection.DownWard:
+                    {
+                        if (vehicleCloseHitBox.Top > _windowHeight || vehicleCloseHitBox.Left > _windowWidth)
+                        {
+                            switch (vehicle.VehicleClass)
+                            {
+                                case VehicleClass.DEFAULT_CLASS:
+                                    {
+                                        RecyleVehicle(vehicle);
+
+                                        // loose health if a honking car escapes view without getting tagged with a sticker
+                                        if (vehicle.HonkState == HonkState.HONKING)
+                                            LooseHealth();
+                                    }
+                                    break;
+                                case VehicleClass.BOSS_CLASS:
+                                    {
+                                        GameView.AddDestroyableGameObject(vehicle);
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -847,13 +928,10 @@ namespace HonkHeroGame
 
             vehicle.Speed = RandomizeVehicleSpeed();
 
-            // loose health if a honking car escapes view without getting tagged with a sticker
-            if (vehicle.HonkState == HonkState.HONKING)
-                LooseHealth();
-
             vehicle.ResetHonking(
                 gameLevel: _gameLevel,
-                honkTemplatesCount: _honkTemplatesCount);
+                honkTemplatesCount: _honkTemplatesCount,
+                willHonk: Convert.ToBoolean(_random.Next(0, 2)));
 
             RandomizeVehiclePosition(vehicle);
         }
@@ -974,7 +1052,17 @@ namespace HonkHeroGame
 
             GameView.Children.Add(honk);
 
-            SoundHelper.PlaySound(soundType: SoundType.HONK, index: vehicle.HonkSoundIndex);
+            switch (vehicle.VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    SoundHelper.PlaySound(soundType: SoundType.HONK, index: vehicle.HonkSoundIndex);
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    SoundHelper.PlaySound(soundType: SoundType.BOSS_HONK, index: vehicle.HonkSoundIndex);
+                    break;
+                default:
+                    break;
+            }
 
             var honkHitBox = honk.GetHitBox();
 
@@ -1066,12 +1154,26 @@ namespace HonkHeroGame
             if (_stickersAmount > 0)
             {
                 Sticker sticker = SpawnSticker(vehicle);
-                vehicle.BustHonking(sticker);
 
-                AddScore(5);
+                if (vehicle.BustHonking(sticker))
+                {
+                    _vehiclesTagged++;
+                    AddScore(5);
+
+                    if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
+                    {
+                        StopBossSounds();
+                        StartGameSounds();
+
+                        vehicle.Speed = RandomizeVehicleSpeed();
+                        vehicle.VehicleIntent = VehicleIntent.MOVE;
+
+                        ShowInGameTextMessage(message: GetLocalizedResource("BOSS_CLEARED"), activateSlowMotion: true);
+                    }
+                }
+
                 AddHealth();
 
-                _vehiclesTagged++;
                 _stickersAmount--;
                 SetStickersAmountText();
 
@@ -1383,6 +1485,59 @@ namespace HonkHeroGame
 
         #endregion
 
+        #region Boss
+
+        private void EngageBoss()
+        {
+            StopGameSounds();
+
+            Vehicle boss = SpawnVehicle(streamingDirection: StreamingDirection.DownWard, vehicleClass: VehicleClass.BOSS_CLASS);
+
+            _markNum = _random.Next(0, _vehicles_Boss.Length);
+            boss.SetContent(_vehicles_Boss[_markNum]);
+
+            boss.Speed = RandomizeVehicleSpeed();
+
+            var one4thHeight = GameView.Height / 4;
+            var halfHeight = GameView.Height / 2;
+
+            double left;
+            double top;
+
+            left = _random.Next(
+                        minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1,
+                        maxValue: 0);
+
+            // portrait
+            if (GameView.Height > GameView.Width)
+            {
+                top = (GameView.Height - boss.Height - one4thHeight);
+
+                top -= (one4thHeight + boss.Height);
+            }
+            else // landscape
+            {
+                top = (GameView.Height - (boss.Height * 2) - one4thHeight);
+
+                top -= (halfHeight + (50 * _scale));
+            }
+
+            boss.SetPosition(
+               left: left,
+               top: top);
+
+            boss.ResetHonking(
+               gameLevel: _gameLevel,
+               honkTemplatesCount: _bossHonkTemplatesCount,
+               willHonk: true);
+
+            PlayBossSounds();
+
+            ShowInGameTextMessage(message: GetLocalizedResource("BOSS_INCOMING"), activateSlowMotion: true);
+        }
+
+        #endregion
+
         #endregion
 
         #region Score
@@ -1406,6 +1561,10 @@ namespace HonkHeroGame
             if (_gameLevel < 101 && _score > _scoreCap)
             {
                 LevelUp();
+
+                // TODO: enage boss after level 4
+                if (_gameLevel > 2 && _gameLevel % 2 != 0)
+                    EngageBoss();
 #if DEBUG
                 Console.WriteLine("PLAYER LAG: " + _playerLag);
                 Console.WriteLine("GAME SPEED: " + _gameSpeed);
@@ -1456,6 +1615,17 @@ namespace HonkHeroGame
 
             SoundHelper.RandomizeSound(SoundType.SONG);
             SoundHelper.PlaySound(SoundType.SONG);
+        }
+
+        private void PlayBossSounds()
+        {
+            SoundHelper.PlaySound(SoundType.BOSS_ENTRY);
+            SoundHelper.PlaySound(SoundType.BOSS_IDLING);
+        }
+
+        private void StopBossSounds()
+        {
+            SoundHelper.StopSound(SoundType.BOSS_IDLING);
         }
 
         private void StopGameSounds()

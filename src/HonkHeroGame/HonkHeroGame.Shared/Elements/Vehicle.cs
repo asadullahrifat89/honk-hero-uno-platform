@@ -58,6 +58,8 @@ namespace HonkHeroGame
                     {
                         Height = Constants.VEHICLE_SIZE * scale;
                         Width = Constants.VEHICLE_SIZE * scale;
+
+                        SetHonk(gameLevel: gameLevel, honkTemplatesCount: honkTemplatesCount, willHonk: Convert.ToBoolean(_random.Next(0, 2)));
                     }
                     break;
                 case VehicleClass.BOSS_CLASS:
@@ -66,6 +68,8 @@ namespace HonkHeroGame
                         Width = Constants.BOSS_VEHICLE_SIZE * scale;
 
                         Health = 100 * (gameLevel / 2);
+
+                        SetHonk(gameLevel: gameLevel, honkTemplatesCount: honkTemplatesCount, willHonk: true);
                     }
                     break;
                 default:
@@ -88,9 +92,6 @@ namespace HonkHeroGame
             _content.Children.Add(_honkingBusted);
 
             SetChild(_content);
-            SetHonk(
-                gameLevel: gameLevel,
-                honkTemplatesCount: honkTemplatesCount);
         }
 
         #endregion
@@ -108,6 +109,8 @@ namespace HonkHeroGame
         public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
 
         public VehicleClass VehicleClass { get; set; } = VehicleClass.DEFAULT_CLASS;
+
+        public VehicleIntent VehicleIntent { get; set; } = VehicleIntent.MOVE;
 
         public double Health { get; set; } = 100;
 
@@ -151,25 +154,56 @@ namespace HonkHeroGame
             return false;
         }
 
-        public void BustHonking(Sticker sticker)
+        public bool BustHonking(Sticker sticker)
         {
+            bool isHonkBusted = false;
+
             IsMarkedForPopping = true;
             HasPopped = false;
 
-            AttachedSticker = sticker;
-            UpdateHonkState(HonkState.HONKING_BUSTED);
+            switch (VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        AttachedSticker = sticker;
+                        UpdateHonkState(HonkState.HONKING_BUSTED);
+                        isHonkBusted = true;
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        Health -= HitPoints;
+
+                        if (Health <= 0)
+                        {
+                            AttachedSticker = sticker;
+                            UpdateHonkState(HonkState.HONKING_BUSTED);
+                            isHonkBusted = true;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return isHonkBusted;
         }
 
-        public void ResetHonking(int gameLevel, int honkTemplatesCount)
+        public void ResetHonking(int gameLevel, int honkTemplatesCount, bool willHonk)
         {
             IsMarkedForPopping = false;
+
             UpdateHonkState(HonkState.DEFAULT);
-            SetHonk(gameLevel, honkTemplatesCount);
+
+            SetHonk(
+                gameLevel: gameLevel,
+                honkTemplatesCount: honkTemplatesCount,
+                willHonk: willHonk);
         }
 
-        private void SetHonk(int gameLevel, int honkTemplatesCount)
+        private void SetHonk(int gameLevel, int honkTemplatesCount, bool willHonk)
         {
-            WillHonk = Convert.ToBoolean(_random.Next(0, 2));
+            WillHonk = willHonk;
 
             if (WillHonk)
             {
@@ -181,7 +215,19 @@ namespace HonkHeroGame
         private int SetHonkCounter(int gameLevel)
         {
             var halfGameLevel = gameLevel / 2;
-            return _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 125 - (int)Math.Floor(0.4 * halfGameLevel));
+
+            int count = _random.Next(55 - (int)Math.Floor(0.2 * halfGameLevel), 125 - (int)Math.Floor(0.4 * halfGameLevel));
+
+            switch (VehicleClass)
+            {
+                case VehicleClass.BOSS_CLASS:
+                    count = count * 2;
+                    break;
+                default:
+                    break;
+            }
+
+            return count;
         }
 
         private void SetHonkIndex(int honkTemplatesCount)
@@ -226,6 +272,12 @@ namespace HonkHeroGame
         DEFAULT,
         HONKING,
         HONKING_BUSTED,
+    }
+
+    public enum VehicleIntent
+    {
+        MOVE,
+        IDLE,
     }
 
     public enum StreamingDirection

@@ -1325,5 +1325,39 @@
         "Value": "স্টিকার সংগ্রহ করুন"
       }
     ]
+  },
+  {
+    "Key": "BOSS_INCOMING",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Boss Coming"
+      },
+      {
+        "Culture": "de",
+        "Value": "Boss kommt"
+      },
+      {
+        "Culture": "bn",
+        "Value": "বস আসছে"
+      }
+    ]
+  },
+  {
+    "Key": "BOSS_CLEARED",
+    "CultureValues": [
+      {
+        "Culture": "en",
+        "Value": "Boss Cleared"
+      },
+      {
+        "Culture": "de",
+        "Value": "Boss gelöscht"
+      },
+      {
+        "Culture": "bn",
+        "Value": "বস সাফ"
+      }
+    ]
   }
 ]
