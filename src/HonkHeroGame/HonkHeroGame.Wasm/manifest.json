@@ -1,7 +1,8 @@
 {
   "name": "Honk Hero",
   "short_name": "Honk Hero",
-  "start_url": "/",  
+  "start_url": "/",
+  "scope": "/",
   "theme_color": "#111111",
   "background_color": "#111111",
   "description": "Let's tag fools who honk for no reason",
