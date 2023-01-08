@@ -226,7 +226,7 @@
                                 HorizontalAlignment="Left"
                                 FontSize="20"
                                 FontWeight="Bold"
-                                Text="👊"
+                                Text="😡"
                                 TextAlignment="Center" />
 
                             <!--  Health bar  -->

@@ -1331,15 +1331,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Boss Coming"
+        "Value": "😡 Boss Coming"
       },
       {
         "Culture": "de",
-        "Value": "Boss kommt"
+        "Value": "😡 Boss kommt"
       },
       {
         "Culture": "bn",
-        "Value": "বস আসছে"
+        "Value": "😡 বস আসছে"
       }
     ]
   },
@@ -1348,15 +1348,15 @@
     "CultureValues": [
       {
         "Culture": "en",
-        "Value": "Boss Cleared"
+        "Value": "🙉 Boss Cleared"
       },
       {
         "Culture": "de",
-        "Value": "Boss gelöscht"
+        "Value": "🙉 Boss gelöscht"
       },
       {
         "Culture": "bn",
-        "Value": "বস সাফ"
+        "Value": "🙉 বস সাফ"
       }
     ]
   }

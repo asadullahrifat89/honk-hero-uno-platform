@@ -686,11 +686,10 @@ namespace HonkHeroGame
                 SpawnHonk(vehicle);
 
             CalibrateAndSetVehicleZ(vehicle);
+            CalibrateAndMoveVehicle(vehicle, vehicleCloseHitBox);
+            DetectAndRecycleVehicle(vehicle, vehicleCloseHitBox);
 
             MakeBossCauseTrafficJam(vehicle, vehicleCloseHitBox);
-
-            CalibrateAndMoveBehicle(vehicle, vehicleCloseHitBox);
-            DetectAndRecycleVehicle(vehicle, vehicleCloseHitBox);
 
             var vehicleZ = vehicle.GetZ();
 
@@ -698,28 +697,11 @@ namespace HonkHeroGame
                 _player.SetZ(vehicleZ + 1);
         }
 
-        private void CalibrateAndMoveBehicle(Vehicle vehicle, Rect vehicleCloseHitBox)
+        private void CalibrateAndMoveVehicle(Vehicle vehicle, Rect vehicleCloseHitBox)
         {
-            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == vehicle.StreamingDirection
-                            && x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
+            if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == vehicle.StreamingDirection && x.GetHitBox().IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
             {
-                switch (vehicle.VehicleClass)
-                {
-                    case VehicleClass.DEFAULT_CLASS:
-                        {
-                            if (collidingVehicle.VehicleClass == VehicleClass.BOSS_CLASS && collidingVehicle.VehicleIntent == VehicleIntent.IDLE)
-                                vehicle.VehicleIntent = VehicleIntent.IDLE;
-                        }
-                        break;
-                    case VehicleClass.BOSS_CLASS:
-                        {
-                            if (vehicle.VehicleIntent == VehicleIntent.IDLE)
-                                collidingVehicle.VehicleIntent = VehicleIntent.IDLE;
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                MakeVehicleIdle(vehicle, collidingVehicle);
 
                 if (vehicle.Speed > collidingVehicle.Speed)
                 {
@@ -759,6 +741,27 @@ namespace HonkHeroGame
             else
             {
                 MoveVehicle(vehicle);
+            }
+        }
+
+        private void MakeVehicleIdle(Vehicle vehicle, Vehicle collidingVehicle)
+        {
+            switch (vehicle.VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        if (collidingVehicle.VehicleClass == VehicleClass.BOSS_CLASS && collidingVehicle.VehicleIntent == VehicleIntent.IDLE && vehicle.VehicleIntent != VehicleIntent.IDLE)
+                            vehicle.VehicleIntent = VehicleIntent.IDLE;
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        if (vehicle.VehicleIntent == VehicleIntent.IDLE && collidingVehicle.VehicleIntent != VehicleIntent.IDLE)
+                            collidingVehicle.VehicleIntent = VehicleIntent.IDLE;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -930,10 +933,29 @@ namespace HonkHeroGame
                 honkTemplatesCount: _honkTemplatesCount,
                 willHonk: Convert.ToBoolean(_random.Next(0, 2)));
 
-            RandomizeVehiclePosition(vehicle);
+            RecycleVehiclePosition(vehicle);
         }
 
-        private void RandomizeVehiclePosition(Vehicle vehicle)
+        private void RecycleVehiclePosition(Vehicle vehicle)
+        {
+            switch (vehicle.VehicleClass)
+            {
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        RecycleDefaultVehiclePosition(vehicle);
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        RecycleBossVehiclePosition(vehicle);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void RecycleBossVehiclePosition(Vehicle vehicle)
         {
             var one4thHeight = GameView.Height / 4;
             var halfHeight = GameView.Height / 2;
@@ -945,109 +967,112 @@ namespace HonkHeroGame
             {
                 case StreamingDirection.UpWard:
                     {
-                        switch (vehicle.VehicleClass)
+                        left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 2));
+
+                        // portrait
+                        if (GameView.Height > GameView.Width)
                         {
-                            case VehicleClass.DEFAULT_CLASS:
-                                {
-                                    left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 3));
+                            top = one4thHeight;
 
-                                    // portrait
-                                    if (GameView.Height > GameView.Width)
-                                    {
-                                        top = _random.Next(
-                                            minValue: (int)(one4thHeight),
-                                            maxValue: (int)(halfHeight));
+                            top += one4thHeight + vehicle.Height;
+                        }
+                        else // landscape
+                        {
+                            top = (one4thHeight + vehicle.Height);
 
-                                        top += one4thHeight + vehicle.Height;
-                                    }
-                                    else // landscape
-                                    {
-                                        top = _random.Next(
-                                            minValue: (int)(one4thHeight + vehicle.Height),
-                                            maxValue: (int)(halfHeight + one4thHeight + vehicle.Height));
-
-                                        top += halfHeight;
-                                    }
-                                }
-                                break;
-                            case VehicleClass.BOSS_CLASS:
-                                {
-                                    left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 2));
-
-                                    // portrait
-                                    if (GameView.Height > GameView.Width)
-                                    {
-                                        top = one4thHeight;
-
-                                        top += one4thHeight + vehicle.Height;
-                                    }
-                                    else // landscape
-                                    {
-                                        top = (one4thHeight + vehicle.Height);
-
-                                        top += halfHeight;
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
+                            top += halfHeight;
                         }
                     }
                     break;
                 case StreamingDirection.DownWard:
                     {
-                        switch (vehicle.VehicleClass)
+                        left = _random.Next(minValue: (int)(GameView.Width * _random.Next(1, 2)) * -1, maxValue: 0);
+
+                        // portrait
+                        if (GameView.Height > GameView.Width)
                         {
-                            case VehicleClass.DEFAULT_CLASS:
-                                {
-                                    left = _random.Next(minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1, maxValue: 0);
+                            top = (GameView.Height - vehicle.Height - one4thHeight);
 
-                                    // portrait
-                                    if (GameView.Height > GameView.Width)
-                                    {
-                                        top = _random.Next(
-                                            minValue: (int)(halfHeight - one4thHeight),
-                                            maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
+                            top -= (one4thHeight + vehicle.Height);
+                        }
+                        else // landscape
+                        {
+                            top = (GameView.Height - (vehicle.Height * 2) - one4thHeight);
 
-                                        top -= (one4thHeight + vehicle.Height);
-                                    }
-                                    else // landscape
-                                    {
-                                        top = _random.Next(
-                                            minValue: (int)(halfHeight - (vehicle.Height * 2) - one4thHeight),
-                                            maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
-
-                                        top -= (halfHeight + (50 * _scale));
-                                    }
-                                }
-                                break;
-                            case VehicleClass.BOSS_CLASS:
-                                {
-                                    left = _random.Next(minValue: (int)(GameView.Width * _random.Next(1, 2)) * -1, maxValue: 0);
-
-                                    // portrait
-                                    if (GameView.Height > GameView.Width)
-                                    {
-                                        top = (GameView.Height - vehicle.Height - one4thHeight);
-
-                                        top -= (one4thHeight + vehicle.Height);
-                                    }
-                                    else // landscape
-                                    {
-                                        top = (GameView.Height - (vehicle.Height * 2) - one4thHeight);
-
-                                        top -= (halfHeight + (50 * _scale));
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
+                            top -= (halfHeight + (50 * _scale));
                         }
                     }
                     break;
                 default:
                     break;
             }
+
+
+            vehicle.SetPosition(
+                left: left,
+                top: top);
+        }
+
+        private void RecycleDefaultVehiclePosition(Vehicle vehicle)
+        {
+            var one4thHeight = GameView.Height / 4;
+            var halfHeight = GameView.Height / 2;
+
+            double left = 0;
+            double top = 0;
+
+            switch (vehicle.StreamingDirection)
+            {
+                case StreamingDirection.UpWard:
+                    {
+                        left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 3));
+
+                        // portrait
+                        if (GameView.Height > GameView.Width)
+                        {
+                            top = _random.Next(
+                                minValue: (int)(one4thHeight),
+                                maxValue: (int)(halfHeight));
+
+                            top += one4thHeight + vehicle.Height;
+                        }
+                        else // landscape
+                        {
+                            top = _random.Next(
+                                minValue: (int)(one4thHeight + vehicle.Height),
+                                maxValue: (int)(halfHeight + one4thHeight + vehicle.Height));
+
+                            top += halfHeight;
+                        }
+                    }
+                    break;
+                case StreamingDirection.DownWard:
+                    {
+                        left = _random.Next(minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1, maxValue: 0);
+
+                        // portrait
+                        if (GameView.Height > GameView.Width)
+                        {
+                            top = _random.Next(
+                                minValue: (int)(halfHeight - one4thHeight),
+                                maxValue: (int)(GameView.Height - vehicle.Height - one4thHeight));
+
+                            top -= (one4thHeight + vehicle.Height);
+                        }
+                        else // landscape
+                        {
+                            top = _random.Next(
+                                minValue: (int)(halfHeight - (vehicle.Height * 2) - one4thHeight),
+                                maxValue: (int)(GameView.Height - (vehicle.Height * 2) - one4thHeight));
+
+                            top -= (halfHeight + (50 * _scale));
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
 
             vehicle.SetPosition(
                 left: left,
@@ -1076,13 +1101,15 @@ namespace HonkHeroGame
             var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
 
             _bossEngaged = SpawnVehicle(streamingDirection: streamingDirection, vehicleClass: VehicleClass.BOSS_CLASS);
+            BossHealthBar.Maximum = _bossEngaged.Health;
+            BossHealthBar.Value = _bossEngaged.Health;
 
             _markNum = _random.Next(0, _vehicles_Boss.Length);
             _bossEngaged.SetContent(_vehicles_Boss[_markNum]);
 
             _bossEngaged.Speed = RandomizeVehicleSpeed();
 
-            RandomizeVehiclePosition(_bossEngaged);
+            RecycleVehiclePosition(_bossEngaged);
 
             _bossEngaged.ResetHonking(
                gameLevel: _gameLevel,
