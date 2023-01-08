@@ -48,26 +48,17 @@ namespace HonkHeroGame
             return rect;
         }
 
-        public static Rect GetCloseHitBox(this GameObject gameObject, double scale)
+        public static Rect GetCloseHitBox(this GameObject gameObject)
         {
             var rect = new Rect(
-                x: gameObject.GetLeft() + (gameObject.Width / 4),
-                y: gameObject.GetTop() + (gameObject.Height / 4),
-                width: gameObject.Width - (gameObject.Width / 4),
+                x: gameObject.GetLeft() + (gameObject.Width / 3),
+                y: gameObject.GetTop() + (gameObject.Height / 3),
+                width: gameObject.Width - (gameObject.Width / 3),
                 height: gameObject.Height - (gameObject.Width / 3));
 
             //gameObject.SetHitBoxBorder(rect);
 
             return rect;
-        }
-
-        public static Rect GetCollisionPreventionHitBox(this GameObject gameObject, double scale)
-        {
-            return new Rect(
-                x: gameObject.GetLeft() - 5 * scale,
-                y: gameObject.GetTop() * scale,
-                width: gameObject.Width + 5 * scale,
-                height: gameObject.Height * scale);
         }
 
         public static Rect GetDistantHitBox(this GameObject gameObject)

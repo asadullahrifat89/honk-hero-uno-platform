@@ -110,11 +110,11 @@ namespace HonkHeroGame
 
         public VehicleClass VehicleClass { get; set; } = VehicleClass.DEFAULT_CLASS;
 
-        public VehicleIntent VehicleIntent { get; set; } = VehicleIntent.MOVE;
+        public MovementIntent MovementIntent { get; set; } = MovementIntent.MOVE;
 
         public double Health { get; set; } = 100;
 
-        public double HitPoints { get; set; } = 5;
+        public double HitPoints { get; set; } = 10;
 
         public bool IsRecoveringFromPlayerAttack { get; set; }
 
@@ -275,16 +275,16 @@ namespace HonkHeroGame
         HONKING_BUSTED,
     }
 
-    public enum VehicleIntent
+    public enum MovementIntent
     {
         MOVE,
         IDLE,
     }
 
     public enum StreamingDirection
-    {
-        UpWard,
+    {        
         DownWard,
+        UpWard,
     }
 
     public enum VehicleClass
