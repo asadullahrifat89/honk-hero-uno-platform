@@ -1,4 +1,8 @@
 {
+  "name": "Honk Hero",
+  "short_name": "Honk Hero",
+  "start_url": "/",
+  "theme_color": "#111111",
   "background_color": "#111111",
   "description": "Let's tag fools who honk for no reason",
   "display": "standalone",
@@ -28,10 +32,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "name": "Honk Hero",
-  "short_name": "Honk Hero",
-  "start_url": "/",
-  "theme_color": "#111111",
-  "scope": "/"
+  ]
 }

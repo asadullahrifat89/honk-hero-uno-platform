@@ -4,6 +4,8 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<NoWarn>NU1701</NoWarn>
 		<LangVersion>10.0</LangVersion>
+		<!--PWA-->
+		<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>
@@ -26,9 +28,6 @@
 
 		<!--Interpreter-->
 		<!--<WasmShellMonoRuntimeExecutionMode>Interpreter</WasmShellMonoRuntimeExecutionMode>-->
-
-		<!--PWA-->
-		<WasmPWAManifestFile>manifest.json</WasmPWAManifestFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Include="Assets\AppIcon-128.png" />
