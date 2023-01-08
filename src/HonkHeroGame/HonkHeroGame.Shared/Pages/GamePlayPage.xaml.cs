@@ -1165,13 +1165,13 @@ namespace HonkHeroGame
                             {
                                 case StreamingDirection.UpWard:
                                     {
-                                        if (vehicleCloseHitBox.Right - halfWidth <= _windowWidth / 2)
+                                        if (vehicleCloseHitBox.Right - halfWidth < _windowWidth / 2)
                                             vehicle.VehicleIntent = VehicleIntent.IDLE;
                                     }
                                     break;
                                 case StreamingDirection.DownWard:
                                     {
-                                        if (vehicleCloseHitBox.Left + halfWidth >= _windowWidth / 2)
+                                        if (vehicleCloseHitBox.Left + (halfWidth / 2) > _windowWidth / 2)
                                             vehicle.VehicleIntent = VehicleIntent.IDLE;
                                     }
                                     break;
@@ -1479,7 +1479,7 @@ namespace HonkHeroGame
         private void SpawnCollectibles()
         {
             // add some collectibles
-            for (double i = 0; i < 7 * _scale; i++)
+            for (double i = 0; i < 9; i++)
                 SpawnCollectible();
         }
 
@@ -1530,7 +1530,7 @@ namespace HonkHeroGame
 
         private void MoveCollectible(GameObject collectible)
         {
-            var collectibleSpeed = InGameMessageSlowMotionInEffect ? _gameSpeed / _slowMotionFactor : _gameSpeed;
+            var collectibleSpeed = InGameMessageSlowMotionInEffect ? (_gameSpeed * 1.2) / _slowMotionFactor : _gameSpeed * 1.2;
 
             collectible.SetTop(collectible.GetTop() + collectibleSpeed);
         }

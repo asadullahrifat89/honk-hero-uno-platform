@@ -52,7 +52,7 @@ namespace HonkHeroGame
         {
             var rect = new Rect(
                 x: gameObject.GetLeft() + (gameObject.Width / 4),
-                y: gameObject.GetTop() + (gameObject.Height / 3),
+                y: gameObject.GetTop() + (gameObject.Height / 4),
                 width: gameObject.Width - (gameObject.Width / 4),
                 height: gameObject.Height - (gameObject.Width / 3));
 
