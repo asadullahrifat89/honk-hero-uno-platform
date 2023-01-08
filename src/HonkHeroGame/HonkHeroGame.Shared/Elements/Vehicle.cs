@@ -114,7 +114,7 @@ namespace HonkHeroGame
 
         public double Health { get; set; } = 100;
 
-        public double HitPoints { get; set; } = 0.05;
+        public double HitPoints { get; set; } = 0.01;
 
         #endregion
 
@@ -154,9 +154,10 @@ namespace HonkHeroGame
             return false;
         }
 
-        public bool BustHonking(Sticker sticker)
+        public (bool IsHonkingBusted, double Health, bool HasTakenDamage) BustHonking()
         {
             bool isHonkBusted = false;
+            bool hasTakenDamage = false;
 
             IsMarkedForPopping = true;
             HasPopped = false;
@@ -165,28 +166,31 @@ namespace HonkHeroGame
             {
                 case VehicleClass.DEFAULT_CLASS:
                     {
-                        AttachedSticker = sticker;
+                        Health = 0;
                         UpdateHonkState(HonkState.HONKING_BUSTED);
                         isHonkBusted = true;
+                        hasTakenDamage = true;
                     }
                     break;
                 case VehicleClass.BOSS_CLASS:
                     {
                         Health -= HitPoints;
+                        hasTakenDamage = true;
 
                         if (Health <= 0)
                         {
-                            AttachedSticker = sticker;
                             UpdateHonkState(HonkState.HONKING_BUSTED);
                             isHonkBusted = true;
                         }
+
+
                     }
                     break;
                 default:
                     break;
             }
 
-            return isHonkBusted;
+            return (isHonkBusted, Health, hasTakenDamage);
         }
 
         public void ResetHonking(int gameLevel, int honkTemplatesCount, bool willHonk)

@@ -84,6 +84,10 @@ namespace HonkHeroGame
         private readonly int _inGameMessageCoolDownCounterDefault = 125;
         private readonly int _slowMotionFactor = 10;
 
+        private bool _isBossEngaged;
+        private double _bossHealth;
+        private bool _hasBossTakenDamage;
+
         #endregion
 
         #region Properties
@@ -252,6 +256,7 @@ namespace HonkHeroGame
             _gameLevel = 1;
             SetGameLevelText();
 
+            _isBossEngaged = false;
             _isGameOver = false;
             _isPowerMode = false;
 
@@ -298,6 +303,9 @@ namespace HonkHeroGame
         private void GameViewLoop()
         {
             PlayerHealthBar.Value = _playerHealth;
+
+            if (_isBossEngaged)
+                BossHealthBar.Value = _bossHealth;
 
             _playerHitBox = _player.GetHitBox();
             _playerDistantHitBox = _player.GetDistantHitBox();
@@ -432,6 +440,105 @@ namespace HonkHeroGame
                         break;
                     case ElementType.COLLECTIBLE:
                         RecyleCollectible(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Boss
+
+        private void EngageBoss()
+        {
+            SoundHelper.StopSound(SoundType.SONG);
+
+            Vehicle boss = SpawnVehicle(streamingDirection: StreamingDirection.DownWard, vehicleClass: VehicleClass.BOSS_CLASS);
+
+            _markNum = _random.Next(0, _vehicles_Boss.Length);
+            boss.SetContent(_vehicles_Boss[_markNum]);
+
+            boss.Speed = RandomizeVehicleSpeed();
+
+            var one4thHeight = GameView.Height / 4;
+            var halfHeight = GameView.Height / 2;
+
+            double left;
+            double top;
+
+            left = _random.Next(
+                        minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1,
+                        maxValue: 0);
+
+            // portrait
+            if (GameView.Height > GameView.Width)
+            {
+                top = (GameView.Height - boss.Height - one4thHeight);
+
+                top -= (one4thHeight + boss.Height);
+            }
+            else // landscape
+            {
+                top = (GameView.Height - (boss.Height * 2) - one4thHeight);
+
+                top -= (one4thHeight + (50 * _scale));
+            }
+
+            boss.SetPosition(
+               left: left,
+               top: top);
+
+            boss.ResetHonking(
+               gameLevel: _gameLevel,
+               honkTemplatesCount: _bossHonkTemplatesCount,
+               willHonk: true);
+
+            PlayBossSounds();
+
+            ShowInGameTextMessage(message: GetLocalizedResource("BOSS_INCOMING"), activateSlowMotion: true);
+
+            _isBossEngaged = true;
+
+            BossHealthBarPanel.Visibility = Visibility.Visible;
+        }
+
+        private void DisengageBoss(Vehicle boss)
+        {
+            StopBossSounds();
+
+            SoundHelper.RandomizeSound(SoundType.SONG);
+            SoundHelper.PlaySound(SoundType.SONG);
+
+            boss.Speed = RandomizeVehicleSpeed();
+
+            // make all idle vechiles move
+            foreach (var vehicle in GameView.Children.OfType<Vehicle>().Where(x => x.VehicleIntent == VehicleIntent.IDLE))
+            {
+                vehicle.VehicleIntent = VehicleIntent.MOVE;
+            }
+
+            ShowInGameTextMessage(message: GetLocalizedResource("BOSS_CLEARED"), activateSlowMotion: true);
+
+            _isBossEngaged = false;
+
+            BossHealthBarPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void MakeBossCauseTrafficJam(Vehicle vehicle, Rect vehicleCloseHitBox)
+        {
+            if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
+            {
+                switch (vehicle.HonkState)
+                {
+                    case HonkState.DEFAULT:
+                    case HonkState.HONKING:
+                        {
+                            // make boss vehicle stop in the middle after reaching center of the road
+                            if (vehicleCloseHitBox.Left >= _windowWidth / 2)
+                                vehicle.VehicleIntent = VehicleIntent.IDLE;
+                        }
                         break;
                     default:
                         break;
@@ -676,37 +783,7 @@ namespace HonkHeroGame
 
             CalibrateAndSetVehicleZ(vehicle);
 
-            switch (vehicle.VehicleClass)
-            {
-                case VehicleClass.DEFAULT_CLASS:
-                    break;
-                case VehicleClass.BOSS_CLASS:
-                    {
-                        switch (vehicle.HonkState)
-                        {
-                            case HonkState.DEFAULT:
-                                break;
-                            case HonkState.HONKING:
-                                {
-                                    // make boss vehicle stop in the middle after reaching center of the road
-                                    if (vehicleCloseHitBox.Left > _windowWidth / 2)
-                                        vehicle.VehicleIntent = VehicleIntent.IDLE;
-                                }
-                                break;
-                            case HonkState.HONKING_BUSTED:
-                                {
-                                    if (vehicle.VehicleIntent != VehicleIntent.MOVE)
-                                        vehicle.VehicleIntent = VehicleIntent.MOVE;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
+            MakeBossCauseTrafficJam(vehicle, vehicleCloseHitBox);
 
             CalibrateAndMoveBehicle(vehicle, vehicleCloseHitBox);
             DetectAndRecycleVehicle(vehicle, vehicleCloseHitBox);
@@ -722,19 +799,33 @@ namespace HonkHeroGame
             if (GameView.Children.OfType<Vehicle>().FirstOrDefault(x => x.StreamingDirection == vehicle.StreamingDirection
                             && x.GetCloseHitBox(_scale).IntersectsWith(vehicleCloseHitBox)) is Vehicle collidingVehicle)
             {
+                switch (vehicle.VehicleClass)
+                {
+                    case VehicleClass.DEFAULT_CLASS:
+                        {
+                            if (collidingVehicle.VehicleClass == VehicleClass.BOSS_CLASS && collidingVehicle.VehicleIntent == VehicleIntent.IDLE)
+                                vehicle.VehicleIntent = VehicleIntent.IDLE;
+                        }
+                        break;
+                    case VehicleClass.BOSS_CLASS:
+                        {
+                            if (vehicle.VehicleIntent == VehicleIntent.IDLE)
+                                collidingVehicle.VehicleIntent = VehicleIntent.IDLE;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
                 if (vehicle.Speed > collidingVehicle.Speed)
                 {
                     vehicle.Speed = collidingVehicle.Speed;
-
-                    if (vehicle.VehicleIntent == VehicleIntent.MOVE)
-                        MoveVehicle(collidingVehicle);
+                    MoveVehicle(collidingVehicle);
                 }
                 else if (collidingVehicle.Speed > vehicle.Speed)
                 {
                     collidingVehicle.Speed = vehicle.Speed;
-
-                    if (vehicle.VehicleIntent == VehicleIntent.MOVE)
-                        MoveVehicle(vehicle);
+                    MoveVehicle(vehicle);
                 }
                 else if (collidingVehicle.Speed == vehicle.Speed)
                 {
@@ -742,17 +833,17 @@ namespace HonkHeroGame
                     {
                         case StreamingDirection.UpWard:
                             {
-                                if (vehicle.GetZ() > collidingVehicle.GetZ() && vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
+                                if (vehicle.GetZ() > collidingVehicle.GetZ())
                                     MoveVehicle(collidingVehicle);
-                                else if (vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
+                                else
                                     MoveVehicle(vehicle);
                             }
                             break;
                         case StreamingDirection.DownWard:
                             {
-                                if (vehicle.GetZ() > collidingVehicle.GetZ() && vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
+                                if (vehicle.GetZ() > collidingVehicle.GetZ())
                                     MoveVehicle(vehicle);
-                                else if (vehicle.VehicleIntent == VehicleIntent.MOVE && collidingVehicle.VehicleIntent == VehicleIntent.MOVE)
+                                else
                                     MoveVehicle(collidingVehicle);
                             }
                             break;
@@ -763,8 +854,7 @@ namespace HonkHeroGame
             }
             else
             {
-                if (vehicle.VehicleIntent == VehicleIntent.MOVE)
-                    MoveVehicle(vehicle);
+                MoveVehicle(vehicle);
             }
         }
 
@@ -881,28 +971,31 @@ namespace HonkHeroGame
 
         private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
         {
-            var vehicleSpeed = InGameMessageSlowMotionInEffect ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
-
-            switch (vehicle.StreamingDirection)
+            if (vehicle.VehicleIntent == VehicleIntent.MOVE)
             {
-                case StreamingDirection.UpWard:
-                    {
-                        if (vehicle.GetLeft() < _windowWidth)
-                            vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / divideSpeedBy);
+                var vehicleSpeed = InGameMessageSlowMotionInEffect ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
 
-                        vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / divideSpeedBy);
-                    }
-                    break;
-                case StreamingDirection.DownWard:
-                    {
-                        if (vehicle.GetLeft() + vehicle.Width > 0)
-                            vehicle.SetTop(vehicle.GetTop() + (vehicleSpeed * 0.5) / divideSpeedBy);
+                switch (vehicle.StreamingDirection)
+                {
+                    case StreamingDirection.UpWard:
+                        {
+                            if (vehicle.GetLeft() < _windowWidth)
+                                vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / divideSpeedBy);
 
-                        vehicle.SetLeft(vehicle.GetLeft() + vehicleSpeed / divideSpeedBy);
-                    }
-                    break;
-                default:
-                    break;
+                            vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / divideSpeedBy);
+                        }
+                        break;
+                    case StreamingDirection.DownWard:
+                        {
+                            if (vehicle.GetLeft() + vehicle.Width > 0)
+                                vehicle.SetTop(vehicle.GetTop() + (vehicleSpeed * 0.5) / divideSpeedBy);
+
+                            vehicle.SetLeft(vehicle.GetLeft() + vehicleSpeed / divideSpeedBy);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -1153,23 +1246,42 @@ namespace HonkHeroGame
             // honk busting is only possible when stickers are at hand
             if (_stickersAmount > 0)
             {
-                Sticker sticker = SpawnSticker(vehicle);
-
-                if (vehicle.BustHonking(sticker))
+                switch (vehicle.VehicleClass)
                 {
-                    _vehiclesTagged++;
-                    AddScore(5);
+                    case VehicleClass.DEFAULT_CLASS:
+                        {
+                            var (IsHonkingBusted, Health, HasTakenDamage) = vehicle.BustHonking();
 
-                    if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
-                    {
-                        StopBossSounds();
-                        StartGameSounds();
+                            if (IsHonkingBusted)
+                            {
+                                Sticker sticker = SpawnSticker(vehicle);
+                                vehicle.AttachedSticker = sticker;
 
-                        vehicle.Speed = RandomizeVehicleSpeed();
-                        vehicle.VehicleIntent = VehicleIntent.MOVE;
+                                AddScore(5);
+                                _vehiclesTagged++;
+                            }
+                        }
+                        break;
+                    case VehicleClass.BOSS_CLASS:
+                        {
+                            var (IsHonkingBusted, Health, HasTakenDamage) = vehicle.BustHonking();
 
-                        ShowInGameTextMessage(message: GetLocalizedResource("BOSS_CLEARED"), activateSlowMotion: true);
-                    }
+                            _bossHealth = Health;
+                            _hasBossTakenDamage = HasTakenDamage;
+
+                            if (IsHonkingBusted)
+                            {
+                                Sticker sticker = SpawnSticker(vehicle);
+                                vehicle.AttachedSticker = sticker;
+
+                                DisengageBoss(vehicle);
+                                AddScore(10);
+                                _vehiclesTagged++;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
                 }
 
                 AddHealth();
@@ -1483,60 +1595,7 @@ namespace HonkHeroGame
             return score;
         }
 
-        #endregion
-
-        #region Boss
-
-        private void EngageBoss()
-        {
-            StopGameSounds();
-
-            Vehicle boss = SpawnVehicle(streamingDirection: StreamingDirection.DownWard, vehicleClass: VehicleClass.BOSS_CLASS);
-
-            _markNum = _random.Next(0, _vehicles_Boss.Length);
-            boss.SetContent(_vehicles_Boss[_markNum]);
-
-            boss.Speed = RandomizeVehicleSpeed();
-
-            var one4thHeight = GameView.Height / 4;
-            var halfHeight = GameView.Height / 2;
-
-            double left;
-            double top;
-
-            left = _random.Next(
-                        minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1,
-                        maxValue: 0);
-
-            // portrait
-            if (GameView.Height > GameView.Width)
-            {
-                top = (GameView.Height - boss.Height - one4thHeight);
-
-                top -= (one4thHeight + boss.Height);
-            }
-            else // landscape
-            {
-                top = (GameView.Height - (boss.Height * 2) - one4thHeight);
-
-                top -= (halfHeight + (50 * _scale));
-            }
-
-            boss.SetPosition(
-               left: left,
-               top: top);
-
-            boss.ResetHonking(
-               gameLevel: _gameLevel,
-               honkTemplatesCount: _bossHonkTemplatesCount,
-               willHonk: true);
-
-            PlayBossSounds();
-
-            ShowInGameTextMessage(message: GetLocalizedResource("BOSS_INCOMING"), activateSlowMotion: true);
-        }
-
-        #endregion
+        #endregion        
 
         #endregion
 
@@ -1544,12 +1603,16 @@ namespace HonkHeroGame
 
         private void AddScore(double score)
         {
-            score = TwoxScore(score);
+            // boss prevents from scoring
+            if (!_isBossEngaged)
+            {
+                score = TwoxScore(score);
 
-            _score += score;
+                _score += score;
 
-            SetScoreText();
-            ScaleDifficulty();
+                SetScoreText();
+                ScaleDifficulty();
+            }
         }
 
         #endregion

@@ -144,6 +144,7 @@ namespace HonkHeroGame
 
             new KeyValuePair<SoundType, string>(SoundType.BOSS_HONK, "Assets/Sounds/boss-honk1.mp3"),
             new KeyValuePair<SoundType, string>(SoundType.BOSS_HONK, "Assets/Sounds/boss-honk2.mp3"),
+            new KeyValuePair<SoundType, string>(SoundType.BOSS_HONK, "Assets/Sounds/boss-honk3.mp3"),
 
         };
 
