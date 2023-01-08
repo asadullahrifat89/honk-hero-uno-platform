@@ -719,7 +719,7 @@ namespace HonkHeroGame
                     {
                         case StreamingDirection.UpWard:
                             {
-                                if (vehicle.GetZ() > collidingVehicle.GetZ())
+                                if (vehicle.GetZ() < collidingVehicle.GetZ())
                                     MoveVehicle(collidingVehicle);
                                 else
                                     MoveVehicle(vehicle);
@@ -741,6 +741,36 @@ namespace HonkHeroGame
             else
             {
                 MoveVehicle(vehicle);
+            }
+        }
+
+        private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
+        {
+            if (vehicle.VehicleIntent == VehicleIntent.MOVE)
+            {
+                var vehicleSpeed = InGameMessageSlowMotionInEffect ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
+
+                switch (vehicle.StreamingDirection)
+                {
+                    case StreamingDirection.UpWard:
+                        {
+                            if (vehicle.GetLeft() < _windowWidth)
+                                vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / divideSpeedBy);
+
+                            vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / divideSpeedBy);
+                        }
+                        break;
+                    case StreamingDirection.DownWard:
+                        {
+                            if (vehicle.GetLeft() + vehicle.Width > 0)
+                                vehicle.SetTop(vehicle.GetTop() + (vehicleSpeed * 0.5) / divideSpeedBy);
+
+                            vehicle.SetLeft(vehicle.GetLeft() + vehicleSpeed / divideSpeedBy);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -873,36 +903,6 @@ namespace HonkHeroGame
                     break;
                 default:
                     break;
-            }
-        }
-
-        private void MoveVehicle(Vehicle vehicle, int divideSpeedBy = 1)
-        {
-            if (vehicle.VehicleIntent == VehicleIntent.MOVE)
-            {
-                var vehicleSpeed = InGameMessageSlowMotionInEffect ? vehicle.Speed / _slowMotionFactor : vehicle.Speed;
-
-                switch (vehicle.StreamingDirection)
-                {
-                    case StreamingDirection.UpWard:
-                        {
-                            if (vehicle.GetLeft() < _windowWidth)
-                                vehicle.SetTop(vehicle.GetTop() - (vehicleSpeed * 0.5) / divideSpeedBy);
-
-                            vehicle.SetLeft(vehicle.GetLeft() - vehicleSpeed / divideSpeedBy);
-                        }
-                        break;
-                    case StreamingDirection.DownWard:
-                        {
-                            if (vehicle.GetLeft() + vehicle.Width > 0)
-                                vehicle.SetTop(vehicle.GetTop() + (vehicleSpeed * 0.5) / divideSpeedBy);
-
-                            vehicle.SetLeft(vehicle.GetLeft() + vehicleSpeed / divideSpeedBy);
-                        }
-                        break;
-                    default:
-                        break;
-                }
             }
         }
 
@@ -1479,7 +1479,7 @@ namespace HonkHeroGame
         private void SpawnCollectibles()
         {
             // add some collectibles
-            for (double i = 0; i < 9; i++)
+            for (double i = 0; i < 8; i++)
                 SpawnCollectible();
         }
 
