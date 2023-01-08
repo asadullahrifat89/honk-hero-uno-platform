@@ -114,7 +114,7 @@ namespace HonkHeroGame
 
         public double Health { get; set; } = 100;
 
-        public double HitPoints { get; set; } = 5;
+        public double HitPoints { get; set; } = 0.05;
 
         #endregion
 
