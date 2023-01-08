@@ -693,6 +693,7 @@ namespace HonkHeroGame
                         {
                             SpawnHonk(vehicle);
                             SpawnHonk(vehicle);
+                            SpawnHonk(vehicle);
                         }
                         break;
                     default:
@@ -1218,7 +1219,7 @@ namespace HonkHeroGame
 
             Honk honk = new(
                 scale: _scale,
-                speed: vehicle.Speed * 1.4,
+                speed: vehicle.Speed * 1.3,
                 displacement: _random.NextDouble(),
                 vehicleClass: vehicle.VehicleClass,
                 streamingDirection: streamingDirection);
