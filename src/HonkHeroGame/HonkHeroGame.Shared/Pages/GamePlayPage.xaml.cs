@@ -462,7 +462,7 @@ namespace HonkHeroGame
             _bossEngaged.Speed = RandomizeVehicleSpeed();
 
             var one4thHeight = GameView.Height / 4;
-            //var halfHeight = GameView.Height / 2;
+            var halfHeight = GameView.Height / 2;
 
             double left;
             double top;
@@ -482,7 +482,7 @@ namespace HonkHeroGame
             {
                 top = (GameView.Height - (_bossEngaged.Height * 2) - one4thHeight);
 
-                top -= (one4thHeight + (50 * _scale));
+                top -= (halfHeight + (50 * _scale));
             }
 
             _bossEngaged.SetPosition(
