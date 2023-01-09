@@ -103,6 +103,7 @@ namespace HonkHeroGame
             InitializeComponent();
 
             _isGameOver = true;
+            HudPanel.Visibility = Visibility.Collapsed;
             ShowInGameTextMessage(GetLocalizedResource("TAP_ON_SCREEN_TO_BEGIN"));
 
             _windowHeight = Window.Current.Bounds.Height;
@@ -208,74 +209,6 @@ namespace HonkHeroGame
 
         #region Methods
 
-        #region GameObject
-
-        private void SpawnGameObjects()
-        {
-            if (!_isPowerMode)
-            {
-                _powerUpSpawnCounter--;
-
-                if (_powerUpSpawnCounter < 1)
-                {
-                    SpawnPowerUp();
-                    _powerUpSpawnCounter = _random.Next(800, 1000);
-                }
-            }
-        }
-
-        private void UpdateGameObjects()
-        {
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.VEHICLE:
-                        UpdateVehicle(x as Vehicle);
-                        break;
-                    case ElementType.PLAYER:
-                        UpdatePlayer();
-                        break;
-                    case ElementType.HONK:
-                        UpdateHonk(x as Honk);
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        UpdateCollectible(x);
-                        break;
-                    case ElementType.POWERUP:
-                        UpdatePowerUp(x);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        private void RemoveGameObjects()
-        {
-            GameView.RemoveDestroyableGameObjects();
-        }
-
-        private void RecycleGameObjects()
-        {
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.VEHICLE:
-                        RecyleVehicle(x as Vehicle);
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        RecyleCollectible(x);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        #endregion
-
         #region Game
 
         private void LoadGameElements()
@@ -327,6 +260,8 @@ namespace HonkHeroGame
             _isBossEngaged = false;
             _isGameOver = false;
             _isPowerMode = false;
+
+            HudPanel.Visibility = Visibility.Visible;
 
             _powerModeDurationCounter = _powerModeDurationDefault;
 
@@ -408,6 +343,8 @@ namespace HonkHeroGame
             InputView.Focus(FocusState.Programmatic);
             ShowInGameTextMessage(GetLocalizedResource("GAME_PAUSED"));
 
+            HudPanel.Visibility = Visibility.Collapsed;
+
             _gameViewTimer?.Dispose();
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
@@ -424,6 +361,8 @@ namespace HonkHeroGame
             SoundHelper.ResumeSound(SoundType.SONG);
 
             RunGame();
+
+            HudPanel.Visibility = Visibility.Visible;
         }
 
         private void StopGame()
@@ -445,6 +384,74 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
             NavigateToPage(typeof(GameOverPage));
+        }
+
+        #endregion
+
+        #region GameObject
+
+        private void SpawnGameObjects()
+        {
+            if (!_isPowerMode)
+            {
+                _powerUpSpawnCounter--;
+
+                if (_powerUpSpawnCounter < 1)
+                {
+                    SpawnPowerUp();
+                    _powerUpSpawnCounter = _random.Next(800, 1000);
+                }
+            }
+        }
+
+        private void UpdateGameObjects()
+        {
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.VEHICLE:
+                        UpdateVehicle(x as Vehicle);
+                        break;
+                    case ElementType.PLAYER:
+                        UpdatePlayer();
+                        break;
+                    case ElementType.HONK:
+                        UpdateHonk(x as Honk);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        UpdateCollectible(x);
+                        break;
+                    case ElementType.POWERUP:
+                        UpdatePowerUp(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void RemoveGameObjects()
+        {
+            GameView.RemoveDestroyableGameObjects();
+        }
+
+        private void RecycleGameObjects()
+        {
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.VEHICLE:
+                        RecyleVehicle(x as Vehicle);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        RecyleCollectible(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         #endregion
@@ -708,7 +715,7 @@ namespace HonkHeroGame
             CalibrateAndMoveVehicle(vehicle, vehicleCloseHitBox);
             DetectAndRecycleVehicle(vehicle, vehicleCloseHitBox);
 
-            BossHoldPosition(vehicle, vehicleCloseHitBox);
+            CauseTraffic(vehicle, vehicleCloseHitBox);
 
             var vehicleZ = vehicle.GetZ();
 
@@ -942,11 +949,11 @@ namespace HonkHeroGame
                         left = _random.Next(minValue: (int)(GameView.Width * _random.Next(1, 2)) * -1, maxValue: 0);
 
                         // portrait
-                        if (GameView.Height > GameView.Width)
+                        if (IsPortraitView())
                         {
                             top = (GameView.Height - vehicle.Height - one4thHeight);
 
-                            top -= (one4thHeight + vehicle.Height);
+                            top -= (one4thHeight + (vehicle.Height / 2));
                         }
                         else // landscape
                         {
@@ -961,7 +968,7 @@ namespace HonkHeroGame
                         left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 2));
 
                         // portrait
-                        if (GameView.Height > GameView.Width)
+                        if (IsPortraitView())
                         {
                             top = one4thHeight;
 
@@ -997,7 +1004,7 @@ namespace HonkHeroGame
                         left = _random.Next(minValue: (int)(GameView.Width * _random.Next(1, 3)) * -1, maxValue: 0);
 
                         // portrait
-                        if (GameView.Height > GameView.Width)
+                        if (IsPortraitView())
                         {
                             top = _random.Next(
                                 minValue: (int)(halfHeight - one4thHeight),
@@ -1020,7 +1027,7 @@ namespace HonkHeroGame
                         left = _random.Next(minValue: (int)GameView.Width, maxValue: (int)GameView.Width * _random.Next(1, 3));
 
                         // portrait
-                        if (GameView.Height > GameView.Width)
+                        if (IsPortraitView())
                         {
                             top = _random.Next(
                                 minValue: (int)(one4thHeight),
@@ -1047,10 +1054,10 @@ namespace HonkHeroGame
 
         private double RecycleVehicleSpeed()
         {
-            if (_windowWidth > _windowHeight)
-                return _gameSpeed + _random.Next(1, 5);
-            else
+            if (IsPortraitView())
                 return _gameSpeed + _random.Next(0, 3);
+            else
+                return _gameSpeed + _random.Next(1, 5);
         }
 
         private void CalibrateAndSetVehicleZ(Vehicle vehicle)
@@ -1162,7 +1169,7 @@ namespace HonkHeroGame
             }
         }
 
-        private void BossHoldPosition(Vehicle vehicle, Rect vehicleCloseHitBox)
+        private void CauseTraffic(Vehicle vehicle, Rect vehicleCloseHitBox)
         {
             if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
             {
@@ -1178,13 +1185,13 @@ namespace HonkHeroGame
                             {
                                 case StreamingDirection.DownWard:
                                     {
-                                        if (vehicleCloseHitBox.Left + (halfWidth / 2) > _windowWidth / 2)
+                                        if (vehicleCloseHitBox.Left + (halfWidth / 2) > _windowWidth / 3 * 2)
                                             vehicle.MovementIntent = MovementIntent.IDLE;
                                     }
                                     break;
                                 case StreamingDirection.UpWard:
                                     {
-                                        if (vehicleCloseHitBox.Right - halfWidth < _windowWidth / 2)
+                                        if (vehicleCloseHitBox.Left + halfWidth < _windowWidth / 3)
                                             vehicle.MovementIntent = MovementIntent.IDLE;
                                     }
                                     break;
@@ -1363,28 +1370,28 @@ namespace HonkHeroGame
                 {
                     case StreamingDirection.DownWard:
                         {
-                            if (_windowWidth > _windowHeight)
+                            if (IsPortraitView())
                             {
-                                if (vehicleHitBox.Right > (_windowWidth / 3) * -1)
+                                if (vehicleHitBox.Right > _windowWidth * -2.5)
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                             else
                             {
-                                if (vehicleHitBox.Right > _windowWidth * -2.5)
+                                if (vehicleHitBox.Right > (_windowWidth / 3) * -1)
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                         }
                         break;
                     case StreamingDirection.UpWard:
                         {
-                            if (_windowWidth > _windowHeight)
+                            if (IsPortraitView())
                             {
-                                if (vehicleHitBox.Right < _windowWidth + (_windowWidth / 3))
+                                if (vehicleHitBox.Right < _windowWidth * 2.5)
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                             else
                             {
-                                if (vehicleHitBox.Right < _windowWidth * 2.5)
+                                if (vehicleHitBox.Right < _windowWidth + (_windowWidth / 3))
                                     return vehicle.WaitForHonk(_gameLevel);
                             }
                         }
@@ -1867,7 +1874,7 @@ namespace HonkHeroGame
             UnderView.Children.Clear();
 
             // potrait
-            if (_windowHeight > _windowWidth)
+            if (IsPortraitView())
             {
                 for (int i = 0; i <= 10; i++)
                 {
@@ -1888,7 +1895,7 @@ namespace HonkHeroGame
                 }
             }
 
-            var applicableWidth = _windowWidth > _windowHeight ? (_windowWidth / 2) * 1.1 : _windowWidth * 1.45;
+            var applicableWidth = !IsPortraitView() ? (_windowWidth / 2) * 1.1 : _windowWidth * 1.45;
 
             RoadSideLeftImage.Width = applicableWidth;
             RoadSideLeftImage.Height = _windowHeight;
@@ -1922,6 +1929,11 @@ namespace HonkHeroGame
         {
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
+        }
+
+        private bool IsPortraitView()
+        {
+            return GameView.Height > GameView.Width;
         }
 
         #endregion
