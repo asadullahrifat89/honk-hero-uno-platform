@@ -28,12 +28,12 @@ namespace HonkHeroGame
 
         private int _markNum;
 
-        private Uri[] _vehicles_Up;
-        private Uri[] _vehicles_Down;
-        private Uri[] _vehicles_Boss_Up;
-        private Uri[] _vehicles_Boss_Down;
+        private Uri[] _vehicles_up;
+        private Uri[] _vehicles_down;
+        private Uri[] _vehicles_boss_up;
+        private Uri[] _vehicles_boss_down;
         private Uri[] _honks;
-        private Uri[] _honks_Boss;
+        private Uri[] _honks_boss;
         private Uri[] _collectibles;
         private Uri[] _powerUps;
 
@@ -79,8 +79,8 @@ namespace HonkHeroGame
 
         private int _gameLevel = 1;
 
-        private int _honkTemplatesCount = 0;
-        private int _bossHonkTemplatesCount = 0;
+        private int _honkTemplates_count = 0;
+        private int _honkTemplates_boss_count = 0;
 
         private int _inGameMessageCoolDownCounter = 0;
         private readonly int _inGameMessageCoolDownCounterDefault = 125;
@@ -214,19 +214,20 @@ namespace HonkHeroGame
 
         private void LoadGameElements()
         {
-            _vehicles_Up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPWARD).Select(x => x.Value).ToArray();
-            _vehicles_Down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
-            _vehicles_Boss_Up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE_UPWARD).Select(x => x.Value).ToArray();
-            _vehicles_Boss_Down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
+            _vehicles_up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPWARD).Select(x => x.Value).ToArray();
+            _vehicles_down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
+
+            _vehicles_boss_up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE_UPWARD).Select(x => x.Value).ToArray();
+            _vehicles_boss_down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
 
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
-            _honks_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_HONK).Select(x => x.Value).ToArray();
+            _honks_boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_HONK).Select(x => x.Value).ToArray();
 
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
             _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
 
-            _honkTemplatesCount = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.HONK).Count();
-            _bossHonkTemplatesCount = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.BOSS_HONK).Count();
+            _honkTemplates_count = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.HONK).Count();
+            _honkTemplates_boss_count = Constants.SOUND_TEMPLATES.Where(x => x.Key == SoundType.BOSS_HONK).Count();
         }
 
         private void PopulateGameViews()
@@ -672,7 +673,7 @@ namespace HonkHeroGame
                 scale: _scale,
                 speed: speed,
                 gameLevel: _gameLevel,
-                honkTemplatesCount: _honkTemplatesCount,
+                honkTemplatesCount: _honkTemplates_count,
                 streamingDirection: streamingDirection,
                 vehicleClass: vehicleClass);
 
@@ -893,14 +894,14 @@ namespace HonkHeroGame
             {
                 case StreamingDirection.DownWard:
                     {
-                        _markNum = _random.Next(0, _vehicles_Down.Length);
-                        vehicle.SetContent(_vehicles_Down[_markNum]);
+                        _markNum = _random.Next(0, _vehicles_down.Length);
+                        vehicle.SetContent(_vehicles_down[_markNum]);
                     }
                     break;
                 case StreamingDirection.UpWard:
                     {
-                        _markNum = _random.Next(0, _vehicles_Up.Length);
-                        vehicle.SetContent(_vehicles_Up[_markNum]);
+                        _markNum = _random.Next(0, _vehicles_up.Length);
+                        vehicle.SetContent(_vehicles_up[_markNum]);
                     }
                     break;
                 default:
@@ -911,7 +912,7 @@ namespace HonkHeroGame
 
             vehicle.ResetHonking(
                 gameLevel: _gameLevel,
-                honkTemplatesCount: _honkTemplatesCount,
+                honkTemplatesCount: _honkTemplates_count,
                 willHonk: Convert.ToBoolean(_random.Next(0, 2)));
 
             RecycleVehiclePosition(vehicle);
@@ -1131,14 +1132,14 @@ namespace HonkHeroGame
             {
                 case StreamingDirection.DownWard:
                     {
-                        _markNum = _random.Next(0, _vehicles_Boss_Down.Length);
-                        _bossEngaged.SetContent(_vehicles_Boss_Down[_markNum]);
+                        _markNum = _random.Next(0, _vehicles_boss_down.Length);
+                        _bossEngaged.SetContent(_vehicles_boss_down[_markNum]);
                     }
                     break;
                 case StreamingDirection.UpWard:
                     {
-                        _markNum = _random.Next(0, _vehicles_Boss_Up.Length);
-                        _bossEngaged.SetContent(_vehicles_Boss_Up[_markNum]);
+                        _markNum = _random.Next(0, _vehicles_boss_up.Length);
+                        _bossEngaged.SetContent(_vehicles_boss_up[_markNum]);
                     }
                     break;
                 default:
@@ -1151,7 +1152,7 @@ namespace HonkHeroGame
 
             _bossEngaged.ResetHonking(
                gameLevel: _gameLevel,
-               honkTemplatesCount: _bossHonkTemplatesCount,
+               honkTemplatesCount: _honkTemplates_boss_count,
                willHonk: true);
 
             PlayBossSounds();
@@ -1252,8 +1253,8 @@ namespace HonkHeroGame
                         var streamingDirections = Enum.GetNames<StreamingDirection>();
                         streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
 
-                        _markNum = _random.Next(0, _honks_Boss.Length);
-                        honkUri = _honks_Boss[_markNum];
+                        _markNum = _random.Next(0, _honks_boss.Length);
+                        honkUri = _honks_boss[_markNum];
                     }
                     break;
                 default:
