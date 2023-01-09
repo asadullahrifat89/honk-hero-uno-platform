@@ -33,7 +33,6 @@ namespace HonkHeroGame
                                 {
                                     RandomizeSound(SoundType.AMBIENCE);
                                     PlaySound(SoundType.AMBIENCE);
-
 #if DEBUG
                                     Console.WriteLine("AUDIO PLAYBACK: " + SoundType.AMBIENCE);
 #endif
@@ -46,7 +45,6 @@ namespace HonkHeroGame
                                 {
                                     RandomizeSound(SoundType.SONG);
                                     PlaySound(SoundType.SONG);
-
 #if DEBUG
                                     Console.WriteLine("AUDIO PLAYBACK: " + SoundType.SONG);
 #endif
@@ -54,7 +52,6 @@ namespace HonkHeroGame
                             }
                             break;
                         case SoundType.BOSS_IDLING:
-                        case SoundType.INTRO:
                             {
                                 sound = new Sound(soundType: x.Key, soundSource: x.Value, volume: 1.0, loop: true);
                             }
@@ -73,7 +70,7 @@ namespace HonkHeroGame
                 _playingSounds = new List<Sound>();
 
                 // add all sounds except randomizable sounds as these will be randomized before playing
-                _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.AMBIENCE and not SoundType.INTRO and not SoundType.SONG));
+                _playingSounds.AddRange(_sounds.Where(x => x.SoundType is not SoundType.AMBIENCE and not SoundType.SONG));
 
                 completed?.Invoke();
             }
