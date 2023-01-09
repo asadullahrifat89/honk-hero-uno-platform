@@ -50,6 +50,8 @@
                 <Setter Property="CornerRadius" Value="15" />
                 <Setter Property="FontWeight" Value="SemiBold" />
                 <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="BorderBrush" Value="#111111" />
+                <Setter Property="BorderThickness" Value="3" />
                 <Setter Property="IsFocusEngagementEnabled" Value="False" />
                 <Setter Property="FontFamily" Value="Wigglye" />
             </Style>

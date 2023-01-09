@@ -12,16 +12,16 @@ namespace HonkHeroGame
 
         public const double DEFAULT_FRAME_TIME = 18;
 
-        public const double VEHICLE_SIZE = 195;
-        public const double BOSS_VEHICLE_SIZE = 310;
+        public const double VEHICLE_SIZE = 210;
+        public const double BOSS_VEHICLE_SIZE = 320;
 
         public const double PLAYER_WIDTH = 90;
         public const double PLAYER_HEIGHT = 90;
 
         public const double STICKER_SIZE = 40;
 
-        public const double HONK_SIZE = 100;
-        public const double BOSS_HONK_SIZE = 120;
+        public const double HONK_SIZE = 90;
+        public const double BOSS_HONK_SIZE = 110;
 
         public const double POWERUP_SIZE = 80;
 

@@ -1108,9 +1108,9 @@ namespace HonkHeroGame
             SoundHelper.StopSound(SoundType.SONG);
 
             //TODO: set random streaming dir
-            //var streamingDirections = Enum.GetNames<StreamingDirection>();            
-            //var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
-            var streamingDirection = StreamingDirection.DownWard;
+            var streamingDirections = Enum.GetNames<StreamingDirection>();
+            var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+            //var streamingDirection = StreamingDirection.DownWard;
 
             _bossEngaged = SpawnVehicle(streamingDirection: streamingDirection, vehicleClass: VehicleClass.BOSS_CLASS);
             BossHealthBar.Maximum = _bossEngaged.Health;
@@ -1387,9 +1387,7 @@ namespace HonkHeroGame
                 {
                     case VehicleClass.DEFAULT_CLASS:
                         {
-                            var isHonkingBusted = vehicle.BustHonk();
-
-                            if (isHonkingBusted)
+                            if (vehicle.BustHonk())
                             {
                                 Sticker sticker = SpawnSticker(vehicle);
                                 vehicle.AttachedSticker = sticker;
@@ -1397,13 +1395,13 @@ namespace HonkHeroGame
                                 AddScore(5);
                                 _vehiclesTagged++;
                             }
+
+                            AddHealth(_playerHealPoints);
                         }
                         break;
                     case VehicleClass.BOSS_CLASS:
                         {
-                            var isHonkingBusted = vehicle.BustHonk();
-
-                            if (isHonkingBusted)
+                            if (vehicle.BustHonk())
                             {
                                 Sticker sticker = SpawnSticker(vehicle);
                                 vehicle.AttachedSticker = sticker;
@@ -1412,13 +1410,13 @@ namespace HonkHeroGame
                                 AddScore(10);
                                 _vehiclesTagged++;
                             }
+
+                            AddHealth(_playerHealPoints / 2);
                         }
                         break;
                     default:
                         break;
                 }
-
-                AddHealth();
 
                 _stickersAmount--;
                 SetStickersAmountText();
@@ -1579,14 +1577,14 @@ namespace HonkHeroGame
 
         #region Health
 
-        private void AddHealth()
+        private void AddHealth(double healPoints)
         {
             if (_playerHealth < 100)
             {
-                var health = _playerHealPoints;
+                var health = healPoints;
 
-                if (_playerHealth + _playerHealPoints > 100)
-                    health = _playerHealth + _playerHealPoints - 100;
+                if (_playerHealth + healPoints > 100)
+                    health = _playerHealth + healPoints - 100;
 
                 _playerHealth += health;
 
