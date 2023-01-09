@@ -676,8 +676,8 @@ namespace HonkHeroGame
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox();
 
-            if (IsHonkBusted(vehicle))
-                UpdateSticker(vehicle);
+            //if (IsHonkBusted(vehicle))
+            //    UpdateSticker(vehicle);
 
             if (CanBustHonk(vehicle: vehicle, vehicleCloseHitBox: vehicleCloseHitBox))
                 BustHonk(vehicle);
@@ -1389,8 +1389,8 @@ namespace HonkHeroGame
                         {
                             if (vehicle.BustHonk())
                             {
-                                Sticker sticker = SpawnSticker(vehicle);
-                                vehicle.AttachedSticker = sticker;
+                                //Sticker sticker = SpawnSticker(vehicle);
+                                //vehicle.AttachedSticker = sticker;
 
                                 AddScore(5);
                                 _vehiclesTagged++;
@@ -1403,8 +1403,8 @@ namespace HonkHeroGame
                         {
                             if (vehicle.BustHonk())
                             {
-                                Sticker sticker = SpawnSticker(vehicle);
-                                vehicle.AttachedSticker = sticker;
+                                //Sticker sticker = SpawnSticker(vehicle);
+                                //vehicle.AttachedSticker = sticker;
 
                                 DisengageBoss();
                                 AddScore(10);
@@ -1429,10 +1429,10 @@ namespace HonkHeroGame
             }
         }
 
-        private bool IsHonkBusted(Vehicle vehicle)
-        {
-            return vehicle.IsHonkBusted();
-        }
+        //private bool IsHonkBusted(Vehicle vehicle)
+        //{
+        //    return vehicle.IsHonkBusted();
+        //}
 
         private bool CanBustHonk(Vehicle vehicle, Rect vehicleCloseHitBox)
         {
@@ -1446,41 +1446,41 @@ namespace HonkHeroGame
 
         #region Sticker
 
-        private Sticker SpawnSticker(Vehicle vehicle)
-        {
-            Sticker sticker = new(_scale);
+        //private Sticker SpawnSticker(Vehicle vehicle)
+        //{
+        //    Sticker sticker = new(_scale);
 
-            MoveSticker(vehicle, sticker);
+        //    MoveSticker(vehicle, sticker);
 
-            sticker.SetZ(vehicle.GetZ() + 1);
-            sticker.SetRotation(_random.Next(-30, 30));
+        //    sticker.SetZ(vehicle.GetZ() + 1);
+        //    sticker.SetRotation(_random.Next(-30, 30));
 
-            //sticker.SetSkewY(-30);
-            //sticker.SetSkewY(30);
+        //    //sticker.SetSkewY(-30);
+        //    //sticker.SetSkewY(30);
 
-            GameView.Children.Add(sticker);
+        //    GameView.Children.Add(sticker);
 
-            return sticker;
-        }
+        //    return sticker;
+        //}
 
-        private void UpdateSticker(Vehicle vehicle)
-        {
-            var sticker = vehicle.AttachedSticker;
-            sticker.SetZ(vehicle.GetZ() + 1);
+        //private void UpdateSticker(Vehicle vehicle)
+        //{
+        //    var sticker = vehicle.AttachedSticker;
+        //    sticker.SetZ(vehicle.GetZ() + 1);
 
-            MoveSticker(vehicle, sticker);
+        //    MoveSticker(vehicle, sticker);
 
-            var stickerHitBox = sticker.GetHitBox();
+        //    var stickerHitBox = sticker.GetHitBox();
 
-            if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0 || stickerHitBox.Top > _windowHeight || stickerHitBox.Left > _windowWidth)
-                GameView.AddDestroyableGameObject(sticker);
-        }
+        //    if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0 || stickerHitBox.Top > _windowHeight || stickerHitBox.Left > _windowWidth)
+        //        GameView.AddDestroyableGameObject(sticker);
+        //}
 
-        private void MoveSticker(Vehicle vehicle, Sticker sticker)
-        {
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
-        }
+        //private void MoveSticker(Vehicle vehicle, Sticker sticker)
+        //{
+        //    sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
+        //    sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
+        //}
 
         #endregion        
 
