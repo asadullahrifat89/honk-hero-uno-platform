@@ -12,9 +12,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Extensions.Hosting;
 using Uno.Extensions.Hosting;
 using Windows.UI.ViewManagement;
-#if DEBUG
 using Microsoft.Extensions.Logging;
-#endif
 
 namespace HonkHeroGame
 {
