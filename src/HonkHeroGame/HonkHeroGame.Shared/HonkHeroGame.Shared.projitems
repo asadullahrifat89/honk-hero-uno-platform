@@ -128,8 +128,8 @@
     <Content Include="$(MSBuildThisFileDirectory)appsettings.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss2.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss4.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honk3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution1.jpg" />
