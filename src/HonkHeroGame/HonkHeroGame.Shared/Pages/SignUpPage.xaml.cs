@@ -485,16 +485,6 @@ namespace HonkHeroGame
 
         #endregion
 
-        #region Sound
-
-        private void StartGameSounds()
-        {
-            SoundHelper.RandomizeSound(SoundType.INTRO);
-            SoundHelper.PlaySound(SoundType.INTRO);
-        }
-
-        #endregion        
-
         #endregion
 
         #endregion

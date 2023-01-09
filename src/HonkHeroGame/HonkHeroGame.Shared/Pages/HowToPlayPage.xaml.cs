@@ -156,7 +156,7 @@ namespace HonkHeroGame
         private void NavigateToPage(Type pageType)
         {
             if (pageType == typeof(GamePlayPage))
-                SoundHelper.StopSound(SoundType.INTRO);
+                SoundHelper.StopSound(SoundType.SONG);
 
             SoundHelper.PlaySound(SoundType.MENU_SELECT);
             App.NavigateToPage(pageType);
@@ -301,16 +301,6 @@ namespace HonkHeroGame
         }
 
         #endregion
-
-        #region Sound
-
-        private void StartGameSounds()
-        {
-            SoundHelper.RandomizeSound(SoundType.INTRO);
-            SoundHelper.PlaySound(SoundType.INTRO);
-        }
-
-        #endregion        
 
         #endregion
 

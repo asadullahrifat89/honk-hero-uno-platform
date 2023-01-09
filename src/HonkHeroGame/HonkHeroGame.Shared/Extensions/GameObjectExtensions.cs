@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Windows.Foundation;
+﻿using Windows.Foundation;
 
 namespace HonkHeroGame
 {

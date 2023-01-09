@@ -126,8 +126,7 @@ namespace HonkHeroGame
 
     public enum SoundType
     {
-        MENU_SELECT,
-        INTRO,
+        MENU_SELECT,        
         AMBIENCE,
         SONG,
         HONK,

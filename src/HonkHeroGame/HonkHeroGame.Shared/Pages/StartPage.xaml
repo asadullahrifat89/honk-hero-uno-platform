@@ -244,7 +244,7 @@
                     <PersonPicture ProfilePicture="ms-appx:///Assets/Images/attribution2.jpg" />
                 </HyperlinkButton>
 
-                <HyperlinkButton Height="50" NavigateUri="https://www.youtube.com/channel/UCs9YW4KQORx1mVJNXgyy-YQ">
+                <HyperlinkButton Height="50" NavigateUri="https://www.youtube.com/@FarooqueBhai">
                     <PersonPicture ProfilePicture="ms-appx:///Assets/Images/attribution4.jpg" />
                 </HyperlinkButton>
 

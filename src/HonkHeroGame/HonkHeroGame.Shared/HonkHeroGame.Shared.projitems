@@ -200,6 +200,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-clear.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\honk7.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-honk3.mp3" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song11.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song8.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\level-up.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\power-down.mp3" />
@@ -225,7 +226,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song4.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song1.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\menu-select.mp3" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\intro.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song2.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song6.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\song9.mp3" />
