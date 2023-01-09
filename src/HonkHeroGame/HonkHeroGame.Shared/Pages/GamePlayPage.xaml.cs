@@ -32,6 +32,7 @@ namespace HonkHeroGame
         private Uri[] _vehicles_Down;
         private Uri[] _vehicles_Boss;
         private Uri[] _honks;
+        private Uri[] _honks_Boss;
         private Uri[] _collectibles;
         private Uri[] _powerUps;
 
@@ -284,6 +285,8 @@ namespace HonkHeroGame
             _vehicles_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE).Select(x => x.Value).ToArray();
 
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
+            _honks_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_HONK).Select(x => x.Value).ToArray();
+
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
             _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
 
@@ -1209,24 +1212,41 @@ namespace HonkHeroGame
         private void SpawnHonk(Vehicle vehicle)
         {
             StreamingDirection streamingDirection = vehicle.StreamingDirection;
+            Uri honkUri = null;
 
-            if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
+            switch (vehicle.VehicleClass)
             {
-                var streamingDirections = Enum.GetNames<StreamingDirection>();
-                streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        streamingDirection = vehicle.StreamingDirection;
+
+                        _markNum = _random.Next(0, _honks.Length);
+                        honkUri = _honks[_markNum];
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        var streamingDirections = Enum.GetNames<StreamingDirection>();
+                        streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+
+                        _markNum = _random.Next(0, _honks_Boss.Length);
+                        honkUri = _honks_Boss[_markNum];
+                    }
+                    break;
+                default:
+                    break;
             }
 
             Honk honk = new(
-                scale: _scale,
-                speed: vehicle.Speed * 1.3,
-                displacement: _random.NextDouble(),
-                vehicleClass: vehicle.VehicleClass,
-                streamingDirection: streamingDirection);
+               scale: _scale,
+               speed: vehicle.Speed * 1.3,
+               displacement: _random.NextDouble(),
+               vehicleClass: vehicle.VehicleClass,
+               streamingDirection: streamingDirection);
+
+            honk.SetContent(honkUri);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox();
-
-            _markNum = _random.Next(0, _honks.Length);
-            honk.SetContent(_honks[_markNum]);
 
             switch (honk.StreamingDirection)
             {

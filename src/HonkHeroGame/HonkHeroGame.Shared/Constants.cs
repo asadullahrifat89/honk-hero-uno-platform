@@ -21,7 +21,7 @@ namespace HonkHeroGame
         public const double STICKER_SIZE = 40;
 
         public const double HONK_SIZE = 90;
-        public const double BOSS_HONK_SIZE = 110;
+        public const double BOSS_HONK_SIZE = 130;
 
         public const double POWERUP_SIZE = 80;
 
@@ -78,6 +78,9 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.HONK, new Uri("ms-appx:///Assets/Images/honk1.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.HONK, new Uri("ms-appx:///Assets/Images/honk2.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.HONK, new Uri("ms-appx:///Assets/Images/honk3.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_HONK, new Uri("ms-appx:///Assets/Images/boss-honk1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_HONK, new Uri("ms-appx:///Assets/Images/boss-honk2.png")),
 
             new KeyValuePair<ElementType, Uri>(ElementType.COLLECTIBLE, new Uri("ms-appx:///Assets/Images/collectible.png")),
                         

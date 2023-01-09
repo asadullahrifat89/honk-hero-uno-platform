@@ -255,6 +255,7 @@ namespace HonkHeroGame
         STICKER,
         POWERUP,
         HONK,
+        BOSS_HONK,
         COLLECTIBLE,
         ROAD_DECORATION,
         HONKING,

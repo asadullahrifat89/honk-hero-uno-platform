@@ -130,13 +130,14 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss3.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss4.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss5.png" />    
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss5.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\honking.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution1.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution2.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution3.jpg" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\attribution4.jpg" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />    
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_game.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss-honk1.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_flying.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\player_idle.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\logo_brand.png" />
@@ -187,6 +188,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle8_up.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9_down.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Images\vehicle9_up.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Images\boss-honk2.png" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\localization.json" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-entry.mp3" />
     <Content Include="$(MSBuildThisFileDirectory)Assets\Sounds\boss-idling.mp3" />
