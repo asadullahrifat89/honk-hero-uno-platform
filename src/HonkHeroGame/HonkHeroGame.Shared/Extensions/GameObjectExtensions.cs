@@ -51,8 +51,8 @@ namespace HonkHeroGame
 
         public static Rect GetCloseHitBox(this GameObject gameObject)
         {
-            var fourthWidht = gameObject.Width / 4;
-            var fourthHeight = gameObject.Height / 4;
+            var fourthWidht = gameObject.Width / 5;
+            var fourthHeight = gameObject.Height / 5;
 
             var rect = new Rect(
                 x: gameObject.GetLeft() + fourthWidht,

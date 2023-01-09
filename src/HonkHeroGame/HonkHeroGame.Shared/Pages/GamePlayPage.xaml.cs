@@ -207,6 +207,74 @@ namespace HonkHeroGame
 
         #region Methods
 
+        #region GameObject
+
+        private void SpawnGameObjects()
+        {
+            if (!_isPowerMode)
+            {
+                _powerUpSpawnCounter--;
+
+                if (_powerUpSpawnCounter < 1)
+                {
+                    SpawnPowerUp();
+                    _powerUpSpawnCounter = _random.Next(800, 1000);
+                }
+            }
+        }
+
+        private void UpdateGameObjects()
+        {
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.VEHICLE:
+                        UpdateVehicle(x as Vehicle);
+                        break;
+                    case ElementType.PLAYER:
+                        UpdatePlayer();
+                        break;
+                    case ElementType.HONK:
+                        UpdateHonk(x as Honk);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        UpdateCollectible(x);
+                        break;
+                    case ElementType.POWERUP:
+                        UpdatePowerUp(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void RemoveGameObjects()
+        {
+            GameView.RemoveDestroyableGameObjects();
+        }
+
+        private void RecycleGameObjects()
+        {
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.VEHICLE:
+                        RecyleVehicle(x as Vehicle);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        RecyleCollectible(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #endregion
+
         #region Game
 
         private void LoadGameElements()
@@ -374,74 +442,6 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
             NavigateToPage(typeof(GameOverPage));
-        }
-
-        #endregion
-
-        #region GameObject
-
-        private void SpawnGameObjects()
-        {
-            if (!_isPowerMode)
-            {
-                _powerUpSpawnCounter--;
-
-                if (_powerUpSpawnCounter < 1)
-                {
-                    SpawnPowerUp();
-                    _powerUpSpawnCounter = _random.Next(800, 1000);
-                }
-            }
-        }
-
-        private void UpdateGameObjects()
-        {
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.VEHICLE:
-                        UpdateVehicle(x as Vehicle);
-                        break;
-                    case ElementType.PLAYER:
-                        UpdatePlayer();
-                        break;
-                    case ElementType.HONK:
-                        UpdateHonk(x as Honk);
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        UpdateCollectible(x);
-                        break;
-                    case ElementType.POWERUP:
-                        UpdatePowerUp(x);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        private void RemoveGameObjects()
-        {
-            GameView.RemoveDestroyableGameObjects();
-        }
-
-        private void RecycleGameObjects()
-        {
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.VEHICLE:
-                        RecyleVehicle(x as Vehicle);
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        RecyleCollectible(x);
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         #endregion
@@ -1145,19 +1145,18 @@ namespace HonkHeroGame
             SoundHelper.RandomizeSound(SoundType.SONG);
             SoundHelper.PlaySound(SoundType.SONG);
 
-            // make all idle vechiles move
-            foreach (var vehicle in GameView.Children.OfType<Vehicle>().Where(x => x.MovementIntent == MovementIntent.IDLE))
-            {
-                vehicle.Speed = RecycleVehicleSpeed();
-                vehicle.MovementIntent = MovementIntent.MOVE;
-            }
-
             ShowInGameTextMessage(message: GetLocalizedResource("BOSS_CLEARED"), activateSlowMotion: true);
 
             _isBossEngaged = false;
             _bossEngaged = null;
 
             BossHealthBarPanel.Visibility = Visibility.Collapsed;
+
+            // make all idle vechiles move
+            foreach (var vehicle in GameView.Children.OfType<Vehicle>().Where(x => x.MovementIntent == MovementIntent.IDLE))
+            {
+                vehicle.MovementIntent = MovementIntent.MOVE;
+            }
         }
 
         private void BossHoldPosition(Vehicle vehicle, Rect vehicleCloseHitBox)
