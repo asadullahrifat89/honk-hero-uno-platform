@@ -63,7 +63,10 @@ namespace HonkHeroGame
                         Height = Constants.VEHICLE_SIZE * scale;
                         Width = Constants.VEHICLE_SIZE * scale;
 
-                        SetHonk(gameLevel: gameLevel, honkTemplatesCount: honkTemplatesCount, willHonk: Convert.ToBoolean(_random.Next(0, 2)));
+                        SetHonk(
+                            gameLevel: gameLevel,
+                            honkTemplatesCount: honkTemplatesCount,
+                            willHonk: Convert.ToBoolean(_random.Next(0, 2)));
                     }
                     break;
                 case VehicleClass.BOSS_CLASS:
@@ -73,7 +76,10 @@ namespace HonkHeroGame
 
                         Health = 50 * (gameLevel / 2);
 
-                        SetHonk(gameLevel: gameLevel, honkTemplatesCount: honkTemplatesCount, willHonk: true);
+                        SetHonk(
+                            gameLevel: gameLevel,
+                            honkTemplatesCount: honkTemplatesCount,
+                            willHonk: true);
                     }
                     break;
                 default:
