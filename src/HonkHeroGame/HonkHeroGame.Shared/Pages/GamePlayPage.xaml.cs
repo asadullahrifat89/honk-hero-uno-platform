@@ -1108,9 +1108,9 @@ namespace HonkHeroGame
             SoundHelper.StopSound(SoundType.SONG);
 
             //TODO: set random streaming dir
-            //var streamingDirections = Enum.GetNames<StreamingDirection>();            
-            //var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
-            var streamingDirection = StreamingDirection.DownWard;
+            var streamingDirections = Enum.GetNames<StreamingDirection>();
+            var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+            //var streamingDirection = StreamingDirection.DownWard;
 
             _bossEngaged = SpawnVehicle(streamingDirection: streamingDirection, vehicleClass: VehicleClass.BOSS_CLASS);
             BossHealthBar.Maximum = _bossEngaged.Health;

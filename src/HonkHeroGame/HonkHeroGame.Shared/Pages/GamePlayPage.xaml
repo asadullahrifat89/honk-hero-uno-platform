@@ -40,17 +40,17 @@
 
             <!--#region Player health, power up, game score-->
             <StackPanel
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Orientation="Vertical">
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                     <!--  Player health  -->
                     <Border
                         x:Name="PlayerHealthBarPanel"
                         Height="40"
-                        Margin="5,5,0,5"
+                        Margin="0,5,0,5"
                         BorderThickness="3"
                         CornerRadius="5"
                         Style="{StaticResource GameUIContainer}">
@@ -64,7 +64,6 @@
                             <Image
                                 Width="25"
                                 Height="25"
-                                HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Source="ms-appx:///Assets/Images/ear.png" />
 
@@ -102,7 +101,6 @@
                             <TextBlock
                                 Name="ScoreText"
                                 Margin="5,0,0,0"
-                                HorizontalAlignment="Left"
                                 FontSize="20"
                                 FontWeight="Bold"
                                 Text="0"
@@ -112,7 +110,6 @@
                             <TextBlock
                                 x:Name="GameLevelText"
                                 Margin="5,0,0,0"
-                                HorizontalAlignment="Left"
                                 FontSize="20"
                                 FontWeight="Bold"
                                 TextAlignment="Left" />
@@ -123,14 +120,13 @@
 
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                     <!--  Power up  -->
                     <Border
                         x:Name="PowerUpPanel"
                         Height="40"
-                        Margin="5,0,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="5,0,5,5"
                         BorderThickness="3"
                         CornerRadius="5"
                         Style="{StaticResource GameUIContainer}"
@@ -144,7 +140,6 @@
                             <!--  Power up icon  -->
                             <TextBlock
                                 Width="25"
-                                HorizontalAlignment="Left"
                                 FontSize="20"
                                 FontWeight="Bold"
                                 Text="👊"
@@ -156,7 +151,6 @@
                                 Width="50"
                                 Height="5"
                                 Margin="5,0"
-                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Foreground="Goldenrod"
                                 Maximum="100"
@@ -172,8 +166,8 @@
                     <Border
                         x:Name="StickersPanel"
                         Height="40"
-                        Margin="5,0"
-                        HorizontalAlignment="Left"
+                        Margin="0,0,5,5"
+                        HorizontalAlignment="Right"
                         BorderThickness="3"
                         CornerRadius="5"
                         Style="{StaticResource GameUIContainer}">
@@ -187,7 +181,6 @@
                             <Image
                                 Width="25"
                                 Height="25"
-                                HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Source="ms-appx:///Assets/Images/collectible.png" />
 
@@ -196,7 +189,6 @@
                                 x:Name="StickersAmountText"
                                 Width="25"
                                 Margin="5,0"
-                                HorizontalAlignment="Left"
                                 FontSize="20"
                                 FontWeight="Bold"
                                 TextAlignment="Left" />
@@ -205,47 +197,48 @@
 
                     </Border>
 
-                    <!--  Boss health  -->
-                    <Border
-                        x:Name="BossHealthBarPanel"
-                        Height="40"
-                        Margin="5,5,0,5"
-                        BorderThickness="3"
-                        CornerRadius="5"
-                        Style="{StaticResource GameUIContainer}"
-                        Visibility="Collapsed">
+                </StackPanel>
 
-                        <StackPanel
+                <!--  Boss health  -->
+                <Border
+                    x:Name="BossHealthBarPanel"
+                    Height="40"
+                    Margin="0,0,5,0"
+                    HorizontalAlignment="Right"
+                    BorderThickness="3"
+                    CornerRadius="5"
+                    Style="{StaticResource GameUIContainer}"
+                    Visibility="Collapsed">
+
+                    <StackPanel
+                        Margin="5,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <!--  Boss icon  -->
+                        <TextBlock
+                            Width="25"
+                            HorizontalAlignment="Left"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Text="😡"
+                            TextAlignment="Center" />
+
+                        <!--  Health bar  -->
+                        <ProgressBar
+                            x:Name="BossHealthBar"
+                            Width="50"
+                            Height="5"
                             Margin="5,0"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal">
+                            Foreground="Crimson"
+                            Maximum="100"
+                            Minimum="0"
+                            Value="100" />
 
-                            <!--  Boss icon  -->
-                            <TextBlock
-                                Width="25"
-                                HorizontalAlignment="Left"
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Text="😡"
-                                TextAlignment="Center" />
+                    </StackPanel>
 
-                            <!--  Health bar  -->
-                            <ProgressBar
-                                x:Name="BossHealthBar"
-                                Width="50"
-                                Height="5"
-                                Margin="5,0"
-                                VerticalAlignment="Center"
-                                Foreground="Crimson"
-                                Maximum="100"
-                                Minimum="0"
-                                Value="100" />
-
-                        </StackPanel>
-
-                    </Border>
-
-                </StackPanel>
+                </Border>
 
             </StackPanel>
             <!--#endregion-->
@@ -284,9 +277,9 @@
             <!--#region Pause & quit game-->
             <StackPanel
                 x:Name="QuitGamePanel"
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Orientation="Horizontal"
+                Orientation="Vertical"
                 Visibility="Collapsed">
 
                 <!--  Confirm quit game  -->
@@ -294,6 +287,7 @@
                     x:Name="ConfirmQuitGameButton"
                     Height="45"
                     Margin="5"
+                    HorizontalAlignment="Center"
                     Click="ConfirmQuitGameButton_Click"
                     Content="Quit Game?"
                     Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
@@ -304,6 +298,7 @@
                     Width="45"
                     Height="45"
                     Margin="5"
+                    HorizontalAlignment="Center"
                     Checked="QuitGameButton_Checked"
                     CornerRadius="100"
                     Unchecked="QuitGameButton_Unchecked">
