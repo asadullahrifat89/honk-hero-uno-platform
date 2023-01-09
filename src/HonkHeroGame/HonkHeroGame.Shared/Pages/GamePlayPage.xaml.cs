@@ -1499,7 +1499,7 @@ namespace HonkHeroGame
             collectible.SetRotation(_random.Next(-30, 30));
             collectible.SetZ(60);
 
-            RandomizeCollectiblePosition(collectible);
+            RecycleCollectiblePosition(collectible);
 
             GameView.Children.Add(collectible);
         }
@@ -1529,7 +1529,7 @@ namespace HonkHeroGame
                         if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
                         {
                             collectible.IsFlaggedForShrinking = true;
-                            Collectible();
+                            CollectCollectible();
                         }
 
                         MagnetPull(collectible);
@@ -1547,30 +1547,31 @@ namespace HonkHeroGame
 
         private void RecyleCollectible(GameObject collectible)
         {
-            RandomizeCollectiblePosition(collectible);
+            RecycleCollectiblePosition(collectible);
             collectible.SetContent(_collectibles[0]);
             collectible.SetScaleTransform(1);
             collectible.IsFlaggedForShrinking = false;
         }
 
-        private void RandomizeCollectiblePosition(GameObject collectible)
+        private void RecycleCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
                 left: _random.Next((int)collectible.Width, (int)(GameView.Width - collectible.Width)),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
-        private void Collectible()
+        private void CollectCollectible()
         {
             _collectibleCollected++;
             _stickersAmount++;
+
             SetStickersAmountText();
+            AddScore(1);
+
+            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
 
             if (InGameMessageText.Text == GetLocalizedResource("COLLECT_STICKERS"))
                 HideInGameTextMessage();
-
-            AddScore(1);
-            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
         }
 
         #endregion
