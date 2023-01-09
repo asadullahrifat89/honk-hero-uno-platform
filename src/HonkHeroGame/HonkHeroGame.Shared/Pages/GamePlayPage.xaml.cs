@@ -30,7 +30,8 @@ namespace HonkHeroGame
 
         private Uri[] _vehicles_Up;
         private Uri[] _vehicles_Down;
-        private Uri[] _vehicles_Boss;
+        private Uri[] _vehicles_Boss_Up;
+        private Uri[] _vehicles_Boss_Down;
         private Uri[] _honks;
         private Uri[] _honks_Boss;
         private Uri[] _collectibles;
@@ -215,7 +216,8 @@ namespace HonkHeroGame
         {
             _vehicles_Up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPWARD).Select(x => x.Value).ToArray();
             _vehicles_Down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
-            _vehicles_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE).Select(x => x.Value).ToArray();
+            _vehicles_Boss_Up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE_UPWARD).Select(x => x.Value).ToArray();
+            _vehicles_Boss_Down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
 
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
             _honks_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_HONK).Select(x => x.Value).ToArray();
@@ -1117,17 +1119,31 @@ namespace HonkHeroGame
         {
             SoundHelper.StopSound(SoundType.SONG);
 
-            //TODO: set random streaming dir
             var streamingDirections = Enum.GetNames<StreamingDirection>();
             var streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
-            //var streamingDirection = StreamingDirection.DownWard;
 
             _bossEngaged = SpawnVehicle(streamingDirection: streamingDirection, vehicleClass: VehicleClass.BOSS_CLASS);
+
             BossHealthBar.Maximum = _bossEngaged.Health;
             BossHealthBar.Value = _bossEngaged.Health;
 
-            _markNum = _random.Next(0, _vehicles_Boss.Length);
-            _bossEngaged.SetContent(_vehicles_Boss[_markNum]);
+            switch (streamingDirection)
+            {
+                case StreamingDirection.DownWard:
+                    {
+                        _markNum = _random.Next(0, _vehicles_Boss_Down.Length);
+                        _bossEngaged.SetContent(_vehicles_Boss_Down[_markNum]);
+                    }
+                    break;
+                case StreamingDirection.UpWard:
+                    {
+                        _markNum = _random.Next(0, _vehicles_Boss_Up.Length);
+                        _bossEngaged.SetContent(_vehicles_Boss_Up[_markNum]);
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             _bossEngaged.Speed = RecycleVehicleSpeed();
 

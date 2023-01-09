@@ -13,7 +13,7 @@ namespace HonkHeroGame
         public const double DEFAULT_FRAME_TIME = 18;
 
         public const double VEHICLE_SIZE = 210;
-        public const double BOSS_VEHICLE_SIZE = 300;
+        public const double BOSS_VEHICLE_SIZE = 250;
 
         public const double PLAYER_WIDTH = 90;
         public const double PLAYER_HEIGHT = 90;
@@ -93,10 +93,15 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-left.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-right.png")),
 
-            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss4.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_UPWARD, new Uri("ms-appx:///Assets/Images/boss1_up.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_UPWARD, new Uri("ms-appx:///Assets/Images/boss2_up.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_UPWARD, new Uri("ms-appx:///Assets/Images/boss3_up.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_UPWARD, new Uri("ms-appx:///Assets/Images/boss4_up.png")),
+
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_DOWNWARD, new Uri("ms-appx:///Assets/Images/boss1_down.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_DOWNWARD, new Uri("ms-appx:///Assets/Images/boss2_down.png")),            
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_DOWNWARD, new Uri("ms-appx:///Assets/Images/boss3_down.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE_DOWNWARD, new Uri("ms-appx:///Assets/Images/boss4_down.png")),
         };
 
         #endregion
