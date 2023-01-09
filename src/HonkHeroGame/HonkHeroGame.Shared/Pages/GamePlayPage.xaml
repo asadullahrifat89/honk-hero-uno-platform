@@ -38,12 +38,16 @@
                 Source="ms-appx:///Assets/Images/road-side-buildings-left.png" />
             <!--#endregion-->
 
-            <!--#region Player health, power up, game score-->
+            <!--#region Player health, game score, power up, stickers, boss health-->
             <StackPanel
+                x:Name="HudPanel"
+                Margin="0,0,50,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                Orientation="Vertical">
+                Orientation="Vertical"
+                Visibility="Collapsed">
 
+                <!--  Player health, game score  -->
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                     <!--  Player health  -->
@@ -120,6 +124,7 @@
 
                 </StackPanel>
 
+                <!--  Power up, stickers  -->
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                     <!--  Power up  -->
@@ -274,40 +279,6 @@
                 PointerPressed="InputView_PointerPressed" />
             <!--#endregion-->
 
-            <!--#region Pause & quit game-->
-            <StackPanel
-                x:Name="QuitGamePanel"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Orientation="Vertical"
-                Visibility="Collapsed">
-
-                <!--  Confirm quit game  -->
-                <Button
-                    x:Name="ConfirmQuitGameButton"
-                    Height="45"
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Click="ConfirmQuitGameButton_Click"
-                    Content="Quit Game?"
-                    Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
-
-                <!--  Pause game  -->
-                <ToggleButton
-                    x:Name="QuitGameButton"
-                    Width="45"
-                    Height="45"
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    Checked="QuitGameButton_Checked"
-                    CornerRadius="100"
-                    Unchecked="QuitGameButton_Unchecked">
-                    <SymbolIcon Symbol="Pause" />
-                </ToggleButton>
-
-            </StackPanel>
-            <!--#endregion-->
-
             <!--#region FPS counter-->
             <TextBlock
                 x:Name="GameElementsCount"
@@ -316,6 +287,40 @@
                 FontSize="20"
                 FontWeight="SemiBold"
                 Foreground="White" />
+            <!--#endregion-->
+
+            <!--#region Pause & quit game-->
+            <StackPanel
+                x:Name="QuitGamePanel"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Orientation="Vertical"
+                Visibility="Collapsed">
+
+                <!--  Pause game  -->
+                <ToggleButton
+                    x:Name="QuitGameButton"
+                    Width="45"
+                    Height="45"
+                    Margin="5"
+                    HorizontalAlignment="Right"
+                    Checked="QuitGameButton_Checked"
+                    CornerRadius="100"
+                    Unchecked="QuitGameButton_Unchecked">
+                    <SymbolIcon Symbol="Pause" />
+                </ToggleButton>
+
+                <!--  Confirm quit game  -->
+                <Button
+                    x:Name="ConfirmQuitGameButton"
+                    Height="45"
+                    Margin="5"
+                    HorizontalAlignment="Right"
+                    Click="ConfirmQuitGameButton_Click"
+                    Content="Quit Game?"
+                    Visibility="{x:Bind Path=QuitGameButton.IsChecked, Mode=TwoWay}" />
+
+            </StackPanel>
             <!--#endregion-->
 
         </Grid>
