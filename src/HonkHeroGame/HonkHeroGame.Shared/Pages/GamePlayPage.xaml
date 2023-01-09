@@ -47,7 +47,7 @@
                 Orientation="Vertical"
                 Visibility="Collapsed">
 
-                <!--  Player health, game score  -->
+                <!--  Player health, game score, stickers  -->
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                     <!--  Player health  -->
@@ -150,14 +150,14 @@
 
                 </StackPanel>
 
-                <!--  Power up  -->
+                <!--  Power up, boss health  -->
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                     <!--  Power up  -->
                     <Border
                         x:Name="PowerUpPanel"
                         Height="40"
-                        Margin="5,0,5,5"
+                        Margin="5,0"
                         BorderThickness="3"
                         CornerRadius="5"
                         Style="{StaticResource GameUIContainer}"
@@ -193,48 +193,47 @@
 
                     </Border>
 
-                </StackPanel>
+                    <!--  Boss health  -->
+                    <Border
+                        x:Name="BossHealthBarPanel"
+                        Height="40"
+                        Margin="0,0,5,0"
+                        BorderThickness="3"
+                        CornerRadius="5"
+                        Style="{StaticResource GameUIContainer}"
+                        Visibility="Collapsed">
 
-                <!--  Boss health  -->
-                <Border
-                    x:Name="BossHealthBarPanel"
-                    Height="40"
-                    Margin="0,0,5,0"
-                    HorizontalAlignment="Right"
-                    BorderThickness="3"
-                    CornerRadius="5"
-                    Style="{StaticResource GameUIContainer}"
-                    Visibility="Collapsed">
-
-                    <StackPanel
-                        Margin="5,0"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-
-                        <!--  Boss icon  -->
-                        <TextBlock
-                            Width="25"
-                            HorizontalAlignment="Left"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Text="😡"
-                            TextAlignment="Center" />
-
-                        <!--  Health bar  -->
-                        <ProgressBar
-                            x:Name="BossHealthBar"
-                            Width="50"
-                            Height="5"
+                        <StackPanel
                             Margin="5,0"
                             VerticalAlignment="Center"
-                            Foreground="Crimson"
-                            Maximum="100"
-                            Minimum="0"
-                            Value="100" />
+                            Orientation="Horizontal">
 
-                    </StackPanel>
+                            <!--  Boss icon  -->
+                            <TextBlock
+                                Width="25"
+                                HorizontalAlignment="Left"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Text="😡"
+                                TextAlignment="Center" />
 
-                </Border>
+                            <!--  Health bar  -->
+                            <ProgressBar
+                                x:Name="BossHealthBar"
+                                Width="50"
+                                Height="5"
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                Foreground="Crimson"
+                                Maximum="100"
+                                Minimum="0"
+                                Value="100" />
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
 
             </StackPanel>
             <!--#endregion-->
@@ -305,7 +304,7 @@
                 <Button
                     x:Name="ConfirmQuitGameButton"
                     Height="45"
-                    Margin="5"
+                    Margin="5,0"
                     HorizontalAlignment="Right"
                     Click="ConfirmQuitGameButton_Click"
                     Content="Quit Game?"
