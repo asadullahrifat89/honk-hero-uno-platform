@@ -32,6 +32,7 @@ namespace HonkHeroGame
         private Uri[] _vehicles_Down;
         private Uri[] _vehicles_Boss;
         private Uri[] _honks;
+        private Uri[] _honks_Boss;
         private Uri[] _collectibles;
         private Uri[] _powerUps;
 
@@ -207,15 +208,85 @@ namespace HonkHeroGame
 
         #region Methods
 
+        #region GameObject
+
+        private void SpawnGameObjects()
+        {
+            if (!_isPowerMode)
+            {
+                _powerUpSpawnCounter--;
+
+                if (_powerUpSpawnCounter < 1)
+                {
+                    SpawnPowerUp();
+                    _powerUpSpawnCounter = _random.Next(800, 1000);
+                }
+            }
+        }
+
+        private void UpdateGameObjects()
+        {
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.VEHICLE:
+                        UpdateVehicle(x as Vehicle);
+                        break;
+                    case ElementType.PLAYER:
+                        UpdatePlayer();
+                        break;
+                    case ElementType.HONK:
+                        UpdateHonk(x as Honk);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        UpdateCollectible(x);
+                        break;
+                    case ElementType.POWERUP:
+                        UpdatePowerUp(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void RemoveGameObjects()
+        {
+            GameView.RemoveDestroyableGameObjects();
+        }
+
+        private void RecycleGameObjects()
+        {
+            foreach (GameObject x in GameView.Children.OfType<GameObject>())
+            {
+                switch ((ElementType)x.Tag)
+                {
+                    case ElementType.VEHICLE:
+                        RecyleVehicle(x as Vehicle);
+                        break;
+                    case ElementType.COLLECTIBLE:
+                        RecyleCollectible(x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        #endregion
+
         #region Game
 
         private void LoadGameElements()
         {
             _vehicles_Up = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_UPWARD).Select(x => x.Value).ToArray();
             _vehicles_Down = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_DOWNWARD).Select(x => x.Value).ToArray();
-            _vehicles_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.VEHICLE_BOSS).Select(x => x.Value).ToArray();
+            _vehicles_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_VEHICLE).Select(x => x.Value).ToArray();
 
             _honks = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.HONK).Select(x => x.Value).ToArray();
+            _honks_Boss = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.BOSS_HONK).Select(x => x.Value).ToArray();
+
             _collectibles = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.COLLECTIBLE).Select(x => x.Value).ToArray();
             _powerUps = Constants.ELEMENT_TEMPLATES.Where(x => x.Key == ElementType.POWERUP).Select(x => x.Value).ToArray();
 
@@ -374,74 +445,6 @@ namespace HonkHeroGame
 
             SoundHelper.PlaySound(SoundType.GAME_OVER);
             NavigateToPage(typeof(GameOverPage));
-        }
-
-        #endregion
-
-        #region GameObject
-
-        private void SpawnGameObjects()
-        {
-            if (!_isPowerMode)
-            {
-                _powerUpSpawnCounter--;
-
-                if (_powerUpSpawnCounter < 1)
-                {
-                    SpawnPowerUp();
-                    _powerUpSpawnCounter = _random.Next(800, 1000);
-                }
-            }
-        }
-
-        private void UpdateGameObjects()
-        {
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.VEHICLE:
-                        UpdateVehicle(x as Vehicle);
-                        break;
-                    case ElementType.PLAYER:
-                        UpdatePlayer();
-                        break;
-                    case ElementType.HONK:
-                        UpdateHonk(x as Honk);
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        UpdateCollectible(x);
-                        break;
-                    case ElementType.POWERUP:
-                        UpdatePowerUp(x);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        private void RemoveGameObjects()
-        {
-            GameView.RemoveDestroyableGameObjects();
-        }
-
-        private void RecycleGameObjects()
-        {
-            foreach (GameObject x in GameView.Children.OfType<GameObject>())
-            {
-                switch ((ElementType)x.Tag)
-                {
-                    case ElementType.VEHICLE:
-                        RecyleVehicle(x as Vehicle);
-                        break;
-                    case ElementType.COLLECTIBLE:
-                        RecyleCollectible(x);
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         #endregion
@@ -676,8 +679,8 @@ namespace HonkHeroGame
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox();
 
-            if (IsHonkBusted(vehicle))
-                UpdateSticker(vehicle);
+            //if (IsHonkBusted(vehicle))
+            //    UpdateSticker(vehicle);
 
             if (CanBustHonk(vehicle: vehicle, vehicleCloseHitBox: vehicleCloseHitBox))
                 BustHonk(vehicle);
@@ -1145,19 +1148,18 @@ namespace HonkHeroGame
             SoundHelper.RandomizeSound(SoundType.SONG);
             SoundHelper.PlaySound(SoundType.SONG);
 
-            // make all idle vechiles move
-            foreach (var vehicle in GameView.Children.OfType<Vehicle>().Where(x => x.MovementIntent == MovementIntent.IDLE))
-            {
-                vehicle.Speed = RecycleVehicleSpeed();
-                vehicle.MovementIntent = MovementIntent.MOVE;
-            }
-
             ShowInGameTextMessage(message: GetLocalizedResource("BOSS_CLEARED"), activateSlowMotion: true);
 
             _isBossEngaged = false;
             _bossEngaged = null;
 
             BossHealthBarPanel.Visibility = Visibility.Collapsed;
+
+            // make all idle vechiles move
+            foreach (var vehicle in GameView.Children.OfType<Vehicle>().Where(x => x.MovementIntent == MovementIntent.IDLE))
+            {
+                vehicle.MovementIntent = MovementIntent.MOVE;
+            }
         }
 
         private void BossHoldPosition(Vehicle vehicle, Rect vehicleCloseHitBox)
@@ -1210,24 +1212,41 @@ namespace HonkHeroGame
         private void SpawnHonk(Vehicle vehicle)
         {
             StreamingDirection streamingDirection = vehicle.StreamingDirection;
+            Uri honkUri = null;
 
-            if (vehicle.VehicleClass == VehicleClass.BOSS_CLASS)
+            switch (vehicle.VehicleClass)
             {
-                var streamingDirections = Enum.GetNames<StreamingDirection>();
-                streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+                case VehicleClass.DEFAULT_CLASS:
+                    {
+                        streamingDirection = vehicle.StreamingDirection;
+
+                        _markNum = _random.Next(0, _honks.Length);
+                        honkUri = _honks[_markNum];
+                    }
+                    break;
+                case VehicleClass.BOSS_CLASS:
+                    {
+                        var streamingDirections = Enum.GetNames<StreamingDirection>();
+                        streamingDirection = (StreamingDirection)_random.Next(0, streamingDirections.Length);
+
+                        _markNum = _random.Next(0, _honks_Boss.Length);
+                        honkUri = _honks_Boss[_markNum];
+                    }
+                    break;
+                default:
+                    break;
             }
 
             Honk honk = new(
-                scale: _scale,
-                speed: vehicle.Speed * 1.3,
-                displacement: _random.NextDouble(),
-                vehicleClass: vehicle.VehicleClass,
-                streamingDirection: streamingDirection);
+               scale: _scale,
+               speed: vehicle.Speed * 1.3,
+               displacement: _random.NextDouble(),
+               vehicleClass: vehicle.VehicleClass,
+               streamingDirection: streamingDirection);
+
+            honk.SetContent(honkUri);
 
             var vehicleCloseHitBox = vehicle.GetCloseHitBox();
-
-            _markNum = _random.Next(0, _honks.Length);
-            honk.SetContent(_honks[_markNum]);
 
             switch (honk.StreamingDirection)
             {
@@ -1389,8 +1408,8 @@ namespace HonkHeroGame
                         {
                             if (vehicle.BustHonk())
                             {
-                                Sticker sticker = SpawnSticker(vehicle);
-                                vehicle.AttachedSticker = sticker;
+                                //Sticker sticker = SpawnSticker(vehicle);
+                                //vehicle.AttachedSticker = sticker;
 
                                 AddScore(5);
                                 _vehiclesTagged++;
@@ -1403,8 +1422,8 @@ namespace HonkHeroGame
                         {
                             if (vehicle.BustHonk())
                             {
-                                Sticker sticker = SpawnSticker(vehicle);
-                                vehicle.AttachedSticker = sticker;
+                                //Sticker sticker = SpawnSticker(vehicle);
+                                //vehicle.AttachedSticker = sticker;
 
                                 DisengageBoss();
                                 AddScore(10);
@@ -1429,10 +1448,10 @@ namespace HonkHeroGame
             }
         }
 
-        private bool IsHonkBusted(Vehicle vehicle)
-        {
-            return vehicle.IsHonkBusted();
-        }
+        //private bool IsHonkBusted(Vehicle vehicle)
+        //{
+        //    return vehicle.IsHonkBusted();
+        //}
 
         private bool CanBustHonk(Vehicle vehicle, Rect vehicleCloseHitBox)
         {
@@ -1446,41 +1465,41 @@ namespace HonkHeroGame
 
         #region Sticker
 
-        private Sticker SpawnSticker(Vehicle vehicle)
-        {
-            Sticker sticker = new(_scale);
+        //private Sticker SpawnSticker(Vehicle vehicle)
+        //{
+        //    Sticker sticker = new(_scale);
 
-            MoveSticker(vehicle, sticker);
+        //    MoveSticker(vehicle, sticker);
 
-            sticker.SetZ(vehicle.GetZ() + 1);
-            sticker.SetRotation(_random.Next(-30, 30));
+        //    sticker.SetZ(vehicle.GetZ() + 1);
+        //    sticker.SetRotation(_random.Next(-30, 30));
 
-            //sticker.SetSkewY(-30);
-            //sticker.SetSkewY(30);
+        //    //sticker.SetSkewY(-30);
+        //    //sticker.SetSkewY(30);
 
-            GameView.Children.Add(sticker);
+        //    GameView.Children.Add(sticker);
 
-            return sticker;
-        }
+        //    return sticker;
+        //}
 
-        private void UpdateSticker(Vehicle vehicle)
-        {
-            var sticker = vehicle.AttachedSticker;
-            sticker.SetZ(vehicle.GetZ() + 1);
+        //private void UpdateSticker(Vehicle vehicle)
+        //{
+        //    var sticker = vehicle.AttachedSticker;
+        //    sticker.SetZ(vehicle.GetZ() + 1);
 
-            MoveSticker(vehicle, sticker);
+        //    MoveSticker(vehicle, sticker);
 
-            var stickerHitBox = sticker.GetHitBox();
+        //    var stickerHitBox = sticker.GetHitBox();
 
-            if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0 || stickerHitBox.Top > _windowHeight || stickerHitBox.Left > _windowWidth)
-                GameView.AddDestroyableGameObject(sticker);
-        }
+        //    if (stickerHitBox.Bottom < 0 || stickerHitBox.Right < 0 || stickerHitBox.Top > _windowHeight || stickerHitBox.Left > _windowWidth)
+        //        GameView.AddDestroyableGameObject(sticker);
+        //}
 
-        private void MoveSticker(Vehicle vehicle, Sticker sticker)
-        {
-            sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
-            sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
-        }
+        //private void MoveSticker(Vehicle vehicle, Sticker sticker)
+        //{
+        //    sticker.SetLeft(vehicle.GetLeft() + vehicle.Width / 2.5);
+        //    sticker.SetTop(vehicle.GetTop() + vehicle.Height / 2.0);
+        //}
 
         #endregion        
 
@@ -1499,7 +1518,7 @@ namespace HonkHeroGame
             collectible.SetRotation(_random.Next(-30, 30));
             collectible.SetZ(60);
 
-            RandomizeCollectiblePosition(collectible);
+            RecycleCollectiblePosition(collectible);
 
             GameView.Children.Add(collectible);
         }
@@ -1529,7 +1548,7 @@ namespace HonkHeroGame
                         if (_playerHitBox.IntersectsWith(collectible.GetHitBox()))
                         {
                             collectible.IsFlaggedForShrinking = true;
-                            Collectible();
+                            CollectCollectible();
                         }
 
                         MagnetPull(collectible);
@@ -1547,30 +1566,31 @@ namespace HonkHeroGame
 
         private void RecyleCollectible(GameObject collectible)
         {
-            RandomizeCollectiblePosition(collectible);
+            RecycleCollectiblePosition(collectible);
             collectible.SetContent(_collectibles[0]);
             collectible.SetScaleTransform(1);
             collectible.IsFlaggedForShrinking = false;
         }
 
-        private void RandomizeCollectiblePosition(GameObject collectible)
+        private void RecycleCollectiblePosition(GameObject collectible)
         {
             collectible.SetPosition(
                 left: _random.Next((int)collectible.Width, (int)(GameView.Width - collectible.Width)),
                 top: _random.Next(100 * (int)_scale, (int)GameView.Height) * -1);
         }
 
-        private void Collectible()
+        private void CollectCollectible()
         {
             _collectibleCollected++;
             _stickersAmount++;
+
             SetStickersAmountText();
+            AddScore(1);
+
+            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
 
             if (InGameMessageText.Text == GetLocalizedResource("COLLECT_STICKERS"))
                 HideInGameTextMessage();
-
-            AddScore(1);
-            SoundHelper.PlayRandomSound(SoundType.COLLECTIBLE);
         }
 
         #endregion

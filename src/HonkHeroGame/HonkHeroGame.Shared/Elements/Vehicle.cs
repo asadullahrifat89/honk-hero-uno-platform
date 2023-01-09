@@ -18,23 +18,27 @@ namespace HonkHeroGame
         private readonly Random _random = new();
         private readonly Grid _content = new();
 
-        private readonly Image _honking = new()
+        private readonly Image _honkingIndicator = new()
         {
             Opacity = 0,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Top,
         };
-        private readonly Image _honkingBusted = new()
+
+        private readonly Image _honkingBustedIndicator = new()
         {
             Opacity = 0,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Top,
         };
+
         private readonly Image _vehicle = new()
         {
             Stretch = Stretch.Uniform,
             Visibility = Visibility.Collapsed
         };
+
+        private readonly GameObject _stickerIndicator;
 
         #endregion
 
@@ -79,17 +83,27 @@ namespace HonkHeroGame
             Speed = speed;
             StreamingDirection = streamingDirection;
 
-            _honking.Height = 50 * scale;
-            _honking.Margin = new Thickness(0, 15 * scale, 0, 0);
-            _honking.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING).Value);
+            _honkingIndicator.Height = 50 * scale;
+            _honkingIndicator.Margin = new Thickness(0, 15 * scale, 0, 0);
+            _honkingIndicator.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING).Value);
 
-            _honkingBusted.Height = 50 * scale;
-            _honkingBusted.Margin = new Thickness(0, 15 * scale, 0, 0);
-            _honkingBusted.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING_BUSTED).Value);
+            _honkingBustedIndicator.Height = 50 * scale;
+            _honkingBustedIndicator.Margin = new Thickness(0, 15 * scale, 0, 0);
+            _honkingBustedIndicator.Source = new BitmapImage(Constants.ELEMENT_TEMPLATES.FirstOrDefault(x => x.Key is ElementType.HONKING_BUSTED).Value);
+
+            _stickerIndicator = new Sticker(scale)
+            {
+                Opacity = 0,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            _stickerIndicator.SetRotation(_random.Next(-30, 30));
 
             _content.Children.Add(_vehicle);
-            _content.Children.Add(_honking);
-            _content.Children.Add(_honkingBusted);
+            _content.Children.Add(_honkingIndicator);
+            _content.Children.Add(_honkingBustedIndicator);
+            _content.Children.Add(_stickerIndicator);
 
             SetChild(_content);
         }
@@ -104,7 +118,7 @@ namespace HonkHeroGame
 
         public HonkState HonkState { get; set; }
 
-        public Sticker AttachedSticker { get; set; }
+        //public Sticker AttachedSticker { get; set; }
 
         public StreamingDirection StreamingDirection { get; set; } = StreamingDirection.UpWard;
 
@@ -128,10 +142,10 @@ namespace HonkHeroGame
             _vehicle.Visibility = Visibility.Visible;
         }
 
-        public bool IsHonkBusted()
-        {
-            return HonkState == HonkState.HONKING_BUSTED && AttachedSticker is not null;
-        }
+        //public bool IsHonkBusted()
+        //{
+        //    return HonkState == HonkState.HONKING_BUSTED && AttachedSticker is not null;
+        //}
 
         public bool CanBustHonk(Rect vehicleCloseHitBox, PlayerState playerState, Rect playerHitBox)
         {
@@ -244,20 +258,23 @@ namespace HonkHeroGame
             {
                 case HonkState.DEFAULT:
                     {
-                        _honking.Opacity = 0;
-                        _honkingBusted.Opacity = 0;
+                        _honkingIndicator.Opacity = 0;
+                        _honkingBustedIndicator.Opacity = 0;
+                        _stickerIndicator.Opacity = 0;
                     }
                     break;
                 case HonkState.HONKING:
                     {
-                        _honking.Opacity = 1;
-                        _honkingBusted.Opacity = 0;
+                        _honkingIndicator.Opacity = 1;
+                        _honkingBustedIndicator.Opacity = 0;
+                        _stickerIndicator.Opacity = 0;
                     }
                     break;
                 case HonkState.HONKING_BUSTED:
                     {
-                        _honking.Opacity = 0;
-                        _honkingBusted.Opacity = 1;
+                        _honkingIndicator.Opacity = 0;
+                        _honkingBustedIndicator.Opacity = 1;
+                        _stickerIndicator.Opacity = 1;
                     }
                     break;
                 default:
@@ -282,7 +299,7 @@ namespace HonkHeroGame
     }
 
     public enum StreamingDirection
-    {        
+    {
         DownWard,
         UpWard,
     }
