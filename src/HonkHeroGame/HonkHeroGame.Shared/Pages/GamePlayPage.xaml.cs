@@ -1830,12 +1830,12 @@ namespace HonkHeroGame
 
         private void SetScoreText()
         {
-            ScoreText.Text = $"🌟 {_score} / {_scoreCap}";
+            ScoreText.Text = $"{_score}/{_scoreCap}";
         }
 
         private void SetGameLevelText()
         {
-            GameLevelText.Text = $"🔥 {_gameLevel}";
+            GameLevelText.Text = $"{_gameLevel}";
         }
 
         private void SetStickersAmountText()
