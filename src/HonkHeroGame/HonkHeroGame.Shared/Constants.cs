@@ -90,10 +90,11 @@ namespace HonkHeroGame
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-left.png")),
             new KeyValuePair<ElementType, Uri>(ElementType.ROAD_DECORATION, new Uri("ms-appx:///Assets/Images/road-side-buildings-right.png")),
 
-            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss1.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss2.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss3.png")),
-            new KeyValuePair<ElementType, Uri>(ElementType.VEHICLE_BOSS, new Uri("ms-appx:///Assets/Images/boss4.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss1.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss2.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss3.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss4.png")),
+            new KeyValuePair<ElementType, Uri>(ElementType.BOSS_VEHICLE, new Uri("ms-appx:///Assets/Images/boss5.png")),
         };
 
         #endregion

@@ -251,7 +251,7 @@ namespace HonkHeroGame
         VEHICLE,
         VEHICLE_UPWARD,
         VEHICLE_DOWNWARD,
-        VEHICLE_BOSS,
+        BOSS_VEHICLE,
         STICKER,
         POWERUP,
         HONK,
