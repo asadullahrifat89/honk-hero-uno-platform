@@ -4,8 +4,8 @@
   "start_url": "/index.html",
   "id": "/index.html",
   "scope": "/",
-  "theme_color": "#111111",
-  "background_color": "#111111",
+  "theme_color": "#ffd401",
+  "background_color": "#ffd401",
   "description": "Let's tag fools who honk for no reason",
   "display": "standalone",
   "icons": [
