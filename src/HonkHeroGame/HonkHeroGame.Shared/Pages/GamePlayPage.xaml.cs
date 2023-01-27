@@ -1802,7 +1802,7 @@ namespace HonkHeroGame
                 LevelUp();
 
                 // TODO: enage boss after level 4
-                if (_gameLevel > 2 && _gameLevel % 2 != 0)
+                if (_gameLevel > 4 && _gameLevel % 2 != 0)
                     EngageBoss();
 #if DEBUG
                 Console.WriteLine("PLAYER LAG: " + _playerLag);

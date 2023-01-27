@@ -29,6 +29,8 @@ namespace HonkHeroGame
 
         #endregion
 
+        public const double BOSS_BASE_HEALTH = 25;
+
         #region Images
 
         public static KeyValuePair<ElementType, Uri>[] ELEMENT_TEMPLATES = new KeyValuePair<ElementType, Uri>[]
