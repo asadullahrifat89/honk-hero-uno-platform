@@ -1,9 +1,9 @@
 {
   "name": "Honk Hero",
   "short_name": "Honk Hero",
-  "start_url": "/index.html",
-  "id": "/index.html",
-  "scope": "/",
+  "id": "/honk-hero-uno-platform/",
+  "start_url": "/honk-hero-uno-platform/",
+  "scope": "/honk-hero-uno-platform/",
   "theme_color": "#111111",
   "background_color": "#111111",
   "description": "Let's tag fools who honk for no reason",
