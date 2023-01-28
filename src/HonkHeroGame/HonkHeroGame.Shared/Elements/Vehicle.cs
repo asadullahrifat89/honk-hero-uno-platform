@@ -73,7 +73,7 @@ namespace HonkHeroGame
                         Height = Constants.BOSS_VEHICLE_SIZE * scale;
                         Width = Constants.BOSS_VEHICLE_SIZE * scale;
 
-                        Health = Constants.BOSS_BASE_HEALTH * gameLevel;
+                        Health = 65 * (gameLevel / 2);
 
                         SetHonk(
                             gameLevel: gameLevel,
