@@ -1,0 +1,38 @@
+{
+  "name": "Honk Hero",
+  "short_name": "Honk Hero",
+  "id": "/honk-hero-uno-platform/",
+  "start_url": "/honk-hero-uno-platform/",
+  "scope": "/honk-hero-uno-platform/",
+  "theme_color": "#111111",
+  "background_color": "#111111",
+  "description": "Let's tag fools who honk for no reason",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "package_8e1ff5281d088c478b375120ad314a988dac6b96/Assets/AppIcon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "package_8e1ff5281d088c478b375120ad314a988dac6b96/Assets/AppIcon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "package_8e1ff5281d088c478b375120ad314a988dac6b96/Assets/AppIcon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "package_8e1ff5281d088c478b375120ad314a988dac6b96/Assets/AppIcon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "package_8e1ff5281d088c478b375120ad314a988dac6b96/Assets/AppIcon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
